@@ -1,0 +1,27 @@
+{
+  "contract": "NEXT_STAGE_ENGINEERING_GUIDE.md Slice 2 + PERSONA_REGRESSION_SUITE.md",
+  "verdict": "READY_FOR_HUMAN_REVIEW",
+  "deterministic_implementation_pass": true,
+  "migration_version": {
+    "version": 2,
+    "name": "style_review_provenance",
+    "applied_at": "2026-09-06 07:18:01"
+  },
+  "candidate_review_counts": {
+    "pending": 1039
+  },
+  "candidate_vector_count": 0,
+  "production_switched": false,
+  "required_before_pass": [
+    "Named human source review decisions for the blinded sample and priority scenes",
+    "Approved-only candidate index completeness check",
+    "Fixed 37-case B/C and top-k rerun",
+    "Independent stratified human blind pairwise with grounding scored separately"
+  ],
+  "not_executed": [
+    "candidate index publication",
+    "37-case candidate B/C generation",
+    "candidate top-k evaluation",
+    "independent human blind pairwise"
+  ]
+}

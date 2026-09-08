@@ -1,0 +1,8 @@
+{
+  "database": "audit_artifacts/slice2_2026-09-06_003/candidate.db",
+  "legacy_approved_rows": 840,
+  "v2_schema_approved_rows": 0,
+  "v2_schema_pending_rows": 840,
+  "runtime_eligible_rows": 0,
+  "model_operations": "NOT_EXECUTED"
+}

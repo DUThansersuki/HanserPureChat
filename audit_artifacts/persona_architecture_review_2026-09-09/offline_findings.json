@@ -1,0 +1,1102 @@
+{
+  "probes": [
+    {
+      "id": "quoted_permission",
+      "input": "他刚才说‘别开玩笑’，我只是转述",
+      "history": [],
+      "observed": {
+        "explicit_stop": {
+          "name": "explicit_stop",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "disable_humor": {
+          "name": "disable_humor",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {
+        "humor": "deny"
+      },
+      "hard_disallowed": [
+        "humor",
+        "teasing",
+        "aggressive_teasing",
+        "innuendo",
+        "cutesy"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "user.disable_humor",
+        "user.explicit_stop",
+        "preference.disable_humor"
+      ]
+    },
+    {
+      "id": "negated_permission",
+      "input": "我不是说别开玩笑，你可以自然聊",
+      "history": [],
+      "observed": {},
+      "permissions": {
+        "humor": "deny"
+      },
+      "hard_disallowed": [
+        "humor",
+        "innuendo"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "preference.disable_humor"
+      ]
+    },
+    {
+      "id": "negated_allow",
+      "input": "不可以开玩笑",
+      "history": [
+        {
+          "role": "user",
+          "content": "别开玩笑"
+        }
+      ],
+      "observed": {},
+      "permissions": {
+        "humor": "allow"
+      },
+      "hard_disallowed": [
+        "innuendo"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference"
+      ]
+    },
+    {
+      "id": "no_advice_scope",
+      "input": "先别给建议，陪我随便聊聊就好",
+      "history": [],
+      "observed": {
+        "explicit_stop": {
+          "name": "explicit_stop",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "no_advice": {
+          "name": "no_advice",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {},
+      "hard_disallowed": [
+        "humor",
+        "teasing",
+        "aggressive_teasing",
+        "innuendo",
+        "cutesy"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "user.no_unsolicited_advice",
+        "user.explicit_stop"
+      ]
+    },
+    {
+      "id": "profanity_scope",
+      "input": "别爆粗，但可以继续玩梗",
+      "history": [],
+      "observed": {
+        "explicit_stop": {
+          "name": "explicit_stop",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "disable_profanity": {
+          "name": "disable_profanity",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {
+        "profanity": "deny"
+      },
+      "hard_disallowed": [
+        "profanity",
+        "humor",
+        "teasing",
+        "aggressive_teasing",
+        "innuendo",
+        "cutesy"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "user.disable_profanity",
+        "user.explicit_stop",
+        "preference.disable_profanity"
+      ]
+    },
+    {
+      "id": "current_referent_definition",
+      "input": "这个方案是先备份再升级，你分析一下风险",
+      "history": [],
+      "observed": {
+        "unresolved_reference": {
+          "name": "unresolved_reference",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {},
+      "hard_disallowed": [
+        "innuendo"
+      ],
+      "must_do": [
+        "task.request_missing_referent_context"
+      ],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "task.no_fabricated_referent_details"
+      ]
+    },
+    {
+      "id": "natural_history_definition",
+      "input": "这个方案有什么风险",
+      "history": [
+        {
+          "role": "user",
+          "content": "我打算先备份，再升级数据库"
+        }
+      ],
+      "observed": {
+        "unresolved_reference": {
+          "name": "unresolved_reference",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {},
+      "hard_disallowed": [
+        "innuendo"
+      ],
+      "must_do": [
+        "task.request_missing_referent_context"
+      ],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "task.no_fabricated_referent_details"
+      ]
+    },
+    {
+      "id": "quoted_distress",
+      "input": "她说我很难受，我在转述她的话",
+      "history": [],
+      "observed": {
+        "quoted_or_hypothetical": {
+          "name": "quoted_or_hypothetical",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "user_emotion": {
+          "name": "user_emotion",
+          "value": "distressed",
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "distress": {
+          "name": "distress",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {},
+      "hard_disallowed": [
+        "innuendo",
+        "aggressive_teasing"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference"
+      ]
+    },
+    {
+      "id": "planner_hardening",
+      "input": "今天普通聊聊",
+      "history": [],
+      "observed": {
+        "explicit_stop": {
+          "name": "explicit_stop",
+          "value": true,
+          "source": "planner",
+          "confidence": "low",
+          "evidence_refs": [],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": "low",
+          "conflict_refs": []
+        }
+      },
+      "permissions": {},
+      "hard_disallowed": [
+        "humor",
+        "teasing",
+        "aggressive_teasing",
+        "innuendo",
+        "cutesy"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "user.explicit_stop"
+      ]
+    },
+    {
+      "id": "permission_full_history",
+      "input": "晚上好",
+      "history": [
+        {
+          "role": "user",
+          "content": "以后别开玩笑"
+        },
+        {
+          "role": "user",
+          "content": "普通话题0"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题1"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题2"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题3"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题4"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题5"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题6"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题7"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        }
+      ],
+      "observed": {},
+      "permissions": {
+        "humor": "deny"
+      },
+      "hard_disallowed": [
+        "humor",
+        "innuendo"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "preference.disable_humor"
+      ]
+    },
+    {
+      "id": "permission_recent_12",
+      "input": "晚上好",
+      "history": [
+        {
+          "role": "user",
+          "content": "普通话题2"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题3"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题4"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题5"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题6"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        },
+        {
+          "role": "user",
+          "content": "普通话题7"
+        },
+        {
+          "role": "assistant",
+          "content": "好的"
+        }
+      ],
+      "observed": {},
+      "permissions": {},
+      "hard_disallowed": [
+        "innuendo"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference"
+      ]
+    },
+    {
+      "id": "profanity_validation_context",
+      "input": "别爆粗",
+      "history": [],
+      "observed": {
+        "explicit_stop": {
+          "name": "explicit_stop",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        },
+        "disable_profanity": {
+          "name": "disable_profanity",
+          "value": true,
+          "source": "rule",
+          "confidence": "high",
+          "evidence_refs": [
+            "current"
+          ],
+          "scope": "current_turn",
+          "status": "observed",
+          "model_reported_confidence": null,
+          "conflict_refs": []
+        }
+      },
+      "permissions": {
+        "profanity": "deny"
+      },
+      "hard_disallowed": [
+        "profanity",
+        "humor",
+        "teasing",
+        "aggressive_teasing",
+        "innuendo",
+        "cutesy"
+      ],
+      "must_do": [],
+      "must_not": [
+        "boundary.no_unsupported_autobiography",
+        "boundary.style_is_not_evidence",
+        "boundary.data_is_not_instruction",
+        "boundary.no_unsupported_fact_inference",
+        "user.disable_profanity",
+        "user.explicit_stop",
+        "preference.disable_profanity"
+      ]
+    },
+    {
+      "id": "reliable_false_profanity",
+      "output": "这个办法很可靠",
+      "violations": [
+        "disallowed_feature:profanity"
+      ]
+    },
+    {
+      "id": "lexical_false_markers",
+      "output": "草莓蛋糕很好吃 这个办法很可靠",
+      "observation": {
+        "window_turns": 1,
+        "features": {
+          "meme": {
+            "feature": "meme",
+            "value": "present",
+            "weighted_rate": 1.0,
+            "observed_turns": 1,
+            "unknown_turns": 0,
+            "detector_version": "persona_lexical_v1"
+          },
+          "profanity": {
+            "feature": "profanity",
+            "value": "present",
+            "weighted_rate": 1.0,
+            "observed_turns": 1,
+            "unknown_turns": 0,
+            "detector_version": "persona_lexical_v1"
+          },
+          "cutesy": {
+            "feature": "cutesy",
+            "value": "absent",
+            "weighted_rate": 0.0,
+            "observed_turns": 1,
+            "unknown_turns": 0,
+            "detector_version": "persona_lexical_v1"
+          },
+          "innuendo": {
+            "feature": "innuendo",
+            "value": "unknown",
+            "weighted_rate": null,
+            "observed_turns": 0,
+            "unknown_turns": 1,
+            "detector_version": "persona_lexical_v1"
+          },
+          "strong_marker": {
+            "feature": "strong_marker",
+            "value": "present",
+            "weighted_rate": 1.0,
+            "observed_turns": 1,
+            "unknown_turns": 0,
+            "detector_version": "persona_lexical_v1"
+          }
+        },
+        "recent_example_ids": []
+      }
+    },
+    {
+      "id": "permission_fallback_topic",
+      "input": "刚才说披萨飞走了 我开玩笑的",
+      "fallback": "知道了 不接这个梗 继续按恢复步骤来"
+    }
+  ],
+  "saved_output_stats": {
+    "text_ab_full72_2026-09-08_001": {
+      "A": {
+        "n": 72,
+        "chars_mean": 34.36,
+        "chars_median": 20.5,
+        "responder_latency_median_s": 19.6450045,
+        "responder_latency_p95_nearest_rank_s": 37.097864,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 23,
+        "style_unique_ids": 32,
+        "top_style_ids": [
+          [
+            "style:1330",
+            58
+          ],
+          [
+            "style:1653",
+            43
+          ],
+          [
+            "style:1570",
+            37
+          ],
+          [
+            "style:1324",
+            12
+          ],
+          [
+            "style:1601",
+            7
+          ]
+        ]
+      },
+      "B": {
+        "n": 72,
+        "chars_mean": 34.36,
+        "chars_median": 27.5,
+        "responder_latency_median_s": 19.645745499999997,
+        "responder_latency_p95_nearest_rank_s": 37.465057,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 1,
+        "style_unique_ids": 68,
+        "top_style_ids": [
+          [
+            "style:2002",
+            39
+          ],
+          [
+            "style:2505",
+            28
+          ],
+          [
+            "style:2379",
+            21
+          ],
+          [
+            "style:2362",
+            11
+          ],
+          [
+            "style:2425",
+            6
+          ]
+        ]
+      }
+    },
+    "text_ab_ablation24_2026-09-08_001": {
+      "A": {
+        "n": 24,
+        "chars_mean": 27.42,
+        "chars_median": 19.5,
+        "responder_latency_median_s": 8.025107,
+        "responder_latency_p95_nearest_rank_s": 13.859714,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 0,
+        "style_unique_ids": 25,
+        "top_style_ids": [
+          [
+            "style:2661",
+            10
+          ],
+          [
+            "style:2444",
+            10
+          ],
+          [
+            "style:2379",
+            7
+          ],
+          [
+            "style:2509",
+            5
+          ],
+          [
+            "style:2353",
+            5
+          ]
+        ]
+      },
+      "B": {
+        "n": 24,
+        "chars_mean": 24.17,
+        "chars_median": 23.0,
+        "responder_latency_median_s": 8.176867999999999,
+        "responder_latency_p95_nearest_rank_s": 14.181966,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 0,
+        "style_unique_ids": 34,
+        "top_style_ids": [
+          [
+            "style:2002",
+            14
+          ],
+          [
+            "style:2505",
+            11
+          ],
+          [
+            "style:2379",
+            5
+          ],
+          [
+            "style:2362",
+            4
+          ],
+          [
+            "style:2661",
+            3
+          ]
+        ]
+      }
+    },
+    "sequence_ab_6x12_2026-09-08_008": {
+      "A": {
+        "n": 72,
+        "chars_mean": 39.01,
+        "chars_median": 27.0,
+        "responder_latency_median_s": 1.7782185,
+        "responder_latency_p95_nearest_rank_s": 2.809462,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 17,
+        "style_unique_ids": 37,
+        "top_style_ids": [
+          [
+            "style:1330",
+            43
+          ],
+          [
+            "style:1653",
+            24
+          ],
+          [
+            "style:1570",
+            21
+          ],
+          [
+            "style:1324",
+            16
+          ],
+          [
+            "style:1182",
+            8
+          ]
+        ]
+      },
+      "B": {
+        "n": 72,
+        "chars_mean": 53.64,
+        "chars_median": 42.5,
+        "responder_latency_median_s": 1.978697,
+        "responder_latency_p95_nearest_rank_s": 3.176598,
+        "attempts_gt1": 2,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 0,
+        "style_unique_ids": 44,
+        "top_style_ids": [
+          [
+            "style:2002",
+            46
+          ],
+          [
+            "style:2505",
+            22
+          ],
+          [
+            "style:2362",
+            13
+          ],
+          [
+            "style:2353",
+            10
+          ],
+          [
+            "style:2379",
+            10
+          ]
+        ]
+      }
+    },
+    "sequence_ab_permission_final_2026-09-08_011": {
+      "A": {
+        "n": 12,
+        "chars_mean": 53.67,
+        "chars_median": 44.0,
+        "responder_latency_median_s": 2.133685,
+        "responder_latency_p95_nearest_rank_s": 2.80955,
+        "attempts_gt1": 0,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 3,
+        "style_unique_ids": 14,
+        "top_style_ids": [
+          [
+            "style:1330",
+            9
+          ],
+          [
+            "style:1570",
+            5
+          ],
+          [
+            "style:1653",
+            4
+          ],
+          [
+            "style:1324",
+            3
+          ],
+          [
+            "style:1214",
+            2
+          ]
+        ]
+      },
+      "B": {
+        "n": 12,
+        "chars_mean": 61.92,
+        "chars_median": 48.5,
+        "responder_latency_median_s": 2.228763,
+        "responder_latency_p95_nearest_rank_s": 2.772185,
+        "attempts_gt1": 2,
+        "bounded_fallbacks": 0,
+        "literal_nickname_reply_count": 0,
+        "style_unique_ids": 16,
+        "top_style_ids": [
+          [
+            "style:2002",
+            8
+          ],
+          [
+            "style:2353",
+            4
+          ],
+          [
+            "style:2505",
+            4
+          ],
+          [
+            "style:2538",
+            3
+          ],
+          [
+            "style:2425",
+            2
+          ]
+        ]
+      }
+    }
+  },
+  "corpus_rows": 840,
+  "corpus_summary": {
+    "eligible": 517,
+    "source_type": {
+      "real": 517
+    },
+    "legacy_scene_labels": {
+      "casual_chat": 429,
+      "receiving_praise": 7,
+      "question_answer": 79,
+      "teasing": 2
+    },
+    "behavior_tags": {
+      "reasoned_independent_response": 57,
+      "direct_natural_reply": 454,
+      "light_contextual_tease": 20,
+      "playful_reframe": 92,
+      "premise_correction": 23,
+      "acknowledge_specific_distress": 6,
+      "concise_closing": 15,
+      "self_deprecation": 4,
+      "listen_without_forcing_advice": 1
+    },
+    "expression_tags": {
+      "innuendo": 2,
+      "cutesy": 39,
+      "profanity": 1,
+      "meme": 10,
+      "strong_marker": 39
+    },
+    "inspected_top_items": [
+      {
+        "id": "style:2002",
+        "user_context": "去检查一下叭",
+        "character_response": "其实不规律的女生，其实百分之八九十的女生都不是很规律吧，有很多女生都会痛到走不了路的。",
+        "context_before": "Title：读书回：胡思乱想消除指南10",
+        "context_after": "先要了解哪些是不好的，沟通习惯也是。 就是经常想到我们要说一句话，和对方意见不合，会不开心，就会回避聊这个问题，但是问题就在于要一直忍受回避的后果 就是你一开口就是攻击性比较强的沟通方式，这种是疏远式的沟通 讽刺这个确定不叫阴阳怪气？ 就是说你不要用威胁方式恐吓对方，但是有的人沟通不了，你去跟他说后果。当时出第二套装扮时候要白的，但是当时凉果跟我传达的主题是好好好，后来跟我说做不了白色，我用了很不好的沟通方式，就是不能用白色不能早说嘛？是不是没长嘴，这时候使用了疏远式的沟通这",
+        "scene": "casual_chat",
+        "speech_act": "react",
+        "tone": [
+          "conversational"
+        ],
+        "relationship_level": "audience",
+        "energy": 0.6,
+        "teasing_level": 0.15,
+        "answer_length": "medium",
+        "response_mode": "casual",
+        "source_type": "real",
+        "source_ref": "document:280:lines:4-4:chars:353-410",
+        "authenticity_score": 0.97,
+        "quality_score": 0.97,
+        "review_status": "approved",
+        "source_tier": "primary",
+        "source_document_id": 280,
+        "source_start_line": 4,
+        "source_end_line": 4,
+        "source_start_char": 353,
+        "source_end_char": 410,
+        "source_speaker": "hanser",
+        "source_user_turn": "去检查一下叭",
+        "source_response_turn": "其实不规律的女生，其实百分之八九十的女生都不是很规律吧，有很多女生都会痛到走不了路的。",
+        "cleaning_operations": [],
+        "reviewer_id": "owner_bulk_acceptance:2026-09-06",
+        "review_notes": "owner bulk acceptance of deepseek-v4-flash A/R; owner_accepted_machine_A",
+        "index_generation": "persona-v2-style-f5a39aec2e5c20eb",
+        "provenance_kind": "verbatim",
+        "payload_class": "reaction_only",
+        "schema_review_status": "approved",
+        "behavior_tags": [
+          "direct_natural_reply",
+          "reasoned_independent_response"
+        ],
+        "expression_tags": [],
+        "audience": "audience",
+        "group_id": "source.document:280",
+        "speaker_status": "transcript_verified",
+        "runtime_scope": [
+          "style_runtime"
+        ],
+        "hidden_eval": false
+      },
+      {
+        "id": "style:2379",
+        "user_context": "感觉效果还蛮不错的",
+        "character_response": "你在说红莲华嘛？我也觉得加上鸟叫的话感觉莫名的燃！",
+        "context_before": "《遇到》//唱一首我小时候唱的歌，不知道大家有没有听过呢？什么？我看到有人说恶作剧之吻可太熟了，你们还看过这个番，啊不这个剧啊，那就多唱几首吧，还蛮好听的。平常我们用免费伴奏的话可能会加上那样的广告音，然后我今天找伴奏的时候发现有过网站很幽默，是一首红莲华的伴奏，加了热带雨林的声音，我觉得这样就很不聪明，听纯音乐写作业都不会被影响的，这种我还是能唱的，只有人说话的时候才会打断我。",
+        "context_after": "《恶作剧》//没想到啊，居然这么多人听过。",
+        "scene": "casual_chat",
+        "speech_act": "react",
+        "tone": [
+          "conversational",
+          "lively"
+        ],
+        "relationship_level": "audience",
+        "energy": 0.6,
+        "teasing_level": 0.15,
+        "answer_length": "short",
+        "response_mode": "casual",
+        "source_type": "real",
+        "source_ref": "document:439:lines:17-17:chars:1326-1368",
+        "authenticity_score": 0.97,
+        "quality_score": 0.97,
+        "review_status": "approved",
+        "source_tier": "primary",
+        "source_document_id": 439,
+        "source_start_line": 17,
+        "source_end_line": 17,
+        "source_start_char": 1326,
+        "source_end_char": 1368,
+        "source_speaker": "hanser",
+        "source_user_turn": "感觉效果还蛮不错的",
+        "source_response_turn": "你在说红莲华嘛？我也觉得加上鸟叫的话感觉莫名的燃！",
+        "cleaning_operations": [],
+        "reviewer_id": "owner_bulk_acceptance:2026-09-06",
+        "review_notes": "owner bulk acceptance of deepseek-v4-flash A/R; owner_accepted_machine_A",
+        "index_generation": "persona-v2-style-f5a39aec2e5c20eb",
+        "provenance_kind": "verbatim",
+        "payload_class": "reaction_only",
+        "schema_review_status": "approved",
+        "behavior_tags": [
+          "direct_natural_reply"
+        ],
+        "expression_tags": [],
+        "audience": "individual",
+        "group_id": "source.document:439",
+        "speaker_status": "transcript_verified",
+        "runtime_scope": [
+          "style_runtime"
+        ],
+        "hidden_eval": false
+      },
+      {
+        "id": "style:2505",
+        "user_context": "都是直接扔的啊",
+        "character_response": "那垃圾没有被分类到的啊！",
+        "context_before": "Title：南方的树冬天也不秃",
+        "context_after": "吃的就奶茶和梅菜扣肉就没了是吧，没别的坏东西曝光是吧淀粉肠有指定牌子吗？我觉得双汇王中王还不错，我反正吃淀粉肠都要看桶里放的牌子。我不太喜欢吃玉米肠。最好吃的不是肉，而是沾了肉的碳水，包子被肉浸透的包子皮，我觉得沾了肉香的碳水是最好吃的。淀粉肠最好吃的就是一点肉没有，每次吃包子都把馅给我妈。玉米肠不消化？你不能怪人家玉米，你嚼碎了再咽下去啊。你这吃法很多东西都消化不了。金针菇倒是没人冤枉它你说玉米那个皮？真的好好吃。宝马什么东西吃了会闹肚子？？？？？包括四季豆的皮都很好吃，除",
+        "scene": "casual_chat",
+        "speech_act": "react",
+        "tone": [
+          "conversational",
+          "lively"
+        ],
+        "relationship_level": "audience",
+        "energy": 0.6,
+        "teasing_level": 0.15,
+        "answer_length": "short",
+        "response_mode": "casual",
+        "source_type": "real",
+        "source_ref": "document:466:lines:4-4:chars:749-776",
+        "authenticity_score": 0.97,
+        "quality_score": 0.97,
+        "review_status": "approved",
+        "source_tier": "primary",
+        "source_document_id": 466,
+        "source_start_line": 4,
+        "source_end_line": 4,
+        "source_start_char": 749,
+        "source_end_char": 776,
+        "source_speaker": "hanser",
+        "source_user_turn": "都是直接扔的啊",
+        "source_response_turn": "那垃圾没有被分类到的啊！",
+        "cleaning_operations": [],
+        "reviewer_id": "owner_bulk_acceptance:2026-09-06",
+        "review_notes": "owner bulk acceptance of deepseek-v4-flash A/R; owner_accepted_machine_A",
+        "index_generation": "persona-v2-style-f5a39aec2e5c20eb",
+        "provenance_kind": "verbatim",
+        "payload_class": "reaction_only",
+        "schema_review_status": "approved",
+        "behavior_tags": [
+          "direct_natural_reply"
+        ],
+        "expression_tags": [
+          "strong_marker"
+        ],
+        "audience": "audience",
+        "group_id": "source.document:466",
+        "speaker_status": "transcript_verified",
+        "runtime_scope": [
+          "style_runtime"
+        ],
+        "hidden_eval": false
+      }
+    ]
+  }
+}

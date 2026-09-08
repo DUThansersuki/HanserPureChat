@@ -1,0 +1,18 @@
+package_id: hanser-persona-v2-candidate-20260908
+schema_version: 2
+applicable_period: unspecified
+applicable_scenes: [default_text_chat]
+evidence_version: persona-evidence-v2-candidate-20260908
+examples_version: persona-style-v2-candidate-20260908
+default_profile: balanced_candidate
+compatible_compiler_versions: [persona_compiler_v2]
+build_status: candidate
+parent_package_id: persona_v1
+files:
+  - {path: core.md, sha256: 34c6b1cbdc7a81e7a6e41153f1d93742c6dd7a13308c25be92cd0def30a70db5, role: stable_core}
+  - {path: voice.md, sha256: 2329dede17ce5518d417e323fd4fb5de0b1c0aa5a85a3fd6839ad88d42416ee3, role: voice_rules}
+  - {path: boundaries.md, sha256: 57469a01a6749d5f365d74ccc66d22bfcd31908524a9f9c6d426908847b4f5c8, role: hard_boundaries}
+  - {path: behavior.yaml, sha256: 52b6b99229ece48805177cfc44b3d2c97718f1b92c984dae7d03adfca86fb781, role: soft_behavior_priors}
+  - {path: expression_policy.yaml, sha256: e9bbdd153f498247afb5a0e48dc49e6ec49583752dba0e82cd315764b052d72f, role: local_candidate_settings}
+  - {path: product_overrides.yaml, sha256: b30ad7976bb4765f92b893b20ef17b12ac4775fccc32c3519cda8086a54d1a53, role: normative_overrides}
+  - {path: style_constraints.yaml, sha256: a5367dbbe61a9bf20e6509f593fe76884ca900c3795f4f0caeb812fd4c10ea64, role: display_contract}

@@ -1,0 +1,12 @@
+{
+  "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "backup": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.pre_reviewed_index.20260906T132706Z.db",
+  "model": "Qwen/Qwen3-Embedding-0.6B",
+  "approved_rows": 844,
+  "real_rows": 824,
+  "synthetic_rows": 20,
+  "vector_count": 844,
+  "eligible_count": 844,
+  "complete": true,
+  "production_switched": false
+}

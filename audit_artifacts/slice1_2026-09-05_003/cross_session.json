@@ -1,0 +1,83 @@
+{
+  "status": 200,
+  "response": {
+    "text": "换了个窗口也不怕呀\n你就是毛怪们嘛\n喝的嘛 你爱喝茶 咖啡不碰\n对不对",
+    "keywords": [],
+    "anchored": [],
+    "sources": []
+  },
+  "memories": [
+    {
+      "id": "2a8a6000-2d1d-4cf4-80dc-b25494493e09",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_fact",
+      "memory_key": "user:name",
+      "content": "用户希望被称为毛怪们",
+      "importance": 0.9,
+      "confidence": 0.98,
+      "source_message_ids": [
+        "d41ed013-5a38-44db-a215-3ef7dbd17dc4"
+      ],
+      "assertion_type": "user_assertion",
+      "polarity": "positive",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "preferred_name",
+      "object_value": "毛怪们",
+      "revision_of_id": "d68ca0fd-274e-4753-9e48-2a3f636cca48",
+      "source_kind": "user_message",
+      "created_at": "2026-09-05T12:40:46.565796Z",
+      "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+      "status": "active"
+    },
+    {
+      "id": "701d5d94-abb4-4fbb-9ed0-760102ac0951",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:茶",
+      "content": "用户喜欢茶",
+      "importance": 0.7,
+      "confidence": 0.88,
+      "source_message_ids": [
+        "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+      ],
+      "assertion_type": "correction",
+      "polarity": "positive",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "likes",
+      "object_value": "茶",
+      "revision_of_id": null,
+      "source_kind": "user_message",
+      "created_at": "2026-09-05T12:39:55.347478Z",
+      "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+      "status": "active"
+    },
+    {
+      "id": "a01d6b6b-38f5-4158-ae80-02248d50aa55",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:咖啡",
+      "content": "用户不喜欢咖啡",
+      "importance": 0.7,
+      "confidence": 0.9,
+      "source_message_ids": [
+        "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+      ],
+      "assertion_type": "correction",
+      "polarity": "negative",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "likes",
+      "object_value": "咖啡",
+      "revision_of_id": "b49931f5-6e94-420e-97e1-03f59c59b66b",
+      "source_kind": "user_message",
+      "created_at": "2026-09-05T12:39:55.225537Z",
+      "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+      "status": "active"
+    }
+  ]
+}

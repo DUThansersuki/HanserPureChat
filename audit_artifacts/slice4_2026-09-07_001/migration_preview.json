@@ -1,0 +1,16 @@
+{
+  "preview_version": 1,
+  "generated_at": "2026-09-07T08:21:01.252024+00:00",
+  "database": "H:\\HanserAgent\\source_data\\documents.db",
+  "database_sha256": "022855a79c1c5bce3b71f4039e898aa795aca30ec279da0001b718fbe20e0124",
+  "migration_already_applied": false,
+  "message_count": 16,
+  "trace_groups_with_more_than_one_turn": 0,
+  "blockers": [],
+  "planned_changes": [
+    "add request execution records for idempotency and trace status",
+    "add retryable post-turn failure records with stage and payload",
+    "preserve all existing API fields, messages, memories and failures"
+  ],
+  "planned_deletes": 0
+}

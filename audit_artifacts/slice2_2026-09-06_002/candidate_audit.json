@@ -1,0 +1,70 @@
+{
+  "baseline_rows": 886,
+  "candidate_rows": 1039,
+  "confirmed_defects": [
+    {
+      "legacy_id": 919,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:78:line:11"
+    },
+    {
+      "legacy_id": 1151,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:261:line:91"
+    },
+    {
+      "legacy_id": 1189,
+      "exact_bad_pair_absent": false,
+      "source_ref": "document:278:line:17"
+    },
+    {
+      "legacy_id": 1308,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:299:line:54"
+    },
+    {
+      "legacy_id": 1394,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:380:line:54"
+    },
+    {
+      "legacy_id": 1417,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:395:line:30"
+    },
+    {
+      "legacy_id": 1506,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:421:line:23"
+    },
+    {
+      "legacy_id": 1513,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:425:line:23"
+    },
+    {
+      "legacy_id": 1518,
+      "exact_bad_pair_absent": true,
+      "source_ref": "document:426:line:6"
+    }
+  ],
+  "confirmed_defects_fixed_or_isolated": false,
+  "legacy_structural_candidates": 37,
+  "legacy_structural_exact_pairs_absent": 37,
+  "candidate_embedded_speaker_markers": [],
+  "source_replay_failures": [],
+  "review_status_counts": {
+    "pending": 1039
+  },
+  "scene_counts": {
+    "casual_chat": 848,
+    "question_answer": 172,
+    "receiving_praise": 13,
+    "teasing": 4,
+    "comfort": 2
+  },
+  "greeting_coverage_gap": true,
+  "vector_count": 0,
+  "production_switched": false,
+  "deterministic_pass": false
+}

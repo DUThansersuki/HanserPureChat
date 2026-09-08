@@ -1,0 +1,31 @@
+{
+  "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "database_sha256": "47f082d2bbd0743ac3f0be4ab61eb6c7bb288bfca90ed3848a4c433ed12ba65a",
+  "backup": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.pre_synthetic.20260906T132652Z.db",
+  "records_sha256": "7b3f87a6617f6fba4d3e59dd5578fa73396c9b9ee43c4f72b143b5796ab7a2af",
+  "inserted_count": 20,
+  "inserted_ids": [
+    2768,
+    2769,
+    2770,
+    2771,
+    2772,
+    2773,
+    2774,
+    2775,
+    2776,
+    2777,
+    2778,
+    2779,
+    2780,
+    2781,
+    2782,
+    2783,
+    2784,
+    2785,
+    2786,
+    2787
+  ],
+  "generation": "p0-gap-synthetic-001",
+  "production_switched": false
+}

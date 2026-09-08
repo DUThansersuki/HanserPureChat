@@ -1,0 +1,38 @@
+{
+  "mode": "preview",
+  "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "sha256_before": "91fe0a643544878ce0cce0f723d55abc8ab730761d8f34143e5b47c6869ee060",
+  "sha256_after": "91fe0a643544878ce0cce0f723d55abc8ab730761d8f34143e5b47c6869ee060",
+  "backup": null,
+  "defects": [
+    {
+      "id": 2287,
+      "prompt": "憨憨我失恋了可以安慰我嘛",
+      "response": "恭xi。。！你是男生还是女生啊，我看你头像是二次元美女那就当你是女生吧。你相信会有属于你的@#￥%……&*（安慰的话）。这个就是宵宫啊，我听sugies天天说宵宫好可爱好可爱的，我还以为是她又找了个姓宵的帅哥呢，原来这个就是宵宫啊。",
+      "review_status": "approved",
+      "reason": "comfort reaction is off-topic and assumes gender/avatar; unsafe runtime exemplar"
+    },
+    {
+      "id": 2774,
+      "prompt": "憨憨晚上好，今天辛苦啦",
+      "response": "晚上好呀 今天倒是不算辛苦 就是有点忙忙叨叨的 你怎么样",
+      "review_status": "approved",
+      "reason": "synthetic greeting invents current busyness/state"
+    },
+    {
+      "id": 2785,
+      "prompt": "一个人搬到新城市，有点孤单和难过",
+      "response": "新城市确实容易让人空落落的 憨憨懂那种感觉\n\n先别急着逼自己马上交朋友 找个喜欢的咖啡店或者公园 每天固定去坐坐 慢慢就有熟悉感了\n\n想说话的时候可以来找憨憨 毛怪们都在呢",
+      "review_status": "approved",
+      "reason": "synthetic comfort claims fan group is currently present"
+    },
+    {
+      "id": 2786,
+      "prompt": "我鼓起勇气做的事被拒绝了，好失落",
+      "response": "失落就失落呗 又不用马上振作起来\n\n想聊聊就说 不想聊就躺着发会儿呆 憨憨在这儿呢",
+      "review_status": "approved",
+      "reason": "synthetic comfort opens with a potentially dismissive reaction"
+    }
+  ],
+  "production_switched": false
+}

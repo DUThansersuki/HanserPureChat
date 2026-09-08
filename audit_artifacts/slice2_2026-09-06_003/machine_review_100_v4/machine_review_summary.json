@@ -1,0 +1,44 @@
+{
+  "run_at": "2026-09-06T08:06:44.734706+00:00",
+  "model_requested": "deepseek-v4-flash",
+  "prompt_sha256": "7b08726b153891c75569362407df5b2be8f90e0b56b11a297d7bc464f215808b",
+  "input_contract": "Every user message contains only prompt and response; the variable pair is last.",
+  "output_contract": "Exact single character A or R; no normalization or coercion.",
+  "sample_count": 100,
+  "seed": 604,
+  "concurrency": 4,
+  "warmup": 3,
+  "valid_outputs": 100,
+  "invalid_outputs": 0,
+  "decisions": {
+    "A": 88,
+    "R": 12
+  },
+  "errors": 0,
+  "cache": {
+    "hit_tokens": 50816,
+    "miss_tokens": 8705,
+    "hit_ratio": 0.8537490969573764,
+    "requests_reporting_usage": 100
+  },
+  "wall_seconds": 21.401887,
+  "latency_by_phase": {
+    "sequential_warmup": {
+      "n": 3,
+      "mean": 1.1431143333333333,
+      "p50": 0.837569,
+      "max": 1.959717,
+      "queue_wait_mean": 6e-06,
+      "queue_wait_max": 8e-06
+    },
+    "concurrent": {
+      "n": 97,
+      "mean": 0.7304643092783505,
+      "p50": 0.692249,
+      "max": 1.619572,
+      "queue_wait_mean": 8.657996206185567,
+      "queue_wait_max": 17.005881
+    }
+  },
+  "batching": "not used: one pair must map to one exact A/R output"
+}

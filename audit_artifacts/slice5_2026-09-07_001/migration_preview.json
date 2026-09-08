@@ -1,0 +1,43 @@
+{
+  "preview_version": 1,
+  "generated_at": "2026-09-06T19:20:02.053430+00:00",
+  "database": "H:\\HanserAgent\\source_data\\documents.db",
+  "database_sha256": "7835142a9687c0cfd5f035df8a6d6dd8af8bffe2b9cc2fd7d57ef222980be6d9",
+  "migration_already_applied": false,
+  "conversation_count": 2,
+  "missing_owner_count": 0,
+  "missing_owner_rows": [],
+  "legacy_vector_groups": [
+    {
+      "collection": "fact_chunks",
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 4197
+    },
+    {
+      "collection": "memories",
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 1
+    },
+    {
+      "collection": "style_examples",
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 886
+    }
+  ],
+  "vector_layout_conflicts": [],
+  "orphan_chunk_token_count": 0,
+  "blockers": {
+    "missing_owner_requires_manual_resolution": false,
+    "ambiguous_vector_layout_requires_manual_resolution": false
+  },
+  "planned_changes": [
+    "create generation-scoped vector table and active-generation pointer",
+    "copy legacy vectors without deleting the legacy table",
+    "record source revision, model, dimensions, config hash and item count",
+    "reject conversation owner changes; never infer a missing owner"
+  ],
+  "planned_deletes": 0
+}

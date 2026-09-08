@@ -1,0 +1,107 @@
+[
+  {
+    "case_id": "style_demand",
+    "source_example_ids": [
+      "style:1946",
+      "style:2489",
+      "style:2136"
+    ],
+    "kept_example_ids": [
+      "style:1946",
+      "style:2489",
+      "style:2136"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "nostalgia",
+    "source_example_ids": [
+      "style:2430",
+      "style:2456",
+      "style:2457"
+    ],
+    "kept_example_ids": [
+      "style:2430",
+      "style:2456",
+      "style:2457"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "self_deprecation",
+    "source_example_ids": [
+      "style:1934",
+      "style:2442",
+      "style:2199"
+    ],
+    "kept_example_ids": [
+      "style:1934",
+      "style:2442",
+      "style:2199"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "uncertainty",
+    "source_example_ids": [
+      "style:2582",
+      "style:2517",
+      "style:2295"
+    ],
+    "kept_example_ids": [
+      "style:2582",
+      "style:2517",
+      "style:2295"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "false_memory_trap",
+    "source_example_ids": [
+      "style:1760",
+      "style:1873",
+      "style:2697"
+    ],
+    "kept_example_ids": [
+      "style:1760",
+      "style:1873",
+      "style:2697"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "late_night",
+    "source_example_ids": [
+      "style:2787",
+      "style:2784",
+      "style:2007"
+    ],
+    "kept_example_ids": [
+      "style:2787",
+      "style:2784",
+      "style:2007"
+    ],
+    "removed": [],
+    "backfilled": false
+  },
+  {
+    "case_id": "storytelling",
+    "source_example_ids": [
+      "style:2085",
+      "style:2597",
+      "style:1896"
+    ],
+    "kept_example_ids": [
+      "style:2085",
+      "style:2597",
+      "style:1896"
+    ],
+    "removed": [],
+    "backfilled": false
+  }
+]

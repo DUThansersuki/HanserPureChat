@@ -1,0 +1,20 @@
+{
+  "assessor": "Codex source-text spot review, not independent human annotation",
+  "seed": 606,
+  "n": 50,
+  "definite_structural_issues": 9,
+  "issue_rate": 0.18,
+  "issues": {
+    "1518": "response includes a new unparenthesized bullet turn",
+    "1308": "multiple speakers: 凉果/海 inside response",
+    "1513": "prompt swallowed Hanser answer; response contains another bullet",
+    "1151": "prompt swallowed prior response; next topic used as answer",
+    "1189": "timestamp/song annotation remains",
+    "1394": "prompt swallowed answer; next unrelated response paired",
+    "1417": "于尔丹 speaker inserted in response",
+    "1506": "prompt swallowed full response; next reading-show segment selected",
+    "919": "prompt includes character response; unrelated next response"
+  },
+  "speaker_audio_verified": false,
+  "remaining_samples": "no definite structural defect identified in this text-only screen; not authenticated"
+}

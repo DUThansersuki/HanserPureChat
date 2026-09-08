@@ -1,0 +1,6286 @@
+{
+  "mode": "apply",
+  "reviewer_id": "owner_bulk_acceptance:2026-09-06",
+  "backup": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.pre_owner_review.20260906T130848Z.db",
+  "backup_sha256": "68965da472ee9d76583b280830b2bd9257585895aec687a4f12df1a1af48c43c",
+  "preview": {
+    "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+    "database_sha256": "68965da472ee9d76583b280830b2bd9257585895aec687a4f12df1a1af48c43c",
+    "machine_results": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\machine_review_full_v4flash\\machine_review_results.jsonl",
+    "machine_results_sha256": "96a34c0e5273e484d9b34a90ec9b0570e51fa6906289c7956033691a5c488530",
+    "rows": 1039,
+    "missing_ids": [],
+    "extra_ids": [],
+    "status_counts": {
+      "approved": 824,
+      "rejected": 214,
+      "quarantined": 1
+    },
+    "quarantined": [
+      {
+        "id": 2358,
+        "machine": "A",
+        "status": "quarantined",
+        "reason": "embedded_speaker_marker"
+      }
+    ]
+  },
+  "after": {
+    "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+    "database_sha256": "d14d2f964759dbb2ce220d97aef5cc0df660c79393f50b71be4c410136b0b10b",
+    "machine_results": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\machine_review_full_v4flash\\machine_review_results.jsonl",
+    "machine_results_sha256": "96a34c0e5273e484d9b34a90ec9b0570e51fa6906289c7956033691a5c488530",
+    "rows": 1039,
+    "missing_ids": [],
+    "extra_ids": [],
+    "status_counts": {
+      "approved": 824,
+      "rejected": 214,
+      "quarantined": 1
+    },
+    "quarantined": [
+      {
+        "id": 2358,
+        "machine": "A",
+        "status": "quarantined",
+        "reason": "embedded_speaker_marker"
+      }
+    ],
+    "dispositions": [
+      {
+        "id": 1729,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1730,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1731,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1732,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1733,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1734,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1735,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1736,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1737,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1738,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1739,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1740,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1741,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1742,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1743,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1744,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1745,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1746,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1747,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1748,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1749,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1750,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1751,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1752,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1753,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1754,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1755,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1756,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1757,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1758,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1759,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1760,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1761,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1762,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1763,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1764,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1765,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1766,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1767,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1768,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1769,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1770,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1771,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1772,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1773,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1774,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1775,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1776,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1777,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1778,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1779,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1780,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1781,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1782,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1783,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1784,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1785,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1786,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1787,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1788,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1789,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1790,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1791,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1792,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1793,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1794,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1795,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1796,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1797,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1798,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1799,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1800,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1801,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1802,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1803,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1804,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1805,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1806,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1807,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1808,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1809,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1810,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1811,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1812,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1813,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1814,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1815,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1816,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1817,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1818,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1819,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1820,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1821,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1822,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1823,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1824,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1825,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1826,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1827,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1828,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1829,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1830,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1831,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1832,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1833,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1834,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1835,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1836,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1837,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1838,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1839,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1840,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1841,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1842,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1843,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1844,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1845,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1846,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1847,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1848,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1849,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1850,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1851,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1852,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1853,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1854,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1855,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1856,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1857,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1858,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1859,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1860,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1861,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1862,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1863,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1864,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1865,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1866,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1867,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1868,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1869,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1870,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1871,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1872,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1873,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1874,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1875,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1876,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1877,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1878,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1879,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1880,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1881,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1882,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1883,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1884,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1885,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1886,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1887,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1888,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1889,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1890,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1891,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1892,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1893,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1894,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1895,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1896,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1897,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1898,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1899,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1900,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1901,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1902,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1903,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1904,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1905,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1906,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1907,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1908,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1909,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1910,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1911,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1912,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1913,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1914,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1915,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1916,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1917,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1918,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1919,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1920,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1921,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1922,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1923,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1924,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1925,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1926,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1927,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1928,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1929,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1930,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1931,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1932,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1933,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1934,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1935,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1936,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1937,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1938,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1939,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1940,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1941,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1942,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1943,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1944,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1945,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1946,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1947,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1948,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1949,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1950,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1951,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1952,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1953,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1954,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1955,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1956,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1957,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1958,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1959,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1960,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1961,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1962,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1963,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1964,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1965,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1966,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1967,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1968,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1969,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1970,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1971,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1972,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1973,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1974,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1975,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1976,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1977,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1978,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1979,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1980,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1981,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1982,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1983,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1984,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1985,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1986,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1987,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1988,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1989,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1990,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1991,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1992,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1993,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1994,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1995,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1996,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 1997,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1998,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 1999,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2000,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2001,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2002,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2003,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2004,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2005,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2006,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2007,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2008,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2009,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2010,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2011,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2012,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2013,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2014,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2015,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2016,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2017,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2018,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2019,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2020,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2021,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2022,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2023,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2024,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2025,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2026,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2027,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2028,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2029,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2030,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2031,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2032,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2033,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2034,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2035,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2036,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2037,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2038,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2039,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2040,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2041,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2042,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2043,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2044,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2045,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2046,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2047,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2048,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2049,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2050,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2051,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2052,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2053,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2054,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2055,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2056,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2057,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2058,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2059,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2060,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2061,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2062,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2063,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2064,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2065,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2066,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2067,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2068,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2069,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2070,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2071,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2072,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2073,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2074,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2075,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2076,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2077,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2078,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2079,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2080,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2081,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2082,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2083,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2084,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2085,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2086,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2087,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2088,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2089,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2090,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2091,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2092,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2093,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2094,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2095,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2096,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2097,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2098,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2099,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2100,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2101,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2102,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2103,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2104,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2105,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2106,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2107,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2108,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2109,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2110,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2111,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2112,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2113,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2114,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2115,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2116,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2117,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2118,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2119,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2120,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2121,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2122,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2123,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2124,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2125,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2126,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2127,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2128,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2129,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2130,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2131,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2132,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2133,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2134,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2135,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2136,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2137,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2138,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2139,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2140,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2141,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2142,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2143,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2144,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2145,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2146,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2147,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2148,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2149,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2150,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2151,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2152,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2153,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2154,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2155,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2156,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2157,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2158,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2159,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2160,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2161,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2162,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2163,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2164,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2165,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2166,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2167,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2168,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2169,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2170,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2171,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2172,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2173,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2174,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2175,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2176,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2177,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2178,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2179,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2180,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2181,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2182,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2183,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2184,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2185,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2186,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2187,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2188,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2189,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2190,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2191,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2192,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2193,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2194,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2195,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2196,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2197,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2198,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2199,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2200,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2201,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2202,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2203,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2204,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2205,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2206,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2207,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2208,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2209,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2210,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2211,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2212,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2213,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2214,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2215,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2216,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2217,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2218,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2219,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2220,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2221,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2222,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2223,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2224,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2225,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2226,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2227,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2228,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2229,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2230,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2231,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2232,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2233,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2234,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2235,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2236,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2237,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2238,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2239,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2240,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2241,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2242,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2243,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2244,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2245,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2246,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2247,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2248,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2249,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2250,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2251,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2252,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2253,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2254,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2255,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2256,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2257,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2258,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2259,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2260,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2261,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2262,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2263,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2264,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2265,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2266,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2267,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2268,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2269,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2270,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2271,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2272,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2273,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2274,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2275,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2276,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2277,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2278,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2279,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2280,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2281,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2282,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2283,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2284,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2285,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2286,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2287,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2288,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2289,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2290,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2291,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2292,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2293,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2294,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2295,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2296,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2297,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2298,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2299,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2300,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2301,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2302,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2303,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2304,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2305,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2306,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2307,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2308,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2309,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2310,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2311,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2312,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2313,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2314,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2315,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2316,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2317,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2318,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2319,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2320,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2321,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2322,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2323,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2324,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2325,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2326,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2327,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2328,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2329,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2330,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2331,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2332,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2333,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2334,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2335,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2336,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2337,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2338,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2339,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2340,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2341,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2342,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2343,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2344,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2345,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2346,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2347,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2348,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2349,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2350,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2351,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2352,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2353,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2354,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2355,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2356,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2357,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2358,
+        "machine": "A",
+        "status": "quarantined",
+        "reason": "embedded_speaker_marker"
+      },
+      {
+        "id": 2359,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2360,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2361,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2362,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2363,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2364,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2365,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2366,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2367,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2368,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2369,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2370,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2371,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2372,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2373,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2374,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2375,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2376,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2377,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2378,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2379,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2380,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2381,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2382,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2383,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2384,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2385,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2386,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2387,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2388,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2389,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2390,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2391,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2392,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2393,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2394,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2395,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2396,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2397,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2398,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2399,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2400,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2401,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2402,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2403,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2404,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2405,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2406,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2407,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2408,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2409,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2410,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2411,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2412,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2413,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2414,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2415,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2416,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2417,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2418,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2419,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2420,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2421,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2422,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2423,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2424,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2425,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2426,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2427,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2428,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2429,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2430,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2431,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2432,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2433,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2434,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2435,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2436,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2437,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2438,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2439,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2440,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2441,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2442,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2443,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2444,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2445,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2446,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2447,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2448,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2449,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2450,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2451,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2452,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2453,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2454,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2455,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2456,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2457,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2458,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2459,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2460,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2461,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2462,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2463,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2464,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2465,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2466,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2467,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2468,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2469,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2470,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2471,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2472,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2473,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2474,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2475,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2476,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2477,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2478,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2479,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2480,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2481,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2482,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2483,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2484,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2485,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2486,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2487,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2488,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2489,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2490,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2491,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2492,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2493,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2494,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2495,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2496,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2497,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2498,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2499,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2500,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2501,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2502,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2503,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2504,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2505,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2506,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2507,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2508,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2509,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2510,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2511,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2512,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2513,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2514,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2515,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2516,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2517,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2518,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2519,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2520,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2521,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2522,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2523,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2524,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2525,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2526,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2527,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2528,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2529,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2530,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2531,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2532,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2533,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2534,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2535,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2536,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2537,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2538,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2539,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2540,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2541,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2542,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2543,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2544,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2545,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2546,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2547,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2548,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2549,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2550,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2551,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2552,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2553,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2554,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2555,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2556,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2557,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2558,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2559,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2560,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2561,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2562,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2563,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2564,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2565,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2566,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2567,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2568,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2569,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2570,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2571,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2572,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2573,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2574,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2575,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2576,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2577,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2578,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2579,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2580,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2581,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2582,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2583,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2584,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2585,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2586,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2587,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2588,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2589,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2590,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2591,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2592,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2593,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2594,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2595,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2596,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2597,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2598,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2599,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2600,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2601,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2602,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2603,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2604,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2605,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2606,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2607,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2608,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2609,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2610,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2611,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2612,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2613,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2614,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2615,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2616,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2617,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2618,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2619,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2620,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2621,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2622,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2623,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2624,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2625,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2626,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2627,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2628,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2629,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2630,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2631,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2632,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2633,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2634,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2635,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2636,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2637,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2638,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2639,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2640,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2641,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2642,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2643,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2644,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2645,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2646,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2647,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2648,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2649,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2650,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2651,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2652,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2653,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2654,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2655,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2656,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2657,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2658,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2659,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2660,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2661,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2662,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2663,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2664,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2665,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2666,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2667,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2668,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2669,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2670,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2671,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2672,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2673,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2674,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2675,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2676,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2677,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2678,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2679,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2680,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2681,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2682,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2683,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2684,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2685,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2686,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2687,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2688,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2689,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2690,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2691,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2692,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2693,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2694,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2695,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2696,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2697,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2698,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2699,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2700,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2701,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2702,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2703,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2704,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2705,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2706,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2707,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2708,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2709,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2710,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2711,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2712,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2713,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2714,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2715,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2716,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2717,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2718,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2719,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2720,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2721,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2722,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2723,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2724,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2725,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2726,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2727,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2728,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2729,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2730,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2731,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2732,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2733,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2734,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2735,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2736,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2737,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2738,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2739,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2740,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2741,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2742,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2743,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2744,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2745,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2746,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2747,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2748,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2749,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2750,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2751,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2752,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2753,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2754,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2755,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2756,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2757,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2758,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2759,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2760,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2761,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2762,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2763,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2764,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2765,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      },
+      {
+        "id": 2766,
+        "machine": "A",
+        "status": "approved",
+        "reason": "owner_accepted_machine_A"
+      },
+      {
+        "id": 2767,
+        "machine": "R",
+        "status": "rejected",
+        "reason": "owner_accepted_machine_R"
+      }
+    ]
+  }
+}

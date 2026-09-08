@@ -1,0 +1,84 @@
+{
+  "mode": "apply",
+  "database": "H:\\HanserAgent\\source_data\\documents.db",
+  "backup": "H:\\HanserAgent\\source_data\\backups\\documents.pre_slice1.20260905T123026Z.db",
+  "before": {
+    "mode": "dry-run",
+    "database": "H:\\HanserAgent\\source_data\\documents.db",
+    "schema_columns": [
+      "assertion_type",
+      "confidence",
+      "content",
+      "conversation_id",
+      "created_at",
+      "embedding_ref",
+      "id",
+      "importance",
+      "last_accessed_at",
+      "memory_key",
+      "object_value",
+      "polarity",
+      "predicate",
+      "revision_of_id",
+      "source_kind",
+      "source_message_ids_json",
+      "status",
+      "subject",
+      "type",
+      "user_id",
+      "validity"
+    ],
+    "memory_count": 0,
+    "classifications": {},
+    "missing_sources": 0,
+    "non_user_sources": 0,
+    "planned_actions": {
+      "add_assertion_columns": [],
+      "mark_legacy_shared_reality_unverified": 0,
+      "physical_memory_deletes": 0
+    },
+    "rows": []
+  },
+  "after": {
+    "mode": "dry-run",
+    "database": "H:\\HanserAgent\\source_data\\documents.db",
+    "schema_columns": [
+      "assertion_type",
+      "confidence",
+      "content",
+      "conversation_id",
+      "created_at",
+      "embedding_ref",
+      "id",
+      "importance",
+      "last_accessed_at",
+      "memory_key",
+      "object_value",
+      "polarity",
+      "predicate",
+      "revision_of_id",
+      "source_kind",
+      "source_message_ids_json",
+      "status",
+      "subject",
+      "type",
+      "user_id",
+      "validity"
+    ],
+    "memory_count": 0,
+    "classifications": {},
+    "missing_sources": 0,
+    "non_user_sources": 0,
+    "planned_actions": {
+      "add_assertion_columns": [],
+      "mark_legacy_shared_reality_unverified": 0,
+      "physical_memory_deletes": 0
+    },
+    "rows": []
+  },
+  "migration": {
+    "version": 1,
+    "name": "memory_assertion_semantics",
+    "applied_at": "2026-09-05 12:28:43"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "probe": "address_lifecycle_cross_session_without_model",
+  "passed": true,
+  "checks": {
+    "same_user_cross_session_coexists": true,
+    "cross_user_isolated": true,
+    "all_have_sources": true,
+    "personal_name_priority_highest": true,
+    "no_model_calls": true
+  },
+  "stored": [
+    {
+      "kind": "personal_name",
+      "value": "小林",
+      "priority": 1.0,
+      "context_tags": [
+        "personal"
+      ],
+      "source_count": 1
+    },
+    {
+      "kind": "nickname",
+      "value": "林林",
+      "priority": 0.9,
+      "context_tags": [
+        "casual"
+      ],
+      "source_count": 1
+    },
+    {
+      "kind": "fan_identity",
+      "value": "毛怪",
+      "priority": 0.75,
+      "context_tags": [
+        "fan",
+        "playful"
+      ],
+      "source_count": 1
+    }
+  ],
+  "decisions": [
+    {
+      "message": "我叫小林",
+      "accepted": [
+        "小林"
+      ],
+      "rejected": []
+    },
+    {
+      "message": "也可以叫我林林",
+      "accepted": [
+        "林林"
+      ],
+      "rejected": []
+    },
+    {
+      "message": "每句话都叫我毛怪们",
+      "accepted": [
+        "毛怪"
+      ],
+      "rejected": []
+    }
+  ]
+}

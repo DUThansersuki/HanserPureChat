@@ -1,0 +1,3062 @@
+{
+  "run_at": "2026-09-07T08:39:30.889923+00:00",
+  "policy": "release_reranker",
+  "config": {
+    "planner_model": "qwen3.5:4b",
+    "responder_model": "deepseek-v4-flash",
+    "embedding_model": "Qwen/Qwen3-Embedding-0.6B",
+    "reranker_model": "Qwen/Qwen3-Reranker-0.6B"
+  },
+  "turns": [
+    {
+      "turn": 1,
+      "kind": "wiki",
+      "message": "Hanser什么时候退出VirtuaReal",
+      "status": 200,
+      "seconds": 53.5049113999994,
+      "stage_seconds": {
+        "planner": 11.200233999988995,
+        "style": 1.920000067912042e-05,
+        "memory": 0.0006898999854456633,
+        "wiki": 39.847507700003916,
+        "responder": 2.424692700005835,
+        "post_turn": 0.01022910000756383
+      }
+    },
+    {
+      "turn": 2,
+      "kind": "casual",
+      "message": "晚上好 今天随便聊聊",
+      "status": 200,
+      "seconds": 11.48064739999245,
+      "stage_seconds": {
+        "planner": 9.63140260000364,
+        "memory": 0.001273000001674518,
+        "style": 0.338401499990141,
+        "responder": 1.4832107000111137,
+        "post_turn": 0.010132099996553734
+      }
+    },
+    {
+      "turn": 3,
+      "kind": "wiki",
+      "message": "Hanser加入VirtuaReal是哪年",
+      "status": 200,
+      "seconds": 10.999847999977646,
+      "stage_seconds": {
+        "planner": 2.0998673000140116,
+        "style": 1.3200013199821115e-05,
+        "wiki": 7.131556200009072,
+        "responder": 1.7324681999743916,
+        "post_turn": 0.010727499990025535
+      }
+    },
+    {
+      "turn": 4,
+      "kind": "casual",
+      "message": "路上看到一只橘猫",
+      "status": 200,
+      "seconds": 19.748196000000462,
+      "stage_seconds": {
+        "planner": 17.06213440001011,
+        "memory": 0.0013974999892525375,
+        "style": 0.2900398000201676,
+        "responder": 2.341419300006237,
+        "post_turn": 0.023916700010886416
+      }
+    },
+    {
+      "turn": 5,
+      "kind": "wiki",
+      "message": "Hanser在哪里上过大学",
+      "status": 200,
+      "seconds": 13.321945899981074,
+      "stage_seconds": {
+        "planner": 3.172267499990994,
+        "style": 1.479999627918005e-05,
+        "memory": 0.0007428000099025667,
+        "wiki": 8.328297999978531,
+        "responder": 1.7822886000212748,
+        "post_turn": 0.010604100010823458
+      }
+    },
+    {
+      "turn": 6,
+      "kind": "casual",
+      "message": "嗯 你接着说",
+      "status": 200,
+      "seconds": 17.271677599987015,
+      "stage_seconds": {
+        "planner": 9.109135199978482,
+        "style": 1.5700003132224083e-05,
+        "wiki": 5.309009999997215,
+        "responder": 2.8210907999891788,
+        "post_turn": 0.011807900009443983
+      }
+    },
+    {
+      "turn": 7,
+      "kind": "wiki",
+      "message": "Hanser以前在哪个平台直播",
+      "status": 200,
+      "seconds": 21.549591399991186,
+      "stage_seconds": {
+        "planner": 14.028816000005463,
+        "style": 1.789999078027904e-05,
+        "memory": 0.0010752000089269131,
+        "wiki": 5.571465799992438,
+        "responder": 1.91503279999597,
+        "post_turn": 0.010939299972960725
+      }
+    },
+    {
+      "turn": 8,
+      "kind": "casual",
+      "message": "今天有一点累 先别给建议",
+      "status": 200,
+      "seconds": 17.295055099995807,
+      "stage_seconds": {
+        "planner": 14.759630899992771,
+        "memory": 0.0015525000053457916,
+        "style": 0.2973844999796711,
+        "responder": 2.2090543000085745,
+        "post_turn": 0.011674700013827533
+      }
+    },
+    {
+      "turn": 9,
+      "kind": "wiki",
+      "message": "Hanser配音过哪些作品",
+      "status": 200,
+      "seconds": 11.309780099982163,
+      "stage_seconds": {
+        "planner": 3.660517799988156,
+        "style": 1.6900012269616127e-05,
+        "memory": 0.0008329999982379377,
+        "wiki": 5.229602300008992,
+        "responder": 2.3856336000026204,
+        "post_turn": 0.011142500006826594
+      }
+    },
+    {
+      "turn": 10,
+      "kind": "casual",
+      "message": "哈哈 换个轻松话题",
+      "status": 200,
+      "seconds": 17.53931379999267,
+      "stage_seconds": {
+        "planner": 14.776943000004394,
+        "memory": 0.0018048000056296587,
+        "style": 0.3142001999949571,
+        "responder": 2.4116653999953996,
+        "post_turn": 0.01619270001538098
+      }
+    },
+    {
+      "turn": 11,
+      "kind": "wiki",
+      "message": "Hanser什么时候退出VirtuaReal",
+      "status": 200,
+      "seconds": 13.320778499997687,
+      "stage_seconds": {
+        "planner": 3.919494500005385,
+        "style": 1.6400008462369442e-05,
+        "wiki": 7.061754199996358,
+        "responder": 2.28366659997846,
+        "post_turn": 0.022832400019979104
+      }
+    },
+    {
+      "turn": 12,
+      "kind": "casual",
+      "message": "晚上好 今天随便聊聊",
+      "status": 200,
+      "seconds": 11.868474400020204,
+      "stage_seconds": {
+        "planner": 9.829117000015685,
+        "memory": 0.0014078000094741583,
+        "style": 0.29590680002002046,
+        "responder": 1.6839390999812167,
+        "post_turn": 0.0245324999850709
+      }
+    },
+    {
+      "turn": 13,
+      "kind": "wiki",
+      "message": "Hanser加入VirtuaReal是哪年",
+      "status": 200,
+      "seconds": 4.44734129999415,
+      "stage_seconds": {
+        "planner": 2.5976884000119753,
+        "style": 0.30308790001436137,
+        "responder": 1.483784799987916,
+        "post_turn": 0.02279300001100637
+      }
+    },
+    {
+      "turn": 14,
+      "kind": "casual",
+      "message": "路上看到一只橘猫",
+      "status": 200,
+      "seconds": 3.8100786000140943,
+      "stage_seconds": {
+        "planner": 2.3388646000239532,
+        "memory": 0.0008621000160928816,
+        "style": 0.297188600001391,
+        "responder": 1.1138742000039201,
+        "post_turn": 0.022471100004622713
+      }
+    },
+    {
+      "turn": 15,
+      "kind": "wiki",
+      "message": "Hanser在哪里上过大学",
+      "status": 200,
+      "seconds": 14.390358999982709,
+      "stage_seconds": {
+        "planner": 2.4988756999955513,
+        "style": 2.4599983589723706e-05,
+        "memory": 0.0006519000162370503,
+        "wiki": 10.01621079997858,
+        "responder": 1.8142331000126433,
+        "post_turn": 0.022979100001975894
+      }
+    },
+    {
+      "turn": 16,
+      "kind": "casual",
+      "message": "嗯 你接着说",
+      "status": 200,
+      "seconds": 19.055522500013467,
+      "stage_seconds": {
+        "planner": 9.556458100007148,
+        "memory": 0.0013906999956816435,
+        "style": 0.5052009999926668,
+        "wiki": 6.556037100002868,
+        "responder": 2.867452400008915,
+        "post_turn": 0.03239570002187975
+      }
+    },
+    {
+      "turn": 17,
+      "kind": "wiki",
+      "message": "Hanser以前在哪个平台直播",
+      "status": 200,
+      "seconds": 21.49258120000013,
+      "stage_seconds": {
+        "planner": 13.454934800014598,
+        "style": 0.5928508999932092,
+        "wiki": 5.089117600000463,
+        "responder": 2.9039319999865256,
+        "post_turn": 0.011775599996326491
+      }
+    },
+    {
+      "turn": 18,
+      "kind": "casual",
+      "message": "今天有一点累 先别给建议",
+      "status": 200,
+      "seconds": 16.514666300005047,
+      "stage_seconds": {
+        "planner": 14.109711999975843,
+        "memory": 0.0015940999728627503,
+        "style": 0.319457900011912,
+        "responder": 2.055299500003457,
+        "post_turn": 0.011131799983559176
+      }
+    },
+    {
+      "turn": 19,
+      "kind": "wiki",
+      "message": "Hanser配音过哪些作品",
+      "status": 200,
+      "seconds": 11.519518000015523,
+      "stage_seconds": {
+        "planner": 3.882317100011278,
+        "style": 1.5199999324977398e-05,
+        "memory": 0.0006831000209785998,
+        "wiki": 5.94098899999517,
+        "responder": 1.663222399976803,
+        "post_turn": 0.011000300000887364
+      }
+    },
+    {
+      "turn": 20,
+      "kind": "casual",
+      "message": "哈哈 换个轻松话题",
+      "status": 200,
+      "seconds": 17.011727900011465,
+      "stage_seconds": {
+        "planner": 14.411330500006443,
+        "memory": 0.00178240000968799,
+        "style": 0.31563110000570305,
+        "responder": 2.2547998999943957,
+        "post_turn": 0.011166400014190003
+      }
+    }
+  ],
+  "gpu_samples": [
+    {
+      "at": 1788770043.497014,
+      "memory_used_mib": 940,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770044.060283,
+      "memory_used_mib": 937,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770044.6223564,
+      "memory_used_mib": 937,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770045.1810427,
+      "memory_used_mib": 937,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770045.7394342,
+      "memory_used_mib": 921,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770046.3078778,
+      "memory_used_mib": 944,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770046.8756201,
+      "memory_used_mib": 1020,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770047.430994,
+      "memory_used_mib": 1020,
+      "utilization_percent": 44
+    },
+    {
+      "at": 1788770047.9889314,
+      "memory_used_mib": 1020,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770048.5456223,
+      "memory_used_mib": 3534,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770049.1015875,
+      "memory_used_mib": 3534,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770049.684312,
+      "memory_used_mib": 3520,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770050.2415698,
+      "memory_used_mib": 3700,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770050.809999,
+      "memory_used_mib": 4538,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770051.3802118,
+      "memory_used_mib": 4538,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770051.9470644,
+      "memory_used_mib": 4774,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770052.5043924,
+      "memory_used_mib": 4770,
+      "utilization_percent": 73
+    },
+    {
+      "at": 1788770053.0701923,
+      "memory_used_mib": 4770,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770053.6282828,
+      "memory_used_mib": 4762,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770054.1853292,
+      "memory_used_mib": 4762,
+      "utilization_percent": 94
+    },
+    {
+      "at": 1788770055.3877702,
+      "memory_used_mib": 931,
+      "utilization_percent": 12
+    },
+    {
+      "at": 1788770056.0089393,
+      "memory_used_mib": 923,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770056.5693245,
+      "memory_used_mib": 913,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770057.18073,
+      "memory_used_mib": 913,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770057.743607,
+      "memory_used_mib": 909,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770058.3120651,
+      "memory_used_mib": 920,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770058.8700035,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770059.427224,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770059.9903967,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770060.5486348,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770061.1177175,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770061.6768181,
+      "memory_used_mib": 910,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770062.2336874,
+      "memory_used_mib": 910,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770062.7923098,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770063.352447,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770063.9071937,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770064.4675326,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770065.0268104,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770065.5990336,
+      "memory_used_mib": 910,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770066.162117,
+      "memory_used_mib": 910,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770066.7227736,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770067.282101,
+      "memory_used_mib": 923,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770067.8501372,
+      "memory_used_mib": 923,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770068.419549,
+      "memory_used_mib": 917,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770068.9821029,
+      "memory_used_mib": 917,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770069.5422766,
+      "memory_used_mib": 909,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770070.1015854,
+      "memory_used_mib": 909,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770070.6697433,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770071.238849,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770071.8006911,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770072.359508,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770072.919345,
+      "memory_used_mib": 913,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770073.481647,
+      "memory_used_mib": 909,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770074.0392284,
+      "memory_used_mib": 909,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770074.7301726,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770075.2962308,
+      "memory_used_mib": 923,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770075.850289,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770076.5448277,
+      "memory_used_mib": 920,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770077.1221848,
+      "memory_used_mib": 920,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770077.692731,
+      "memory_used_mib": 909,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770078.2835422,
+      "memory_used_mib": 909,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770078.8686771,
+      "memory_used_mib": 923,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770079.4429224,
+      "memory_used_mib": 923,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770080.025564,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770080.605863,
+      "memory_used_mib": 923,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770081.169071,
+      "memory_used_mib": 923,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770081.7433422,
+      "memory_used_mib": 910,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770082.7900124,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770083.347362,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770083.915873,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770084.4721515,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770085.0272179,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770085.5977252,
+      "memory_used_mib": 910,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770086.2235618,
+      "memory_used_mib": 910,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770087.5243309,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770088.090771,
+      "memory_used_mib": 923,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770088.6709332,
+      "memory_used_mib": 917,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770089.2403014,
+      "memory_used_mib": 1312,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770089.8086436,
+      "memory_used_mib": 2184,
+      "utilization_percent": 58
+    },
+    {
+      "at": 1788770090.3783393,
+      "memory_used_mib": 2898,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770090.9610794,
+      "memory_used_mib": 4662,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770091.5193222,
+      "memory_used_mib": 5809,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770092.0839913,
+      "memory_used_mib": 5950,
+      "utilization_percent": 76
+    },
+    {
+      "at": 1788770092.6759865,
+      "memory_used_mib": 5949,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770093.2448535,
+      "memory_used_mib": 5943,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770093.8106487,
+      "memory_used_mib": 5943,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770094.501675,
+      "memory_used_mib": 544,
+      "utilization_percent": 0
+    },
+    {
+      "at": 1788770095.060109,
+      "memory_used_mib": 606,
+      "utilization_percent": 33
+    },
+    {
+      "at": 1788770095.6151946,
+      "memory_used_mib": 705,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770096.1853309,
+      "memory_used_mib": 705,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770096.743773,
+      "memory_used_mib": 705,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770097.3023245,
+      "memory_used_mib": 718,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770097.871132,
+      "memory_used_mib": 726,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770098.4278743,
+      "memory_used_mib": 732,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770098.988053,
+      "memory_used_mib": 828,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770099.544058,
+      "memory_used_mib": 829,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770100.1159232,
+      "memory_used_mib": 2429,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770100.690361,
+      "memory_used_mib": 3342,
+      "utilization_percent": 34
+    },
+    {
+      "at": 1788770101.2593164,
+      "memory_used_mib": 3334,
+      "utilization_percent": 31
+    },
+    {
+      "at": 1788770101.8285956,
+      "memory_used_mib": 3328,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770102.4037092,
+      "memory_used_mib": 3389,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770102.96401,
+      "memory_used_mib": 4393,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770103.5327563,
+      "memory_used_mib": 4394,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770104.0905614,
+      "memory_used_mib": 4635,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770104.6560729,
+      "memory_used_mib": 4674,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770105.2270305,
+      "memory_used_mib": 4698,
+      "utilization_percent": 96
+    },
+    {
+      "at": 1788770105.7868614,
+      "memory_used_mib": 4684,
+      "utilization_percent": 95
+    },
+    {
+      "at": 1788770106.3464687,
+      "memory_used_mib": 4697,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770106.9850821,
+      "memory_used_mib": 4697,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770107.5552235,
+      "memory_used_mib": 4698,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770108.1111171,
+      "memory_used_mib": 4698,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770108.6698673,
+      "memory_used_mib": 4690,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770109.2349837,
+      "memory_used_mib": 4690,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770109.7987492,
+      "memory_used_mib": 4696,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770110.36944,
+      "memory_used_mib": 4723,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770111.0077038,
+      "memory_used_mib": 869,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770112.0435138,
+      "memory_used_mib": 869,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770112.6066499,
+      "memory_used_mib": 855,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770113.1615963,
+      "memory_used_mib": 855,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770113.7324584,
+      "memory_used_mib": 855,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770114.4353154,
+      "memory_used_mib": 869,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770115.005048,
+      "memory_used_mib": 2745,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770115.5820973,
+      "memory_used_mib": 4673,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770116.1418586,
+      "memory_used_mib": 4673,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770116.7153025,
+      "memory_used_mib": 5698,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770117.391665,
+      "memory_used_mib": 5277,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770117.9717815,
+      "memory_used_mib": 4276,
+      "utilization_percent": 59
+    },
+    {
+      "at": 1788770118.5333712,
+      "memory_used_mib": 4485,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770119.0955274,
+      "memory_used_mib": 4497,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770119.6658099,
+      "memory_used_mib": 4508,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770120.222911,
+      "memory_used_mib": 4508,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770120.7922237,
+      "memory_used_mib": 4508,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770121.3602066,
+      "memory_used_mib": 4596,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770121.9325097,
+      "memory_used_mib": 4592,
+      "utilization_percent": 46
+    },
+    {
+      "at": 1788770122.4946232,
+      "memory_used_mib": 4630,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770123.0624087,
+      "memory_used_mib": 4630,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770123.620576,
+      "memory_used_mib": 4630,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770124.180533,
+      "memory_used_mib": 4639,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770124.750238,
+      "memory_used_mib": 4668,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770125.4520812,
+      "memory_used_mib": 5948,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770126.0844905,
+      "memory_used_mib": 5956,
+      "utilization_percent": 33
+    },
+    {
+      "at": 1788770126.7131333,
+      "memory_used_mib": 5974,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770127.3476238,
+      "memory_used_mib": 5977,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770127.9928527,
+      "memory_used_mib": 5977,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770128.5984113,
+      "memory_used_mib": 5973,
+      "utilization_percent": 12
+    },
+    {
+      "at": 1788770129.1659625,
+      "memory_used_mib": 5923,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770129.934055,
+      "memory_used_mib": 5910,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770130.7890513,
+      "memory_used_mib": 5923,
+      "utilization_percent": 2
+    },
+    {
+      "at": 1788770131.616909,
+      "memory_used_mib": 5924,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770132.2921333,
+      "memory_used_mib": 5910,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770132.848705,
+      "memory_used_mib": 5920,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770133.4064481,
+      "memory_used_mib": 5926,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770133.9858367,
+      "memory_used_mib": 5926,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770134.5675743,
+      "memory_used_mib": 5939,
+      "utilization_percent": 56
+    },
+    {
+      "at": 1788770135.1438975,
+      "memory_used_mib": 5939,
+      "utilization_percent": 45
+    },
+    {
+      "at": 1788770135.7088125,
+      "memory_used_mib": 5940,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770136.290896,
+      "memory_used_mib": 5940,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770136.8650775,
+      "memory_used_mib": 5940,
+      "utilization_percent": 68
+    },
+    {
+      "at": 1788770137.433312,
+      "memory_used_mib": 5926,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770138.0109422,
+      "memory_used_mib": 5926,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770138.577079,
+      "memory_used_mib": 5939,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770139.1867766,
+      "memory_used_mib": 5939,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770139.7533777,
+      "memory_used_mib": 5942,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770140.3397646,
+      "memory_used_mib": 5942,
+      "utilization_percent": 63
+    },
+    {
+      "at": 1788770140.9266708,
+      "memory_used_mib": 5942,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770141.508468,
+      "memory_used_mib": 5928,
+      "utilization_percent": 63
+    },
+    {
+      "at": 1788770142.0893884,
+      "memory_used_mib": 5928,
+      "utilization_percent": 65
+    },
+    {
+      "at": 1788770142.83677,
+      "memory_used_mib": 2281,
+      "utilization_percent": 39
+    },
+    {
+      "at": 1788770143.8502474,
+      "memory_used_mib": 2281,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770144.4111292,
+      "memory_used_mib": 2286,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770144.9663625,
+      "memory_used_mib": 2286,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770145.5958285,
+      "memory_used_mib": 2272,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770146.5791488,
+      "memory_used_mib": 2297,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770147.1474469,
+      "memory_used_mib": 4660,
+      "utilization_percent": 65
+    },
+    {
+      "at": 1788770147.7066388,
+      "memory_used_mib": 4680,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770148.261422,
+      "memory_used_mib": 4680,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770148.8198888,
+      "memory_used_mib": 4602,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770149.3843098,
+      "memory_used_mib": 4681,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770149.9534276,
+      "memory_used_mib": 4681,
+      "utilization_percent": 92
+    },
+    {
+      "at": 1788770150.6581845,
+      "memory_used_mib": 3198,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770151.2268705,
+      "memory_used_mib": 898,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770151.7841372,
+      "memory_used_mib": 895,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770152.3416977,
+      "memory_used_mib": 893,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770152.897838,
+      "memory_used_mib": 878,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770153.4546523,
+      "memory_used_mib": 866,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770154.014226,
+      "memory_used_mib": 864,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770154.5731673,
+      "memory_used_mib": 961,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770155.1293278,
+      "memory_used_mib": 975,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770155.698205,
+      "memory_used_mib": 3488,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770156.260112,
+      "memory_used_mib": 3488,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770156.8175468,
+      "memory_used_mib": 3488,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770157.3734405,
+      "memory_used_mib": 3483,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770157.9418123,
+      "memory_used_mib": 4476,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770158.497399,
+      "memory_used_mib": 4476,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770159.054849,
+      "memory_used_mib": 4726,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770159.6210954,
+      "memory_used_mib": 4728,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770160.1894443,
+      "memory_used_mib": 4728,
+      "utilization_percent": 92
+    },
+    {
+      "at": 1788770160.751585,
+      "memory_used_mib": 4728,
+      "utilization_percent": 92
+    },
+    {
+      "at": 1788770161.3213089,
+      "memory_used_mib": 4728,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770162.099094,
+      "memory_used_mib": 862,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770163.1229959,
+      "memory_used_mib": 884,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770163.6879444,
+      "memory_used_mib": 876,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770164.2616324,
+      "memory_used_mib": 876,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770164.926908,
+      "memory_used_mib": 1238,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770165.513147,
+      "memory_used_mib": 4146,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770166.0759993,
+      "memory_used_mib": 4592,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770166.6524243,
+      "memory_used_mib": 5311,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770167.2140179,
+      "memory_used_mib": 4535,
+      "utilization_percent": 48
+    },
+    {
+      "at": 1788770167.7715893,
+      "memory_used_mib": 4535,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770168.327952,
+      "memory_used_mib": 4535,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770168.898447,
+      "memory_used_mib": 4535,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770169.4555001,
+      "memory_used_mib": 4521,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770170.0135207,
+      "memory_used_mib": 4521,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770170.570816,
+      "memory_used_mib": 4521,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770171.1382163,
+      "memory_used_mib": 4554,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770171.7191484,
+      "memory_used_mib": 4632,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770172.2797801,
+      "memory_used_mib": 4632,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770172.8509877,
+      "memory_used_mib": 4625,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770173.4090354,
+      "memory_used_mib": 4625,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770173.9787989,
+      "memory_used_mib": 4618,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770174.5384977,
+      "memory_used_mib": 4618,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770175.122116,
+      "memory_used_mib": 5842,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770175.6916099,
+      "memory_used_mib": 5859,
+      "utilization_percent": 34
+    },
+    {
+      "at": 1788770176.258011,
+      "memory_used_mib": 5859,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770176.8273234,
+      "memory_used_mib": 5849,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770177.3859723,
+      "memory_used_mib": 5849,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770177.9631305,
+      "memory_used_mib": 5921,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770178.5310986,
+      "memory_used_mib": 5911,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770179.1019275,
+      "memory_used_mib": 5925,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770179.6739337,
+      "memory_used_mib": 5950,
+      "utilization_percent": 44
+    },
+    {
+      "at": 1788770180.2439342,
+      "memory_used_mib": 5956,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770180.8195262,
+      "memory_used_mib": 5956,
+      "utilization_percent": 87
+    },
+    {
+      "at": 1788770181.3916056,
+      "memory_used_mib": 5956,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770181.9603567,
+      "memory_used_mib": 5942,
+      "utilization_percent": 64
+    },
+    {
+      "at": 1788770182.5343976,
+      "memory_used_mib": 5953,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770183.1074371,
+      "memory_used_mib": 5959,
+      "utilization_percent": 63
+    },
+    {
+      "at": 1788770183.694852,
+      "memory_used_mib": 5962,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770184.4442368,
+      "memory_used_mib": 2303,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770185.435982,
+      "memory_used_mib": 2303,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770185.996541,
+      "memory_used_mib": 2286,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770186.5655031,
+      "memory_used_mib": 2286,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770187.134322,
+      "memory_used_mib": 2300,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770187.7362914,
+      "memory_used_mib": 2300,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770188.2960753,
+      "memory_used_mib": 4648,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770188.8608494,
+      "memory_used_mib": 5757,
+      "utilization_percent": 58
+    },
+    {
+      "at": 1788770189.4263458,
+      "memory_used_mib": 4565,
+      "utilization_percent": 96
+    },
+    {
+      "at": 1788770189.9829032,
+      "memory_used_mib": 4555,
+      "utilization_percent": 30
+    },
+    {
+      "at": 1788770190.546336,
+      "memory_used_mib": 4555,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770191.1174247,
+      "memory_used_mib": 4569,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770191.6777978,
+      "memory_used_mib": 4569,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770192.2455578,
+      "memory_used_mib": 4580,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770192.8223767,
+      "memory_used_mib": 4666,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770193.3877938,
+      "memory_used_mib": 4666,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770193.9573784,
+      "memory_used_mib": 4652,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770194.5260227,
+      "memory_used_mib": 4652,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770195.0817707,
+      "memory_used_mib": 4666,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770195.6357276,
+      "memory_used_mib": 4666,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770196.2056186,
+      "memory_used_mib": 4666,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770196.7901802,
+      "memory_used_mib": 5834,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770197.3515475,
+      "memory_used_mib": 5818,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770197.9315183,
+      "memory_used_mib": 5820,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770198.4964972,
+      "memory_used_mib": 5820,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770199.2624438,
+      "memory_used_mib": 5840,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770199.864251,
+      "memory_used_mib": 5851,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770200.4474766,
+      "memory_used_mib": 5869,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770201.0136292,
+      "memory_used_mib": 5869,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770201.5797617,
+      "memory_used_mib": 5861,
+      "utilization_percent": 12
+    },
+    {
+      "at": 1788770202.1504722,
+      "memory_used_mib": 5863,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770202.7240434,
+      "memory_used_mib": 5876,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770203.3008845,
+      "memory_used_mib": 5879,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770203.8863156,
+      "memory_used_mib": 5879,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770204.4635818,
+      "memory_used_mib": 5879,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770205.0283515,
+      "memory_used_mib": 5879,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770205.612664,
+      "memory_used_mib": 5865,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770206.2163372,
+      "memory_used_mib": 5865,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770206.784062,
+      "memory_used_mib": 5878,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770207.3524823,
+      "memory_used_mib": 5865,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770207.9531178,
+      "memory_used_mib": 5856,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770208.5190248,
+      "memory_used_mib": 5856,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770209.1002748,
+      "memory_used_mib": 5856,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770209.7045615,
+      "memory_used_mib": 5840,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770210.274112,
+      "memory_used_mib": 5837,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770210.8325026,
+      "memory_used_mib": 5828,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770211.3921773,
+      "memory_used_mib": 5828,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770211.9638186,
+      "memory_used_mib": 5828,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770212.7808778,
+      "memory_used_mib": 2151,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770213.866724,
+      "memory_used_mib": 2155,
+      "utilization_percent": 12
+    },
+    {
+      "at": 1788770214.4369283,
+      "memory_used_mib": 2146,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770215.0026624,
+      "memory_used_mib": 2160,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770215.6125157,
+      "memory_used_mib": 2160,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770216.2292418,
+      "memory_used_mib": 4655,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770216.8045602,
+      "memory_used_mib": 5743,
+      "utilization_percent": 80
+    },
+    {
+      "at": 1788770217.5074162,
+      "memory_used_mib": 4230,
+      "utilization_percent": 94
+    },
+    {
+      "at": 1788770218.0745802,
+      "memory_used_mib": 4549,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770218.6421585,
+      "memory_used_mib": 4549,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770219.1972542,
+      "memory_used_mib": 4563,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770219.7526062,
+      "memory_used_mib": 4567,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770220.3104236,
+      "memory_used_mib": 4567,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770220.896578,
+      "memory_used_mib": 4576,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770221.501355,
+      "memory_used_mib": 4567,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770222.0619857,
+      "memory_used_mib": 4654,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770222.6212687,
+      "memory_used_mib": 4656,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770223.1793797,
+      "memory_used_mib": 4666,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770223.7495878,
+      "memory_used_mib": 4716,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770224.3190408,
+      "memory_used_mib": 4672,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770224.8790061,
+      "memory_used_mib": 4678,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770225.4397702,
+      "memory_used_mib": 4678,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770226.045681,
+      "memory_used_mib": 5839,
+      "utilization_percent": 38
+    },
+    {
+      "at": 1788770226.6895316,
+      "memory_used_mib": 5853,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770227.3365145,
+      "memory_used_mib": 5839,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770227.9984055,
+      "memory_used_mib": 5853,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770228.6171803,
+      "memory_used_mib": 5865,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770229.1904025,
+      "memory_used_mib": 5802,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770229.809655,
+      "memory_used_mib": 5910,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770230.4560685,
+      "memory_used_mib": 5918,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770231.0170937,
+      "memory_used_mib": 5942,
+      "utilization_percent": 97
+    },
+    {
+      "at": 1788770231.5790389,
+      "memory_used_mib": 5920,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770232.1717532,
+      "memory_used_mib": 5924,
+      "utilization_percent": 67
+    },
+    {
+      "at": 1788770232.7481134,
+      "memory_used_mib": 5910,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770233.331359,
+      "memory_used_mib": 5910,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770233.915835,
+      "memory_used_mib": 5910,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770234.498967,
+      "memory_used_mib": 5904,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770235.0926282,
+      "memory_used_mib": 5919,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770235.6609797,
+      "memory_used_mib": 5919,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770236.2279987,
+      "memory_used_mib": 5919,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770236.7990057,
+      "memory_used_mib": 5904,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770237.3665533,
+      "memory_used_mib": 5904,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770237.9207106,
+      "memory_used_mib": 5904,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770238.5112617,
+      "memory_used_mib": 5904,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770239.0826397,
+      "memory_used_mib": 5919,
+      "utilization_percent": 68
+    },
+    {
+      "at": 1788770239.659423,
+      "memory_used_mib": 5917,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770240.2511232,
+      "memory_used_mib": 5917,
+      "utilization_percent": 71
+    },
+    {
+      "at": 1788770240.8264527,
+      "memory_used_mib": 5911,
+      "utilization_percent": 71
+    },
+    {
+      "at": 1788770241.860485,
+      "memory_used_mib": 5911,
+      "utilization_percent": 69
+    },
+    {
+      "at": 1788770243.0504596,
+      "memory_used_mib": 2355,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770243.6136148,
+      "memory_used_mib": 2259,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770244.1697595,
+      "memory_used_mib": 2259,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770244.916237,
+      "memory_used_mib": 2249,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770245.6140096,
+      "memory_used_mib": 4405,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770246.2167208,
+      "memory_used_mib": 4657,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770246.7766607,
+      "memory_used_mib": 4670,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770247.337725,
+      "memory_used_mib": 4673,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770247.9108026,
+      "memory_used_mib": 5829,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770248.4670296,
+      "memory_used_mib": 682,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770249.0243018,
+      "memory_used_mib": 693,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770249.5861359,
+      "memory_used_mib": 684,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770250.146591,
+      "memory_used_mib": 684,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770250.7042727,
+      "memory_used_mib": 728,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770251.2643998,
+      "memory_used_mib": 729,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770251.8335648,
+      "memory_used_mib": 729,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770252.3915613,
+      "memory_used_mib": 729,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770252.9461102,
+      "memory_used_mib": 825,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770253.505248,
+      "memory_used_mib": 825,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770254.060993,
+      "memory_used_mib": 3326,
+      "utilization_percent": 35
+    },
+    {
+      "at": 1788770254.6163948,
+      "memory_used_mib": 3326,
+      "utilization_percent": 34
+    },
+    {
+      "at": 1788770255.1731489,
+      "memory_used_mib": 3339,
+      "utilization_percent": 36
+    },
+    {
+      "at": 1788770255.7444272,
+      "memory_used_mib": 3363,
+      "utilization_percent": 32
+    },
+    {
+      "at": 1788770256.301035,
+      "memory_used_mib": 3627,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770256.8672721,
+      "memory_used_mib": 4367,
+      "utilization_percent": 36
+    },
+    {
+      "at": 1788770257.4250958,
+      "memory_used_mib": 4367,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770257.9810932,
+      "memory_used_mib": 4592,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770258.5560048,
+      "memory_used_mib": 4592,
+      "utilization_percent": 98
+    },
+    {
+      "at": 1788770259.1169846,
+      "memory_used_mib": 4605,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770259.691038,
+      "memory_used_mib": 4605,
+      "utilization_percent": 94
+    },
+    {
+      "at": 1788770260.2667878,
+      "memory_used_mib": 4605,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770260.8529232,
+      "memory_used_mib": 4622,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770261.4185097,
+      "memory_used_mib": 4622,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770261.9769733,
+      "memory_used_mib": 4615,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770262.53186,
+      "memory_used_mib": 4615,
+      "utilization_percent": 27
+    },
+    {
+      "at": 1788770263.1018417,
+      "memory_used_mib": 4629,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770263.6602204,
+      "memory_used_mib": 4629,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770264.2248151,
+      "memory_used_mib": 4629,
+      "utilization_percent": 96
+    },
+    {
+      "at": 1788770264.7943034,
+      "memory_used_mib": 4619,
+      "utilization_percent": 94
+    },
+    {
+      "at": 1788770265.371686,
+      "memory_used_mib": 4619,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770265.9395177,
+      "memory_used_mib": 4704,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770266.5055153,
+      "memory_used_mib": 4704,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770267.1097126,
+      "memory_used_mib": 4718,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770267.6785502,
+      "memory_used_mib": 4718,
+      "utilization_percent": 95
+    },
+    {
+      "at": 1788770268.236366,
+      "memory_used_mib": 4748,
+      "utilization_percent": 71
+    },
+    {
+      "at": 1788770268.7956243,
+      "memory_used_mib": 4761,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770269.3779328,
+      "memory_used_mib": 4761,
+      "utilization_percent": 95
+    },
+    {
+      "at": 1788770269.9714756,
+      "memory_used_mib": 4750,
+      "utilization_percent": 75
+    },
+    {
+      "at": 1788770270.5284407,
+      "memory_used_mib": 4750,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770271.0863287,
+      "memory_used_mib": 4749,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770271.6449459,
+      "memory_used_mib": 4723,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770272.2046466,
+      "memory_used_mib": 4723,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770272.7611313,
+      "memory_used_mib": 4723,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770273.3295715,
+      "memory_used_mib": 4723,
+      "utilization_percent": 92
+    },
+    {
+      "at": 1788770273.9194705,
+      "memory_used_mib": 853,
+      "utilization_percent": 51
+    },
+    {
+      "at": 1788770274.9606056,
+      "memory_used_mib": 853,
+      "utilization_percent": 10
+    },
+    {
+      "at": 1788770275.5297937,
+      "memory_used_mib": 866,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770276.0880566,
+      "memory_used_mib": 866,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770276.6484814,
+      "memory_used_mib": 866,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770277.2305686,
+      "memory_used_mib": 866,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770277.7900941,
+      "memory_used_mib": 2752,
+      "utilization_percent": 46
+    },
+    {
+      "at": 1788770278.3595796,
+      "memory_used_mib": 4622,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770278.9247456,
+      "memory_used_mib": 4636,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770279.4831295,
+      "memory_used_mib": 4636,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770280.0500696,
+      "memory_used_mib": 4453,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770280.621381,
+      "memory_used_mib": 4661,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770281.1929784,
+      "memory_used_mib": 4654,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770281.7662363,
+      "memory_used_mib": 4646,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770282.324076,
+      "memory_used_mib": 4646,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770282.8946543,
+      "memory_used_mib": 4691,
+      "utilization_percent": 99
+    },
+    {
+      "at": 1788770283.450824,
+      "memory_used_mib": 892,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770284.0206387,
+      "memory_used_mib": 892,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770284.5877385,
+      "memory_used_mib": 892,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770285.1509755,
+      "memory_used_mib": 882,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770285.7091079,
+      "memory_used_mib": 878,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770286.2786596,
+      "memory_used_mib": 946,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770286.8414664,
+      "memory_used_mib": 988,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770287.4048307,
+      "memory_used_mib": 988,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770287.9853508,
+      "memory_used_mib": 3164,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770288.5431802,
+      "memory_used_mib": 3502,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770289.1197336,
+      "memory_used_mib": 3502,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770289.6867962,
+      "memory_used_mib": 3499,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770290.2570188,
+      "memory_used_mib": 3499,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770290.828753,
+      "memory_used_mib": 4506,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770291.3900955,
+      "memory_used_mib": 4506,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770291.9572048,
+      "memory_used_mib": 4738,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770292.5382526,
+      "memory_used_mib": 4744,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770293.0985706,
+      "memory_used_mib": 4744,
+      "utilization_percent": 92
+    },
+    {
+      "at": 1788770293.6559734,
+      "memory_used_mib": 4731,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770294.215748,
+      "memory_used_mib": 4731,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770294.7716987,
+      "memory_used_mib": 4744,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770295.476202,
+      "memory_used_mib": 892,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770296.5076745,
+      "memory_used_mib": 892,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770297.0731082,
+      "memory_used_mib": 892,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770297.6295297,
+      "memory_used_mib": 888,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770298.2273657,
+      "memory_used_mib": 878,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770298.7898734,
+      "memory_used_mib": 2822,
+      "utilization_percent": 53
+    },
+    {
+      "at": 1788770299.3654616,
+      "memory_used_mib": 4620,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770300.120408,
+      "memory_used_mib": 5137,
+      "utilization_percent": 93
+    },
+    {
+      "at": 1788770300.6815782,
+      "memory_used_mib": 4457,
+      "utilization_percent": 82
+    },
+    {
+      "at": 1788770301.2379782,
+      "memory_used_mib": 4457,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770301.8082259,
+      "memory_used_mib": 4457,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770302.367087,
+      "memory_used_mib": 4457,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770302.9237359,
+      "memory_used_mib": 4489,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770303.4800286,
+      "memory_used_mib": 4489,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770304.0413077,
+      "memory_used_mib": 4500,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770304.6012783,
+      "memory_used_mib": 4500,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770305.1678686,
+      "memory_used_mib": 4499,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770305.7325742,
+      "memory_used_mib": 4583,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770306.2929206,
+      "memory_used_mib": 4583,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770306.8532834,
+      "memory_used_mib": 4597,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770307.4111915,
+      "memory_used_mib": 4597,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770307.9863343,
+      "memory_used_mib": 4597,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770308.550223,
+      "memory_used_mib": 4597,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770309.138079,
+      "memory_used_mib": 5945,
+      "utilization_percent": 50
+    },
+    {
+      "at": 1788770309.6990259,
+      "memory_used_mib": 5954,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770310.2549214,
+      "memory_used_mib": 5950,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770310.8259506,
+      "memory_used_mib": 5964,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770311.3812258,
+      "memory_used_mib": 5964,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770311.9409523,
+      "memory_used_mib": 5912,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770313.0037014,
+      "memory_used_mib": 5931,
+      "utilization_percent": 2
+    },
+    {
+      "at": 1788770313.588761,
+      "memory_used_mib": 5931,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770314.1752925,
+      "memory_used_mib": 5917,
+      "utilization_percent": 31
+    },
+    {
+      "at": 1788770314.7521362,
+      "memory_used_mib": 5961,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770315.3414388,
+      "memory_used_mib": 5962,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770315.9186642,
+      "memory_used_mib": 5962,
+      "utilization_percent": 73
+    },
+    {
+      "at": 1788770316.502803,
+      "memory_used_mib": 5962,
+      "utilization_percent": 75
+    },
+    {
+      "at": 1788770317.0855234,
+      "memory_used_mib": 5962,
+      "utilization_percent": 65
+    },
+    {
+      "at": 1788770317.6617484,
+      "memory_used_mib": 5948,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770318.5079782,
+      "memory_used_mib": 2223,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770319.5427105,
+      "memory_used_mib": 2237,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770320.111457,
+      "memory_used_mib": 2237,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770320.68144,
+      "memory_used_mib": 2237,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770321.312366,
+      "memory_used_mib": 2230,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770321.8717628,
+      "memory_used_mib": 4609,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770322.4435422,
+      "memory_used_mib": 5738,
+      "utilization_percent": 55
+    },
+    {
+      "at": 1788770323.0122473,
+      "memory_used_mib": 4544,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770323.5759168,
+      "memory_used_mib": 4545,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770324.1476362,
+      "memory_used_mib": 4556,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770324.7042665,
+      "memory_used_mib": 4556,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770325.272038,
+      "memory_used_mib": 4553,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770325.8538268,
+      "memory_used_mib": 4554,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770326.417647,
+      "memory_used_mib": 4556,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770326.9786234,
+      "memory_used_mib": 4559,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770327.5897985,
+      "memory_used_mib": 4559,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770328.1470947,
+      "memory_used_mib": 4656,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770328.7081552,
+      "memory_used_mib": 4656,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770329.2767506,
+      "memory_used_mib": 4686,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770329.836092,
+      "memory_used_mib": 4686,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770330.405322,
+      "memory_used_mib": 4686,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770330.9674044,
+      "memory_used_mib": 4688,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770331.538645,
+      "memory_used_mib": 5914,
+      "utilization_percent": 29
+    },
+    {
+      "at": 1788770332.1536076,
+      "memory_used_mib": 5896,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770332.7126155,
+      "memory_used_mib": 5884,
+      "utilization_percent": 28
+    },
+    {
+      "at": 1788770333.2804275,
+      "memory_used_mib": 5884,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770333.8406405,
+      "memory_used_mib": 5896,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770334.3978345,
+      "memory_used_mib": 5803,
+      "utilization_percent": 36
+    },
+    {
+      "at": 1788770334.9678962,
+      "memory_used_mib": 5817,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770335.5250163,
+      "memory_used_mib": 5817,
+      "utilization_percent": 31
+    },
+    {
+      "at": 1788770336.1083188,
+      "memory_used_mib": 5853,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770336.6663651,
+      "memory_used_mib": 5853,
+      "utilization_percent": 95
+    },
+    {
+      "at": 1788770337.2405665,
+      "memory_used_mib": 5839,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770337.8259797,
+      "memory_used_mib": 5839,
+      "utilization_percent": 75
+    },
+    {
+      "at": 1788770338.4216182,
+      "memory_used_mib": 5839,
+      "utilization_percent": 74
+    },
+    {
+      "at": 1788770338.998236,
+      "memory_used_mib": 5853,
+      "utilization_percent": 71
+    },
+    {
+      "at": 1788770339.574626,
+      "memory_used_mib": 5853,
+      "utilization_percent": 76
+    },
+    {
+      "at": 1788770340.1830845,
+      "memory_used_mib": 5853,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770340.7421806,
+      "memory_used_mib": 5852,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770341.2969172,
+      "memory_used_mib": 5843,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770341.8558514,
+      "memory_used_mib": 5839,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770342.4150462,
+      "memory_used_mib": 5839,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770342.9996412,
+      "memory_used_mib": 5853,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770343.57371,
+      "memory_used_mib": 5853,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770344.1663027,
+      "memory_used_mib": 5853,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770344.7488866,
+      "memory_used_mib": 5845,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770345.3196445,
+      "memory_used_mib": 5839,
+      "utilization_percent": 74
+    },
+    {
+      "at": 1788770345.8933053,
+      "memory_used_mib": 5839,
+      "utilization_percent": 77
+    },
+    {
+      "at": 1788770346.761312,
+      "memory_used_mib": 2128,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770347.867775,
+      "memory_used_mib": 2128,
+      "utilization_percent": 14
+    },
+    {
+      "at": 1788770348.4304526,
+      "memory_used_mib": 2128,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770348.999462,
+      "memory_used_mib": 2118,
+      "utilization_percent": 17
+    },
+    {
+      "at": 1788770349.5592394,
+      "memory_used_mib": 2118,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770350.186822,
+      "memory_used_mib": 2114,
+      "utilization_percent": 23
+    },
+    {
+      "at": 1788770350.839422,
+      "memory_used_mib": 4622,
+      "utilization_percent": 34
+    },
+    {
+      "at": 1788770351.4273968,
+      "memory_used_mib": 5778,
+      "utilization_percent": 64
+    },
+    {
+      "at": 1788770352.003667,
+      "memory_used_mib": 5780,
+      "utilization_percent": 82
+    },
+    {
+      "at": 1788770352.5736918,
+      "memory_used_mib": 4543,
+      "utilization_percent": 41
+    },
+    {
+      "at": 1788770353.1312764,
+      "memory_used_mib": 4543,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770353.6998749,
+      "memory_used_mib": 4543,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770354.2698827,
+      "memory_used_mib": 4543,
+      "utilization_percent": 15
+    },
+    {
+      "at": 1788770354.8591442,
+      "memory_used_mib": 4595,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770355.4269478,
+      "memory_used_mib": 4561,
+      "utilization_percent": 22
+    },
+    {
+      "at": 1788770355.9840875,
+      "memory_used_mib": 4657,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770356.5545068,
+      "memory_used_mib": 4657,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770357.1147313,
+      "memory_used_mib": 4643,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770357.6784122,
+      "memory_used_mib": 4643,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770358.2448351,
+      "memory_used_mib": 4643,
+      "utilization_percent": 21
+    },
+    {
+      "at": 1788770358.8134344,
+      "memory_used_mib": 4657,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770359.3877635,
+      "memory_used_mib": 5823,
+      "utilization_percent": 19
+    },
+    {
+      "at": 1788770360.0205607,
+      "memory_used_mib": 5824,
+      "utilization_percent": 20
+    },
+    {
+      "at": 1788770360.6565444,
+      "memory_used_mib": 5824,
+      "utilization_percent": 26
+    },
+    {
+      "at": 1788770361.3043723,
+      "memory_used_mib": 5814,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770361.9067583,
+      "memory_used_mib": 5808,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770362.5805204,
+      "memory_used_mib": 5736,
+      "utilization_percent": 33
+    },
+    {
+      "at": 1788770363.18121,
+      "memory_used_mib": 5750,
+      "utilization_percent": 24
+    },
+    {
+      "at": 1788770363.7511992,
+      "memory_used_mib": 5728,
+      "utilization_percent": 25
+    },
+    {
+      "at": 1788770364.3319428,
+      "memory_used_mib": 5804,
+      "utilization_percent": 18
+    },
+    {
+      "at": 1788770364.9255486,
+      "memory_used_mib": 5790,
+      "utilization_percent": 100
+    },
+    {
+      "at": 1788770365.530591,
+      "memory_used_mib": 5790,
+      "utilization_percent": 70
+    },
+    {
+      "at": 1788770366.0984895,
+      "memory_used_mib": 5790,
+      "utilization_percent": 66
+    },
+    {
+      "at": 1788770366.6747735,
+      "memory_used_mib": 5801,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770367.2619162,
+      "memory_used_mib": 5804,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770367.8311925,
+      "memory_used_mib": 5804,
+      "utilization_percent": 76
+    },
+    {
+      "at": 1788770368.4377723,
+      "memory_used_mib": 5804,
+      "utilization_percent": 72
+    },
+    {
+      "at": 1788770369.0003633,
+      "memory_used_mib": 5794,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770369.5634837,
+      "memory_used_mib": 5794,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770370.1242962,
+      "memory_used_mib": 5790,
+      "utilization_percent": 16
+    },
+    {
+      "at": 1788770370.6787503,
+      "memory_used_mib": 5804,
+      "utilization_percent": 19
+    }
+  ],
+  "gpu_peak_mib": 5977,
+  "gpu_min_mib": 544
+}

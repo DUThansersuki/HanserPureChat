@@ -1,0 +1,284 @@
+{
+  "slice": "Slice 4 — Request and model failure boundaries",
+  "contract": "NEXT_STAGE_ENGINEERING_GUIDE.md + PERSONA_REGRESSION_SUITE.md + ARCHITECTURE_SPEC_DELTA.md",
+  "verdict": "PASS",
+  "checks": [
+    {
+      "id": "unit_tests_and_slice4_fault_tests",
+      "pass": true,
+      "evidence": {
+        "command": "python -m pytest tests -q",
+        "tail": [
+          "-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html",
+          "68 passed, 1 warning, 4 subtests passed in 12.73s"
+        ],
+        "covered_faults": [
+          "provider 200 empty content and same-responder retry",
+          "provider timeout and structured API error",
+          "reranker failure with preserved sources",
+          "dense failure BM25 fallback",
+          "persisted reply plus retryable post-turn failure",
+          "request idempotency and conflict",
+          "embedding failure retry"
+        ]
+      }
+    },
+    {
+      "id": "migration_preview_backup_apply_postcheck",
+      "pass": true,
+      "evidence": {
+        "preview_hash": "022855a79c1c5bce3b71f4039e898aa795aca30ec279da0001b718fbe20e0124",
+        "planned_deletes": 0,
+        "backup": "H:\\HanserAgent\\source_data\\documents.pre_slice4.20260907T084200Z.db",
+        "postcheck": {
+          "integrity": "ok",
+          "migration5": 1,
+          "request_execution_count": 0,
+          "pending_post_turn_count": 0,
+          "message_count": 16
+        }
+      }
+    },
+    {
+      "id": "ordered_two_by_twenty_runtime",
+      "pass": true,
+      "evidence": {
+        "counts": {
+          "continuity": 20,
+          "mixed": 20
+        },
+        "http_200": 40
+      }
+    },
+    {
+      "id": "runtime_nonempty_traceable_and_not_degraded",
+      "pass": true,
+      "evidence": {
+        "nonempty": 40,
+        "traceable": 40,
+        "degraded": 0
+      }
+    },
+    {
+      "id": "cross_session_recall",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "text": "小林嘛 你爱喝茶不爱咖啡 我记得呢",
+        "memory_values": [
+          "咖啡",
+          "小林",
+          "毛怪",
+          "茶"
+        ]
+      }
+    },
+    {
+      "id": "hard_grounding_gate_no_false_shared_memory",
+      "pass": true,
+      "evidence": {
+        "active_shared_event_memories": 0
+      }
+    },
+    {
+      "id": "fault_probes",
+      "pass": true,
+      "evidence": {
+        "reranker_failure": true,
+        "false_shared_event": true,
+        "preference_conflict": true,
+        "null_patch": true,
+        "conversation_owner": true,
+        "memory_prefilter": true,
+        "external_index_cache": true
+      }
+    },
+    {
+      "id": "exclusive_gpu_resource_experiment",
+      "pass": true,
+      "evidence": {
+        "selected": {
+          "policy": "retain",
+          "gpu_min_mib": 1581,
+          "gpu_peak_mib": 5977,
+          "all": {
+            "n": 20,
+            "p50": 27.6365896500065,
+            "p95": 41.20269350000308,
+            "max": 48.85301150000305,
+            "http_failures": 0
+          },
+          "wiki": {
+            "n": 10,
+            "p50": 33.53374070000427,
+            "p95": 41.20269350000308,
+            "max": 48.85301150000305,
+            "http_failures": 0
+          },
+          "casual": {
+            "n": 10,
+            "p50": 21.835315050004283,
+            "p95": 27.21631519999937,
+            "max": 35.74482629998238,
+            "http_failures": 0
+          },
+          "stages": {
+            "planner": {
+              "n": 20,
+              "p50": 11.831490299999132,
+              "p95": 23.546483300015097,
+              "max": 25.902786599996034
+            },
+            "wiki": {
+              "n": 11,
+              "p50": 22.12760919998982,
+              "p95": 30.969771399977617,
+              "max": 32.33045330000459
+            },
+            "style": {
+              "n": 20,
+              "p50": 0.3324084999912884,
+              "p95": 0.7037535000126809,
+              "max": 1.2192294000124093
+            },
+            "memory": {
+              "n": 16,
+              "p50": 0.0012778000091202557,
+              "p95": 0.0018323000113014132,
+              "max": 0.004040900006657466
+            },
+            "responder": {
+              "n": 20,
+              "p50": 2.7097646500042174,
+              "p95": 3.534848100011004,
+              "max": 4.027738200005842
+            },
+            "post_turn": {
+              "n": 20,
+              "p50": 0.010951800009934232,
+              "p95": 0.02152350000687875,
+              "max": 0.021894400008022785
+            }
+          },
+          "degraded_responses": 1,
+          "degraded_reasons": {
+            "planner_primary_provider_fallback": 1
+          }
+        },
+        "comparison_release_reranker": {
+          "policy": "release_reranker",
+          "gpu_min_mib": 544,
+          "gpu_peak_mib": 5977,
+          "all": {
+            "n": 20,
+            "p50": 15.452512649993878,
+            "p95": 21.549591399991186,
+            "max": 53.5049113999994,
+            "http_failures": 0
+          },
+          "wiki": {
+            "n": 10,
+            "p50": 13.32136219998938,
+            "p95": 21.549591399991186,
+            "max": 53.5049113999994,
+            "http_failures": 0
+          },
+          "casual": {
+            "n": 10,
+            "p50": 17.14170274999924,
+            "p95": 19.055522500013467,
+            "max": 19.748196000000462,
+            "http_failures": 0
+          },
+          "stages": {
+            "planner": {
+              "n": 20,
+              "p50": 9.593930350005394,
+              "p95": 14.776943000004394,
+              "max": 17.06213440001011
+            },
+            "wiki": {
+              "n": 11,
+              "p50": 6.556037100002868,
+              "p95": 10.01621079997858,
+              "max": 39.847507700003916
+            },
+            "style": {
+              "n": 20,
+              "p50": 0.29297330002009403,
+              "p95": 0.5052009999926668,
+              "max": 0.5928508999932092
+            },
+            "memory": {
+              "n": 15,
+              "p50": 0.001273000001674518,
+              "p95": 0.00178240000968799,
+              "max": 0.0018048000056296587
+            },
+            "responder": {
+              "n": 20,
+              "p50": 2.132176900006016,
+              "p95": 2.867452400008915,
+              "max": 2.9039319999865256
+            },
+            "post_turn": {
+              "n": 20,
+              "p50": 0.011725150005077012,
+              "p95": 0.0245324999850709,
+              "max": 0.03239570002187975
+            }
+          },
+          "degraded_responses": 7,
+          "degraded_reasons": {
+            "reranker_unavailable_retrieval_fallback": 7
+          }
+        }
+      }
+    },
+    {
+      "id": "rollbackable_default_resource_policy",
+      "pass": true,
+      "evidence": {
+        "effective_default": "retain reranker",
+        "experimental_switch": "reranker.release_after_request"
+      }
+    },
+    {
+      "id": "persona_prompt_unchanged",
+      "pass": true,
+      "evidence": {
+        "backend/hanser_agent/prompts/persona/behavior.md": true,
+        "backend/hanser_agent/prompts/persona/boundaries.md": true,
+        "backend/hanser_agent/prompts/persona/core.md": true,
+        "backend/hanser_agent/prompts/persona/style_constraints.yaml": true,
+        "backend/hanser_agent/prompts/persona/voice.md": true
+      }
+    }
+  ],
+  "runtime": {
+    "run_dir": "H:\\HanserAgent\\audit_artifacts\\slice4_runtime_2026-09-07_003",
+    "latencies_seconds": {
+      "min": 3.9467715000209864,
+      "max": 20.642398900003172
+    }
+  },
+  "scope": {
+    "persona_prompt_changed": false,
+    "new_framework": false,
+    "second_responder": false,
+    "model_switch": false
+  },
+  "diagnostic_run_not_quality_sample": "H:\\HanserAgent\\audit_artifacts\\slice4_runtime_2026-09-07_002",
+  "notes": [
+    "The diagnostic run with Ollama unavailable returned HTTP 200 through deterministic planning, but every response was correctly marked degraded and is excluded from normal quality acceptance.",
+    "The healthy final run contains 40 non-degraded responses and a successful service-rebuild cross-session recall.",
+    "The exact legacy fallback text is covered by deterministic fault tests; naturally generated contextual uses of 不知道 are allowed.",
+    "No independent blind persona comparison was rerun because Persona Prompt, responder model, and style data were unchanged; all non-relaxable grounding gates remain enforced."
+  ],
+  "artifact_hashes": {
+    "runtime_traces": "c516f32794c4731819eab3c28969e1e11598ad2e54221fe32292e92b6f0629a6",
+    "cross_session": "4ce8f3b0bdb519203dc59a0f5da8a45ec83de0fb85d995521e327d23ca9428f0",
+    "fault_probes": "0d943e763cc80b6624b4860bdbf3f1ff62d9b7371e99af479679a04e66785d70",
+    "resource_summary": "d2eb6883f1706385c66b06149c0a76068a55b1ea0666779318765ee726871551"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "run_at": "2026-09-08T09:53:52.101197+00:00",
+  "cases": 1,
+  "generations": {
+    "measured": 2,
+    "failed": 0
+  },
+  "judgments": {
+    "measured": 2,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "preference_counts": {
+      "B": 2
+    },
+    "consensus": {
+      "B": 1
+    },
+    "inconsistent_cases": [],
+    "inconsistent_rate": 0.0
+  },
+  "score_means": {
+    "A": {
+      "character_reaction_fidelity": 3.0,
+      "context_fit": 3.0,
+      "autonomy": 3.0,
+      "natural_restraint": 3.0,
+      "warmth_not_cutesy": 3.0,
+      "content_effectiveness": 3.0
+    },
+    "B": {
+      "character_reaction_fidelity": 4.0,
+      "context_fit": 4.0,
+      "autonomy": 4.0,
+      "natural_restraint": 4.0,
+      "warmth_not_cutesy": 4.0,
+      "content_effectiveness": 4.0
+    }
+  },
+  "feature_rates": {
+    "A": {
+      "uses_contextual_release": 0.0,
+      "uses_cutesy": 1.0,
+      "uses_profanity": 0.0,
+      "uses_innuendo": 0.0,
+      "uses_meme": 0.0,
+      "overacting": 0.0,
+      "inappropriate_style_intrusion": 0.0,
+      "unjustified_agreement": 0.0,
+      "unjustified_disagreement": 0.0
+    },
+    "B": {
+      "uses_contextual_release": 0.0,
+      "uses_cutesy": 0.0,
+      "uses_profanity": 0.0,
+      "uses_innuendo": 0.0,
+      "uses_meme": 0.0,
+      "overacting": 0.0,
+      "inappropriate_style_intrusion": 0.0,
+      "unjustified_agreement": 0.0,
+      "unjustified_disagreement": 0.0
+    }
+  },
+  "hard_failures": {
+    "A": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "fault_disguised_as_normal_reply": 0,
+        "format_corruption": 0
+      }
+    },
+    "B": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "fault_disguised_as_normal_reply": 0,
+        "format_corruption": 0
+      }
+    }
+  },
+  "paired_composite_delta": {
+    "mean": 1.0,
+    "ci95": [
+      1.0,
+      1.0
+    ],
+    "groups": 1,
+    "method": "paired group bootstrap",
+    "samples": 10000
+  },
+  "model_operations": {
+    "planner": {
+      "calls": 1,
+      "prompt_tokens": 1058,
+      "completion_tokens": 190,
+      "total_tokens": 1248,
+      "latency_p50": 11.43737,
+      "latency_p95": 11.43737
+    },
+    "responder_A": {
+      "calls": 1,
+      "prompt_tokens": 897,
+      "completion_tokens": 26,
+      "total_tokens": 923,
+      "latency_p50": 2.389283,
+      "latency_p95": 2.389283
+    },
+    "responder_B": {
+      "calls": 1,
+      "prompt_tokens": 1572,
+      "completion_tokens": 38,
+      "total_tokens": 1610,
+      "latency_p50": 1.781652,
+      "latency_p95": 1.781652
+    },
+    "judge": {
+      "calls": 2,
+      "prompt_tokens": 9068,
+      "completion_tokens": 1065,
+      "total_tokens": 10133,
+      "latency_p50": 3.894636,
+      "latency_p95": 3.895082
+    }
+  },
+  "style_coverage": {
+    "A_nonempty": 1,
+    "B_nonempty": 1,
+    "A_total_examples": 3,
+    "B_total_examples": 3
+  },
+  "conclusion": "未证实",
+  "conclusion_reasons": [
+    "one or more preregistered target improvements were not demonstrated"
+  ],
+  "production_switched": false
+}

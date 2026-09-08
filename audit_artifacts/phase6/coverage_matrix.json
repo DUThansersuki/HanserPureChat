@@ -1,0 +1,163 @@
+[
+  {
+    "scene": "greeting",
+    "real_tagged": 7,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "casual chat",
+    "real_tagged": 608,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "factual answer",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "follow-up factual",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "being praised",
+    "real_tagged": 17,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "being teased",
+    "real_tagged": 62,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "comforting",
+    "real_tagged": 7,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "user upset",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "user excited",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "user gives short reply",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "awkward silence",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "deep conversation",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "self-deprecation",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "disagreement",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "uncertainty",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "unknown fact",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "nostalgia",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "relationship callback",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "memory callback",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "late-night",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "playful",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "serious",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  },
+  {
+    "scene": "storytelling",
+    "real_tagged": null,
+    "synthetic": 0,
+    "human_approved": null,
+    "note": "None = no reliable independent tag/approval field; not proven zero real coverage"
+  }
+]

@@ -1,0 +1,145 @@
+{
+  "run_at": "2026-09-08T14:10:55.304080+00:00",
+  "sequences": 6,
+  "turns": 72,
+  "generations": {
+    "measured": 144,
+    "failed": 0
+  },
+  "judgments": {
+    "measured": 12,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "preference_counts": {
+      "A": 3,
+      "tie": 3,
+      "B": 6
+    },
+    "inconsistent_sequences": [
+      "sequence.playful_to_normal.001",
+      "sequence.permission_revoke.003",
+      "sequence.fact_play_fake_memory.005"
+    ],
+    "inconsistent_rate": 0.5
+  },
+  "score_means": {
+    "A": {
+      "continuity": 4.5,
+      "context_fit": 4.5,
+      "autonomy": 4.25,
+      "natural_restraint": 4.416666666666667,
+      "warmth_not_cutesy": 4.333333333333333,
+      "content_effectiveness": 4.5
+    },
+    "B": {
+      "continuity": 4.916666666666667,
+      "context_fit": 4.916666666666667,
+      "autonomy": 4.916666666666667,
+      "natural_restraint": 4.833333333333333,
+      "warmth_not_cutesy": 4.833333333333333,
+      "content_effectiveness": 4.916666666666667
+    }
+  },
+  "behavior_rates": {
+    "A": {
+      "recovery_success": 1,
+      "permission_respected": 1,
+      "exact_text_preserved": 1,
+      "no_cross_user_leakage": 1
+    },
+    "B": {
+      "recovery_success": 1,
+      "permission_respected": 1,
+      "exact_text_preserved": 1,
+      "no_cross_user_leakage": 1
+    }
+  },
+  "hard_failures": {
+    "A": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "cross_user_state_leakage": 0,
+        "format_corruption": 0
+      }
+    },
+    "B": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "cross_user_state_leakage": 0,
+        "format_corruption": 0
+      }
+    }
+  },
+  "material_regressions": [],
+  "model_operations": {
+    "planner": {
+      "calls": 144,
+      "successful_calls": 66,
+      "failed_calls": 78,
+      "by_provider_model_status": {
+        "ollama:qwen3.5:4b:failed": 72,
+        "openai_compatible:deepseek-v4-flash:success": 66,
+        "openai_compatible:deepseek-v4-flash:failed": 6
+      },
+      "prompt_tokens": 82650,
+      "completion_tokens": 16751,
+      "total_tokens": 99401,
+      "latency_p50": 2.034145,
+      "latency_p95": 2.722509
+    },
+    "responder_A": {
+      "calls": 72,
+      "successful_calls": 72,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 72
+      },
+      "prompt_tokens": 102984,
+      "completion_tokens": 2002,
+      "total_tokens": 104986,
+      "latency_p50": 1.522326,
+      "latency_p95": 2.692871
+    },
+    "responder_B": {
+      "calls": 73,
+      "successful_calls": 73,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 73
+      },
+      "prompt_tokens": 171329,
+      "completion_tokens": 2049,
+      "total_tokens": 173378,
+      "latency_p50": 1.625851,
+      "latency_p95": 2.461289
+    },
+    "judge": {
+      "calls": 12,
+      "successful_calls": 12,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-pro:success": 12
+      },
+      "prompt_tokens": 50042,
+      "completion_tokens": 5286,
+      "total_tokens": 55328,
+      "latency_p50": 5.445852,
+      "latency_p95": 8.196969
+    }
+  },
+  "conclusion": "未证实",
+  "conclusion_reasons": [
+    "sample, judge failure, or order-consistency gate not met"
+  ],
+  "production_switched": false
+}

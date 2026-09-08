@@ -1,0 +1,68 @@
+# Rethinking Role-Playing Evaluation: Anonymous Benchmarking and a Systematic Study of Personality Effects
+
+**Rethinking Role-Playing Evaluation: Anonymous Benchmarking and a Systematic Study of Personality Effects**
+
+Ji-Lun Peng, Yun-Nung Chen — National Taiwan University, 2026
+
+[![arXiv](https://img.shields.io/badge/arXiv-2603.03915-b31b1b.svg)](https://arxiv.org/abs/2603.03915)
+
+## Abstract
+
+Large Language Models (LLMs) have shown remarkable potential in developing role-playing agents (RPAs). However, current evaluation frameworks rely heavily on well-known fictional characters, raising a critical concern: models may be leveraging their internal training memory of these characters rather than demonstrating role-playing capabilities. 
+This reliance often leads to significant performance degradation when RPAs encounter unseen or out-of-distribution personas.
+To address this, we propose a more rigorous evaluation protocol designed to decouple role-playing proficiency from character recognition. 
+Our experiments across multiple benchmarks demonstrate that *anonymizing* characters significantly degrades performance, confirming that name exposure provides implicit cues that mask a model's true capability.
+To mitigate this, we investigate diverse personality augmentation as a method to enhance role fidelity in anonymous settings. We systematically analyze the impact of various personality-description methods on agent behavior and consistency.
+Our results show that incorporating personality information consistently improves RPA performance. This work establishes a more equitable evaluation standard and validates a scalable, personality-enhanced framework for constructing robust RPAs.
+
+## Experiments
+
+### Dataset and Codebase References
+
+The datasets and codebases used for these experiments include:
+
+1. **[CharacterEval](https://github.com/morecry/CharacterEval)**: A Chinese benchmark designed for evaluating role-playing conversational agents.
+2. **[RoleAgentBench](https://huggingface.co/datasets/RoleAgent/RoleAgentBench)**: A benchmark for evaluating English role-playing agents.
+3. **[InCharacter](https://github.com/Neph0s/InCharacter)**: A codebase for acquiring characters' personalities.
+
+For experimental purposes, we made slight modifications to the code and data in the repositories above to support our anonymous evaluation and personality-augmented RPA. If you would like to access the original code and data from those repositories, please refer to the links above.
+
+## How to Run
+
+### Install dependencies
+We use `uv` for dependency management. Please install `uv` first, then run:
+```bash
+uv sync
+```
+
+### Add config
+Fill in the API keys in `config.json` to enable the corresponding LLMs.
+
+### Download the reward model
+Download **[BaichuanCharRM](https://huggingface.co/morecry/BaichuanCharRM)** and place it in `./CharacterEval` for the evaluation.
+
+### Reproduce Experiments
+#### personality-acquisition
+We provide the personality information used in the paper under `./InCharacter/results/final/`, so you can directly run code in the `runing benchmarks` part using these files.
+To reproduce the personality-acquisition step, we provide scripts using `gemini-2.5-flash`. Run:
+```bash
+cd ./InCharacter/code
+bash get_character_personality_from_test.sh
+```
+#### runing benchmarks
+To reproduce the evaluation results, run the following commands. The examples below use `gpt-4o` for inference.
+
+For CharacterEval:
+```bash
+cd ./CharacterEval
+bash run_inference.sh
+bash trans.sh
+bash reward.sh
+```
+
+For RoleAgentBench:
+```bash
+cd ./RoleAgentBench
+bash run_inference.sh
+bash run_pairwise_judge.sh
+```

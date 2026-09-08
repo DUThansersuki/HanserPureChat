@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-09-06T14:28:34.721447+00:00",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "candidate_database_sha256": "847353c4616a5a1840432f4c5f80e3d25d97e5814193de8892337537107d2999",
+  "frozen_fixture_sha256": "8dd876e88e5bedcc92f2d95b31f5b496aac30c3b65f98618fde5b8fbd700a196",
+  "model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "same_model_as_candidate": false,
+  "human_review_waived_by_owner": true,
+  "order_balanced": true,
+  "cases": 37,
+  "generated_measured": 74,
+  "judgments_measured": 70,
+  "preference_counts": {
+    "B": 14,
+    "C": 30,
+    "tie": 26
+  },
+  "consensus": {
+    "C": 10,
+    "B": 3,
+    "tie": 12,
+    "inconsistent": 11
+  },
+  "unsafe_flags": {
+    "B": 10,
+    "C": 9
+  },
+  "inconsistent_cases": [
+    "greeting",
+    "long_reply",
+    "being_praised",
+    "recall",
+    "correction",
+    "conflict",
+    "stranger",
+    "awkward_silence",
+    "deep_conversation",
+    "nostalgia",
+    "late_night"
+  ],
+  "synthetic_retrieval_cases": 4,
+  "no_style_identical_cases": [
+    "known_fact",
+    "ambiguous_fact",
+    "unknown_fact",
+    "followup_factual",
+    "mixed_fact",
+    "customer_service",
+    "prompt_injection",
+    "invented_emotion",
+    "invented_condition"
+  ],
+  "production_switched": false
+}

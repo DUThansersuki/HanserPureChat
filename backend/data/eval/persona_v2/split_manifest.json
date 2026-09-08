@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "frozen_at": "2026-09-08T18:00:00+08:00",
+  "split_basis": "design group; source episodes sharing a document/topic remain in one group",
+  "cases_sha256": "507fd9cd032c207d57e419f20f141c808f67106a5197f99c5f0ee2003ee33678",
+  "sequences_sha256": "3bd9678c7f7c10829c7b2f2792e510ad7a5d78729ad4507e2b002828dc954370",
+  "case_count": 72,
+  "sequence_count": 6,
+  "sequence_turn_count": 72,
+  "case_family_counts": {
+    "ordinary_daily": 12,
+    "praise_or_tease": 12,
+    "agreement_disagreement_correction": 12,
+    "playful_opportunity_or_gate": 12,
+    "emotion_stop_permission": 12,
+    "fact_presentation_signal": 12
+  },
+  "assignment": {
+    "development": "the original first 16 rows used during component development",
+    "hidden": "the appended 56 rows and all six 12-turn sequences; frozen before their first model run",
+    "tts_specific": "deferred; text presentation cases cover date URL and code preservation only"
+  },
+  "train_groups": [],
+  "style_dev_groups": [
+    "design.daily.greeting",
+    "design.daily.short",
+    "design.praise",
+    "design.autonomy",
+    "design.playful.game",
+    "design.support",
+    "design.settings"
+  ],
+  "eval_groups": [
+    "design.adult_gate",
+    "design.stop",
+    "design.stop_scope",
+    "design.fact",
+    "design.signal_tolerance"
+  ],
+  "source_episode_groups": {
+    "document_3.short_video_topic": "research_only_single_group",
+    "document_1.dispute_explanation": "research_only_single_group",
+    "document_2.opening_topic": "research_only_single_group",
+    "document_29.wisdom_tooth_joke": "research_only_single_group",
+    "document_77.product_candor": "research_only_single_group"
+  },
+  "dedupe_status": "exact source hashes recorded; semantic duplicate clustering pending",
+  "pollution_scan": {
+    "status": "partial_static",
+    "result": "designed contrast text is excluded from runtime Style; legacy migrated Style has runtime_scope empty"
+  },
+  "model_operations_at_freeze": "NOT_EXECUTED"
+}

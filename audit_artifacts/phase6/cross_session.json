@@ -1,0 +1,101 @@
+{
+  "status": 200,
+  "response": {
+    "text": "毛怪们这个我记得\n喝什么嘛 你之前给的答案有点反复横跳\n咖啡和茶我都看到过\n你到底是哪派的啦",
+    "keywords": [],
+    "anchored": [],
+    "sources": []
+  },
+  "memories": [
+    {
+      "id": "f342cff1-0aef-4ebf-9a94-3d0851783b55",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_fact",
+      "content": "用户希望被称为毛怪们",
+      "importance": 0.9,
+      "confidence": 0.98,
+      "source_message_ids": [
+        "5998e2d0-5125-4a8b-a6fb-41510d803cfa"
+      ],
+      "created_at": "2026-09-05T06:23:51.936383Z",
+      "last_accessed_at": "2026-09-05T06:30:27.634157Z",
+      "status": "active"
+    },
+    {
+      "id": "e2c1bed9-d9cb-4494-98bb-721f22fc98a6",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "shared_event",
+      "content": "我们之前一起去过上海吗",
+      "importance": 0.72,
+      "confidence": 0.85,
+      "source_message_ids": [
+        "81abe848-80ee-42ae-8a49-41d51508612b"
+      ],
+      "created_at": "2026-09-05T06:23:18.944924Z",
+      "last_accessed_at": "2026-09-05T06:23:28.648145Z",
+      "status": "active"
+    },
+    {
+      "id": "a2e3db2e-d703-4860-b6e9-22f9174914a0",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "content": "用户喜欢喝什么吗",
+      "importance": 0.7,
+      "confidence": 0.88,
+      "source_message_ids": [
+        "2d00cfe2-ba59-4c5a-8e82-172a392b5c10"
+      ],
+      "created_at": "2026-09-05T06:23:08.151421Z",
+      "last_accessed_at": "2026-09-05T06:30:27.634157Z",
+      "status": "active"
+    },
+    {
+      "id": "bc90ca18-b41f-4c1d-ace3-6595356065f6",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "content": "用户不喜欢咖啡 我喜欢茶",
+      "importance": 0.7,
+      "confidence": 0.9,
+      "source_message_ids": [
+        "76fb0169-64a7-4f4f-a4c0-7af2529fe089"
+      ],
+      "created_at": "2026-09-05T06:23:03.283015Z",
+      "last_accessed_at": "2026-09-05T06:30:27.634157Z",
+      "status": "active"
+    },
+    {
+      "id": "705ef479-6597-4c91-b11c-b23e14f0203a",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "unresolved_thread",
+      "content": "我明天下午考试",
+      "importance": 0.88,
+      "confidence": 0.95,
+      "source_message_ids": [
+        "786b3a82-7ca1-4943-9573-9b68f0698119"
+      ],
+      "created_at": "2026-09-05T06:22:22.349783Z",
+      "last_accessed_at": "2026-09-05T06:30:27.634157Z",
+      "status": "active"
+    },
+    {
+      "id": "d68130da-c872-4742-bcb1-0f70261d4927",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "content": "用户喜欢咖啡",
+      "importance": 0.7,
+      "confidence": 0.88,
+      "source_message_ids": [
+        "14650e09-f8a6-478d-9e23-c872849319f3"
+      ],
+      "created_at": "2026-09-05T06:22:16.444898Z",
+      "last_accessed_at": "2026-09-05T06:30:27.634157Z",
+      "status": "active"
+    }
+  ]
+}

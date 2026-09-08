@@ -1,0 +1,25 @@
+{
+  "mode": "preview",
+  "database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "database_sha256_before": "d14d2f964759dbb2ce220d97aef5cc0df660c79393f50b71be4c410136b0b10b",
+  "database_sha256_after": "d14d2f964759dbb2ce220d97aef5cc0df660c79393f50b71be4c410136b0b10b",
+  "backup": null,
+  "row_count": 1039,
+  "change_count": 1,
+  "changes": [
+    {
+      "id": 1955,
+      "prompt": "好久不见",
+      "before": {
+        "scene": "casual_chat",
+        "speech_act": "react",
+        "response_mode": "casual"
+      },
+      "after": {
+        "scene": "greeting",
+        "speech_act": "greet",
+        "response_mode": "casual"
+      }
+    }
+  ]
+}

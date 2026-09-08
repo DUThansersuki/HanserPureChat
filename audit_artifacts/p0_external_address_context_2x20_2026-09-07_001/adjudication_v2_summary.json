@@ -1,0 +1,43 @@
+{
+  "evaluation_type": "external_only_address_contract_adjudication_v2",
+  "input_fields": [
+    "prompt",
+    "response"
+  ],
+  "output_contract": "A_or_R_single_letter",
+  "judge_model": "deepseek-v4-pro",
+  "thinking": true,
+  "external_only_guard": true,
+  "local_model_components_constructed": false,
+  "measured": 40,
+  "agreement": 37,
+  "transitions": {
+    "A->A": 31,
+    "R->A": 1,
+    "R->R": 6,
+    "A->R": 2
+  },
+  "groups": {
+    "boundary_20": {
+      "measured": 20,
+      "approved": 14,
+      "rejected": [
+        "boundary-04",
+        "boundary-05",
+        "boundary-16",
+        "boundary-18",
+        "boundary-19",
+        "boundary-20"
+      ]
+    },
+    "individual_20": {
+      "measured": 20,
+      "approved": 18,
+      "rejected": [
+        "individual-19",
+        "individual-20"
+      ]
+    }
+  },
+  "production_switched": false
+}

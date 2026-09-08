@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-09-06T19:07:16.452905+00:00",
+  "evaluation_type": "external_only_address_context_replay_2x20",
+  "not_full_end_to_end": true,
+  "responder_model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "judge_thinking": true,
+  "judge_input_fields": [
+    "prompt",
+    "response"
+  ],
+  "judge_output_contract": "A_or_R_single_letter",
+  "external_only_guard": true,
+  "local_model_components_constructed": false,
+  "groups": {
+    "individual_20": {
+      "cases": 0,
+      "measured": 0,
+      "approved": 0,
+      "rejected": []
+    },
+    "boundary_20": {
+      "cases": 2,
+      "measured": 2,
+      "approved": 1,
+      "rejected": [
+        "boundary-19"
+      ]
+    }
+  },
+  "total_approved": 1,
+  "total_measured": 2,
+  "cache_entries": 2,
+  "production_switched": false,
+  "limitation": "Validates final context/responder address choice only; persistence and retrieval are not executed."
+}

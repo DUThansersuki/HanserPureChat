@@ -1,0 +1,229 @@
+{
+  "contract": "PERSONA_REGRESSION_SUITE.md + NEXT_STAGE_ENGINEERING_GUIDE.md Slice 1",
+  "run_dir": "H:\\HanserAgent\\audit_artifacts\\slice1_2026-09-05_003",
+  "verdict": "PASS",
+  "gates": [
+    {
+      "id": "unit_tests",
+      "pass": true,
+      "evidence": {
+        "command": "python -m pytest tests -q",
+        "tail": [
+          "-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html",
+          "35 passed, 1 warning, 4 subtests passed in 4.91s"
+        ]
+      }
+    },
+    {
+      "id": "migration_numbered_and_backed_up",
+      "pass": true,
+      "evidence": {
+        "version": {
+          "version": 1,
+          "name": "memory_assertion_semantics",
+          "applied_at": "2026-09-05 12:28:43"
+        },
+        "backup": "H:\\HanserAgent\\source_data\\backups\\documents.pre_slice1.20260905T123026Z.db",
+        "pre_migration_memory_count": 0,
+        "postcheck": true
+      }
+    },
+    {
+      "id": "two_ordered_20_turn_scenarios",
+      "pass": true,
+      "evidence": {
+        "counts": {
+          "continuity": 20,
+          "mixed": 20
+        },
+        "http_200": 40
+      }
+    },
+    {
+      "id": "false_shared_reality_not_persisted",
+      "pass": true,
+      "evidence": {
+        "shared_rows": 0,
+        "turn12": [
+          {
+            "candidate": {
+              "user_id": "audit-continuity",
+              "conversation_id": "audit-continuity",
+              "type": "shared_event",
+              "memory_key": "shared:一起去过上海吗",
+              "content": "我们之前一起去过上海吗",
+              "importance": 0.72,
+              "confidence": 0.85,
+              "source_message_ids": [
+                "232f26b8-8465-466f-a5bd-29aaec3f3c58"
+              ],
+              "assertion_type": "question",
+              "polarity": "positive",
+              "validity": "unverified",
+              "subject": "user_and_hanser",
+              "predicate": "shared_event",
+              "object_value": "一起去过上海吗",
+              "source_kind": "user_message"
+            },
+            "accepted": false,
+            "reason": "question_not_assertion"
+          }
+        ]
+      }
+    },
+    {
+      "id": "correction_supersedes_old_preference",
+      "pass": true,
+      "evidence": {
+        "active_preferences": [
+          {
+            "user_id": "audit-continuity",
+            "type": "user_preference",
+            "memory_key": "preference:like:咖啡",
+            "content": "用户不喜欢咖啡",
+            "polarity": "negative",
+            "validity": "asserted",
+            "status": "active",
+            "source_message_ids_json": "[\"d4e2f6d3-efff-47e7-ac4d-a07c85c184cc\"]"
+          },
+          {
+            "user_id": "audit-continuity",
+            "type": "user_preference",
+            "memory_key": "preference:like:茶",
+            "content": "用户喜欢茶",
+            "polarity": "positive",
+            "validity": "asserted",
+            "status": "active",
+            "source_message_ids_json": "[\"d4e2f6d3-efff-47e7-ac4d-a07c85c184cc\"]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "event_lifecycle_closed",
+      "pass": true,
+      "evidence": {
+        "closed": [
+          {
+            "memory_key": "unresolved:考试",
+            "content": "我已经考完试了 很顺利",
+            "status": "closed",
+            "revision_of_id": "077951cc-7974-4c77-ab12-72bc15bb9cb9",
+            "source_message_ids_json": "[\"9dd8eff3-8aa9-4e44-916d-c81db4ab41b5\"]"
+          }
+        ]
+      }
+    },
+    {
+      "id": "source_coverage",
+      "pass": true,
+      "evidence": {
+        "active_writes": 3,
+        "missing_sources": 0,
+        "nonuser_sources": 0
+      }
+    },
+    {
+      "id": "same_user_cross_session_recall",
+      "pass": true,
+      "evidence": {
+        "response": "换了个窗口也不怕呀\n你就是毛怪们嘛\n喝的嘛 你爱喝茶 咖啡不碰\n对不对",
+        "memory_keys": [
+          "preference:like:咖啡",
+          "preference:like:茶",
+          "user:name"
+        ]
+      }
+    },
+    {
+      "id": "cross_user_isolation",
+      "pass": true,
+      "evidence": {
+        "status": 200,
+        "retrieved_memories": [],
+        "response": {
+          "text": "第一次聊 憨憨哪知道那么多鸭 你悄悄告诉我呗 我又不会到处说",
+          "keywords": [],
+          "anchored": [],
+          "sources": []
+        },
+        "other_user_memories": []
+      }
+    },
+    {
+      "id": "slice1_fault_probes",
+      "pass": true,
+      "evidence": {
+        "false_shared_event": {
+          "id": "false_shared_event",
+          "expected": "no verified shared event from a question",
+          "actual": [],
+          "pass": true
+        },
+        "memory_prefilter": {
+          "id": "memory_prefilter",
+          "expected": "own relevant memory remains eligible",
+          "actual_count": 1,
+          "pass": true
+        },
+        "null_patch": {
+          "id": "null_patch",
+          "expected": "validation rejection before SQL",
+          "actual": "ValidationError",
+          "pass": true
+        },
+        "preference_conflict": {
+          "id": "preference_conflict",
+          "expected": "old positive coffee preference inactive",
+          "actual": [
+            "用户喜欢茶",
+            "用户不喜欢咖啡"
+          ],
+          "pass": true
+        }
+      }
+    },
+    {
+      "id": "persona_prompt_unchanged",
+      "pass": true,
+      "evidence": {
+        "backend/hanser_agent/prompts/persona/behavior.md": true,
+        "backend/hanser_agent/prompts/persona/boundaries.md": true,
+        "backend/hanser_agent/prompts/persona/core.md": true,
+        "backend/hanser_agent/prompts/persona/style_constraints.yaml": true,
+        "backend/hanser_agent/prompts/persona/voice.md": true
+      }
+    }
+  ],
+  "non_target_probe_status": [
+    {
+      "id": "reranker_failure",
+      "expected": "structured degraded retrieval result",
+      "actual": "RuntimeError",
+      "pass": false
+    },
+    {
+      "id": "conversation_owner",
+      "expected": "reject conflicting user before loading history",
+      "actual": {
+        "history": [
+          "Alice私密消息",
+          "received"
+        ],
+        "owner_after": "bob"
+      },
+      "pass": false
+    },
+    {
+      "id": "external_index_cache",
+      "expected": "new after external index replacement",
+      "actual": "old",
+      "pass": false
+    }
+  ],
+  "limitations": [
+    "Human blind persona scoring was not rerun because Persona Prompt/model/style were not changed.",
+    "The 30-50 turn stress set remains NOT_EXECUTED as explicitly deferred by the contract.",
+    "A generated response can still choose wording inconsistent with a valid memory; deterministic memory state and cross-session recall are the Slice 1 gate."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "mode": "OFFLINE_VALIDATION",
+  "package_id": "hanser-persona-v2-candidate-20260908",
+  "package_schema_version": 2,
+  "compiler_version": "persona_compiler_v2",
+  "persona_source_sha256": "c4a7d500b3b75feff60f44b94efcfb15122bc24a8f4fe33aeb758d68b5cb4172",
+  "persona_render_sha256": "81b3de476763643f43c375cc1ec65b5440e09299d607c31000445c03e5ae538e",
+  "settings_sha256": "b487b82407d852c1f772e4a652577fceabe8b881b81b18fa39dcabfb62e4846d",
+  "missing_required_assets": [],
+  "jsonl_counts": {
+    "sources.jsonl": 562,
+    "episodes.jsonl": 7,
+    "style_examples.reviewed.jsonl": 840,
+    "review_decisions.jsonl": 840,
+    "eval/cases.jsonl": 16,
+    "eval/sequences.jsonl": 6,
+    "eval/contrast_pairs.jsonl": 6,
+    "eval/retrieval_fixtures.jsonl": 5
+  },
+  "offline_entry_forbidden_imports": [],
+  "model_operations": "NOT_EXECUTED",
+  "passed": true
+}

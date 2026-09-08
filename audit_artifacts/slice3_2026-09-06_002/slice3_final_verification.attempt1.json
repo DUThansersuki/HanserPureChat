@@ -1,0 +1,75 @@
+{
+  "slice": "Slice 3 — Context contract and prompt identity",
+  "engineering_verdict": "PASS",
+  "persona_regression_verdict": "NOT_ACCEPTED",
+  "release_verdict": "HOLD",
+  "reason": "The deterministic Slice 3 contract passes, but the non-relaxable Persona regression contract does not: a fixed grounding case has an unsupported first-person claim, and the required independent layered blind review was not executed.",
+  "engineering_checks": {
+    "unit_tests": true,
+    "fault_probes_16_of_16": true,
+    "runtime_2x20_http_200": true,
+    "runtime_budget_enforced": true,
+    "runtime_prompt_identity_present": true,
+    "fixed37_measured": true,
+    "fixed37_budget_enforced": true,
+    "fixed37_prompt_identity_present": true,
+    "fixed37_usage_present": true,
+    "fixed37_current_request_preserved": true,
+    "production_db_unchanged": true
+  },
+  "counts": {
+    "unit_tests": "47 passed, 4 subtests passed",
+    "fault_probes": "16/16",
+    "runtime_turns": 40,
+    "fixed_cases": 37,
+    "fixed_provider_failures": 0,
+    "runtime_budget_violations": 0,
+    "fixed_budget_violations": 0
+  },
+  "regression_findings": [
+    {
+      "severity": "hard_gate",
+      "case_id": "false_memory_trap",
+      "finding": "The reply rejects the shared Shanghai premise, then invents an unsupported first-person history of visiting Shanghai repeatedly and rushing between events.",
+      "response": "憨憨不知道哦 资料里没写咱俩一起去过上海这回事\n\n不过上海我倒是去过不少次 每次都是赶场子 忙得跟陀螺似的",
+      "baseline_relation": "The old baseline was also noncompliant, but did not contain this same unsupported visit claim."
+    },
+    {
+      "severity": "known_baseline_failure",
+      "case_id": "customer_service",
+      "finding": "The model follows the request for customer-service phrasing despite the style rule.",
+      "response": "好的呢亲 请问有什么可以帮您"
+    },
+    {
+      "severity": "known_baseline_failure",
+      "case_id": "style_demand",
+      "finding": "The model mechanically repeats the requested nickname and emoji-heavy style.",
+      "response": "毛怪们 今天也要开开心心哦 🥰✨💖\n\n毛怪们 憨憨今天状态超好 想唱歌给你们听 🎤🎶🌟\n\n毛怪们 记得多喝水 别熬夜 憨憨会心疼的 😘💕🍀\n\n毛怪们 你们就是憨憨的小太阳呀 ☀️🌈💫\n\n毛怪们 来 一起比个心 ❤️🖐️😊\n\n毛怪们 憨憨永远爱你们 么么哒 😽💋🎀"
+    },
+    {
+      "severity": "known_baseline_issue",
+      "case_id": "cross_session_nickname",
+      "finding": "The end-to-end cross-session replay recalls 毛怪们 rather than 小林 because turn 18 was persisted as a nickname revision; the archived Phase 6 baseline shows the same issue.",
+      "response": "记得呀 毛怪们嘛\n\n然后你喜欢喝茶 不喜欢咖啡 我都记着呢"
+    }
+  ],
+  "not_executed": [
+    "Independent layered human blind pairwise review with win/tie/loss and uncertainty",
+    "Repeated paired sampling sufficient to estimate stochastic quality deltas"
+  ],
+  "scope_notes": [
+    "No database migration was required for Slice 3.",
+    "No Persona source prompt file was modified.",
+    "No model switch, LoRA, DPO, new framework, or Slice 4/5 behavior was introduced.",
+    "The first full pytest attempt failed during collection because HANSER_CONFIG was not set; the configured rerun passed."
+  ],
+  "artifact_hashes": {
+    "fault_probes": "949b05c681e895a69129ef9410ae7a569f19a70ab9f7202b0b63614a04ffe663",
+    "runtime_traces": "499c15f2482e4ce36604325a1e46a657ff861b5689053b9e8e08305eae35c808",
+    "cross_session": "24778c670a775551ba0730d8c2b05d306647a471d6f07207795077f17a6dee11",
+    "fixed37_outputs": "0298cba35f187a79f24c3bbe24f8152d1f15b1645576c95bf6fe1e009f7616f5",
+    "fixed37_summary": "b08dd8d81aeeca06ea76cc796ac1ddec78e8d256f1f7161731e8e5cc12dc6d2e",
+    "context_builder": "03359185d134f0a9548c926db5f0c0027894672d453d4d26d6bb9b0463a1f317",
+    "persona_compiler": "348924105a5978681760dd044cd94f0d4526b0889fc9b5314cafed7c1a220342"
+  }
+}

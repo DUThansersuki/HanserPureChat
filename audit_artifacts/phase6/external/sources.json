@@ -1,0 +1,79 @@
+[
+  {
+    "name": "silly_character",
+    "url": "https://docs.sillytavern.app/usage/core-concepts/characterdesign/",
+    "resolved": "https://docs.sillytavern.app/usage/core-concepts/characterdesign/",
+    "status": 200,
+    "bytes": 40470
+  },
+  {
+    "name": "silly_worldinfo",
+    "url": "https://docs.sillytavern.app/usage/core-concepts/worldinfo/",
+    "resolved": "https://docs.sillytavern.app/usage/core-concepts/worldinfo/",
+    "status": 200,
+    "bytes": 60413
+  },
+  {
+    "name": "risu",
+    "url": "https://raw.githubusercontent.com/kwaroran/RisuAI/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/kwaroran/RisuAI/main/README.md",
+    "status": 200,
+    "bytes": 3517
+  },
+  {
+    "name": "haruhi",
+    "url": "https://raw.githubusercontent.com/LC1332/Chat-Haruhi-Suzumiya/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/LC1332/Chat-Haruhi-Suzumiya/main/README.md",
+    "status": 200,
+    "bytes": 34085
+  },
+  {
+    "name": "zero_haruhi",
+    "url": "https://raw.githubusercontent.com/LC1332/Zero-Haruhi/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/LC1332/Zero-Haruhi/main/README.md",
+    "status": 200,
+    "bytes": 21019
+  },
+  {
+    "name": "coser",
+    "url": "https://raw.githubusercontent.com/Neph0s/CoSER/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/Neph0s/CoSER/main/README.md",
+    "status": 200,
+    "bytes": 12662
+  },
+  {
+    "name": "her",
+    "url": "https://raw.githubusercontent.com/cydu24/HER/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/cydu24/HER/main/README.md",
+    "status": 200,
+    "bytes": 13182
+  },
+  {
+    "name": "incharacter",
+    "url": "https://raw.githubusercontent.com/Neph0s/InCharacter/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/Neph0s/InCharacter/main/README.md",
+    "status": 200,
+    "bytes": 2991
+  },
+  {
+    "name": "roleplaybench",
+    "url": "https://raw.githubusercontent.com/MiuLab/RolePlayBench/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/MiuLab/RolePlayBench/main/README.md",
+    "status": 200,
+    "bytes": 3642
+  },
+  {
+    "name": "twinbench",
+    "url": "https://raw.githubusercontent.com/TwinVoice/TwinBench/main/README.md",
+    "resolved": "https://raw.githubusercontent.com/TwinVoice/TwinBench/main/README.md",
+    "status": 200,
+    "bytes": 11962
+  },
+  {
+    "name": "letta",
+    "url": "https://docs.letta.com/guides/agents/memory/",
+    "resolved": "https://docs.letta.com/v1-sdk/concepts/stateful-agents",
+    "status": 200,
+    "bytes": 147748
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "run_id": "persona_v2_offline_2026-09-08_001",
+  "executed_at": "2026-09-08T16:28:31.5568716+08:00",
+  "scope": "targeted offline and compatibility tests only",
+  "pytest": {
+    "command": "python -m pytest -q -p no:cacheprovider tests\\test_persona_signals.py tests\\test_persona_policy.py tests\\test_persona_settings.py tests\\test_persona_v2_compiler.py tests\\test_persona_style_ranking.py tests\\test_planner_fallback.py tests\\test_context_and_persona.py tests\\test_style_pipeline.py tests\\test_unified_responder.py tests\\test_api_contract.py",
+    "passed": 42,
+    "failed": 0,
+    "warnings": 1,
+    "warning_summary": "jieba imports deprecated pkg_resources; unrelated to Persona behavior",
+    "full_suite_executed": false
+  },
+  "offline_validation": {
+    "command": "python scripts\\persona_offline.py validate --package-dir hanser_agent\\prompts\\persona\\candidates\\hanser-persona-v2-candidate --data-dir data\\persona --eval-dir data\\eval\\persona_v2 --output-dir ..\\audit_artifacts\\persona_v2_offline_2026-09-08_001\\validate_final_2",
+    "report": "validate_final_2/validation_report.json",
+    "passed": true,
+    "missing_required_assets": [],
+    "offline_entry_forbidden_imports": [],
+    "model_operations": "NOT_EXECUTED"
+  },
+  "coverage": {
+    "sources": 562,
+    "episodes": 7,
+    "traits": 11,
+    "migrated_style_rows": 840,
+    "v2_approved_style_rows": 0,
+    "eval_cases": 16,
+    "sequences": 6,
+    "contrast_pairs": 6,
+    "retrieval_fixtures": 5
+  },
+  "limitations": [
+    "tests establish deterministic schema/policy/ranking behavior, not real Planner signal accuracy",
+    "fixed retrieval fixtures do not measure embedding quality",
+    "no generated responses exist, so no Text quality or persona-effect conclusion is available",
+    "the recommended 72-case evaluation target is not complete"
+  ]
+}

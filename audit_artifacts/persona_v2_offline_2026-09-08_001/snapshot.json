@@ -1,0 +1,89 @@
+{
+  "snapshot_id": "persona-v2-offline-2026-09-08-001",
+  "captured_at": "2026-09-08T16:28:31.5568716+08:00",
+  "workspace": "H:\\HanserAgent",
+  "version_control": {
+    "available": false,
+    "reason": "workspace root does not contain a .git directory"
+  },
+  "guidance": {
+    "path": "H:\\HanserAgent\\Hanser_Persona_专项架构与执行规范.md",
+    "sha256": "b355db69b44fdd905a7ee1e149317b2fac5b42b3461c8f359b1794e71138b479"
+  },
+  "production": {
+    "persona": {
+      "package_kind": "legacy_unmanifested_directory",
+      "package_id": "persona_v1",
+      "path": "H:\\HanserAgent\\backend\\hanser_agent\\prompts\\persona",
+      "files": {
+        "core.md": "85a0b846f50b228167910371ec09d98c0aa803ab19999c179bc1409a301e2ce6",
+        "voice.md": "ec297c3a313c4584671467b78c87b9ef9a685add305748d8c9ccc9eaddf913f5",
+        "boundaries.md": "7c3e2b7dbda1584acd773f92634f4395dbdc2d381313cdef38a271312cb3d43c",
+        "behavior.md": "abbac3a6e659e95ef153bb95e67b6a0337c6773eabfd291e530ab1d789619310",
+        "style_constraints.yaml": "153f748335d83f91a3a3cc694577f86b1284aba59f3a69736fa4c536f635fd01"
+      }
+    },
+    "config": {
+      "path": "H:\\HanserAgent\\backend\\config.yml",
+      "sha256": "4695119ade87b72ddd41e00960bcf3fe06641ac96bab20bdb46287208a7f2072",
+      "safe_fields_only": {
+        "db_path": "../source_data/documents.db",
+        "style.reviewed_only": false
+      },
+      "credentials_recorded": false
+    },
+    "database": {
+      "path": "H:\\HanserAgent\\source_data\\documents.db",
+      "sha256": "44630902b0393f10c59129993bd93f35ba8a396c423b300a51675dfe78c673c9",
+      "length_bytes": 118607872,
+      "opened_for_audit": "sqlite_uri_mode_ro",
+      "documents": 562,
+      "style_examples": 886,
+      "style_review_status": {
+        "pending": 877,
+        "quarantined": 9
+      },
+      "style_source_type": {
+        "real": 886
+      },
+      "active_index_generations": {
+        "fact_chunks": "legacy-v1",
+        "memories": "legacy-v1",
+        "style_examples": "legacy-v1"
+      }
+    }
+  },
+  "preexisting_candidate_database": {
+    "path": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+    "sha256": "847353c4616a5a1840432f4c5f80e3d25d97e5814193de8892337537107d2999",
+    "length_bytes": 99774464,
+    "opened_for_audit": "sqlite_uri_mode_ro",
+    "documents": 562,
+    "style_examples": 1059,
+    "approved_real_primary": 823,
+    "approved_synthetic": 17,
+    "quarantined": 5,
+    "rejected": 214,
+    "has_active_index_generations_table": false
+  },
+  "new_candidate": {
+    "package_id": "hanser-persona-v2-candidate-20260908",
+    "parent_release": "persona_v1",
+    "path": "H:\\HanserAgent\\backend\\hanser_agent\\prompts\\persona\\candidates\\hanser-persona-v2-candidate",
+    "manifest_sha256": "029b5a6b44bcef1a7351fa0ea7a97b1c1678c5df58d103127cbce3cd1a0e64b2",
+    "persona_source_sha256": "c4a7d500b3b75feff60f44b94efcfb15122bc24a8f4fe33aeb758d68b5cb4172",
+    "default_render_sha256": "81b3de476763643f43c375cc1ec65b5440e09299d607c31000445c03e5ae538e",
+    "settings_sha256": "b487b82407d852c1f772e4a652577fceabe8b881b81b18fa39dcabfb62e4846d",
+    "build_status": "candidate",
+    "production_active": false,
+    "index_built": false
+  },
+  "execution_boundary": {
+    "completed_through": "phase_3_offline",
+    "next_phase": "phase_4_text_end_to_end_ab",
+    "next_phase_requires_explicit_model_permission": true,
+    "model_operations": "NOT_EXECUTED",
+    "database_writes": 0,
+    "production_switches": 0
+  }
+}

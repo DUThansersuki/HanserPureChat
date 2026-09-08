@@ -1,0 +1,101 @@
+{
+  "manifest_id": "persona-v2-offline-difference-20260908",
+  "baseline": {
+    "persona_package": "persona_v1",
+    "database_sha256": "44630902b0393f10c59129993bd93f35ba8a396c423b300a51675dfe78c673c9",
+    "style_generation": "legacy-v1"
+  },
+  "candidate": {
+    "package_id": "hanser-persona-v2-candidate-20260908",
+    "parent_release": "persona_v1",
+    "activation": "offline_candidate_only"
+  },
+  "architecture_changes": [
+    "manifested persona-v2 package with exact file hashes and deterministic compilation",
+    "validated expression settings and explicit product override synthesis",
+    "field-tolerant optional Planner persona signals with deterministic rule precedence",
+    "pure hard-boundary and soft-affordance policy layer",
+    "recent-expression observation with present/absent/unknown and soft repetition penalty",
+    "behavior-aware Style filtering/ranking with v2 fail-closed metadata gates",
+    "four-layer offline traces that leave generated output empty and mark it NOT_EXECUTED",
+    "legacy runtime compatibility retained when the active compiler is not v2"
+  ],
+  "modified_runtime_files": [
+    "backend/hanser_agent/models.py",
+    "backend/hanser_agent/prompts/planner.md",
+    "backend/hanser_agent/persona/__init__.py",
+    "backend/hanser_agent/persona/compiler.py",
+    "backend/hanser_agent/persona/data_pipeline.py",
+    "backend/hanser_agent/persona/schemas.py",
+    "backend/hanser_agent/agent/context_builder.py",
+    "backend/hanser_agent/agent/service.py",
+    "backend/hanser_agent/agent/tools/style_search.py"
+  ],
+  "new_runtime_files": [
+    "backend/hanser_agent/persona/settings.py",
+    "backend/hanser_agent/persona/signals.py",
+    "backend/hanser_agent/persona/expression.py",
+    "backend/hanser_agent/persona/policy.py",
+    "backend/hanser_agent/persona/style_ranking.py",
+    "backend/scripts/persona_offline.py"
+  ],
+  "candidate_package_files": [
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/manifest.yaml",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/core.md",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/voice.md",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/boundaries.md",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/behavior.yaml",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/expression_policy.yaml",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/product_overrides.yaml",
+    "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/style_constraints.yaml"
+  ],
+  "evidence_and_eval_files": [
+    "backend/data/persona/episode_seeds.yaml",
+    "backend/data/persona/sources.jsonl",
+    "backend/data/persona/episodes.jsonl",
+    "backend/data/persona/trait_ledger.yaml",
+    "backend/data/persona/style_examples.reviewed.jsonl",
+    "backend/data/persona/review_decisions.jsonl",
+    "backend/data/persona/coverage_report.json",
+    "backend/data/eval/persona_v2/cases.jsonl",
+    "backend/data/eval/persona_v2/sequences.jsonl",
+    "backend/data/eval/persona_v2/contrast_pairs.jsonl",
+    "backend/data/eval/persona_v2/retrieval_fixtures.jsonl",
+    "backend/data/eval/persona_v2/rubric.md",
+    "backend/data/eval/persona_v2/split_manifest.json"
+  ],
+  "test_files": [
+    "backend/tests/test_persona_signals.py",
+    "backend/tests/test_persona_policy.py",
+    "backend/tests/test_persona_settings.py",
+    "backend/tests/test_persona_v2_compiler.py",
+    "backend/tests/test_persona_style_ranking.py",
+    "backend/tests/test_planner_fallback.py"
+  ],
+  "data_migration_preview": {
+    "legacy_approved_rows_read": 840,
+    "v2_schema_status": {
+      "pending": 840
+    },
+    "v2_runtime_eligible": 0,
+    "reason": "legacy approval was not upgraded into persona-v2 payload/provenance/schema approval",
+    "production_database_modified": false
+  },
+  "explicitly_unchanged": [
+    "production persona files and their hashes",
+    "backend/config.yml and style.reviewed_only=false",
+    "production database hash and active generations",
+    "Chat API contract",
+    "single Responder architecture",
+    "Memory storage architecture"
+  ],
+  "not_implemented_by_design": [
+    "model-generated examples",
+    "embedding or Style index build",
+    "Planner/Responder/Judge end-to-end execution",
+    "Text A/B decision",
+    "settings API or control console",
+    "TTS execution",
+    "release pointer switch"
+  ]
+}

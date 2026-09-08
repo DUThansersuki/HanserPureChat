@@ -1,0 +1,15 @@
+{
+  "created_at": "2026-09-06T18:41:56.754064+00:00",
+  "source_run": "H:\\HanserAgent\\audit_artifacts\\p0_style_regression_2026-09-06_004",
+  "source_judgments_sha256": "5046330bd3f1bee76f898b57d04fa672e323083214881444aaba62b35ce975f7",
+  "judge_model": "deepseek-v4-pro",
+  "judge_provider": "openai_compatible",
+  "judge_endpoint_host": "api.deepseek.com",
+  "thinking": true,
+  "external_only_guard": true,
+  "local_model_components_constructed": false,
+  "requested_missing": 4,
+  "completed_missing": 4,
+  "remaining_missing": 0,
+  "production_switched": false
+}

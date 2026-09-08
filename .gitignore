@@ -1,0 +1,77 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+!*.env.example
+backend/config.yml
+
+# Python environments, caches, and build outputs
+**/.venv/
+**/venv/
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.coverage
+**/htmlcov/
+**/build/
+**/dist/
+*.egg-info/
+
+# JavaScript dependencies and generated output
+**/node_modules/
+**/.next/
+**/.turbo/
+**/coverage/
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/tsconfig.tsbuildinfo
+**/next-env.d.ts
+
+# Runtime state, logs, and local databases
+.runtime/
+*.log
+*.pid
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+
+# Imported binary application distribution (source copy lives in source_data/)
+Hanser-AI-Wiki-v1.0.5/
+
+# Generated voice/render artifacts and heavyweight model files
+voice_runtime/data/
+renderer/output/
+models/
+*.wav
+*.wave
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.aac
+*.mp4
+*.webm
+*.moc3
+*.model3.json
+*.physics3.json
+*.motion3.json
+*.exp3.json
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+*.user
+*.suo
+

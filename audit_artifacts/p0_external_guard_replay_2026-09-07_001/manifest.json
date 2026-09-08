@@ -1,0 +1,26 @@
+{
+  "created_at": "2026-09-06T18:49:38.872578+00:00",
+  "evaluation_type": "external_only_conservative_replay",
+  "not_full_end_to_end": true,
+  "reason": "uses prior top-k retrieval, applies current static guards, and does not backfill filtered slots",
+  "source_outputs": "H:\\HanserAgent\\audit_artifacts\\p0_style_regression_2026-09-06_004\\outputs.jsonl",
+  "source_outputs_sha256": "c4415cb5511abb0f5e4942dd80e56b06b0d95020e694250a0c643a5b20b4cb2a",
+  "style_search_source_sha256": "0bcbbf61fce89535730377e37fb92066ff9edc179827550093a44c68fad6b619",
+  "candidate_model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "external_only_guard": true,
+  "local_model_components_constructed": false,
+  "cases": [
+    "style_demand",
+    "nostalgia",
+    "self_deprecation",
+    "uncertainty",
+    "false_memory_trap",
+    "late_night",
+    "storytelling"
+  ],
+  "generated_measured": 14,
+  "judgments_measured": 14,
+  "removed_style_examples": 0,
+  "production_switched": false
+}

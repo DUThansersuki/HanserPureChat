@@ -1,0 +1,810 @@
+你现在要接手并长期扩展一个名为 HanserWiki / Hanser Chat Agent 的项目。
+
+我会同时提供一份项目架构规格文档：
+
+`Hanser_Chat_Agent_Full_Architecture_Spec.md`
+
+请先完整阅读该文档，并把它视为本次项目重构和后续开发的最高级工程设计约束。不要只读取其中某几个章节，也不要在未理解现有项目的情况下直接开始大规模改代码。
+
+你的任务不是简单“实现几个功能”，而是以当前已经能够工作的 Python Agent Migration 为基线，将项目逐步演进成一个高真实感、稳定 Persona、支持事实 RAG、Style RAG、长期记忆、本地模型和完整 Agent Runtime 的角色聊天 Agent。
+
+---
+
+## 一、首先理解当前项目，而不是立即重写
+
+请先扫描当前仓库，重点理解以下部分：
+
+* FastAPI 后端入口
+* `/v1/chat`
+* `ChatAgentService`
+* `LegacyCompatiblePipeline`
+* `DialoguePlanner`
+* `ConversationStore`
+* `WikiSearchTool`
+* 当前 BM25 检索
+* 当前 Prometheus / rerank 逻辑
+* 当前 Hanser Persona
+* `persona.md`
+* `planner.md`
+* `prometheus.md`
+* LLM Client
+* config / model settings
+* SQLite document database
+* WPF 与 Python backend 的连接方式
+* 当前测试脚本
+
+同时理解原 HanserWiki C# 项目的实现，尤其是：
+
+* `ProjectBunny`
+* `Prometheus`
+* `Hanser`
+* 原始 `Hanser.cs` 中完整的 SystemPrompt
+* 原始 BM25 / Tokenizer / DB 逻辑
+
+不要默认当前 Python Migration 已经完全正确迁移原项目。
+
+如果 Python 版本与原 C# 行为不一致，应明确记录差异。
+
+---
+
+## 二、必须遵循的总架构原则
+
+### 1. 普通聊天和 Wiki RAG 最终必须使用同一个 Responder
+
+禁止长期保留：
+
+`普通聊天 -> _hanser_chat()`
+
+以及：
+
+`RAG -> _hanser()`
+
+两套独立自然语言生成路径。
+
+最终必须变成：
+
+`Planner`
+→ 根据需要调用 Tool
+→ ContextBuilder
+→ 同一个 `HanserResponder`
+→ Validator
+→ 最终回答
+
+Routing 只能决定“需要什么上下文或工具”。
+
+Routing 不能决定 Persona。
+
+---
+
+### 2. Fact、Persona、Style、Memory 必须严格分层
+
+必须明确区分：
+
+`Fact RAG`
+回答“发生过什么”。
+
+`Persona`
+定义“这个角色是谁、稳定行为原则是什么”。
+
+`Style RAG`
+回答“类似场景下这个角色通常怎么说话”。
+
+`Memory`
+记录“用户和角色之前发生过什么”。
+
+禁止：
+
+* 用 Style Example 作为事实证据
+* 用 Synthetic Persona 数据作为角色真实经历
+* 用 Memory 覆盖 System Persona
+* 用 Persona 自动补出 Wiki 中不存在的事实
+
+---
+
+### 3. 只有 Responder 可以生成用户可见自然语言
+
+Planner、Memory Extractor、Reranker、Tool 等都只输出结构化结果。
+
+不要让多个 Agent 各自生成一段自然语言再拼接。
+
+---
+
+### 4. 不要为了“Agent 化”而滥用多 Agent
+
+目前不需要构建：
+
+* multi-agent swarm
+* agent debate
+* planner agent + critic agent + writer agent + reviewer agent 等复杂链路
+
+优先采用：
+
+`State`
+
+* `Planner`
+* `Tools`
+* `ContextBuilder`
+* `Responder`
+* `Post-turn Pipeline`
+
+只有未来功能确实需要时再引入额外 Agent。
+
+---
+
+### 5. 不要立即引入 LangChain / LangGraph 作为核心依赖
+
+当前阶段优先手写清晰的：
+
+* AgentState
+* Planner
+* Tool interface
+* ToolRegistry
+* Executor / Runtime
+* ContextBuilder
+* Responder
+
+目的是保持架构透明并方便学习。
+
+后续复杂度达到需要图编排时，可以增加 LangGraph Adapter，但不能让当前核心逻辑变成黑盒。
+
+---
+
+## 三、当前最重要的第一阶段任务
+
+不要立即开始实现完整架构文档中的所有模块。
+
+首先完成：
+
+### Phase 0：Baseline Freeze
+
+确认当前项目可以正常：
+
+* 启动 FastAPI
+* `/health`
+* `/v1/chat`
+* 普通闲聊
+* Wiki 查询
+* 多轮 Query Rewrite
+* Conversation State
+
+建立最小 regression tests。
+
+确保任何重构后都能验证没有破坏现有功能。
+
+---
+
+### Phase 1：Unified HanserResponder
+
+这是当前最高优先级。
+
+当前普通聊天和 Wiki 问答可能通过不同函数生成最终回答，导致 Persona 不一致。
+
+请将它们重构为：
+
+`ChatAgentService`
+→ `DialoguePlanner`
+→ optional tools
+→ `ContextBuilder`
+→ `HanserResponder`
+
+其中：
+
+普通聊天：
+
+`Persona + History + Memory + Style`
+
+事实问题：
+
+`Persona + History + Memory + Style + Wiki Evidence`
+
+最终均进入：
+
+`HanserResponder.respond()`
+
+两者必须使用：
+
+* 同一 Persona
+* 同一 Voice Policy
+* 同一 History Policy
+* 同一 Model Profile
+* 同一 Style Validator
+
+只有 Wiki Evidence 是否存在不同。
+
+完成 Phase 1 后，请停止继续大规模实现后续阶段，先向我展示：
+
+1. 修改后的目录结构
+2. 新增/修改了哪些文件
+3. 核心调用链
+4. 为什么这样设计
+5. 测试结果
+6. 尚未实现的下一阶段内容
+
+---
+
+## 四、Persona 重构要求
+
+当前 Persona 不应继续只是一个越来越大的 prompt。
+
+请按架构文档逐步拆分成：
+
+`persona/core.md`
+
+稳定身份、核心性格、自我认知。
+
+`persona/voice.md`
+
+说话方式、句长、停顿、标点、语气词等。
+
+`persona/behavior.md`
+
+不同场景下的行为倾向，而不是简单人格关键词。
+
+`persona/boundaries.md`
+
+角色行为边界、事实边界。
+
+`persona/style_constraints.yaml`
+
+适合代码验证的硬规则。
+
+并新增：
+
+`PersonaCompiler`
+
+根据：
+
+* Core Persona
+* 当前 response mode
+* relationship state
+* scene state
+
+生成本轮 Persona Snapshot。
+
+Persona Compiler 不应该把所有资料全部塞进 prompt。
+
+---
+
+## 五、Hanser Persona 的重要要求
+
+原 C# Hanser.cs 中有一份更完整的 SystemPrompt。
+
+请先把原始 SystemPrompt 与当前 Python `persona.md` 做 diff。
+
+需要：
+
+1. 恢复迁移过程中丢失的重要角色规则
+2. 删除重复和互相冲突的规则
+3. 区分：
+
+   * Identity
+   * Voice
+   * Behavior
+   * Grounding
+4. 不要把全部生平事实永久写入 Persona
+5. 生平事实应由 Wiki RAG 提供
+6. Persona 只决定表达方式和长期稳定行为
+
+Hanser 当前非常重要的语言约束包括：
+
+普通自然聊天正文中尽量不使用常规中文标点，而使用空格和换行形成停顿。
+
+但不要粗暴破坏：
+
+* 作品名
+* URL
+* code
+* 引用
+* 数值格式
+
+后续应使用 Style Validator / Normalizer 做确定性验证，而不是完全依赖模型随机遵守。
+
+---
+
+## 六、Style RAG 是重点，不是可选功能
+
+后续必须实现独立的 Style Corpus 和 StyleSearchTool。
+
+不要把 Wiki 文档直接当 Style Corpus。
+
+需要设计离线 Pipeline：
+
+原始项目文本
+→ 文件扫描
+→ 对话/说话人识别
+→ 提取 Hanser 真实发言
+→ 保留上下文
+→ scene / tone / speech_act 标签
+→ quality score
+→ embedding
+→ Style Store
+
+数据来源优先级：
+
+真实 Hanser 发言
+
+>
+
+真实文本中重建的 Dialogue
+
+>
+
+在真实风格样例约束下由 Teacher 模型生成的数据
+
+>
+
+完全 Synthetic 数据
+
+Synthetic 数据必须有明确 metadata，不得进入 Fact RAG。
+
+Style RAG 在用户每轮聊天时只取少量最相关示例，例如 2–4 条。
+
+Style Example 的作用是展示“怎么说”，不是“发生过什么”。
+
+---
+
+## 七、允许使用外部大模型做离线 Teacher
+
+当前项目可以继续调用外部高质量模型，但其主要用途逐渐调整为：
+
+* Persona induction
+* speaker attribution
+* style labeling
+* synthetic dialogue generation
+* quality judge
+* benchmark judge
+* training data construction
+
+不要让生产聊天链路长期依赖多个外部大模型。
+
+---
+
+## 八、本地模型迁移目标
+
+最终在线链路优先变成：
+
+Planner
+→ 本地小模型
+
+推荐先 benchmark：
+`Qwen3.5-4B`
+
+Embedding
+→ 本地 Embedding model
+
+优先：
+`Qwen3-Embedding-0.6B`
+
+Prometheus
+→ 不再使用生成式大模型
+
+改为本地专用 Reranker。
+
+优先：
+`Qwen3-Reranker-0.6B`
+
+备选：
+`BAAI/bge-reranker-v2-m3`
+
+Responder
+→ 本地可部署 RP / Chat 模型
+
+优先建立 benchmark，而不是直接确定模型。
+
+至少比较：
+
+* 强通用中文模型
+* 中文 RP fine-tune
+* 专业 RP 模型
+* Qwen3.5-9B + Style RAG
+* Qwen3.5-9B + Hanser LoRA
+
+最终根据 Hanser 专用 Eval 选择。
+
+不要因为模型名字带 RolePlay 就直接采用。
+
+---
+
+## 九、Model Provider 必须抽象
+
+不要把具体模型和 URL 散落在各模块里。
+
+最终应该有：
+
+`ModelGateway`
+
+统一支持：
+
+* OpenAI-compatible API
+* llama.cpp
+* Ollama
+* 未来 vLLM / WSL
+
+Agent Logic 只能依赖 model profile，例如：
+
+`planner`
+`responder`
+`embedding`
+`reranker`
+
+不能在 Planner 中硬编码具体模型名。
+
+---
+
+## 十、Memory 必须分层实现
+
+最终至少需要：
+
+L0 Recent History
+
+L1 Conversation Summary
+
+L2 Long-term Semantic Memory
+
+L3 Episodic / Relationship Memory
+
+不要把“保存所有聊天记录”误认为长期记忆。
+
+Long-term memory 必须有：
+
+* importance
+* confidence
+* provenance
+* source_message_ids
+* created_at
+* status
+* conflict handling
+
+用户必须能够查看、修改、删除 Memory。
+
+不能每轮都写长期记忆。
+
+必须有 Memory Write Gate。
+
+---
+
+## 十一、关系状态和 Scene State
+
+为了增加“活人感”，允许维护结构化内部状态，例如：
+
+* familiarity
+* warmth
+* trust
+* teasing_permission
+* current topic
+* energy
+* unresolved threads
+
+但：
+
+不要生成或保存自由文本 Chain-of-Thought。
+
+这些状态只能作为结构化行为状态使用。
+
+---
+
+## 十二、主动性应来源于上下文，而不是随机主动聊天
+
+例如用户说：
+
+`我明天下午考试`
+
+可以记录 unresolved thread。
+
+之后在合理时间自然回调：
+
+`考完了没`
+
+这种 callback 比随机“你今天怎么样”更有真实感。
+
+需要设计 Callback Gate，控制：
+
+* 时间
+* relevance
+* 当前话题
+* 重复频率
+
+---
+
+## 十三、ContextBuilder 必须成为独立模块
+
+不要继续在不同函数里手工拼 prompt。
+
+ContextBuilder 负责统一构建：
+
+* Persona
+* Voice Rules
+* Behavior Policy
+* Relationship State
+* Scene State
+* User Memory
+* Wiki Evidence
+* Style Examples
+* Conversation Summary
+* Recent History
+* Current Message
+
+并记录各 block token budget。
+
+长上下文时不能简单从尾部截断。
+
+---
+
+## 十四、需要完整可观测性
+
+每一轮请求必须有 `trace_id`。
+
+开发模式下能够看到：
+
+* Planner 输入输出
+* standalone query
+* Tool calls
+* retrieval candidates
+* rerank scores
+* selected Wiki evidence
+* selected memories
+* selected style examples
+* compiled persona
+* context token allocation
+* responder model
+* validator actions
+* memory writes
+
+建议实现：
+
+`GET /v1/debug/context/{trace_id}`
+
+这样以后发现“Persona 不对”时，可以准确知道问题来自：
+
+* Persona
+* History
+* Style Example
+* Memory
+* Wiki
+* Model
+* Post-processing
+
+哪一层。
+
+---
+
+## 十五、建立测试和评测体系
+
+不要只靠人工聊天判断效果。
+
+必须逐步建立：
+
+### Router Eval
+
+测试：
+
+* 闲聊
+* Wiki Fact
+* Follow-up
+* Memory
+* Mixed Intent
+
+### Retrieval Eval
+
+比较：
+
+* BM25
+* Dense
+* Hybrid
+* Hybrid + Reranker
+
+指标：
+
+* Recall@K
+* MRR
+* NDCG
+
+### Persona Eval
+
+至少：
+
+* Character Fidelity
+* Voice Fidelity
+* Punctuation Compliance
+* Assistantese Rate
+* Catchphrase Overuse
+* Naturalness
+* Persona Drift
+
+### Grounding Eval
+
+重点检测：
+
+* unsupported fact
+* invented first-person memory
+* invented emotion
+* invented motivation
+
+### Memory Eval
+
+测试：
+
+* cross-session recall
+* false memory
+* memory conflicts
+* forgotten / superseded facts
+
+### Multi-turn RP Eval
+
+至少设计 15–20 轮场景。
+
+不要只测试第一轮。
+
+---
+
+## 十六、实现原则
+
+每个阶段必须：
+
+1. 先说明你理解的当前架构
+2. 给出本阶段改动范围
+3. 不修改不相关模块
+4. 保持 `/v1/chat` 可运行
+5. 增加对应测试
+6. 运行测试
+7. 汇报结果
+8. 再进入下一阶段
+
+禁止一次性生成几十个空壳模块。
+
+宁可一个模块完全可用，也不要十个只有 TODO 的目录。
+
+---
+
+## 十七、代码质量要求
+
+使用：
+
+* Python type hints
+* Pydantic
+* async where appropriate
+* clear interfaces
+* dependency injection
+* structured logging
+* explicit config
+* UTF-8
+* testable pure functions where possible
+
+不要：
+
+* 到处使用 global variable
+* 在业务代码硬编码路径
+* 在业务代码硬编码模型名
+* 在多个文件重复读取 prompt
+* 使用巨大 God Class
+* 使用过深继承
+* 过度设计抽象层
+
+优先 composition。
+
+---
+
+## 十八、兼容性要求
+
+当前 Windows 环境需要继续可用。
+
+现有 WPF 暂时不重写。
+
+WPF 只作为 Thin Client：
+
+`WPF`
+→ HTTP
+→ Python Agent Backend
+
+后端未来即使切换：
+
+* 本地模型
+* Web UI
+* CLI
+
+也不应该需要重写核心 Agent。
+
+---
+
+## 十九、你现在的第一项实际工作
+
+请不要立即实现文档中的全部内容。
+
+现在只执行：
+
+### Step 1
+
+完整扫描当前仓库，并输出：
+
+* 当前目录结构
+* 当前运行链路
+* 当前 Agent 模块
+* 当前模型调用
+* Persona 来源
+* 当前数据库与 RAG
+* 当前 State
+* 当前已实现 Tool
+* 当前主要技术债
+
+### Step 2
+
+检查：
+
+`Hanser.cs` 原始 SystemPrompt
+
+与当前：
+
+`persona.md`
+
+之间的差异。
+
+列出：
+
+* Python 迁移遗漏的规则
+* 新增规则
+* 冲突规则
+* 建议保留/删除/拆分的规则
+
+### Step 3
+
+设计 Phase 1 的具体改造 diff：
+
+`Unified HanserResponder`
+
+必须明确：
+
+* 新增哪些文件
+* 修改哪些文件
+* 删除/废弃哪些旧函数
+* 数据流如何变化
+* 如何保持 API 兼容
+* 如何测试 Persona 一致性
+
+### Step 4
+
+在完成上述分析后，直接实现 Phase 1。
+
+不要等我逐文件告诉你如何修改。
+
+但不要超出 Phase 1 去实现后续的大规模 Memory / Style RAG / LoRA。
+
+### Step 5
+
+完成后运行测试并输出：
+
+* 变更摘要
+* 文件级 diff 摘要
+* 测试命令
+* 测试结果
+* 当前 Agent 调用链
+* 下一阶段建议
+
+---
+
+## 二十、最终目标提醒
+
+最终目标不是做一个“知道 Hanser Wiki 的聊天机器人”。
+
+最终目标是：
+
+一个拥有稳定角色身份、真实语言习惯、事实依据、长期连续记忆、关系状态和自然多轮互动能力的本地优先角色 Agent。
+
+它应该：
+
+知道什么时候查资料
+
+知道什么时候只是聊天
+
+知道用户之前说过什么
+
+知道类似情况下角色通常怎么说
+
+知道什么时候应该承认不知道
+
+知道什么时候可以吐槽
+
+知道什么时候应该收敛
+
+并且无论是否经过 Wiki RAG，都始终像同一个人。
+
+请首先阅读 `Hanser_Chat_Agent_Full_Architecture_Spec.md`，然后从“理解现状 + Phase 1 Unified Responder”开始工作。

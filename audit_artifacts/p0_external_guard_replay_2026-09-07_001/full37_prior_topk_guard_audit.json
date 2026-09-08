@@ -1,0 +1,14 @@
+{
+  "scope": "prior_retrieved_top_k_only",
+  "model_calls": 0,
+  "source_outputs": "H:\\HanserAgent\\audit_artifacts\\p0_style_regression_2026-09-06_004\\outputs.jsonl",
+  "source_sha256": "c4415cb5511abb0f5e4942dd80e56b06b0d95020e694250a0c643a5b20b4cb2a",
+  "style_search_source_sha256": "0bcbbf61fce89535730377e37fb92066ff9edc179827550093a44c68fad6b619",
+  "cases": 37,
+  "source_examples": 90,
+  "removed_examples": 0,
+  "affected_cases": [],
+  "reasons": {},
+  "details": [],
+  "limitation": "Does not search or backfill lower-ranked candidates."
+}

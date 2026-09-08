@@ -1,0 +1,55 @@
+{
+  "policy": "No real model, embedding, reranker, Judge, Ollama, TTS, index-build, server-start or production-write operation is authorized in this run.",
+  "status": "ENFORCED",
+  "real_call_counts": {
+    "planner": 0,
+    "responder": 0,
+    "judge": 0,
+    "embedding": 0,
+    "reranker": 0,
+    "ollama": 0,
+    "tts": 0
+  },
+  "prohibited_entrypoints": [
+    {"path": "backend/run.py", "reason": "constructs and starts the application runtime"},
+    {"path": "backend/scripts/benchmark_responders.py", "reason": "model gateway, embedding and Judge"},
+    {"path": "backend/scripts/build_fact_index.py", "reason": "embedding and index write"},
+    {"path": "backend/scripts/build_style_corpus.py", "reason": "embedding and corpus/index write"},
+    {"path": "backend/scripts/eval_hybrid_retrieval.py", "reason": "embedding and reranker"},
+    {"path": "backend/scripts/eval_planner.py", "reason": "Planner model gateway"},
+    {"path": "backend/scripts/eval_reranker.py", "reason": "embedding and reranker"},
+    {"path": "backend/scripts/external_address_context_regression.py", "reason": "Responder and Judge model gateway"},
+    {"path": "backend/scripts/generate_synthetic_style_gap.py", "reason": "synthetic generation model"},
+    {"path": "backend/scripts/p0_external_guard_replay.py", "reason": "Responder and Judge model gateway"},
+    {"path": "backend/scripts/p0_style_regression.py", "reason": "embedding, Responder and Judge"},
+    {"path": "backend/scripts/phase6_audit.py", "reason": "builds model gateway at runtime"},
+    {"path": "backend/scripts/phase6_pairwise.py", "reason": "Judge model gateway"},
+    {"path": "backend/scripts/phase6_replay.py", "reason": "model gateway"},
+    {"path": "backend/scripts/phase6_runtime.py", "reason": "model gateway and application runtime"},
+    {"path": "backend/scripts/phase6_topk.py", "reason": "model gateway and chat agent"},
+    {"path": "backend/scripts/publish_reviewed_style_index.py", "reason": "embedding and index publication"},
+    {"path": "backend/scripts/rejudge_external_address_results.py", "reason": "Judge model gateway"},
+    {"path": "backend/scripts/retry_p0_missing_judgments.py", "reason": "external Judge model gateway"},
+    {"path": "backend/scripts/slice3_fixed_regression.py", "reason": "Responder model gateway"},
+    {"path": "backend/scripts/slice4_resource_experiment.py", "reason": "model gateway and application runtime"}
+  ],
+  "allowed_entrypoint": {
+    "path": "backend/scripts/persona_offline.py",
+    "subcommands": ["inventory", "extract", "validate", "coverage", "preview"],
+    "controls": [
+      "does not import gateway, embedder, reranker, Responder or app builder",
+      "opens SQLite input with URI mode=ro",
+      "requires an explicit output directory",
+      "refuses to overwrite an existing output file",
+      "uses only hand-written or recorded signals and fixed retrieval candidates"
+    ]
+  },
+  "test_boundary": {
+    "allowed": "explicitly named offline unit/contract tests using deterministic fakes or fixed fixtures",
+    "prohibited": "unscoped full pytest discovery while model-producing fixture side effects remain unaudited"
+  },
+  "static_validation": {
+    "offline_entry_forbidden_imports": [],
+    "result": "passed"
+  }
+}

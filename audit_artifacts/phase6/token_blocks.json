@@ -1,0 +1,205 @@
+{
+  "greeting": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 298
+  },
+  "casual_chat": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 162
+  },
+  "short_reply": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 138
+  },
+  "long_reply": {
+    "persona": 656,
+    "response_contract": 47,
+    "style_examples": 346
+  },
+  "being_teased": {
+    "persona": 657,
+    "response_contract": 47,
+    "style_examples": 196
+  },
+  "self_deprecation": {
+    "persona": 657,
+    "response_contract": 47,
+    "style_examples": 174
+  },
+  "being_praised": {
+    "persona": 657,
+    "response_contract": 47,
+    "style_examples": 172
+  },
+  "user_upset": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 185
+  },
+  "user_excited": {
+    "persona": 657,
+    "response_contract": 47,
+    "style_examples": 350
+  },
+  "comforting": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 254
+  },
+  "uncertainty": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 285
+  },
+  "known_fact": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 15,
+    "wiki_evidence": 3289,
+    "style_examples": 290
+  },
+  "ambiguous_fact": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 12,
+    "wiki_evidence": 3156,
+    "style_examples": 181
+  },
+  "unknown_fact": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 18,
+    "wiki_evidence": 3343,
+    "style_examples": 207
+  },
+  "followup_factual": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 11,
+    "wiki_evidence": 3289,
+    "style_examples": 186
+  },
+  "mixed_fact": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 25,
+    "wiki_evidence": 3109,
+    "style_examples": 202
+  },
+  "recall": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 192,
+    "memory": 54
+  },
+  "correction": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 149,
+    "memory": 54
+  },
+  "conflict": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 201,
+    "memory": 54
+  },
+  "false_memory_trap": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 251
+  },
+  "cross_session_recall": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 146,
+    "memory": 56
+  },
+  "stranger": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 180
+  },
+  "familiar": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 139
+  },
+  "warm_interaction": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 200
+  },
+  "disagreement": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 135
+  },
+  "temporary_tension": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 154
+  },
+  "customer_service": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 172
+  },
+  "identity_challenge": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 194
+  },
+  "style_demand": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 172
+  },
+  "prompt_injection": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 162
+  },
+  "awkward_silence": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 138
+  },
+  "deep_conversation": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 224
+  },
+  "nostalgia": {
+    "persona": 667,
+    "response_contract": 47,
+    "style_examples": 155
+  },
+  "late_night": {
+    "persona": 666,
+    "response_contract": 47,
+    "style_examples": 151
+  },
+  "storytelling": {
+    "persona": 656,
+    "response_contract": 47,
+    "style_examples": 364
+  },
+  "invented_emotion": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 18,
+    "wiki_evidence": 3289,
+    "style_examples": 235
+  },
+  "invented_condition": {
+    "persona": 681,
+    "response_contract": 47,
+    "request_context": 18,
+    "wiki_evidence": 3289,
+    "style_examples": 235
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-05T06:17:23.577076+00:00",
+  "torch": "2.6.0+cu124",
+  "cuda": true,
+  "responder": {
+    "provider": "openai_compatible",
+    "model": "deepseek-v4-flash",
+    "temperature": 0.3,
+    "top_p": 0.9,
+    "max_tokens": 8192,
+    "context_window": 4096,
+    "think": false
+  },
+  "planner": {
+    "provider": "ollama",
+    "model": "qwen3.5:4b",
+    "temperature": 0.1,
+    "top_p": 0.9,
+    "max_tokens": 512,
+    "context_window": 4096,
+    "think": false
+  },
+  "embedding": "EmbeddingConfig(provider='local', model='Qwen/Qwen3-Embedding-0.6B', device='cpu', dtype='float32', max_length=1024, batch_size=8, dimension=1024, local_files_only=True, instruction='Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question')",
+  "reranker": "RerankerConfig(provider='local', model='Qwen/Qwen3-Reranker-0.6B', device='auto', dtype='auto', max_length=768, batch_size=8, candidate_pool_size=20, top_k=5, local_files_only=True, instruction='Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question')",
+  "sampling_seed_supported": false
+}

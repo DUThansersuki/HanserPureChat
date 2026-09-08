@@ -1,0 +1,44 @@
+{
+  "created_at": "2026-09-07T19:23:34.337855+00:00",
+  "mode": "OFFLINE_READ_ONLY",
+  "database": "source_data/documents.db",
+  "database_sha256": "44630902b0393f10c59129993bd93f35ba8a396c423b300a51675dfe78c673c9",
+  "documents": 562,
+  "sources": 562,
+  "missing_source_files": 0,
+  "style_counts": [
+    {
+      "review_status": "pending",
+      "source_type": "real",
+      "source_tier": "unknown",
+      "n": 877
+    },
+    {
+      "review_status": "quarantined",
+      "source_type": "real",
+      "source_tier": "unknown",
+      "n": 9
+    }
+  ],
+  "active_index_generations": [
+    {
+      "collection": "fact_chunks",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "updated_at": "2026-09-06 19:25:52"
+    },
+    {
+      "collection": "memories",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "updated_at": "2026-09-06 19:25:52"
+    },
+    {
+      "collection": "style_examples",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "updated_at": "2026-09-06 19:25:52"
+    }
+  ],
+  "model_operations": "NOT_EXECUTED"
+}

@@ -1,0 +1,21 @@
+{
+  "generation": "slice2-candidate-003",
+  "source_database": "H:\\HanserAgent\\source_data\\documents.db",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "counts": {
+    "rows": 1039,
+    "pending": 1039,
+    "approved": 0
+  },
+  "scene_counts": {
+    "casual_chat": 848,
+    "comfort": 2,
+    "question_answer": 172,
+    "receiving_praise": 13,
+    "teasing": 4
+  },
+  "invalid_provenance_rows": 0,
+  "vectors_published": 0,
+  "production_switched": false,
+  "note": "All newly extracted rows remain pending until a named human review decision."
+}

@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-09-06T13:53:37.929168+00:00",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "candidate_database_sha256": "91fe0a643544878ce0cce0f723d55abc8ab730761d8f34143e5b47c6869ee060",
+  "frozen_fixture_sha256": "8dd876e88e5bedcc92f2d95b31f5b496aac30c3b65f98618fde5b8fbd700a196",
+  "model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "same_model_as_candidate": false,
+  "human_review_waived_by_owner": true,
+  "order_balanced": true,
+  "cases": 37,
+  "generated_measured": 74,
+  "judgments_measured": 71,
+  "preference_counts": {
+    "B": 20,
+    "C": 41,
+    "tie": 10
+  },
+  "consensus": {
+    "C": 17,
+    "B": 6,
+    "tie": 3,
+    "inconsistent": 11
+  },
+  "unsafe_flags": {
+    "B": 17,
+    "C": 10
+  },
+  "inconsistent_cases": [
+    "long_reply",
+    "user_excited",
+    "uncertainty",
+    "mixed_fact",
+    "familiar",
+    "customer_service",
+    "prompt_injection",
+    "awkward_silence",
+    "nostalgia",
+    "storytelling",
+    "invented_emotion"
+  ],
+  "synthetic_retrieval_cases": 4,
+  "production_switched": false
+}

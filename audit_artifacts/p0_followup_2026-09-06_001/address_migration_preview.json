@@ -1,0 +1,15 @@
+{
+  "mode": "preview",
+  "database": "H:\\HanserAgent\\source_data\\documents.db",
+  "database_sha256": "77a2f0b17747039c9b35417da695d70e2a15c80dcf5d2fd44d911cb5df7c1531",
+  "migration": {
+    "version": 3,
+    "name": "memory_address_options",
+    "applied_at": "2026-09-06 13:03:25"
+  },
+  "missing_columns": [],
+  "memory_count": 0,
+  "legacy_name_rows": [],
+  "planned_rekeys": 0,
+  "physical_deletes": 0
+}

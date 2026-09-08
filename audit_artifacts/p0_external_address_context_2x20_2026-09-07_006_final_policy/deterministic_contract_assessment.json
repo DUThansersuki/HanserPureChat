@@ -1,0 +1,78 @@
+{
+  "evaluation_type": "deterministic_address_contract_adjudication",
+  "model_calls": 0,
+  "rules_are_structured_and_case_specific": true,
+  "groups": {
+    "individual_20": {
+      "passed": 20,
+      "failed": []
+    },
+    "boundary_20": {
+      "passed": 19,
+      "failed": [
+        {
+          "case_id": "boundary-19",
+          "group": "boundary_20",
+          "decision": "R",
+          "failures": [
+            "forbidden_address:毛怪"
+          ],
+          "judge_v1": "R",
+          "judge_v2": null
+        }
+      ]
+    }
+  },
+  "passed": 39,
+  "total": 40,
+  "failed_cases": [
+    {
+      "case_id": "boundary-19",
+      "group": "boundary_20",
+      "decision": "R",
+      "failures": [
+        "forbidden_address:毛怪"
+      ],
+      "judge_v1": "R",
+      "judge_v2": null
+    }
+  ],
+  "judge_v1_disagreements": [
+    {
+      "case_id": "individual-07",
+      "group": "individual_20",
+      "decision": "A",
+      "failures": [],
+      "judge_v1": "R",
+      "judge_v2": null
+    },
+    {
+      "case_id": "individual-13",
+      "group": "individual_20",
+      "decision": "A",
+      "failures": [],
+      "judge_v1": "R",
+      "judge_v2": null
+    },
+    {
+      "case_id": "boundary-05",
+      "group": "boundary_20",
+      "decision": "A",
+      "failures": [],
+      "judge_v1": null,
+      "judge_v2": null
+    },
+    {
+      "case_id": "boundary-20",
+      "group": "boundary_20",
+      "decision": "A",
+      "failures": [],
+      "judge_v1": "R",
+      "judge_v2": null
+    }
+  ],
+  "judge_v2_disagreements": [],
+  "verdict": "FAIL",
+  "limitation": "This is a context/responder replay, not persistence or retrieval end-to-end.",
+  "production_switched": false
+}

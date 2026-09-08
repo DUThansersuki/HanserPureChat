@@ -1,0 +1,37 @@
+{
+  "integrity": "ok",
+  "migration4": 1,
+  "legacy_vectors": 5084,
+  "generation_vectors": 5084,
+  "active_generations": [
+    {
+      "collection": "fact_chunks",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 4197,
+      "source_revision": "legacy:4197"
+    },
+    {
+      "collection": "memories",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 1,
+      "source_revision": "legacy:1"
+    },
+    {
+      "collection": "style_examples",
+      "generation": "legacy-v1",
+      "revision": 1,
+      "model": "Qwen/Qwen3-Embedding-0.6B",
+      "dimensions": 1024,
+      "item_count": 886,
+      "source_revision": "legacy:886"
+    }
+  ],
+  "missing_owners": 0,
+  "orphan_chunk_tokens": 0
+}

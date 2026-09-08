@@ -1,0 +1,231 @@
+{
+  "trace_count": 40,
+  "http_200": 40,
+  "errors": 0,
+  "turn9_decisions": [
+    {
+      "candidate": {
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "user_preference",
+        "memory_key": "preference:like:咖啡",
+        "content": "用户不喜欢咖啡",
+        "importance": 0.7,
+        "confidence": 0.9,
+        "source_message_ids": [
+          "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+        ],
+        "assertion_type": "correction",
+        "polarity": "negative",
+        "validity": "asserted",
+        "subject": "user",
+        "predicate": "likes",
+        "object_value": "咖啡",
+        "source_kind": "user_message"
+      },
+      "accepted": true,
+      "reason": "accepted"
+    },
+    {
+      "candidate": {
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "user_preference",
+        "memory_key": "preference:like:茶",
+        "content": "用户喜欢茶",
+        "importance": 0.7,
+        "confidence": 0.88,
+        "source_message_ids": [
+          "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+        ],
+        "assertion_type": "correction",
+        "polarity": "positive",
+        "validity": "asserted",
+        "subject": "user",
+        "predicate": "likes",
+        "object_value": "茶",
+        "source_kind": "user_message"
+      },
+      "accepted": true,
+      "reason": "accepted"
+    }
+  ],
+  "turn12_decisions": [
+    {
+      "candidate": {
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "shared_event",
+        "memory_key": "shared:一起去过上海吗",
+        "content": "我们之前一起去过上海吗",
+        "importance": 0.72,
+        "confidence": 0.85,
+        "source_message_ids": [
+          "232f26b8-8465-466f-a5bd-29aaec3f3c58"
+        ],
+        "assertion_type": "question",
+        "polarity": "positive",
+        "validity": "unverified",
+        "subject": "user_and_hanser",
+        "predicate": "shared_event",
+        "object_value": "一起去过上海吗",
+        "source_kind": "user_message"
+      },
+      "accepted": false,
+      "reason": "question_not_assertion"
+    }
+  ],
+  "turn15_lifecycle": [
+    {
+      "id": "8d1161c1-119f-4f4d-a072-2514c4723339",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "unresolved_thread",
+      "memory_key": "unresolved:考试",
+      "content": "我已经考完试了 很顺利",
+      "importance": 0.88,
+      "confidence": 0.95,
+      "source_message_ids": [
+        "9dd8eff3-8aa9-4e44-916d-c81db4ab41b5"
+      ],
+      "assertion_type": "correction",
+      "polarity": "negative",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "has_upcoming_event",
+      "object_value": "考试",
+      "revision_of_id": "077951cc-7974-4c77-ab12-72bc15bb9cb9",
+      "source_kind": "user_message",
+      "created_at": "2026-09-05T12:40:29.180841Z",
+      "last_accessed_at": null,
+      "status": "closed"
+    }
+  ],
+  "active": [
+    {
+      "user_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:咖啡",
+      "content": "用户不喜欢咖啡",
+      "polarity": "negative",
+      "validity": "asserted",
+      "status": "active",
+      "source_message_ids_json": "[\"d4e2f6d3-efff-47e7-ac4d-a07c85c184cc\"]"
+    },
+    {
+      "user_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:茶",
+      "content": "用户喜欢茶",
+      "polarity": "positive",
+      "validity": "asserted",
+      "status": "active",
+      "source_message_ids_json": "[\"d4e2f6d3-efff-47e7-ac4d-a07c85c184cc\"]"
+    },
+    {
+      "user_id": "audit-continuity",
+      "type": "user_fact",
+      "memory_key": "user:name",
+      "content": "用户希望被称为毛怪们",
+      "polarity": "positive",
+      "validity": "asserted",
+      "status": "active",
+      "source_message_ids_json": "[\"d41ed013-5a38-44db-a215-3ef7dbd17dc4\"]"
+    }
+  ],
+  "closed": [
+    {
+      "memory_key": "unresolved:考试",
+      "content": "我已经考完试了 很顺利",
+      "status": "closed",
+      "revision_of_id": "077951cc-7974-4c77-ab12-72bc15bb9cb9",
+      "source_message_ids_json": "[\"9dd8eff3-8aa9-4e44-916d-c81db4ab41b5\"]"
+    }
+  ],
+  "shared_rows": 0,
+  "missing_sources": 0,
+  "nonuser_sources": 0,
+  "cross_session": {
+    "status": 200,
+    "response": {
+      "text": "换了个窗口也不怕呀\n你就是毛怪们嘛\n喝的嘛 你爱喝茶 咖啡不碰\n对不对",
+      "keywords": [],
+      "anchored": [],
+      "sources": []
+    },
+    "memories": [
+      {
+        "id": "2a8a6000-2d1d-4cf4-80dc-b25494493e09",
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "user_fact",
+        "memory_key": "user:name",
+        "content": "用户希望被称为毛怪们",
+        "importance": 0.9,
+        "confidence": 0.98,
+        "source_message_ids": [
+          "d41ed013-5a38-44db-a215-3ef7dbd17dc4"
+        ],
+        "assertion_type": "user_assertion",
+        "polarity": "positive",
+        "validity": "asserted",
+        "subject": "user",
+        "predicate": "preferred_name",
+        "object_value": "毛怪们",
+        "revision_of_id": "d68ca0fd-274e-4753-9e48-2a3f636cca48",
+        "source_kind": "user_message",
+        "created_at": "2026-09-05T12:40:46.565796Z",
+        "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+        "status": "active"
+      },
+      {
+        "id": "701d5d94-abb4-4fbb-9ed0-760102ac0951",
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "user_preference",
+        "memory_key": "preference:like:茶",
+        "content": "用户喜欢茶",
+        "importance": 0.7,
+        "confidence": 0.88,
+        "source_message_ids": [
+          "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+        ],
+        "assertion_type": "correction",
+        "polarity": "positive",
+        "validity": "asserted",
+        "subject": "user",
+        "predicate": "likes",
+        "object_value": "茶",
+        "revision_of_id": null,
+        "source_kind": "user_message",
+        "created_at": "2026-09-05T12:39:55.347478Z",
+        "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+        "status": "active"
+      },
+      {
+        "id": "a01d6b6b-38f5-4158-ae80-02248d50aa55",
+        "user_id": "audit-continuity",
+        "conversation_id": "audit-continuity",
+        "type": "user_preference",
+        "memory_key": "preference:like:咖啡",
+        "content": "用户不喜欢咖啡",
+        "importance": 0.7,
+        "confidence": 0.9,
+        "source_message_ids": [
+          "d4e2f6d3-efff-47e7-ac4d-a07c85c184cc"
+        ],
+        "assertion_type": "correction",
+        "polarity": "negative",
+        "validity": "asserted",
+        "subject": "user",
+        "predicate": "likes",
+        "object_value": "咖啡",
+        "revision_of_id": "b49931f5-6e94-420e-97e1-03f59c59b66b",
+        "source_kind": "user_message",
+        "created_at": "2026-09-05T12:39:55.225537Z",
+        "last_accessed_at": "2026-09-05T12:46:45.682684Z",
+        "status": "active"
+      }
+    ]
+  }
+}

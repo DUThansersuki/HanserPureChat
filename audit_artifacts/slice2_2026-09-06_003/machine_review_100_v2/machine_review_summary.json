@@ -1,0 +1,39 @@
+{
+  "run_at": "2026-09-06T08:01:51.357925+00:00",
+  "model_requested": "deepseek-v4-flash",
+  "prompt_sha256": "0b7a9bb14dd4f6d69ed53fd7888c8a62e122ed3f6c8aca1d7e72417cbaa54d6b",
+  "input_contract": "Only prompt and response are appended after the shared prefix.",
+  "output_contract": "Exact single character A or R; no normalization or coercion.",
+  "sample_count": 100,
+  "seed": 604,
+  "concurrency": 4,
+  "warmup": 3,
+  "valid_outputs": 92,
+  "invalid_outputs": 8,
+  "decisions": {
+    "R": 65,
+    "A": 27
+  },
+  "errors": 0,
+  "cache": {
+    "hit_tokens": 50176,
+    "miss_tokens": 10045,
+    "hit_ratio": 0.8331977217249796,
+    "requests_reporting_usage": 100
+  },
+  "latency_by_phase": {
+    "sequential_warmup": {
+      "n": 3,
+      "mean": 1.2420586666666666,
+      "p50": 1.084151,
+      "max": 1.918244
+    },
+    "concurrent": {
+      "n": 97,
+      "mean": 9.213788051546391,
+      "p50": 9.393484,
+      "max": 17.606561
+    }
+  },
+  "batching": "not used: one pair must map to one exact A/R output"
+}

@@ -1,0 +1,48 @@
+version: 2
+prompt_rules:
+  - 普通聊天展示可使用空格或换行形成停顿 但不为低标点破坏日期 URL 代码 数值 作品名 引用和必要歧义消解
+  - 不使用客服式收尾 不强制每轮称呼 自称或延长话题
+  - Style样例只示范表达与反应 不能复制事实 经历或固定原句
+normalizer:
+  enabled: true
+  mode: legacy_sparse
+  replace_with_space: ["，", "。", "！", "？", "；", "：", "……", "…"]
+  preserve_patterns:
+    - "```[\\s\\S]*?```"
+    - "`[^`\\n]+`"
+    - "https?://[^\\s，。！？；：]+"
+    - "《[^》\\n]+》"
+    - "“[^”\\n]+”"
+    - "「[^」\\n]+」"
+    - "\\[[^\\]\\n]+\\]\\([^\\)\\n]+\\)"
+output_validation:
+  max_constraint_retries: 1
+  forbidden_patterns:
+    - id: unsupported_first_person_physical_condition
+      pattern: "我(?:的)?(?:心脏|身体|胃|肚子|头|嗓子|喉咙|腰|腿|手|眼睛|耳朵).{0,8}(?:不太好|不好|有问题|疼|痛|不舒服|坏了|受不了)"
+      unless_signal: quoted_or_hypothetical
+    - id: unsupported_first_person_vital_state
+      pattern: "我(?:的)?(?:血压|血糖|体温).{0,8}(?:高|低|上来|升高|下降|不正常)"
+      unless_signal: quoted_or_hypothetical
+  coerced_agreement_patterns:
+    - "行(?:行行|吧)?.{0,8}你(?:说得)?对"
+    - "我(?:就)?同意你"
+    - "听你的"
+    - "信你(?:一回|这次)?"
+    - "你(?:要是)?觉得[ABＡＢ].{0,8}那就[ABＡＢ]"
+    - "直接[ABＡＢ].{0,16}(?:后面|以后|回头)(?:再|来)"
+  unresolved_reference_fabrication_patterns:
+    - "你(?:是)?指.{1,40}还是"
+    - "是.{1,40}那个.{0,16}还是"
+    - "是.{1,40}还是.{1,40}还是"
+    - "刚才(?:我们)?聊的.{0,16}(?:吗|那个)"
+  factual_epistemic_patterns:
+    - "(?:我|我这边|这边).{0,40}(?:不记得|记不清|忘了|没记得|没记清|没记住|没记(?:$|[ ，。]))"
+  unverified_memory_guess_patterns:
+    - "你.{0,12}(?:记错|记岔|记混)"
+    - "(?:跟|和)别人.{0,12}(?:说过|聊过|发生过)"
+  disallowed_feature_patterns:
+    humor: ["哈哈", "笑死", "删库跑路", "差点(?:以为|当真)", "心脏受不了", "心跳加速"]
+    teasing: ["你吓我一跳", "你这话说的", "别再整", "放过你", "我(?:肯定)?不客气", "欠我.{0,8}吐槽"]
+    cutesy: ["呜呜", "害羞羞", "主人", "宝宝"]
+    profanity: ["靠", "卧槽", "妈的", "他妈"]

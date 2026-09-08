@@ -1,0 +1,54 @@
+[
+  {
+    "id": "reranker_failure",
+    "expected": "structured degraded retrieval result",
+    "actual": "degraded evidence returned",
+    "pass": true
+  },
+  {
+    "id": "false_shared_event",
+    "expected": "no verified shared event from a question",
+    "actual": [],
+    "pass": true
+  },
+  {
+    "id": "preference_conflict",
+    "expected": "old positive coffee preference inactive",
+    "actual": [
+      "用户喜欢茶",
+      "用户不喜欢咖啡"
+    ],
+    "pass": true
+  },
+  {
+    "id": "null_patch",
+    "expected": "validation rejection before SQL",
+    "actual": "ValidationError",
+    "pass": true
+  },
+  {
+    "id": "conversation_owner",
+    "expected": "reject conflicting user before loading history",
+    "actual": {
+      "alice_history": [
+        "Alice私密消息",
+        "received"
+      ],
+      "bob": "rejected before history",
+      "owner_after": "alice"
+    },
+    "pass": true
+  },
+  {
+    "id": "memory_prefilter",
+    "expected": "own relevant memory remains eligible",
+    "actual_count": 1,
+    "pass": true
+  },
+  {
+    "id": "external_index_cache",
+    "expected": "new after external index replacement",
+    "actual": "new",
+    "pass": true
+  }
+]

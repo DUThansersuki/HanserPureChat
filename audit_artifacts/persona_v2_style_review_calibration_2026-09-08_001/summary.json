@@ -1,0 +1,42 @@
+{
+  "run_at": "2026-09-08T09:31:11.120810+00:00",
+  "input_database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "input_database_sha256": "847353c4616a5a1840432f4c5f80e3d25d97e5814193de8892337537107d2999",
+  "model": "deepseek-v4-pro",
+  "thinking": true,
+  "prompt_sha256": "a4fc80e9b2e149887f817cbb234bb7f691404b6624a2df6c55ba8f42347b0ad6",
+  "rows_selected": 96,
+  "rows_reviewed": 96,
+  "batches": 12,
+  "measured_batches": 12,
+  "failed_batches": 0,
+  "decision_counts": {
+    "rejected": 42,
+    "approved": 53,
+    "pending": 1
+  },
+  "payload_counts": {
+    "past_or_current_autobiography": 33,
+    "turn_local_stance": 41,
+    "reaction_only": 12,
+    "fiction_or_quote": 3,
+    "third_party_fact": 6,
+    "unreviewed": 1
+  },
+  "usage": {
+    "prompt_tokens": 31632,
+    "completion_tokens": 69997,
+    "total_tokens": 101629,
+    "requests_reporting_usage": 12
+  },
+  "latency_seconds": {
+    "wall": 397.949797,
+    "batch_p50": 237.522333,
+    "batch_max": 397.943815
+  },
+  "limitations": [
+    "proxy model reviews semantic runtime suitability only",
+    "speaker identity and source spans are not established by the model",
+    "approval is rechecked deterministically by the candidate database builder"
+  ]
+}

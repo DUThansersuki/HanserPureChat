@@ -1,0 +1,130 @@
+{
+  "status": 200,
+  "response": {
+    "text": "小林嘛 你爱喝茶不爱咖啡 我记得呢",
+    "keywords": [],
+    "anchored": [],
+    "sources": [],
+    "request_id": "eda13498-a04c-4a9a-ab6c-6aec884057fd",
+    "trace_id": "eda13498-a04c-4a9a-ab6c-6aec884057fd"
+  },
+  "memories": [
+    {
+      "id": "4e673682-9685-4ede-8e4e-2530b6561282",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_fact",
+      "memory_key": "address:fan_identity:毛怪",
+      "content": "用户可被称为毛怪",
+      "importance": 0.9,
+      "confidence": 0.98,
+      "source_message_ids": [
+        "903833bb-1c06-4d7c-b332-3e61c77abc38"
+      ],
+      "assertion_type": "user_assertion",
+      "polarity": "positive",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "preferred_address",
+      "object_value": "毛怪",
+      "revision_of_id": null,
+      "source_kind": "user_message",
+      "memory_scope": "global",
+      "address_kind": "fan_identity",
+      "context_tags": [
+        "fan",
+        "playful"
+      ],
+      "address_priority": 0.75,
+      "created_at": "2026-09-07T15:35:25.869191Z",
+      "last_accessed_at": "2026-09-07T15:39:00.799336Z",
+      "status": "active"
+    },
+    {
+      "id": "3c0e9fc7-ccb7-4493-bb42-534ead36f64f",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:茶",
+      "content": "用户喜欢茶",
+      "importance": 0.7,
+      "confidence": 0.88,
+      "source_message_ids": [
+        "5e3380b6-d3c2-45f0-86bf-735d2eada677"
+      ],
+      "assertion_type": "correction",
+      "polarity": "positive",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "likes",
+      "object_value": "茶",
+      "revision_of_id": null,
+      "source_kind": "user_message",
+      "memory_scope": "global",
+      "address_kind": null,
+      "context_tags": [],
+      "address_priority": 0.0,
+      "created_at": "2026-09-07T15:34:18.527447Z",
+      "last_accessed_at": "2026-09-07T15:39:00.799336Z",
+      "status": "active"
+    },
+    {
+      "id": "b88551a9-89f1-4163-a4fb-8f91d53068c1",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_preference",
+      "memory_key": "preference:like:咖啡",
+      "content": "用户不喜欢咖啡",
+      "importance": 0.7,
+      "confidence": 0.9,
+      "source_message_ids": [
+        "5e3380b6-d3c2-45f0-86bf-735d2eada677"
+      ],
+      "assertion_type": "correction",
+      "polarity": "negative",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "likes",
+      "object_value": "咖啡",
+      "revision_of_id": "92ed3377-a52a-4cb5-bc7d-0f33abd761f0",
+      "source_kind": "user_message",
+      "memory_scope": "global",
+      "address_kind": null,
+      "context_tags": [],
+      "address_priority": 0.0,
+      "created_at": "2026-09-07T15:34:18.395265Z",
+      "last_accessed_at": "2026-09-07T15:39:00.799336Z",
+      "status": "active"
+    },
+    {
+      "id": "489d6e4a-add8-4802-b857-1b17d92562e0",
+      "user_id": "audit-continuity",
+      "conversation_id": "audit-continuity",
+      "type": "user_fact",
+      "memory_key": "address:personal_name:小林",
+      "content": "用户名字是小林",
+      "importance": 0.9,
+      "confidence": 0.98,
+      "source_message_ids": [
+        "fe0e4506-73c8-47e5-b81d-02948dee7b92"
+      ],
+      "assertion_type": "user_assertion",
+      "polarity": "positive",
+      "validity": "asserted",
+      "subject": "user",
+      "predicate": "preferred_address",
+      "object_value": "小林",
+      "revision_of_id": null,
+      "source_kind": "user_message",
+      "memory_scope": "global",
+      "address_kind": "personal_name",
+      "context_tags": [
+        "personal"
+      ],
+      "address_priority": 1.0,
+      "created_at": "2026-09-07T15:33:44.586665Z",
+      "last_accessed_at": "2026-09-07T15:39:00.799336Z",
+      "status": "active"
+    }
+  ]
+}

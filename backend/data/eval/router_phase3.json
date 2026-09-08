@@ -1,0 +1,204 @@
+[
+  {
+    "message": "晚上好",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "casual"
+  },
+  {
+    "message": "今天好累啊",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "emotional"
+  },
+  {
+    "message": "讲个冷笑话",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "playful"
+  },
+  {
+    "message": "我有点难过 能陪我聊会吗",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "emotional"
+  },
+  {
+    "message": "你觉得我今天这件衣服怎么样",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "casual"
+  },
+  {
+    "message": "Hanser的生日是什么时候",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "生日"]
+  },
+  {
+    "message": "Hanser有哪些配音作品",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "配音作品"]
+  },
+  {
+    "message": "Hanser什么时候退出VirtuaReal",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "VirtuaReal", "退出"]
+  },
+  {
+    "message": "Hanser最早在哪个平台直播",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "平台", "直播"]
+  },
+  {
+    "message": "Hanser大学学的是什么专业",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "大学", "专业"]
+  },
+  {
+    "message": "为什么",
+    "history": [
+      {"role": "user", "content": "Hanser什么时候退出VirtuaReal"},
+      {"role": "assistant", "content": "是在2023年"}
+    ],
+    "expected_intents": ["followup_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "VirtuaReal", "退出", "为什么"]
+  },
+  {
+    "message": "最早的是哪个",
+    "history": [
+      {"role": "user", "content": "Hanser有哪些配音作品"},
+      {"role": "assistant", "content": "资料里列出了多部作品"}
+    ],
+    "expected_intents": ["followup_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "配音作品", "最早"]
+  },
+  {
+    "message": "后来呢",
+    "history": [
+      {"role": "user", "content": "Hanser早期在斗鱼直播吗"},
+      {"role": "assistant", "content": "是的"}
+    ],
+    "expected_intents": ["followup_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "斗鱼", "后来"]
+  },
+  {
+    "message": "你还记得我明天下午干嘛吗",
+    "history": [
+      {"role": "user", "content": "我明天下午要考试"},
+      {"role": "assistant", "content": "知道啦"}
+    ],
+    "expected_intents": ["user_memory"],
+    "need_wiki": false,
+    "response_mode": "casual",
+    "rewrite_contains": ["明天下午"]
+  },
+  {
+    "message": "我之前说过最喜欢哪首歌",
+    "history": [],
+    "expected_intents": ["user_memory"],
+    "need_wiki": false,
+    "response_mode": "casual"
+  },
+  {
+    "message": "先陪我聊聊 然后告诉我Hanser有哪些配音作品",
+    "history": [],
+    "expected_intents": ["mixed"],
+    "need_wiki": true,
+    "rewrite_contains": ["Hanser", "配音作品"]
+  },
+  {
+    "message": "我今天心情不好 Hanser以前有说过类似的话吗",
+    "history": [],
+    "expected_intents": ["mixed"],
+    "need_wiki": true,
+    "rewrite_contains": ["Hanser", "心情不好"]
+  },
+  {
+    "message": "我们现在算什么关系",
+    "history": [],
+    "expected_intents": ["relationship"],
+    "need_wiki": false,
+    "response_mode": "emotional"
+  },
+  {
+    "message": "asdfghjkl",
+    "history": [],
+    "expected_intents": ["unknown", "chitchat"],
+    "need_wiki": false
+  },
+  {
+    "message": "小天使这个别名是怎么来的",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "小天使", "别名"]
+  },
+  {
+    "message": "Hanser配过布洛妮娅吗",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "布洛妮娅", "配音"]
+  },
+  {
+    "message": "那她呢",
+    "history": [
+      {"role": "user", "content": "Hanser和七海谁更早加入VirtuaReal"},
+      {"role": "assistant", "content": "先说Hanser的资料"}
+    ],
+    "expected_intents": ["followup_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["七海", "VirtuaReal", "加入"]
+  },
+  {
+    "message": "详细介绍一下Hanser的直播经历",
+    "history": [],
+    "expected_intents": ["wiki_fact"],
+    "need_wiki": true,
+    "response_mode": "factual",
+    "rewrite_contains": ["Hanser", "直播经历"]
+  },
+  {
+    "message": "哈哈哈哈哈哈",
+    "history": [],
+    "expected_intents": ["chitchat"],
+    "need_wiki": false,
+    "response_mode": "playful"
+  },
+  {
+    "message": "Hanser和VirtuaReal是什么关系 顺便说说你怎么看",
+    "history": [],
+    "expected_intents": ["mixed"],
+    "need_wiki": true,
+    "rewrite_contains": ["Hanser", "VirtuaReal", "关系"]
+  }
+]

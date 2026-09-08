@@ -1,0 +1,19 @@
+{
+  "preview_version": 1,
+  "generated_at": "2026-09-07T08:41:44.904981+00:00",
+  "database": "H:\\HanserAgent\\audit_artifacts\\slice4_2026-09-07_001\\documents.candidate.db",
+  "database_sha256": "022855a79c1c5bce3b71f4039e898aa795aca30ec279da0001b718fbe20e0124",
+  "migration_already_applied": false,
+  "message_count": 16,
+  "trace_groups_with_more_than_one_turn": 0,
+  "blockers": [],
+  "planned_changes": [
+    "add request execution records for idempotency and trace status",
+    "add retryable post-turn failure records with stage and payload",
+    "preserve all existing API fields, messages, memories and failures"
+  ],
+  "planned_deletes": 0,
+  "applied": true,
+  "backup": "H:\\HanserAgent\\audit_artifacts\\slice4_2026-09-07_001\\documents.candidate.pre_slice4.20260907T084145Z.db",
+  "post_migration_sha256": "7fb49c54ab5ee5702f3f19c5785c15e8dbe5c63ec80e53761c6573339253654e"
+}

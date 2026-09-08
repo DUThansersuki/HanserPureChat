@@ -1,0 +1,645 @@
+{
+  "source_db": "H:\\HanserAgent\\source_data\\documents.db",
+  "source_sha256": "42dc800bb0f2ba490388178d81b19cc73618a3653d32ab76aa2516847417c703",
+  "table_counts": {
+    "documents": 562,
+    "sqlite_sequence": 3,
+    "doc_tokens": 405129,
+    "document_chunks": 4197,
+    "chunk_tokens": 552168,
+    "vector_embeddings": 5083,
+    "style_examples": 886,
+    "conversations": 0,
+    "messages": 0,
+    "conversation_summaries": 0,
+    "memories": 0,
+    "relationship_states": 0,
+    "scene_states": 0,
+    "evaluation_runs": 0,
+    "evaluation_outputs": 0,
+    "schema_migrations": 2
+  },
+  "python": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]",
+  "files": [
+    {
+      "path": "ARCHITECTURE_SPEC_DELTA.md",
+      "bytes": 7519,
+      "sha256": "9ac3f61f9b9da25fe66219206545c54a07c0f4fcc7a145ef8d49634a671f20df"
+    },
+    {
+      "path": "CURRENT_IMPLEMENTATION_AUDIT.md",
+      "bytes": 16915,
+      "sha256": "a2addf3dc63bc34ebf44b9f0e4217a2537aecdd2d5fbe9c0c9fe570079f6e5f5"
+    },
+    {
+      "path": "CURRENT_SYSTEM_EVALUATION.md",
+      "bytes": 16845,
+      "sha256": "103dd742b74bfdd934f1c8d8367fad1175b891927e34c8077bea7c8c5c582dd4"
+    },
+    {
+      "path": "Hanser_Chat_Agent_Full_Architecture_Spec.md",
+      "bytes": 55031,
+      "sha256": "d0a0868aeec473a8fa8be0e1239d48c6ecf231942ba242fbfc4c3dd291eadae2"
+    },
+    {
+      "path": "NEXT_STAGE_ENGINEERING_GUIDE.md",
+      "bytes": 22952,
+      "sha256": "d2c8a9a5182240a71eeb357aa1bba242093a6d18f540005a8b7adfc895f276e4"
+    },
+    {
+      "path": "PERSONA_REGRESSION_SUITE.md",
+      "bytes": 12648,
+      "sha256": "91c3e2d2d3a24d17ef09824fa8dd640869912704d95799efb162875ad27b9260"
+    },
+    {
+      "path": "PERSONA_SYSTEM_DEEP_REVIEW.md",
+      "bytes": 27627,
+      "sha256": "ad1b4045dc3081c8114d03e8a833d8bbfd18dd98453c64f3ddc2cf8a86dc6e51"
+    },
+    {
+      "path": "README_MIGRATION.md",
+      "bytes": 8463,
+      "sha256": "ce4537ae929ac51ff95a3baee3cb10a6c774eb38037670326a11059879db8258"
+    },
+    {
+      "path": ".pytest_cache/README.md",
+      "bytes": 310,
+      "sha256": "420e808d79a6c25d3cda0af33bc4782314a14949866682c68ce8149e89b66b70"
+    },
+    {
+      "path": "backend/config.example.yml",
+      "bytes": 3695,
+      "sha256": "4e84428e69a636af9e7f889179fab408bd5e5f76546f4bf57262ad7a57a1b0db"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "bytes": 161,
+      "sha256": "f3277de6a109e7014ac74d1f438504259ca444dcfbcb5814cedeaf10b7a9ba13"
+    },
+    {
+      "path": "backend/run.py",
+      "bytes": 252,
+      "sha256": "3da2a0941f18dc2bec3c504cfde47dd59457ebdd0a13ec4a82c6dfcee8605765"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/.sync-list.json",
+      "bytes": 63435,
+      "sha256": "6cd0b7d1280d2d0f1b761ab12fa306c7ba976f9d242c44126cdc263e67669567"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/appsettings.json",
+      "bytes": 31,
+      "sha256": "2bcfccf3797da5d9f8b9e1cf364b8ac0d65fe6555346e58c54ed35e6cc10ab27"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/Hanser AI Wiki.deps.json",
+      "bytes": 44644,
+      "sha256": "cb81e3707caf96090282d5ddddf7321fde03017af4bcc445b5dd343e15aae125"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/Hanser AI Wiki.runtimeconfig.json",
+      "bytes": 529,
+      "sha256": "b8e11d3bb7959b149bcdd07d2e12279489658a582225540cef5806534b11046a"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/version.json",
+      "bytes": 399,
+      "sha256": "8ebb92f14c2080ec6699616d5dbc33016bc1e3f4022bb431b1df727a1fa985b7"
+    },
+    {
+      "path": "wpf_bridge/MainWindow_migration_snippet.cs",
+      "bytes": 632,
+      "sha256": "042911990a31426572c5e949f06e34054991f6305f74ac47f9c9fe1bf3f07cb7"
+    },
+    {
+      "path": "wpf_bridge/PythonAgentClient.cs",
+      "bytes": 2203,
+      "sha256": "2581fb6a422f65e868fa268c0c178a29a786e6f24ae77bf713f61e804253f2c0"
+    },
+    {
+      "path": "source_data/data/Wiki.md",
+      "bytes": 163108,
+      "sha256": "974ace8309f9aa98c42157b936e7206a1edde98513c826512bc0a12d7ea3cd22"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/chat-history/chat-20260904-030417.json",
+      "bytes": 3847,
+      "sha256": "1df5d7fbb057e310881bc1ccdc54e890d793bf4064a8eda88362dac843a57648"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/chat-history/chat-20260904-031047.json",
+      "bytes": 752,
+      "sha256": "d60cf135929514eca8f90837ff89d9ea63fe1894129c874d8707fdc57fdb327d"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/chat-history/chat-20260904-031556.json",
+      "bytes": 569,
+      "sha256": "663eef51ab8bb85168789a6cece2e776afbbda4eb003eeda84308f3fd642c1f7"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/chat-history/chat-20260904-031719.json",
+      "bytes": 15363,
+      "sha256": "aff3ca9b3cdede620d6d6436353a5c90416c347a96b17127eafd849a238b339b"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/data/Wiki.md",
+      "bytes": 163108,
+      "sha256": "974ace8309f9aa98c42157b936e7206a1edde98513c826512bc0a12d7ea3cd22"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/char_state_tab.json",
+      "bytes": 956007,
+      "sha256": "8007e1336f5b29fe5e3345d8d47a1b1b1ce67878e48f3ff9d8cd6ab71c0dfcc2"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/pos_prob_emit.json",
+      "bytes": 3147136,
+      "sha256": "f9f4b9a2e60cee55d53a6c1375a9a169de8a75ff977701f4ef62a5af7f1f2d67"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/pos_prob_start.json",
+      "bytes": 6437,
+      "sha256": "b36730a69c3efbd56ddb2995742a03619d8733cc7767ecc8a4d8175a53fd72e1"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/pos_prob_trans.json",
+      "bytes": 174313,
+      "sha256": "2f0282adf7e90c2c0378b80f6cdd2d3b666b980b64812f6f7f188baa2e3cb3a0"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/prob_emit.json",
+      "bytes": 1251300,
+      "sha256": "0d4a83cde499ac9d648133b2ddf1eef65c981c8fc0102f2f599f2d6b00422ebc"
+    },
+    {
+      "path": "Hanser-AI-Wiki-v1.0.5/jieba-resources/prob_trans.json",
+      "bytes": 309,
+      "sha256": "20f737f7590c481f5b8be0ea565ec25c832d8834f3fc428dd3b996fa63d221dc"
+    },
+    {
+      "path": "backend/.pytest_cache/README.md",
+      "bytes": 310,
+      "sha256": "420e808d79a6c25d3cda0af33bc4782314a14949866682c68ce8149e89b66b70"
+    },
+    {
+      "path": "backend/hanser_agent/api.py",
+      "bytes": 6715,
+      "sha256": "ce1f9a5e83fa02ef3df0c4da2362f05e4aecaa96c35dadc5eab7a3fd2c1f6d79"
+    },
+    {
+      "path": "backend/hanser_agent/config.py",
+      "bytes": 13032,
+      "sha256": "39cbf7c9056d12036e39ea2a1c4aa1dfb5e4042a7f1ddeeba659ea3a5c23bb2a"
+    },
+    {
+      "path": "backend/hanser_agent/db.py",
+      "bytes": 14173,
+      "sha256": "6f800c7746fc8001f6e63d921069f932ae9336ea6a44017774ec042a95b6a804"
+    },
+    {
+      "path": "backend/hanser_agent/llm.py",
+      "bytes": 2533,
+      "sha256": "95c22a59d6df3641ced54918c7e7c3c29bb4c81e047977e4ced646b88102a0f0"
+    },
+    {
+      "path": "backend/hanser_agent/models.py",
+      "bytes": 7101,
+      "sha256": "94b5fef08c3383d71ee660e644aabf40d6fa85cce15e02a1494f4c67fe6ef201"
+    },
+    {
+      "path": "backend/hanser_agent/model_gateway.py",
+      "bytes": 8406,
+      "sha256": "e13496f90868413032bfc1426d244217ad9c6379907a969cf1d30a74ef8bb564"
+    },
+    {
+      "path": "backend/hanser_agent/search.py",
+      "bytes": 4707,
+      "sha256": "04bd4a8780b6a12d1e07e1e4e9b8d39217e6ba1ac07f77d1f5f828ea220a65b0"
+    },
+    {
+      "path": "backend/hanser_agent/tokenizer.py",
+      "bytes": 1291,
+      "sha256": "56fc200b80190645e5fabcc827664dc2f02fe0a716403965bf575aefed7a41f5"
+    },
+    {
+      "path": "backend/hanser_agent/__init__.py",
+      "bytes": 39,
+      "sha256": "a2fb094df5662c2cf8771ec773ac1dc716b7db12287cc9f0a2b0262796c8fec5"
+    },
+    {
+      "path": "backend/scripts/audit_style_candidate.py",
+      "bytes": 4638,
+      "sha256": "6dbcfbb673ae2bac25647c9d81ca7e01ab1185436f920fc2b5775c49ff79004d"
+    },
+    {
+      "path": "backend/scripts/benchmark_responders.py",
+      "bytes": 11693,
+      "sha256": "d518ce9bb1f289e73d6aef182a12a216ed47351eddac6d69a5850a4f36b502a3"
+    },
+    {
+      "path": "backend/scripts/build_fact_index.py",
+      "bytes": 2031,
+      "sha256": "03b963e69b18ddb4af1e7e2795be89c54c3e9f2b6aa1b1367d06139917e85e4a"
+    },
+    {
+      "path": "backend/scripts/build_style_candidate.py",
+      "bytes": 3706,
+      "sha256": "e34c17d67d25c97c7a617d01ca0b697270a1c23e4acd127a9d21f890b41aab96"
+    },
+    {
+      "path": "backend/scripts/build_style_corpus.py",
+      "bytes": 2652,
+      "sha256": "6f234138cb563627e98abd95ac5640590cc36b32610ae3f296800c5233efe019"
+    },
+    {
+      "path": "backend/scripts/check_db.py",
+      "bytes": 548,
+      "sha256": "12ba86fe052afb1e491fafaeca9ad9dca7de32dd80b196be92ed78571d2b6a6f"
+    },
+    {
+      "path": "backend/scripts/eval_hybrid_retrieval.py",
+      "bytes": 6125,
+      "sha256": "adccd5595fb13135bc2ea2b4728574bd5138d5aa6a375da95eff8f7334c076dd"
+    },
+    {
+      "path": "backend/scripts/eval_planner.py",
+      "bytes": 8364,
+      "sha256": "fb20602bf95f57294c3336238804466f8822681311752486431001a74835aa05"
+    },
+    {
+      "path": "backend/scripts/eval_reranker.py",
+      "bytes": 7015,
+      "sha256": "9ad4a1bc9660941ac102543c597fa368bcf6671d0b41694d6967ea839fcb36bb"
+    },
+    {
+      "path": "backend/scripts/machine_review_style_candidate.py",
+      "bytes": 12093,
+      "sha256": "e268295a54262af4fad4d9dffed60c867396886ac9ef64bb5a4eaaaf836184da"
+    },
+    {
+      "path": "backend/scripts/migrate_memory_slice1.py",
+      "bytes": 5959,
+      "sha256": "9c27dfe47a8fb81883103c44bdc54fbbd67f5a4482ecbb3713a84a1ee3790a25"
+    },
+    {
+      "path": "backend/scripts/migrate_style_slice2.py",
+      "bytes": 5315,
+      "sha256": "01556bc918da0fede732d79afee2412c4e0f2fbc63efd30367c5f72d195a6fd6"
+    },
+    {
+      "path": "backend/scripts/phase6_audit.py",
+      "bytes": 16910,
+      "sha256": "305021ae124833c46f4ac6e9e6298d80c4adf39db1f5a642b1c364b1347823de"
+    },
+    {
+      "path": "backend/scripts/phase6_fault_probes.py",
+      "bytes": 4832,
+      "sha256": "dfc4c02187b25ae1bfa8365fb8da7536caa6909f5cc129392a619f02c3d4d6b0"
+    },
+    {
+      "path": "backend/scripts/phase6_pairwise.py",
+      "bytes": 4432,
+      "sha256": "b4ed97940317846a5caadefc6c72ccee54670dbe554f65ffba394a66c3941029"
+    },
+    {
+      "path": "backend/scripts/phase6_prepare.py",
+      "bytes": 2297,
+      "sha256": "a10399b153fdc76024a0be27f0f8b6091e121b887bb76f103a6d70fc71527b61"
+    },
+    {
+      "path": "backend/scripts/phase6_replay.py",
+      "bytes": 2704,
+      "sha256": "cef776279104b6bd8e056f46fdd6367132955109a24564cd941ef52749b45be3"
+    },
+    {
+      "path": "backend/scripts/phase6_runtime.py",
+      "bytes": 6164,
+      "sha256": "78eac9bd5d53d49ae531ba6b61d97e6a38b51bd6fa3fe5419f10d95259115d87"
+    },
+    {
+      "path": "backend/scripts/phase6_summarize.py",
+      "bytes": 8498,
+      "sha256": "ffdd7b69ac73b17e3727aa551b7e1645a88e59318a1a6a04d1ed920a83dfbd20"
+    },
+    {
+      "path": "backend/scripts/phase6_topk.py",
+      "bytes": 2294,
+      "sha256": "ec80d39e2daeedd4308e7ffcfe25e2345b8c0cf022795b6cd2446b024a650130"
+    },
+    {
+      "path": "backend/scripts/phase6_verify.py",
+      "bytes": 3251,
+      "sha256": "451e8d2d41c68152771b28bdb5ca2380fd58e876f5721ae69b0a25ace2d66e20"
+    },
+    {
+      "path": "backend/scripts/publish_reviewed_style_index.py",
+      "bytes": 3854,
+      "sha256": "d6247dfe3be0432a7e68f4f2de23e0147ae22b2e20e9baff389431f747ef0131"
+    },
+    {
+      "path": "backend/scripts/review_style_candidate.py",
+      "bytes": 6379,
+      "sha256": "c54ebc2cc7d5dad4bf091c614aa48020639d51db4f60f722275d3201edef2ffb"
+    },
+    {
+      "path": "backend/scripts/slice1_verify.py",
+      "bytes": 7822,
+      "sha256": "c5fce4cb6d603965e0b269d374f8c0fc1ac5f6b1ffa8ff41e2857d0b51a99f33"
+    },
+    {
+      "path": "backend/scripts/slice2_verify.py",
+      "bytes": 2677,
+      "sha256": "48b6f83315e3ebbf001d701e82c11a4a79d4c3cbfaf21e8064be5aa921d7a569"
+    },
+    {
+      "path": "backend/scripts/slice3_fault_probes.py",
+      "bytes": 7657,
+      "sha256": "d659a0685f694b7b9df801e32060f242528746fc7e4aa50fc840c431caa3106f"
+    },
+    {
+      "path": "backend/scripts/test_chat.py",
+      "bytes": 597,
+      "sha256": "64cd2ea559854f3545c0e39f6189ad3ec2ff5b80654449ed030480332d62b653"
+    },
+    {
+      "path": "backend/tests/test_api_contract.py",
+      "bytes": 2071,
+      "sha256": "3315fa908de5b8373fc1419700d22574f1bae90c7884fb9f68f4572c2ecd56ea"
+    },
+    {
+      "path": "backend/tests/test_context_and_persona.py",
+      "bytes": 12909,
+      "sha256": "95aa6623d9eae73773a42adb62b919f69d6b9da43b665099d985542dfde0f179"
+    },
+    {
+      "path": "backend/tests/test_hybrid_retrieval.py",
+      "bytes": 2065,
+      "sha256": "e414ab3768109a59193bd378c714849e96e829334055d49ede6e71a2686b35d4"
+    },
+    {
+      "path": "backend/tests/test_machine_review_style_candidate.py",
+      "bytes": 1285,
+      "sha256": "379d50fc7efa6cf1df407583cb6e160c4f53e162bfa9b356c5019b40045eba98"
+    },
+    {
+      "path": "backend/tests/test_memory.py",
+      "bytes": 20647,
+      "sha256": "b485a73ef62e7b54674b9f5e984f48b57f5eeb2c1516f3d3999b3859524b7602"
+    },
+    {
+      "path": "backend/tests/test_model_gateway.py",
+      "bytes": 6798,
+      "sha256": "04165bb6ef64d2127af13412dcd9be57b748d7cada0dd8cf427d6d0ff791b432"
+    },
+    {
+      "path": "backend/tests/test_planner_fallback.py",
+      "bytes": 2700,
+      "sha256": "c731e20658d5a69ec06bd16bb1175d76b385f24913cd763d5e6897d31eac6c4a"
+    },
+    {
+      "path": "backend/tests/test_reranker.py",
+      "bytes": 4148,
+      "sha256": "cb65a27df1abfb70651f78d3dd279d712adaea02aabddd695d3ceef07003429e"
+    },
+    {
+      "path": "backend/tests/test_responder_benchmark.py",
+      "bytes": 1359,
+      "sha256": "86ea89be5189e527a7b5d3decb9beb3787c1a96fbd1fdc5abceb8c12e984fa45"
+    },
+    {
+      "path": "backend/tests/test_search_regression.py",
+      "bytes": 2270,
+      "sha256": "cc698bec430c472e81421fa31dbb9529c0a9bdf4627bf97439c53243e5856ac1"
+    },
+    {
+      "path": "backend/tests/test_style_pipeline.py",
+      "bytes": 12622,
+      "sha256": "671c56f3c1327cdac661ce4f65f6062ec3390a41201709568baa18171e89c733"
+    },
+    {
+      "path": "backend/tests/test_unified_responder.py",
+      "bytes": 7350,
+      "sha256": "099c75479b132999bfb3c00e182b3f5ee9e4ae0d7c5770d8b394fcb57d718896"
+    },
+    {
+      "path": "backend/tests/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/hanser_agent/agent/context_builder.py",
+      "bytes": 18569,
+      "sha256": "340a82dd3e516dce5f70019af7c636d6b50c1fb7aba96aeae8111a9e9f8b4081"
+    },
+    {
+      "path": "backend/hanser_agent/agent/conversation.py",
+      "bytes": 5186,
+      "sha256": "0102f15e854cf9efeb6d2d5bad5877e03c01a1c1848f31c8fa2de8b85192f2a9"
+    },
+    {
+      "path": "backend/hanser_agent/agent/planner.py",
+      "bytes": 4508,
+      "sha256": "542eb6e727269fbf3953a0ec813ed255db823b1bf4639432c699a1c7207d89ed"
+    },
+    {
+      "path": "backend/hanser_agent/agent/service.py",
+      "bytes": 4599,
+      "sha256": "868dcdeeb534995f589019ebe040b018b59ce7ef8ca8db0965fc2eca5479aec2"
+    },
+    {
+      "path": "backend/hanser_agent/agent/__init__.py",
+      "bytes": 70,
+      "sha256": "6eb7ad5b91bbea03b364cb6c0a9c969668492fba259e0e1d85aa135e3eb6667a"
+    },
+    {
+      "path": "backend/hanser_agent/memory/extractor.py",
+      "bytes": 10625,
+      "sha256": "0060f96bc3746fbc770e11c543ff8c6ac732c40153ce07afbcb166fe8e6b989d"
+    },
+    {
+      "path": "backend/hanser_agent/memory/pipeline.py",
+      "bytes": 3534,
+      "sha256": "fce8debfdd88cb9ff8d755ae2925441fea4665a2a921e93e671739c3537e8949"
+    },
+    {
+      "path": "backend/hanser_agent/memory/retriever.py",
+      "bytes": 2808,
+      "sha256": "95a4ebf1f6fb88078ca47ef793d83d8ea35812d8438abe5b1c2557b6f81d9aa2"
+    },
+    {
+      "path": "backend/hanser_agent/memory/state_engine.py",
+      "bytes": 2561,
+      "sha256": "09b272866b647da9c9cef92167cb554796223363164e61db128dadb8035d42c2"
+    },
+    {
+      "path": "backend/hanser_agent/memory/store.py",
+      "bytes": 21412,
+      "sha256": "4fb5160f4db26204f98ff3ced85cf4bc32ed11cb688073a995b0bea1fe239681"
+    },
+    {
+      "path": "backend/hanser_agent/memory/summarizer.py",
+      "bytes": 3541,
+      "sha256": "cabb4514e9fe1ab74b95b6396e7b768f6a13ab6634038c7a6ae21e2aa7e0142c"
+    },
+    {
+      "path": "backend/hanser_agent/memory/__init__.py",
+      "bytes": 388,
+      "sha256": "c75254440a9b1aacdc1615002f87ada29473c62dcedaee01be7683ce2ab859b7"
+    },
+    {
+      "path": "backend/hanser_agent/persona/compiler.py",
+      "bytes": 5879,
+      "sha256": "348924105a5978681760dd044cd94f0d4526b0889fc9b5314cafed7c1a220342"
+    },
+    {
+      "path": "backend/hanser_agent/persona/data_pipeline.py",
+      "bytes": 24919,
+      "sha256": "364011e6a101226b6ba0102e14355f0353096ac689a535e6cf4d2ae79a8d140d"
+    },
+    {
+      "path": "backend/hanser_agent/persona/schemas.py",
+      "bytes": 1392,
+      "sha256": "e43dc26a6d45483e871c6db097fd0723efdf28fad050159109791e0e3aaf34c9"
+    },
+    {
+      "path": "backend/hanser_agent/persona/__init__.py",
+      "bytes": 125,
+      "sha256": "7df3ae18dcc6ab41c1ae56788d7217fa6b5d3509605532c29e1df77a9212073b"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/planner.md",
+      "bytes": 3196,
+      "sha256": "807255f52177095429c8b8fa477e918cedabec3a055023eb3f6ce8e0a31f8ff0"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/prometheus.md",
+      "bytes": 400,
+      "sha256": "65e399ab9bfd98d67b99142fe0a1981e3ab11fa2e40552cc5a6596c45ded2336"
+    },
+    {
+      "path": "backend/hanser_agent/responder/service.py",
+      "bytes": 1265,
+      "sha256": "3c6081afa7510ad4a976509825f97a34e019ff1b56ea514f8378a55efb395275"
+    },
+    {
+      "path": "backend/hanser_agent/responder/validator.py",
+      "bytes": 2197,
+      "sha256": "579513898c4fd2e4955131db1256ba1d200b5339789158256dbb922edcdd82bb"
+    },
+    {
+      "path": "backend/hanser_agent/responder/__init__.py",
+      "bytes": 221,
+      "sha256": "015c1d4da97117227035b3b1f7ea46692c68985f053f716c0968353d38b5d1bf"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/bm25.py",
+      "bytes": 3759,
+      "sha256": "e03b356e3994c19d51d15d50dd40461697761af9f469c11d69793dac8bb6ba5e"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/chunker.py",
+      "bytes": 3265,
+      "sha256": "a898b439a0fd98e2691584e0060bde94d2690b98bdf6c978ca1f759972ddc44d"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/embedding.py",
+      "bytes": 4397,
+      "sha256": "4cc0a42651c3a2e3ba1c133c8f5cb4573d1fa44c5a904d4c627dfba316a411a2"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/hybrid.py",
+      "bytes": 5553,
+      "sha256": "189d703facb02c502537efe1547b2d1888c6e27298e9a2fbabb0f9b3ececebf8"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/indexer.py",
+      "bytes": 4585,
+      "sha256": "ee7f4abc6fb11fb95e930aa75ed261f82ae224a59636b99db99f933e526865be"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/legacy_prometheus.py",
+      "bytes": 2138,
+      "sha256": "384ff1a41eaa8b4f554388ad894732160bc8b3696153ea89d4b4271798a5659a"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/reranker.py",
+      "bytes": 8018,
+      "sha256": "f5f7ce795791cee31508e3c2868527d97c889855730f55909ccd2d1c8af497f7"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/vector_store.py",
+      "bytes": 6086,
+      "sha256": "4dfe02484e7125cdcab09002797b5496616f3c498e42136a01cd53b5a7ba37f4"
+    },
+    {
+      "path": "backend/hanser_agent/retrieval/__init__.py",
+      "bytes": 687,
+      "sha256": "d118fac5d25e0fb308df51a46740e373a5f44217c7549a77155d5d3e7f5bcc64"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/persona/behavior.md",
+      "bytes": 925,
+      "sha256": "abbac3a6e659e95ef153bb95e67b6a0337c6773eabfd291e530ab1d789619310"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/persona/boundaries.md",
+      "bytes": 850,
+      "sha256": "7c3e2b7dbda1584acd773f92634f4395dbdc2d381313cdef38a271312cb3d43c"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/persona/core.md",
+      "bytes": 427,
+      "sha256": "85a0b846f50b228167910371ec09d98c0aa803ab19999c179bc1409a301e2ce6"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/persona/style_constraints.yaml",
+      "bytes": 582,
+      "sha256": "153f748335d83f91a3a3cc694577f86b1284aba59f3a69736fa4c536f635fd01"
+    },
+    {
+      "path": "backend/hanser_agent/prompts/persona/voice.md",
+      "bytes": 482,
+      "sha256": "ec297c3a313c4584671467b78c87b9ef9a685add305748d8c9ccc9eaddf913f5"
+    },
+    {
+      "path": "backend/hanser_agent/agent/tools/memory_search.py",
+      "bytes": 763,
+      "sha256": "c998d03af6df3fdca0d1df14821caed84898ba27a7b5e0a9207ffbff32f5d1ae"
+    },
+    {
+      "path": "backend/hanser_agent/agent/tools/style_search.py",
+      "bytes": 4476,
+      "sha256": "d6fa74378882fa2610b667bd5a7874cd346f754046efe5256364699ccee19dca"
+    },
+    {
+      "path": "backend/hanser_agent/agent/tools/wiki_search.py",
+      "bytes": 5134,
+      "sha256": "fb3a0529ae5e60cf2f57e9e185e2dcf8a2262f2b74067009de3dae25811d38a4"
+    },
+    {
+      "path": "backend/hanser_agent/agent/tools/__init__.py",
+      "bytes": 342,
+      "sha256": "a207d4ff2580d9bfcb0dceb9255a46441138a193ba1ae53b588fcfa42084f75a"
+    },
+    {
+      "path": "backend/data/eval/responder_phase7.json",
+      "bytes": 1767,
+      "sha256": "2aa3679663adea92dfe95e97459cf99538c034b20cb2c850c27b3b5d1582a66d"
+    },
+    {
+      "path": "backend/data/eval/retrieval_phase2.json",
+      "bytes": 2381,
+      "sha256": "74973cbf3d1a85ecb3b0024139a71ce7db5755c43868fcdb5bea020563f42c9d"
+    },
+    {
+      "path": "backend/data/eval/router_phase3.json",
+      "bytes": 5685,
+      "sha256": "a0ea00c3967e772def0da8ca878f1f5ada142223ced833bb3d615fd1a4444b92"
+    },
+    {
+      "path": "backend/data/persona/persona_stats.json",
+      "bytes": 2914,
+      "sha256": "030dca73ebd38a80fdf71a271c6950db9b4f4153f6d46c82754bea39fd727ebc"
+    }
+  ]
+}

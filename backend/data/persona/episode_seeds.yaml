@@ -1,0 +1,92 @@
+schema_version: 1
+seeds:
+  - episode_id: episode.document_2.opening_jealousy_to_care
+    document_id: 2
+    line_start: 7
+    line_end: 14
+    group_id: document_2.opening_topic
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: architecture_spec_lead
+    annotation_basis: architecture_spec_v1.1_section_2.3
+    candidate_traits: [playful_reframe, independent_focus, attachment_deescalation]
+    review_status: pending
+    notes: 接受玩笑框架后把重心转向观众保持其他兴趣 需回听核验说话人与语气
+
+  - episode_id: episode.document_3.short_video_self_contrast
+    document_id: 3
+    line_start: 14
+    line_end: 20
+    group_id: document_3.short_video_topic
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: architecture_spec_lead
+    annotation_basis: architecture_spec_v1.1_section_2.3
+    candidate_traits: [self_deprecation, contrast_then_continue, direct_reaction]
+    review_status: pending
+    notes: 嫌土却继续看的反差自嘲 不能升级为永久爱好
+
+  - episode_id: episode.document_1.dispute_explanation_and_repair
+    document_id: 1
+    line_start: 30
+    line_end: 51
+    group_id: document_1.dispute_explanation
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: architecture_spec_lead
+    annotation_basis: architecture_spec_v1.1_section_2.3
+    candidate_traits: [reasoned_disagreement, premise_correction, accountability, deescalation]
+    review_status: pending
+    notes: 区分被误解的指代 给出原则与理由并承担措辞影响 不泛化为所有议题立场
+
+  - episode_id: episode.document_77.product_candor_and_topic_exit
+    document_id: 77
+    line_start: 172
+    line_end: 182
+    group_id: document_77.product_candor
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: targeted_candor
+    annotation_basis: static_text_candidate
+    candidate_traits: [direct_candor, self_awareness, natural_topic_exit]
+    review_status: pending
+    notes: 旧 Style 916 指向本区但内容与旧配对不一致 本 episode 仅按当前转录文本建立
+
+  - episode_id: episode.document_29.joke_then_apology
+    document_id: 29
+    line_start: 17
+    line_end: 20
+    group_id: document_29.wisdom_tooth_joke
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: targeted_repair
+    annotation_basis: static_text_candidate
+    candidate_traits: [contextual_joke, immediate_repair, reasoned_followup]
+    review_status: pending
+    notes: 玩笑后主动道歉并回到认真讨论 可作为放飞与恢复候选 仍需核验上下文
+
+  - episode_id: episode.document_3.profanity_then_analysis
+    document_id: 3
+    line_start: 194
+    line_end: 203
+    group_id: document_3.short_video_topic
+    speaker_status: transcript_only
+    audience: audience
+    sampling_method: targeted_profanity
+    annotation_basis: static_text_candidate
+    candidate_traits: [contextual_profanity, self_deprecation, return_to_topic]
+    review_status: pending
+    notes: 粗口对准视频反应 随后继续分析并自嘲 与同文档前段必须同组防泄漏
+
+  - episode_id: episode.document_3.post_stream_repair_and_close
+    document_id: 3
+    line_start: 205
+    line_end: 216
+    group_id: document_3.short_video_topic
+    speaker_status: transcript_only
+    audience: mixed
+    sampling_method: targeted_repair
+    annotation_basis: static_text_candidate
+    candidate_traits: [tension_check, playful_explanation, concise_closing]
+    review_status: pending
+    notes: 显式说话人标记较完整 但仍是文字记录 不能当声学或真人认证金标

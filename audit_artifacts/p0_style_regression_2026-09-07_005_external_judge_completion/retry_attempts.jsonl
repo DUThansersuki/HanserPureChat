@@ -1,0 +1,5 @@
+{"case_id": "late_night", "reverse": true, "attempt": 1, "status": "MEASURED", "latency_seconds": 34.88837709999643}
+{"case_id": "recall", "reverse": true, "attempt": 1, "status": "MEASURED", "latency_seconds": 39.89962419999938}
+{"case_id": "storytelling", "reverse": true, "attempt": 1, "status": "MEASURED", "latency_seconds": 30.04181000000972}
+{"case_id": "storytelling", "reverse": false, "attempt": 1, "status": "NOT_EXECUTED", "latency_seconds": 64.73197330000403, "error": "JSONDecodeError: Expecting ',' delimiter: line 11 column 4 (char 237)"}
+{"case_id": "storytelling", "reverse": false, "attempt": 2, "status": "MEASURED", "latency_seconds": 57.13102670000808}

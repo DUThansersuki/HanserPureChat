@@ -1,0 +1,17 @@
+{
+  "run_at": "2026-09-08T14:18:24.975162+00:00",
+  "config_sha256": "4695119ade87b72ddd41e00960bcf3fe06641ac96bab20bdb46287208a7f2072",
+  "production_database": "H:\\HanserAgent\\source_data\\documents.db",
+  "production_database_sha256": "44630902b0393f10c59129993bd93f35ba8a396c423b300a51675dfe78c673c9",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\persona_v2_candidate_2026-09-08_008\\candidate.db",
+  "candidate_database_sha256": "c160535de4fb5065e8012ee8e7afa5bd99d8d4630f18d56aacd24e83518f5897",
+  "candidate_manifest_sha256": "dd89298959e543043823bcc333cc2501755699774b10c043f73b711002d9ac59",
+  "sequences_sha256": "3bd9678c7f7c10829c7b2f2792e510ad7a5d78729ad4507e2b002828dc954370",
+  "sequence_count": 6,
+  "turn_count": 72,
+  "history_mode": "natural variant-specific assistant history; shared Planner uses same-session user history only",
+  "planner_model": "qwen3.5:4b",
+  "responder_model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "production_switched": false
+}

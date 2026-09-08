@@ -1,0 +1,138 @@
+{
+  "run_at": "2026-09-08T12:16:55.079064+00:00",
+  "sequences": 2,
+  "turns": 24,
+  "generations": {
+    "measured": 48,
+    "failed": 0
+  },
+  "judgments": {
+    "measured": 4,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "preference_counts": {
+      "B": 2,
+      "tie": 2
+    },
+    "inconsistent_sequences": [],
+    "inconsistent_rate": 0.0
+  },
+  "score_means": {
+    "A": {
+      "continuity": 4.5,
+      "context_fit": 4.5,
+      "autonomy": 4.5,
+      "natural_restraint": 4.25,
+      "warmth_not_cutesy": 4.25,
+      "content_effectiveness": 4.5
+    },
+    "B": {
+      "continuity": 5.0,
+      "context_fit": 5.0,
+      "autonomy": 5.0,
+      "natural_restraint": 5.0,
+      "warmth_not_cutesy": 5.0,
+      "content_effectiveness": 5.0
+    }
+  },
+  "behavior_rates": {
+    "A": {
+      "recovery_success": 1,
+      "permission_respected": 1,
+      "exact_text_preserved": 1,
+      "no_cross_user_leakage": 1
+    },
+    "B": {
+      "recovery_success": 1,
+      "permission_respected": 1,
+      "exact_text_preserved": 1,
+      "no_cross_user_leakage": 1
+    }
+  },
+  "hard_failures": {
+    "A": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "cross_user_state_leakage": 0,
+        "format_corruption": 0
+      }
+    },
+    "B": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "cross_user_state_leakage": 0,
+        "format_corruption": 0
+      }
+    }
+  },
+  "material_regressions": [],
+  "model_operations": {
+    "planner": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "ollama:qwen3.5:4b:success": 24
+      },
+      "prompt_tokens": 28536,
+      "completion_tokens": 6090,
+      "total_tokens": 34626,
+      "latency_p50": 12.005821000000001,
+      "latency_p95": 32.936183
+    },
+    "responder_A": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 24
+      },
+      "prompt_tokens": 66377,
+      "completion_tokens": 700,
+      "total_tokens": 67077,
+      "latency_p50": 2.0878345,
+      "latency_p95": 3.075949
+    },
+    "responder_B": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 24
+      },
+      "prompt_tokens": 86952,
+      "completion_tokens": 561,
+      "total_tokens": 87513,
+      "latency_p50": 2.1576775,
+      "latency_p95": 2.989771
+    },
+    "judge": {
+      "calls": 4,
+      "successful_calls": 4,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-pro:success": 4
+      },
+      "prompt_tokens": 16522,
+      "completion_tokens": 1695,
+      "total_tokens": 18217,
+      "latency_p50": 5.767301,
+      "latency_p95": 6.99626
+    }
+  },
+  "conclusion": "未证实",
+  "conclusion_reasons": [
+    "sample, judge failure, or order-consistency gate not met"
+  ],
+  "production_switched": false
+}

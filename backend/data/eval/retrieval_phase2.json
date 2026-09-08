@@ -1,0 +1,62 @@
+[
+  {
+    "query": "在德国旅行时 Hanser 看到座椅缝里塞满烟头是在哪次直播",
+    "keywords": ["科隆", "座椅", "烟头"],
+    "relevant_filenames": ["2023年6月17日 星期六.docx"]
+  },
+  {
+    "query": "天气潮湿时猫把爪子伸出来走路 越伸越滑",
+    "keywords": ["回南天", "猫", "越伸越滑"],
+    "relevant_filenames": ["2022年3月28日 星期一.docx"]
+  },
+  {
+    "query": "Hanser 提醒保温杯装开水不能摇晃是哪天",
+    "keywords": ["保温杯", "开水", "摇晃"],
+    "relevant_filenames": ["2023年11月1日\u00a0星期三.docx"]
+  },
+  {
+    "query": "合约最后一天和工时直播最后一天是哪次直播",
+    "keywords": ["合约", "最后一天", "工时直播"],
+    "relevant_filenames": ["2024年8月30日 星期五.docx"]
+  },
+  {
+    "query": "Hanser 和发小 sugies 一起播是哪天",
+    "keywords": ["发小", "sugies", "一起播"],
+    "relevant_filenames": ["2023年11月10日\u00a0星期五.docx"]
+  },
+  {
+    "query": "玩 P3R day 10 时提到五月雨斩",
+    "keywords": ["P3r", "day 10", "五月雨斩"],
+    "relevant_filenames": ["2024年4月16日 星期二.docx"]
+  },
+  {
+    "query": "Hanser 为了补时长打算直播六小时看番",
+    "keywords": ["补时长", "六个小时", "看番"],
+    "relevant_filenames": ["2023年7月31日 星期一-2.docx"]
+  },
+  {
+    "query": "消防员说清明节从来没有扫过墓 因为都在出警",
+    "keywords": ["清明节", "消防员", "出警"],
+    "relevant_filenames": ["2022年4月4日 星期一.docx"]
+  },
+  {
+    "query": "Hanser 出差录辉夜大小姐的书记 两季都录完了",
+    "keywords": ["辉夜大小姐", "书记", "两季"],
+    "relevant_filenames": ["2021年10月27日 星期三.docx"]
+  },
+  {
+    "query": "哪次直播把葬花口误说成脏话",
+    "keywords": ["葬花", "脏话", "文件名字"],
+    "relevant_filenames": ["2021年10月20日 星期三.docx"]
+  },
+  {
+    "query": "海上油菜花举办当天 Hanser 提醒不要举超大应援板",
+    "keywords": ["海上油菜花", "应援板", "不要举"],
+    "relevant_filenames": ["2021年10月3日 海上油菜花 .docx"]
+  },
+  {
+    "query": "Hanser 说自己真的不办生日会",
+    "keywords": ["不办生日会", "第一次参加", "真的不办"],
+    "relevant_filenames": ["2022年5月15日 星期日.docx"]
+  }
+]

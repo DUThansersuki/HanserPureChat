@@ -1,0 +1,7 @@
+{
+  "mode": "OFFLINE_READ_ONLY",
+  "episodes": 7,
+  "groups": 5,
+  "all_pending": true,
+  "model_operations": "NOT_EXECUTED"
+}

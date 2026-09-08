@@ -1,0 +1,70 @@
+{
+  "production_db_unchanged": true,
+  "baseline_files_changed": [
+    "backend/scripts/phase6_prepare.py"
+  ],
+  "production_files_changed": [],
+  "counts": {
+    "ablation_outputs.jsonl": {
+      "rows": 222,
+      "statuses": {
+        "MEASURED": 222
+      }
+    },
+    "runtime_traces.jsonl": {
+      "rows": 40,
+      "statuses": {
+        "200": 40
+      }
+    },
+    "topk_outputs.jsonl": {
+      "rows": 50,
+      "statuses": {
+        "MEASURED": 50
+      }
+    },
+    "pairwise_judgments.jsonl": {
+      "rows": 74,
+      "statuses": {
+        "NOT_EXECUTED": 41,
+        "MEASURED": 33
+      }
+    },
+    "human_review_samples.jsonl": {
+      "rows": 74,
+      "statuses": {
+        "sample": 74
+      }
+    }
+  },
+  "scripts_syntax_checked": 9,
+  "reports_present": {
+    "CURRENT_IMPLEMENTATION_AUDIT.md": true,
+    "PERSONA_SYSTEM_DEEP_REVIEW.md": true,
+    "CURRENT_SYSTEM_EVALUATION.md": true,
+    "NEXT_STAGE_ENGINEERING_GUIDE.md": true,
+    "PERSONA_REGRESSION_SUITE.md": true,
+    "ARCHITECTURE_SPEC_DELTA.md": true
+  },
+  "manifest": {
+    "backend\\scripts\\phase6_audit.py": "305021ae124833c46f4ac6e9e6298d80c4adf39db1f5a642b1c364b1347823de",
+    "backend\\scripts\\phase6_fault_probes.py": "04249f849c4134d5af125a642711f6204e84b6289edc21852defd2c756880b95",
+    "backend\\scripts\\phase6_pairwise.py": "b4ed97940317846a5caadefc6c72ccee54670dbe554f65ffba394a66c3941029",
+    "backend\\scripts\\phase6_prepare.py": "a10399b153fdc76024a0be27f0f8b6091e121b887bb76f103a6d70fc71527b61",
+    "backend\\scripts\\phase6_replay.py": "cef776279104b6bd8e056f46fdd6367132955109a24564cd941ef52749b45be3",
+    "backend\\scripts\\phase6_runtime.py": "78eac9bd5d53d49ae531ba6b61d97e6a38b51bd6fa3fe5419f10d95259115d87",
+    "backend\\scripts\\phase6_summarize.py": "ffdd7b69ac73b17e3727aa551b7e1645a88e59318a1a6a04d1ed920a83dfbd20",
+    "backend\\scripts\\phase6_topk.py": "ec80d39e2daeedd4308e7ffcfe25e2345b8c0cf022795b6cd2446b024a650130",
+    "backend\\scripts\\phase6_verify.py": "451e8d2d41c68152771b28bdb5ca2380fd58e876f5721ae69b0a25ace2d66e20",
+    "CURRENT_IMPLEMENTATION_AUDIT.md": "a2addf3dc63bc34ebf44b9f0e4217a2537aecdd2d5fbe9c0c9fe570079f6e5f5",
+    "PERSONA_SYSTEM_DEEP_REVIEW.md": "ad1b4045dc3081c8114d03e8a833d8bbfd18dd98453c64f3ddc2cf8a86dc6e51",
+    "CURRENT_SYSTEM_EVALUATION.md": "103dd742b74bfdd934f1c8d8367fad1175b891927e34c8077bea7c8c5c582dd4",
+    "NEXT_STAGE_ENGINEERING_GUIDE.md": "d2c8a9a5182240a71eeb357aa1bba242093a6d18f540005a8b7adfc895f276e4",
+    "PERSONA_REGRESSION_SUITE.md": "91c3e2d2d3a24d17ef09824fa8dd640869912704d95799efb162875ad27b9260",
+    "ARCHITECTURE_SPEC_DELTA.md": "9ac3f61f9b9da25fe66219206545c54a07c0f4fcc7a145ef8d49634a671f20df",
+    "audit_artifacts\\phase6\\fixed_cases.json": "17ae0a069812d8e581846cf184e758faba7d51472a0f9e6befaf639a12a6689e",
+    "audit_artifacts\\phase6\\frozen_contexts.jsonl": "8dd876e88e5bedcc92f2d95b31f5b496aac30c3b65f98618fde5b8fbd700a196",
+    "audit_artifacts\\phase6\\multi_turn_cases.json": "9d332cb41fa13649b3b7272bd17b58aa84818b38e9d1b89846c7c626379c4660",
+    "audit_artifacts\\phase6\\judge_prompt.txt": "ed76780abc55713fee2311e42b7cad62290f7638f05d99ca414f7432574a9dee"
+  }
+}

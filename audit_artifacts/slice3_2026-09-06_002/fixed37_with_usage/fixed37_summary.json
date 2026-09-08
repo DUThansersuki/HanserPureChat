@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-09-06T12:23:11.469914+00:00",
+  "baseline": "H:\\HanserAgent\\audit_artifacts\\phase6\\frozen_contexts.jsonl",
+  "baseline_sha256": "8dd876e88e5bedcc92f2d95b31f5b496aac30c3b65f98618fde5b8fbd700a196",
+  "config_sha256": "4695119ade87b72ddd41e00960bcf3fe06641ac96bab20bdb46287208a7f2072",
+  "context_builder_sha256": "03359185d134f0a9548c926db5f0c0027894672d453d4d26d6bb9b0463a1f317",
+  "persona_compiler_sha256": "348924105a5978681760dd044cd94f0d4526b0889fc9b5314cafed7c1a220342",
+  "total": 37,
+  "measured": 37,
+  "failed": 0,
+  "provider": "openai_compatible",
+  "model": "deepseek-v4-flash",
+  "thinking": false,
+  "concurrency": 3,
+  "input_token_budget": 24576,
+  "output_reserve_tokens": 8192,
+  "provider_context_window": 1000000,
+  "max_estimated_input_tokens": 5962,
+  "budget_violations": 0,
+  "missing_prompt_hashes": 0,
+  "drop_events": 0
+}

@@ -1,0 +1,5 @@
+{
+  "method": "nonidentical normalized response character trigram Jaccard >= .75, min length 12; lexical screen, not semantic duplicate gold",
+  "pairs": [],
+  "count": 0
+}

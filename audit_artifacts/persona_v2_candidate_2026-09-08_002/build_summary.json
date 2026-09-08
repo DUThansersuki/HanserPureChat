@@ -1,0 +1,32 @@
+{
+  "built_at": "2026-09-08T10:09:37.614660+00:00",
+  "source_database": "H:\\HanserAgent\\audit_artifacts\\slice2_2026-09-06_003\\candidate.db",
+  "source_database_sha256": "847353c4616a5a1840432f4c5f80e3d25d97e5814193de8892337537107d2999",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\persona_v2_candidate_2026-09-08_002\\candidate.db",
+  "candidate_database_sha256": "c15f75eda9bfdc937b3e6d2605382f916c2e98c72726909d5f62a92f64064d9a",
+  "package_manifest_sha256": "35032d2694754ecc5a293ed72adf386308799f852804f5268bcf0cf33f986344",
+  "primary_reviews_sha256": "e35d24cd226d60623f9ab2eb57b2b4e800da90c7f2d9d7cde1c7e28fba0d4c6a",
+  "independent_reviews_sha256": "567b28d64271b9a514f83a1636b8d57081ea77553c26cfa9e998174ecf7bf70d",
+  "calibration": {
+    "items": 96,
+    "decision_agreement": 0.75,
+    "payload_agreement": 0.447917,
+    "behavior_exact_agreement": 0.364583,
+    "expression_exact_agreement": 0.84375
+  },
+  "old_approved_rows": 840,
+  "v2_runtime_eligible": 517,
+  "v2_rejected_or_pending": 323,
+  "decision_counts": {
+    "rejected": 323,
+    "approved": 517
+  },
+  "style_generation": "persona-v2-style-18ec9b64f580f17d",
+  "source_style_generation": "legacy-v1",
+  "active_generations": {
+    "fact_chunks": "legacy-v1",
+    "style_examples": "persona-v2-style-18ec9b64f580f17d"
+  },
+  "vector_strategy": "reused exact embeddings because prompt/response text is unchanged",
+  "production_database_modified": false
+}

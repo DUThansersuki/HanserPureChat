@@ -1,0 +1,135 @@
+context:
+  estimator: utf8_bytes_div_3
+  input_token_budget: 24576
+  message_overhead_tokens: 4
+  output_reserve_tokens: 8192
+data:
+  data_dir: H:\HanserAgent\source_data\data
+  db_path: H:\HanserAgent\audit_artifacts\slice4_runtime_2026-09-07_001\audit.db
+  userdict_path: H:\HanserAgent\source_data\userdict.txt
+llm:
+  api_key: audit-placeholder
+  base_url: https://api.deepseek.com/
+  bunny:
+    max_tokens: 512
+    model: ''
+    temperature: 0.1
+    top_p: 0.9
+  hanser:
+    max_tokens: 8192
+    model: ''
+    temperature: 0.3
+    top_p: 0.9
+  model: deepseek-v4-flash
+  prometheus:
+    max_tokens: 1024
+    model: ''
+    temperature: 0.1
+    top_p: 0.9
+memory:
+  candidate_pool_size: 20
+  min_confidence: 0.75
+  min_importance: 0.6
+  recent_messages: 12
+  retrieval_top_k: 5
+  summary_interval_messages: 12
+  summary_max_chars: 800
+  summary_trigger_messages: 20
+models:
+  embedding:
+    batch_size: 8
+    device: cpu
+    dimension: 1024
+    dtype: float32
+    instruction: Given a Chinese Hanser Wiki question, retrieve passages that contain
+      evidence needed to answer the question
+    local_files_only: true
+    max_length: 1024
+    model: Qwen/Qwen3-Embedding-0.6B
+    provider: local
+  planner:
+    context_window: 4096
+    endpoint: http://127.0.0.1:11434
+    external_fallback: true
+    keep_alive: 5m
+    max_tokens: 512
+    model: qwen3.5:4b
+    provider: ollama
+    temperature: 0.1
+    think: false
+    top_p: 0.9
+  reranker:
+    batch_size: 8
+    candidate_pool_size: 20
+    device: auto
+    dtype: auto
+    instruction: Given a Chinese Hanser Wiki question, retrieve passages that contain
+      evidence needed to answer the question
+    local_files_only: true
+    max_length: 768
+    model: Qwen/Qwen3-Reranker-0.6B
+    provider: local
+    top_k: 5
+  responder:
+    context_window: 1000000
+  responder_benchmarks:
+    qwen35_2b:
+      context_window: 4096
+      endpoint: http://127.0.0.1:11434
+      keep_alive: 5m
+      max_tokens: 256
+      model: qwen3.5:2b
+      provider: ollama
+      temperature: 0.65
+      think: false
+      top_p: 0.9
+    qwen35_4b:
+      context_window: 4096
+      endpoint: http://127.0.0.1:11434
+      keep_alive: 5m
+      max_tokens: 256
+      model: qwen3.5:4b
+      provider: ollama
+      temperature: 0.65
+      think: false
+      top_p: 0.9
+    qwen35_9b_q4:
+      context_window: 4096
+      endpoint: http://127.0.0.1:11434
+      keep_alive: 5m
+      max_tokens: 256
+      model: qwen3.5:9b
+      provider: ollama
+      temperature: 0.65
+      think: false
+      top_p: 0.9
+    qwen3_rpg_4b_q4:
+      context_window: 4096
+      endpoint: http://127.0.0.1:11434
+      keep_alive: 5m
+      max_tokens: 256
+      model: hf.co/Chun121/Qwen3-4B-RPG-Roleplay-V2:Q4_K_M
+      provider: ollama
+      temperature: 0.65
+      think: false
+      top_p: 0.9
+retrieval:
+  bm25_top_k: 40
+  candidate_pool_size: 24
+  chunk_max_chars: 1000
+  chunk_overlap_chars: 120
+  chunk_target_chars: 800
+  dense_top_k: 40
+  fusion_k: 60
+  mode: hybrid
+  top_k: 6
+server:
+  host: 127.0.0.1
+  port: 8765
+style:
+  candidate_pool_size: 16
+  enabled: true
+  min_quality: 0.68
+  output_dir: data/persona
+  reviewed_only: false
+  top_k: 3
