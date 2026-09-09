@@ -207,9 +207,22 @@ class StyleValidator:
             violations.append("fabricated_unresolved_reference_option")
 
         if behavior_decision is not None:
+            requirement_ids = {
+                item.requirement_id for item in behavior_decision.must_do
+            }
+            if (
+                "expression.use_light_profanity" in requirement_ids
+                and not any(
+                    pattern.search(result.text)
+                    for pattern in self.disallowed_feature_patterns.get(
+                        "profanity", []
+                    )
+                )
+            ):
+                violations.append("missing_required_feature:profanity")
             if (
                 "task.answer_supported_facts_only"
-                in {item.requirement_id for item in behavior_decision.must_do}
+                in requirement_ids
                 and any(
                     pattern.search(result.text)
                     for pattern in self.factual_epistemic_patterns

@@ -10,7 +10,13 @@ from uuid import uuid4
 from ..config import PerformanceConfig
 from ..failures import ServiceFailure
 from ..memory import MemoryStore, PostTurnPipeline
-from ..models import ChatRequest, ChatResponse, RelationshipState, SceneState
+from ..models import (
+    ChatRequest,
+    ChatResponse,
+    PersonaRequestSettings,
+    RelationshipState,
+    SceneState,
+)
 from ..persona.expression import observe_recent_expressions
 from ..persona.permissions import infer_expression_permissions
 from ..persona.policy import build_guidance
@@ -68,6 +74,7 @@ class ChatAgentService:
             "user_id": request.user_id,
             "conversation_id": request.conversation_id,
             "message": request.message,
+            "persona_settings": request.persona_settings.model_dump(mode="json"),
             "output_preferences": request.output_preferences.model_dump(mode="json"),
             "render_profile_revision": request.render_profile_revision,
         }
@@ -79,6 +86,7 @@ class ChatAgentService:
             ).encode("utf-8")
         ).hexdigest()
         frozen_request: dict[str, object] = {
+            "persona_settings": request.persona_settings.model_dump(mode="json"),
             "output_preferences": effective_preferences(
                 request.output_preferences,
                 structured_enabled=self.performance_config.structured_performance_enabled,
@@ -117,6 +125,9 @@ class ChatAgentService:
 
         output_preferences = OutputPreferences.model_validate(
             frozen_request["output_preferences"]
+        )
+        persona_settings = PersonaRequestSettings.model_validate(
+            frozen_request["persona_settings"]
         )
         structured_performance = bool(
             frozen_request["structured_performance"]
@@ -163,6 +174,7 @@ class ChatAgentService:
                 turn_signals = build_turn_signals(
                     request.message,
                     current_message_ref=f"request:{request_id}:current_user",
+                    adult_innuendo_opt_in=persona_settings.adult_innuendo_opt_in,
                     planner_payload=plan.persona_signals,
                     history_messages=history,
                 )
@@ -179,6 +191,11 @@ class ChatAgentService:
                     turn_signals.preference_events,
                     current_message_id=f"request:{request_id}:current_user",
                     persistent_preferences=durable_preferences,
+                    explicit_overrides=(
+                        {"innuendo": "allow"}
+                        if persona_settings.adult_innuendo_opt_in
+                        else None
+                    ),
                 )
                 behavior_decision = build_guidance(
                     turn_signals,
@@ -189,6 +206,14 @@ class ChatAgentService:
                     fact_sensitivity=plan.fact_sensitivity,
                     need_wiki=plan.need_wiki,
                     behavior_priors=self.context_builder.persona_compiler.behavior_priors,
+                    pacing_key=f"{request.user_id}:{request.conversation_id}",
+                    successful_assistant_turns=(
+                        self.conversations.message_count(
+                            request.conversation_id,
+                            user_id=request.user_id,
+                        )
+                        // 2
+                    ),
                 )
 
             async def safe_tool(label: str, coroutine):
@@ -340,6 +365,7 @@ class ChatAgentService:
                 persona_trace={
                     "input": {
                         "current_message_id": user_message_id,
+                        "persona_settings": persona_settings.model_dump(mode="json"),
                         "visible_history": [
                             {"message_id": item.message_id, "role": item.role}
                             for item in history
@@ -391,6 +417,7 @@ class ChatAgentService:
                         "semantic_text": semantic_text,
                         "final_text": response.text,
                         "status": generated.generation_status,
+                        "validator_actions": generated.validator_actions,
                         "planner_calls": len(planner_call_records),
                         "responder_attempts": generated.attempts,
                         "responder_calls": len(responder_call_records),

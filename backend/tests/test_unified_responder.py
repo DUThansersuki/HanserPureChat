@@ -16,7 +16,12 @@ from hanser_agent.models import (
     RelationshipState,
     SceneState,
 )
-from hanser_agent.persona import PersonaCompiler, build_guidance
+from hanser_agent.persona import (
+    EffectivePersonaSettings,
+    PersonaCompiler,
+    build_guidance,
+)
+from hanser_agent.persona.expression import observe_recent_expressions
 from hanser_agent.persona.signals import build_turn_signals
 from hanser_agent.responder import HanserResponder, StyleValidator
 from tests.test_context_and_persona import PERSONA_DIR
@@ -162,6 +167,62 @@ class FakeStyleTool:
 
 
 class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
+    async def test_unfulfilled_optional_profanity_does_not_fail_chat(self) -> None:
+        gateway = SequencedModelGateway(
+            ["这游戏也太折磨人了", "真的很会折磨人"]
+        )
+        responder = HanserResponder(
+            model_gateway=gateway,
+            validator=StyleValidator(CANDIDATE_DIR / "style_constraints.yaml"),
+        )
+        signals = build_turn_signals(
+            "这游戏又闪退了",
+            current_message_ref="current",
+            planner_payload={
+                "playful_frame": {
+                    "value": True,
+                    "confidence": "high",
+                    "evidence_refs": ["current_user"],
+                }
+            },
+        )
+        settings = EffectivePersonaSettings(profanity_target_rate=0.15)
+        decision = build_guidance(
+            signals,
+            {},
+            observe_recent_expressions([]),
+            settings,
+            pacing_key="frequency-eval-user:profanity15.daily.pet",
+            successful_assistant_turns=0,
+        )
+        context = ContextBuilder(PersonaCompiler(CANDIDATE_DIR)).build(
+            current_message="这游戏又闪退了",
+            history=[],
+            plan=DialoguePlan(
+                intent="chitchat",
+                need_wiki=False,
+                need_memory=False,
+                need_style_examples=False,
+                standalone_query="这游戏又闪退了",
+                keywords=[],
+                response_mode="casual",
+                fact_sensitivity="low",
+                target_length="short",
+            ),
+            turn_signals=signals,
+            behavior_decision=decision,
+            effective_persona=settings,
+        )
+
+        result = await responder.respond(context)
+
+        self.assertEqual(result.text, "真的很会折磨人")
+        self.assertEqual(result.generation_status, "contract_fallback")
+        self.assertIn(
+            "optional_feature_unfulfilled:profanity",
+            result.validator_actions,
+        )
+
     async def test_candidate_retries_once_for_missing_verbatim_span(self) -> None:
         gateway = SequencedModelGateway(
             ["2020年至2023年", "2020-2023"]

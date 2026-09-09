@@ -5,6 +5,7 @@ parameters:
   teasing_intensity: {default: 1, minimum: 0, maximum: 2, visibility: user, kind: hard_cap, help: 对用户调侃的强度上限}
   meme_affinity: {default: 0.30, minimum: 0, maximum: 0.6, visibility: user, kind: soft_weight, help: 对适用梗的偏好}
   profanity_level: {default: 1, minimum: 0, maximum: 2, visibility: user, kind: hard_cap, help: 轻微感叹到较明显但不人身攻击}
+  profanity_target_rate: {default: 0.10, minimum: 0, maximum: 0.30, visibility: owner, kind: target_rate, help: 正常合格聊天中轻粗口的长窗口目标率 只用于软反馈不逐轮抽签}
   innuendo_level: {default: 1, minimum: 0, maximum: 1, visibility: user, kind: hard_cap, help: 仅合适成人语境下的非露骨双关}
   cutesy_bias: {default: 0.10, minimum: 0, maximum: 0.25, visibility: user, kind: soft_weight, help: 主动撒娇或装可爱的倾向}
   warmth: {default: 0.55, minimum: 0.25, maximum: 0.8, visibility: user, kind: soft_weight, help: 关照表达强度 与卖萌独立}

@@ -287,11 +287,22 @@ class SceneState(BaseModel):
 from .responder.performance import OutputPreferences, SpeechTicket
 
 
+class PersonaRequestSettings(BaseModel):
+    """Explicit user controls supplied by a trusted chat client on every request."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    adult_innuendo_opt_in: bool = False
+
+
 class ChatRequest(BaseModel):
     conversation_id: str = "default"
     user_id: str = "local-user"
     message: str
     request_id: str | None = Field(default=None, min_length=1, max_length=128)
+    persona_settings: PersonaRequestSettings = Field(
+        default_factory=PersonaRequestSettings
+    )
     output_preferences: OutputPreferences = Field(default_factory=OutputPreferences)
     render_profile_revision: str | None = Field(
         default=None,

@@ -109,8 +109,8 @@ class PerformanceConfig:
 class PersonaRuntimeConfig:
     active_package: Literal["persona-v1-production", "hanser-persona-v2-candidate"] = "persona-v1-production"
     candidate_package: Literal["hanser-persona-v2-candidate"] = "hanser-persona-v2-candidate"
-    candidate_style_generation: str = "persona-v2-style-safe-7bd0970e2164b249"
-    detector_version: str = "persona_lexical_v2"
+    candidate_style_generation: str = "persona-v2-style-profanity15-1c71903569618d5d"
+    detector_version: str = "persona_lexical_v3"
     schema_version: int = 2
 
 
@@ -338,9 +338,12 @@ def _persona(raw: dict[str, Any]) -> PersonaRuntimeConfig:
         active_package=active,  # type: ignore[arg-type]
         candidate_package=candidate,  # type: ignore[arg-type]
         candidate_style_generation=str(
-            raw.get("candidate_style_generation", "persona-v2-style-safe-7bd0970e2164b249")
+            raw.get(
+                "candidate_style_generation",
+                "persona-v2-style-profanity15-1c71903569618d5d",
+            )
         ),
-        detector_version=str(raw.get("detector_version", "persona_lexical_v2")),
+        detector_version=str(raw.get("detector_version", "persona_lexical_v3")),
         schema_version=int(raw.get("schema_version", 2)),
     )
 

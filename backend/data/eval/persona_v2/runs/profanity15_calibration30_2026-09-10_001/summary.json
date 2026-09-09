@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "run_at": "2026-09-09T16:19:38.825153+00:00",
+  "execution_mode": "real_chat_agent_service_unguided_daily_multiturn",
+  "package_id": "hanser-persona-v2-candidate-20260909-profanity15",
+  "style_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "detector_version": "persona_lexical_v3",
+  "target_profanity_rate": 0.15,
+  "turns": 30,
+  "profanity_turns": 0,
+  "profanity_rate": 0.0,
+  "strong_self_reference_turns": 0,
+  "degraded_turns": 19,
+  "model_calls": 60,
+  "elapsed_seconds": 219.962291
+}

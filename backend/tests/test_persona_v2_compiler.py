@@ -45,7 +45,10 @@ class PersonaV2CompilerTests(unittest.TestCase):
 
         self.assertEqual(first.render_sha256, second.render_sha256)
         self.assertEqual(first.source_sha256, second.source_sha256)
-        self.assertEqual(first.package_id, "hanser-persona-v2-candidate-20260908")
+        self.assertEqual(
+            first.package_id,
+            "hanser-persona-v2-candidate-20260909-profanity15",
+        )
         self.assertIn("硬要求必须遵守", first.behavior)
         self.assertIn("软倾向可自然融合", first.behavior)
         self.assertIn("user.no_unsolicited_advice", first.behavior)

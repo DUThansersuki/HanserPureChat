@@ -51,6 +51,8 @@ export type HanserChatResponse = {
   trace_id?: string;
   status?: "ok" | "degraded";
   degraded_reasons?: string[];
+  post_turn_status?: "completed" | "pending_retry";
+  post_turn_retry_id?: string;
   sources?: unknown[];
 };
 

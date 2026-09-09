@@ -85,6 +85,7 @@ class StyleSearchTool:
         )
         vector = (await self.embedder.embed_queries([query_text]))[0]
         active_generation: str | None = None
+        expression_seed_ids: list[str] = []
         if self.settings.style.reviewed_only or v2_active:
             with db.connect(self.settings.db_path) as conn:
                 if v2_active:
@@ -121,6 +122,31 @@ class StyleSearchTool:
                         """
                     ).fetchall()
                 ]
+                requested_expression_tags = self._requested_expression_tags(
+                    behavior_decision
+                )
+                if v2_active and active_generation and requested_expression_tags:
+                    placeholders = ",".join("?" for _ in requested_expression_tags)
+                    expression_seed_ids = [
+                        str(row["id"])
+                        for row in conn.execute(
+                            f"""
+                            SELECT DISTINCT style_examples.id
+                            FROM style_examples,
+                                 json_each(style_examples.metadata_json, '$.expression_tags') AS tag
+                            WHERE style_examples.index_generation = ?
+                              AND style_examples.review_status = 'approved'
+                              AND style_examples.source_speaker = 'hanser'
+                              AND style_examples.embedding_ref IS NOT NULL
+                              AND tag.value IN ({placeholders})
+                            ORDER BY style_examples.quality_score DESC,
+                                     style_examples.authenticity_score DESC,
+                                     style_examples.id
+                            LIMIT 4
+                            """,
+                            (active_generation, *requested_expression_tags),
+                        ).fetchall()
+                    ]
             if not eligible_ids:
                 return StyleSearchResult()
             hits = self.vector_store.search_filtered(
@@ -137,9 +163,14 @@ class StyleSearchTool:
                 vector,
                 top_k=self.settings.style.candidate_pool_size,
             )
-        if not hits:
+        if not hits and not expression_seed_ids:
             return StyleSearchResult()
-        ids = [int(item.item_id) for item in hits]
+        ids = list(
+            dict.fromkeys(
+                [int(item.item_id) for item in hits]
+                + [int(item_id) for item_id in expression_seed_ids]
+            )
+        )
         placeholders = ",".join("?" for _ in ids)
         with db.connect(self.settings.db_path) as conn:
             rows = conn.execute(
@@ -148,6 +179,11 @@ class StyleSearchTool:
             ).fetchall()
         by_id = {int(row["id"]): row for row in rows}
         dense_scores = {int(item.item_id): item.score for item in hits}
+        dense_scores.update(
+            (int(item_id), 0.0)
+            for item_id in expression_seed_ids
+            if int(item_id) not in dense_scores
+        )
         scored: list[_ScoredExample] = []
         excluded: dict[str, str] = {}
         components_by_id: dict[str, dict[str, float]] = {}
@@ -238,6 +274,22 @@ class StyleSearchTool:
             score_components={item.example.id: components_by_id[item.example.id] for item in selected},
             excluded=excluded,
         )
+
+    @staticmethod
+    def _requested_expression_tags(
+        decision: BehaviorDecision | None,
+    ) -> list[str]:
+        if decision is None:
+            return []
+        affordance_ids = {item.id for item in decision.persona_affordances}
+        return [
+            tag
+            for affordance_id, tag in (
+                ("light_profanity_release", "profanity"),
+            )
+            if affordance_id in affordance_ids
+            and tag not in decision.expression_caps.hard_disallowed
+        ]
 
     @staticmethod
     def _eligible_v2(

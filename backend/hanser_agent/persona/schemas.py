@@ -216,6 +216,7 @@ class EffectivePersonaSettings(BaseModel):
     teasing_intensity: int = Field(default=1, ge=0, le=2)
     meme_affinity: float = Field(default=0.30, ge=0.0, le=0.6)
     profanity_level: int = Field(default=1, ge=0, le=2)
+    profanity_target_rate: float = Field(default=0.10, ge=0.0, le=0.30)
     innuendo_level: int = Field(default=1, ge=0, le=1)
     cutesy_bias: float = Field(default=0.10, ge=0.0, le=0.25)
     warmth: float = Field(default=0.55, ge=0.25, le=0.8)

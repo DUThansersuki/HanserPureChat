@@ -115,6 +115,142 @@ class PersonaPolicyTests(unittest.TestCase):
         self.assertEqual(len(repetition), 1)
         self.assertGreater(repetition[0].weight, 0)
 
+    def test_profanity_target_adds_soft_release_only_when_eligible(self) -> None:
+        eligible = build_guidance(
+            TurnSignals(),
+            {},
+            observe_recent_expressions([]),
+            self.settings.model_copy(update={"profanity_target_rate": 0.15}),
+            response_mode="casual",
+        )
+        factual = build_guidance(
+            TurnSignals(),
+            {},
+            observe_recent_expressions([]),
+            self.settings.model_copy(update={"profanity_target_rate": 0.15}),
+            response_mode="factual",
+        )
+        denied = build_guidance(
+            TurnSignals(),
+            {"profanity": "deny"},
+            observe_recent_expressions([]),
+            self.settings.model_copy(update={"profanity_target_rate": 0.15}),
+            response_mode="casual",
+        )
+
+        self.assertIn(
+            "light_profanity_release",
+            {item.id for item in eligible.persona_affordances},
+        )
+        self.assertNotIn(
+            "light_profanity_release",
+            {item.id for item in factual.persona_affordances},
+        )
+        self.assertNotIn(
+            "light_profanity_release",
+            {item.id for item in denied.persona_affordances},
+        )
+
+    def test_recent_profanity_above_target_removes_release_affordance(self) -> None:
+        observations = observe_recent_expressions(
+            [ChatMessage(role="assistant", content="老娘今天非把这关过了")]
+        )
+        decision = build_guidance(
+            TurnSignals(),
+            {},
+            observations,
+            self.settings.model_copy(update={"profanity_target_rate": 0.15}),
+            response_mode="casual",
+        )
+
+        self.assertNotIn(
+            "light_profanity_release",
+            {item.id for item in decision.persona_affordances},
+        )
+        self.assertIn(
+            "expression.profanity_target_restraint",
+            {item.preference_id for item in decision.soft_preferences},
+        )
+
+    def test_profanity_release_returns_after_decay_below_target_band(self) -> None:
+        observations = observe_recent_expressions(
+            [
+                ChatMessage(role="assistant", content="老子今天非把这关过了"),
+                *[
+                    ChatMessage(role="assistant", content="普通回应")
+                    for _ in range(5)
+                ],
+            ],
+            window_turns=6,
+        )
+        decision = build_guidance(
+            TurnSignals(),
+            {},
+            observations,
+            self.settings.model_copy(update={"profanity_target_rate": 0.15}),
+            response_mode="casual",
+        )
+
+        self.assertLess(observations.features["profanity"].weighted_rate, 0.075)
+        self.assertIn(
+            "light_profanity_release",
+            {item.id for item in decision.persona_affordances},
+        )
+
+    def test_profanity_pacing_is_deterministic_and_never_overrides_deny(self) -> None:
+        signals = build_turn_signals(
+            "这游戏又把存档弄没了",
+            current_message_ref="m",
+            planner_payload={
+                "playful_frame": {
+                    "value": True,
+                    "confidence": "high",
+                    "evidence_refs": ["current_user"],
+                }
+            },
+        )
+        settings = self.settings.model_copy(update={"profanity_target_rate": 0.15})
+        decisions = [
+            build_guidance(
+                signals,
+                {},
+                observe_recent_expressions([]),
+                settings,
+                response_mode="casual",
+                pacing_key="u:c",
+                successful_assistant_turns=index,
+            )
+            for index in range(20)
+        ]
+        scheduled_index = next(
+            index
+            for index, decision in enumerate(decisions)
+            if "expression.use_light_profanity"
+            in {item.requirement_id for item in decision.must_do}
+        )
+        denied = build_guidance(
+            signals,
+            {"profanity": "deny"},
+            observe_recent_expressions([]),
+            settings,
+            response_mode="casual",
+            pacing_key="u:c",
+            successful_assistant_turns=scheduled_index,
+        )
+
+        self.assertEqual(
+            sum(
+                "expression.use_light_profanity"
+                in {item.requirement_id for item in decision.must_do}
+                for decision in decisions
+            ),
+            3,
+        )
+        self.assertNotIn(
+            "expression.use_light_profanity",
+            {item.requirement_id for item in denied.must_do},
+        )
+
     def test_adult_humor_requires_both_context_and_permission(self) -> None:
         signals = build_turn_signals(
             "成年人聊天 这个标题是不是有点不正经",

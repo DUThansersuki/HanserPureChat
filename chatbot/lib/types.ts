@@ -36,6 +36,8 @@ export type WaitingStatusData = {
 
 export type HanserMetaData = {
   degradedReasons: string[];
+  postTurnRetryId?: string;
+  postTurnStatus: "completed" | "pending_retry";
   replyId?: string;
   requestId?: string;
   speech?: {

@@ -126,8 +126,8 @@ style:
 persona:
   active_package: "persona-v1-production"
   candidate_package: "hanser-persona-v2-candidate"
-  candidate_style_generation: "persona-v2-style-safe-7bd0970e2164b249"
-  detector_version: "persona_lexical_v2"
+  candidate_style_generation: "persona-v2-style-profanity15-1c71903569618d5d"
+  detector_version: "persona_lexical_v3"
   schema_version: 2
 
 memory:

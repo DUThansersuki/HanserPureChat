@@ -159,6 +159,28 @@ class HanserResponder:
                     attempts=attempts,
                 )
             if constraint_retries <= 0:
+                if set(validated.violations) == {
+                    "missing_required_feature:profanity"
+                }:
+                    actions.append("optional_feature_unfulfilled:profanity")
+                    display = self.display_adapter.render(
+                        validated.text,
+                        required_verbatim_spans=context.required_verbatim_spans,
+                        exact_output=context.exact_output,
+                        punctuation_mode=(
+                            context.effective_persona.display_punctuation
+                            if context.effective_persona is not None
+                            else "legacy_sparse"
+                        ),
+                    )
+                    return GeneratedResponse(
+                        text=display.text,
+                        semantic_text=validated.text,
+                        raw_text=raw_text,
+                        validator_actions=[*actions, *display.actions],
+                        attempts=attempts,
+                        generation_status="contract_fallback",
+                    )
                 fallback_text = self._permission_fallback_text(
                     context.messages,
                     validated.violations,
@@ -218,6 +240,10 @@ class HanserResponder:
             elif violation == "unsupported_user_memory_guess":
                 repair_instructions.append(
                     "只说明现有记录无法确认 不要猜用户记错 记混或与别人发生过"
+                )
+            elif violation == "missing_required_feature:profanity":
+                repair_instructions.append(
+                    "保持原回答含义并重写整句 必须实际包含以下任一字面表达：我靠、卧槽、妈的、他妈的、老子、老娘；只选一个最贴合语境的低强度表达 只针对事情或自己 不攻击用户"
                 )
         if (
             "disallowed_feature:teasing" in violations

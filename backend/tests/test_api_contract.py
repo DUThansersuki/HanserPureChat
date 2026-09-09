@@ -16,7 +16,11 @@ from hanser_agent.models import ChatResponse
 
 
 class FakeChatAgent:
+    def __init__(self):
+        self.last_request = None
+
     async def send(self, request):
+        self.last_request = request
         return ChatResponse(text=f"收到 {request.message}")
 
 
@@ -77,10 +81,8 @@ class ApiContractTests(unittest.TestCase):
                 prometheus=task,
                 hanser=task,
             )
-            application = create_app(
-                settings=settings,
-                chat_agent=FakeChatAgent(),
-            )
+            chat_agent = FakeChatAgent()
+            application = create_app(settings=settings, chat_agent=chat_agent)
 
             with TestClient(application) as client:
                 health = client.get("/health")
@@ -89,12 +91,18 @@ class ApiContractTests(unittest.TestCase):
                     json={
                         "conversation_id": "api-test",
                         "message": "晚上好",
+                        "persona_settings": {
+                            "adult_innuendo_opt_in": True,
+                        },
                     },
                 )
 
         self.assertEqual(health.status_code, 200)
         self.assertTrue(health.json()["ok"])
         self.assertEqual(chat.status_code, 200)
+        self.assertTrue(
+            chat_agent.last_request.persona_settings.adult_innuendo_opt_in
+        )
         self.assertEqual(
             chat.json(),
             {

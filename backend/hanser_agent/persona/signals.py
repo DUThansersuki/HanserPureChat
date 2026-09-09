@@ -98,6 +98,7 @@ def build_turn_signals(
     message: str,
     *,
     current_message_ref: str,
+    adult_innuendo_opt_in: bool = False,
     planner_payload: Mapping[str, object] | None = None,
     history_refs: Sequence[str] = (),
     history_texts: Sequence[str] = (),
@@ -157,6 +158,17 @@ def build_turn_signals(
         for name in _SIGNAL_NAMES
     }
     values.update(planner)
+    if adult_innuendo_opt_in:
+        values["audience_age_status"] = SignalObservation(
+            name="audience_age_status",
+            value="adult",
+            source="explicit_setting",
+            confidence="high",
+            evidence_refs=["setting:adult_innuendo_opt_in"],
+            scope="current_turn",
+            status="observed",
+            hard_rule_eligible=True,
+        )
     for name, rule_item in rules.items():
         existing = values[name]
         if (

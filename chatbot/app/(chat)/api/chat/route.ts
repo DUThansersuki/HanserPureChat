@@ -83,6 +83,8 @@ export async function POST(request: Request) {
       writer.write({
         data: {
           degradedReasons: result.degraded_reasons ?? [],
+          postTurnRetryId: result.post_turn_retry_id,
+          postTurnStatus: result.post_turn_status ?? "completed",
           replyId: result.reply_id,
           requestId: result.request_id,
           sourceCount: result.sources?.length ?? 0,

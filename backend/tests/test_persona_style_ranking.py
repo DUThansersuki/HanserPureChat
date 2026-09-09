@@ -123,6 +123,49 @@ class PersonaStyleRankingTests(unittest.TestCase):
         components = result["selected"][0]["score_components"]
         self.assertEqual(components["recent_example_penalty"], -0.2)
 
+    def test_expression_opportunity_promotes_matching_reviewed_example(self) -> None:
+        decision = BehaviorDecision(
+            persona_affordances=[
+                PersonaAffordance(id="light_profanity_release", weight=0.6)
+            ]
+        )
+        base = {
+            "index_generation": "v2",
+            "review_status": "approved",
+            "schema_review_status": "approved",
+            "speaker_status": "transcript_verified",
+            "provenance_kind": "verbatim",
+            "payload_class": "reaction_only",
+            "response_mode": "casual",
+            "quality_score": 0.9,
+            "authenticity_score": 0.9,
+        }
+        result = rank_fixed_style_candidates(
+            [
+                {
+                    **base,
+                    "id": "plain",
+                    "group_id": "g1",
+                    "dense_score": 0.8,
+                    "expression_tags": [],
+                },
+                {
+                    **base,
+                    "id": "profanity",
+                    "group_id": "g2",
+                    "dense_score": 0.3,
+                    "behavior_tags": ["light_profanity_release"],
+                    "expression_tags": ["profanity"],
+                },
+            ],
+            decision,
+            response_mode="casual",
+            active_generation="v2",
+            top_k=1,
+        )
+
+        self.assertEqual(result["selected"][0]["id"], "profanity")
+
 
 if __name__ == "__main__":
     unittest.main()

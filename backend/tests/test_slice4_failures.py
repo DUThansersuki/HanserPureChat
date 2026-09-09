@@ -271,6 +271,17 @@ class IdempotencyAndPostTurnTests(unittest.IsolatedAsyncioTestCase):
                     )
                 )
             self.assertEqual(conflict.exception.code, "idempotency_conflict")
+            with self.assertRaises(ServiceFailure) as setting_conflict:
+                await service.send(
+                    ChatRequest(
+                        conversation_id="c",
+                        user_id="u",
+                        message="hello",
+                        request_id="request-1",
+                        persona_settings={"adult_innuendo_opt_in": True},
+                    )
+                )
+            self.assertEqual(setting_conflict.exception.code, "idempotency_conflict")
 
     async def test_embedding_failure_is_retried_for_existing_unindexed_memory(self) -> None:
         class FlakyEmbedder:

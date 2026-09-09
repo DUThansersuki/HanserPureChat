@@ -29,6 +29,11 @@ class PersonaSettingsTests(unittest.TestCase):
         self.assertEqual(settings.profile_id, "balanced_candidate")
         self.assertEqual(settings.cutesy_bias, 0.10)
         self.assertEqual(settings.innuendo_level, 1)
+        self.assertEqual(settings.profanity_target_rate, 0.15)
+        self.assertEqual(
+            settings.trace["profanity_target_rate"].source,
+            "product.profanity_target_15.v1",
+        )
         self.assertEqual(settings.trace["cutesy_bias"].source, "product.reduce_cutesy.v1")
         self.assertIn("candidate engineering default", settings.trace["warmth"].reason)
 

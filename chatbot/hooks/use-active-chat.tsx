@@ -121,6 +121,13 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       }
       if (dataPart.type === "data-hanser-meta") {
         voiceRef.current.acceptReply(dataPart.data);
+        if (dataPart.data.postTurnStatus === "pending_retry") {
+          toast({
+            description:
+              "回复已保存，但本轮记忆更新暂未完成，后端会保留可重试记录。",
+            type: "error",
+          });
+        }
       }
       setDataStream((ds) => (ds ? [...ds, dataPart] : []));
     },

@@ -177,6 +177,92 @@ class PersonaV2LogicChecklistTests(unittest.TestCase):
         self.assertEqual(observed.features["meme"].value, "absent")
         self.assertEqual(observed.features["profanity"].value, "absent")
 
+    def test_strong_self_reference_is_profanity_but_laozi_name_is_not(self) -> None:
+        observed = observe_recent_expressions(
+            [
+                ChatMessage(role="assistant", content="老子今天非把这破关过了"),
+                ChatMessage(role="assistant", content="老娘现在就去收拾这个烂摊子"),
+            ]
+        )
+        philosophy = observe_recent_expressions(
+            [ChatMessage(role="assistant", content="我最近在看老子的《道德经》")]
+        )
+
+        self.assertEqual(observed.features["profanity"].value, "present")
+        self.assertEqual(philosophy.features["profanity"].value, "absent")
+
+    def test_wo_kao_is_observed_as_profanity(self) -> None:
+        observed = observe_recent_expressions(
+            [ChatMessage(role="assistant", content="我靠 这游戏又闪退了")]
+        )
+
+        self.assertEqual(observed.features["profanity"].value, "present")
+
+    def test_profanity_deny_blocks_strong_self_reference(self) -> None:
+        validator = StyleValidator(CANDIDATE_DIR / "style_constraints.yaml")
+        decision = build_guidance(
+            build_turn_signals("别爆粗", current_message_ref="current"),
+            {"profanity": "deny"},
+            None,
+            EffectivePersonaSettings(),
+        )
+
+        blocked = validator.validate_semantic_output(
+            "老子今天非把这关过了", behavior_decision=decision
+        )
+        allowed_name = validator.validate_semantic_output(
+            "我在读老子的道德经", behavior_decision=decision
+        )
+
+        self.assertIn("disallowed_feature:profanity", blocked.violations)
+        self.assertNotIn("disallowed_feature:profanity", allowed_name.violations)
+
+    def test_scheduled_profanity_is_verified_in_final_output(self) -> None:
+        validator = StyleValidator(CANDIDATE_DIR / "style_constraints.yaml")
+        decision = build_guidance(
+            build_turn_signals(
+                "这游戏又闪退了",
+                current_message_ref="current",
+                planner_payload={
+                    "playful_frame": {
+                        "value": True,
+                        "confidence": "high",
+                        "evidence_refs": ["current_user"],
+                    }
+                },
+            ),
+            {},
+            observe_recent_expressions([]),
+            EffectivePersonaSettings(profanity_target_rate=0.15),
+            pacing_key="frequency-eval-user:profanity15.daily.pet",
+            successful_assistant_turns=0,
+        )
+
+        self.assertIn(
+            "expression.use_light_profanity",
+            {item.requirement_id for item in decision.must_do},
+        )
+        missing = validator.validate_semantic_output(
+            "这游戏也太折磨人了", behavior_decision=decision
+        )
+        present = validator.validate_semantic_output(
+            "我靠 这游戏也太折磨人了", behavior_decision=decision
+        )
+        self.assertIn("missing_required_feature:profanity", missing.violations)
+        self.assertNotIn("missing_required_feature:profanity", present.violations)
+
+    def test_unverified_past_experience_exposed_by_profanity_eval_is_rejected(self) -> None:
+        validator = StyleValidator(CANDIDATE_DIR / "style_constraints.yaml")
+
+        result = validator.validate_semantic_output(
+            "我靠 经典环节 我当时装柜子也这样"
+        )
+
+        self.assertIn(
+            "unsupported_first_person_past_experience",
+            result.violations,
+        )
+
     def test_l13_fallback_is_topic_neutral(self) -> None:
         text = HanserResponder._permission_fallback_text(
             [ChatMessage(role="user", content="披萨话题，我开玩笑的")],
@@ -184,6 +270,41 @@ class PersonaV2LogicChecklistTests(unittest.TestCase):
         )
         self.assertEqual(text, "明白 我会停下相关表达")
         self.assertNotIn("恢复步骤", text or "")
+
+    def test_adult_innuendo_setting_opens_only_the_adult_permission_gates(self) -> None:
+        signals = build_turn_signals(
+            "这个标题的双关有点坏",
+            current_message_ref="current",
+            adult_innuendo_opt_in=True,
+        )
+        permissions = infer_expression_permissions(
+            signals.preference_events,
+            current_message_id="current",
+            explicit_overrides={"innuendo": "allow"},
+        )
+        decision = build_guidance(
+            signals, permissions, None, EffectivePersonaSettings()
+        )
+
+        self.assertEqual(signals.get("audience_age_status").source, "explicit_setting")
+        self.assertTrue(signals.get("audience_age_status").hard_rule_eligible)
+        self.assertNotIn("innuendo", decision.expression_caps.hard_disallowed)
+
+    def test_current_minor_statement_overrides_adult_innuendo_setting(self) -> None:
+        signals = build_turn_signals(
+            "我未成年，这个双关是什么意思",
+            current_message_ref="current",
+            adult_innuendo_opt_in=True,
+        )
+        decision = build_guidance(
+            signals,
+            {"innuendo": "allow"},
+            None,
+            EffectivePersonaSettings(),
+        )
+
+        self.assertEqual(signals.get("audience_age_status").value, "minor")
+        self.assertIn("innuendo", decision.expression_caps.hard_disallowed)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-package_id: hanser-persona-v2-candidate-20260908
+package_id: hanser-persona-v2-candidate-20260909-profanity15
 schema_version: 2
 applicable_period: unspecified
 applicable_scenes: [default_text_chat]
@@ -7,16 +7,16 @@ examples_version: persona-style-v2-candidate-20260908
 default_profile: balanced_candidate
 compatible_compiler_versions: [persona_compiler_v2]
 build_status: candidate
-parent_package_id: persona_v1
-style_generation: persona-v2-style-safe-7bd0970e2164b249
-detector_version: persona_lexical_v2
+parent_package_id: hanser-persona-v2-candidate-20260908
+style_generation: persona-v2-style-profanity15-1c71903569618d5d
+detector_version: persona_lexical_v3
 signal_schema_version: 2
 style_schema_version: 2
 files:
   - {path: core.md, sha256: 1a5556ed7c69495324be438f3da186dbb43f85bd55ebe9ba4df73a8249db85b5, role: stable_core}
-  - {path: voice.md, sha256: 2329dede17ce5518d417e323fd4fb5de0b1c0aa5a85a3fd6839ad88d42416ee3, role: voice_rules}
+  - {path: voice.md, sha256: f5f63d987efd3a463b4fd0c17fe33eedd073772ac3b71baccedba3de93787e68, role: voice_rules}
   - {path: boundaries.md, sha256: 0a6865cc8790b8a1fa7b27e2f55625577b371e26e583bb908987fb7e3c04eb81, role: hard_boundaries}
   - {path: behavior.yaml, sha256: d43c9b11cbebdc65b2c9831c60f621a69a5c217c5f43b0f59dbcce1819f9fabb, role: soft_behavior_priors}
-  - {path: expression_policy.yaml, sha256: e9bbdd153f498247afb5a0e48dc49e6ec49583752dba0e82cd315764b052d72f, role: local_candidate_settings}
-  - {path: product_overrides.yaml, sha256: b30ad7976bb4765f92b893b20ef17b12ac4775fccc32c3519cda8086a54d1a53, role: normative_overrides}
-  - {path: style_constraints.yaml, sha256: eb5a2b5c124efaa0c63dfe8625790f65fc2d3e7351e29bd0933435795c6cfc5e, role: display_contract}
+  - {path: expression_policy.yaml, sha256: 9cb9e7d68f8e0108a0d5adc417eb2d710d5748bc6d88301d8c786d98898923e7, role: local_candidate_settings}
+  - {path: product_overrides.yaml, sha256: 8bedd2194b9eb92d2652b66b48dc57e09c3ba1c6af3824e3dc802a05a20fd7a7, role: normative_overrides}
+  - {path: style_constraints.yaml, sha256: a4e33a9ca88205e0ccf043fd64304ae770bd04dbdfce027ade0cb3e167c8240e, role: display_contract}

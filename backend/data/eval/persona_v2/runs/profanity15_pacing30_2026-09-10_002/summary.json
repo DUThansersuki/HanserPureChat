@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "run_at": "2026-09-09T16:58:54.604652+00:00",
+  "execution_mode": "real_chat_agent_service_unguided_daily_multiturn",
+  "package_id": "hanser-persona-v2-candidate-20260909-profanity15",
+  "style_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "detector_version": "persona_lexical_v3",
+  "target_profanity_rate": 0.15,
+  "turns": 30,
+  "profanity_turns": 1,
+  "profanity_rate": 0.033333,
+  "strong_self_reference_turns": 0,
+  "scheduled_profanity_turns": 0,
+  "style_2010_retrieval_turns": 7,
+  "optional_feature_unfulfilled_turns": 3,
+  "contract_fallback_turns": 3,
+  "validator_action_counts": {
+    "optional_feature_unfulfilled:profanity": 3,
+    "replaced_regular_punctuation:1": 4,
+    "replaced_regular_punctuation:3": 1,
+    "replaced_regular_punctuation:4": 1,
+    "replaced_regular_punctuation:8": 1,
+    "retry_for_constraints:missing_required_feature:profanity": 3
+  },
+  "degraded_turns": 22,
+  "degraded_reason_counts": {
+    "planner_signal_invalid:humor_receptivity:value": 1,
+    "planner_signal_unavailable:audience_age_status:requires_explicit_rule": 1,
+    "planner_signal_unavailable:user_emotion:neutral_not_observable": 20,
+    "signal_conflict:dialogue_function:rule_overrode_planner": 1
+  },
+  "model_calls": 63,
+  "elapsed_seconds": 183.700813
+}

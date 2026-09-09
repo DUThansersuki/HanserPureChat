@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-09-09T14:08:48.441329+00:00",
+  "transformation_id": "persona_v2_profanity15_v1",
+  "source_generation": "persona-v2-style-safe-7bd0970e2164b249",
+  "style_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "source_database": "H:\\HanserAgent\\audit_artifacts\\persona_v2_candidate_2026-09-08_011\\candidate.db",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\persona_v2_profanity15_2026-09-09_001\\candidate.db",
+  "candidate_database_sha256": "739d5e459bae3a084848cdaf7195e9572e626cfaa3776a0287dd3d39f0c45bcf",
+  "reviewed_source": "H:\\HanserAgent\\audit_artifacts\\persona_v2_candidate_2026-09-08_011\\style_examples.reviewed.jsonl",
+  "reviewed_output_sha256": "342795b9df1c95eaedaea356367aa3b74eefa85b7273f27e3a3ea3c6b6576520",
+  "vector_item_count": 416,
+  "vector_backed_runtime_candidate_count": 416,
+  "updated_example": "style:2010",
+  "updated_metadata": {
+    "attribution_method": "explicit_parenthetical_named_inline",
+    "audience": "individual",
+    "behavior_tags": [
+      "direct_natural_reply",
+      "playful_reframe",
+      "light_profanity_release"
+    ],
+    "document_id": 280,
+    "expression_tags": [
+      "strong_marker",
+      "profanity"
+    ],
+    "fact_eligible": false,
+    "filename": "2023年10月23日星期一.docx",
+    "group_id": "source.document:280",
+    "hidden_eval": false,
+    "payload_class": "reaction_only",
+    "provenance_kind": "verbatim",
+    "runtime_scope": [
+      "style_runtime"
+    ],
+    "schema_review_status": "approved",
+    "semantic_review": {
+      "independent_reviewed": false,
+      "primary_confidence": "high",
+      "primary_prompt_sha256": "a4fc80e9b2e149887f817cbb234bb7f691404b6624a2df6c55ba8f42347b0ad6",
+      "primary_reviewer": "deepseek-v4-flash"
+    },
+    "speaker_status": "transcript_verified"
+  },
+  "production_database_modified": false
+}

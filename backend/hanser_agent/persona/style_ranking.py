@@ -32,12 +32,28 @@ def style_score_components(
         "mode": 0.08 if response_mode_match else 0.0,
         "length": 0.05 if length_match else 0.0,
         "behavior": min(0.18, 0.12 * behavior_weight),
+        "expression_opportunity": _expression_opportunity_bonus(
+            expression_tags, weights
+        ),
         "source_penalty": -0.12 if synthetic else 0.0,
         "recent_example_penalty": -0.5 * repetition_penalty if recently_used else 0.0,
         "expression_penalty": -_expression_penalty(
             expression_tags, observations, repetition_penalty
         ),
     }
+
+
+def _expression_opportunity_bonus(
+    expression_tags: set[str],
+    affordance_weights: Mapping[str, float],
+) -> float:
+    requested = {
+        "profanity": affordance_weights.get("light_profanity_release", 0.0),
+    }
+    return min(
+        0.35,
+        sum(0.35 for tag, weight in requested.items() if tag in expression_tags and weight > 0),
+    )
 
 
 def rank_fixed_style_candidates(

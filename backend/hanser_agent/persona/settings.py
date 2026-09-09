@@ -17,7 +17,9 @@ class ParameterSpec(BaseModel):
     maximum: int | float | None = None
     allowed: list[str] = Field(default_factory=list)
     visibility: Literal["user", "owner"]
-    kind: Literal["hard_cap", "soft_weight", "presentation", "observation"]
+    kind: Literal[
+        "hard_cap", "soft_weight", "target_rate", "presentation", "observation"
+    ]
     help: str
 
     @model_validator(mode="after")

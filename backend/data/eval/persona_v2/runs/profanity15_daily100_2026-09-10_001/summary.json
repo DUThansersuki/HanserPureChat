@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "run_at": "2026-09-09T16:42:35.972632+00:00",
+  "execution_mode": "real_chat_agent_service_unguided_daily_multiturn",
+  "package_id": "hanser-persona-v2-candidate-20260909-profanity15",
+  "style_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "detector_version": "persona_lexical_v3",
+  "target_profanity_rate": 0.15,
+  "turns": 100,
+  "profanity_turns": 1,
+  "profanity_rate": 0.01,
+  "strong_self_reference_turns": 0,
+  "degraded_turns": 73,
+  "degraded_reason_counts": {
+    "planner_signal_invalid:humor_receptivity:value": 1,
+    "planner_signal_invalid:user_emotion:value": 1,
+    "planner_signal_unavailable:audience_age_status:requires_explicit_rule": 9,
+    "planner_signal_unavailable:user_emotion:neutral_not_observable": 65
+  },
+  "model_calls": 200,
+  "elapsed_seconds": 912.27721
+}
