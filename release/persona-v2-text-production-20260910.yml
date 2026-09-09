@@ -1,0 +1,59 @@
+schema_version: 1
+release_id: persona-v2-text-production-20260910
+status: released
+decision:
+  verdict: released_by_owner
+  production_switched: true
+  authorized_at: "2026-09-10T01:20:00+08:00"
+  activated_at: "2026-09-10T01:25:50+08:00"
+  authority: direct_user_instruction
+  accepted_observed_profanity_rate: 0.08
+source_state:
+  branch: main
+  deployable_revision: 5b8411ef07295cbb35c1646a6f6910501103dfce
+production:
+  package_selector: persona-v2-production
+  package_id: hanser-persona-v2-production-20260910
+  package_manifest: backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/manifest.yaml
+  package_manifest_sha256: 7c33d6d1382c950133a3387144b88f2ef4241a137f9cf19ef51ded4f2c8cd4a0
+  product_overrides_sha256: c35e9e170dbfbf81e897884d07bf6ac098a617af1b7bad58132e8d35989a4ce2
+  database: source_data/documents.db
+  database_sha256_at_activation: 93ec0a4b2aba6109bf74f3f2df0d46ed75eaa715049305746450c3ae8e5fd6ed
+  style_generation: persona-v2-style-profanity15-1c71903569618d5d
+  style_generation_revision: 2
+  installed_style_rows: 739
+  vector_item_count: 416
+  style_reviewed_sha256: 342795b9df1c95eaedaea356367aa3b74eefa85b7273f27e3a3ea3c6b6576520
+  compatibility:
+    compiler: persona_compiler_v2
+    detector: persona_lexical_v3
+    signal_schema: 2
+    style_schema: 2
+    override_lifecycle: production_released_only
+configuration:
+  tracked_example: backend/config.example.yml
+  tracked_example_sha256: 3e4033f3dcbb8a32f0074620bc8a6b34dee798efc334f794fad0782c23bf7a43
+  local_runtime_config_sha256_at_activation: 409b76f4835adb29778c24369e2a7cea1f75e770735095beb963aff133679876
+evaluation:
+  frozen_frequency_input: backend/data/eval/persona_v2/profanity15_validation_sequences.jsonl
+  frozen_frequency_input_sha256: 36426dbf4a8013b2629fd3cc6d8439c277903742c99bba2ef1173887d2250ed3
+  observed_turns: 50
+  observed_profanity_turns: 4
+  observed_profanity_rate: 0.08
+  hard_generation_failures: 0
+  backend_tests: 155_passed
+  chatbot_typescript: passed
+  chatbot_format_baseline: 131_preexisting_diagnostics
+known_limits:
+  - hidden_judge_swap_inconsistency_remains_0.375_from_prior_candidate_evaluation
+  - strong_self_reference_was_not_observed_in_the_50_turn_frequency_run
+rollback:
+  package_selector: persona-v1-production
+  style_generation: legacy-v1
+  script: backend/scripts/persona_v2_rollback_text.py
+  emergency_backup: source_data/backups/documents.pre_persona_v2.20260909T172550Z.db
+  emergency_backup_sha256: 9cf69115ebcdd479438473aaed362454d434ba1fdf6a67addc510614accb9715
+  restore_database_backup_during_normal_rollback: false
+  preserve_chat_history: true
+  preserve_user_memories: true
+  preserve_later_explicit_user_preferences: true
