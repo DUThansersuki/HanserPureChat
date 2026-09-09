@@ -4,6 +4,42 @@ const CHAT_URL_REGEX = /\/chat\/[\w-]+/;
 const ERROR_TEXT_REGEX = /error|failed|trouble/i;
 
 test.describe("Chat API Integration", () => {
+  test("sends the adult innuendo preference with the next message", async ({
+    page,
+  }) => {
+    let requestBody: Record<string, unknown> | undefined;
+    await page.route("**/api/chat", async (route) => {
+      requestBody = route.request().postDataJSON() as Record<string, unknown>;
+      await route.fulfill({
+        body: JSON.stringify({
+          cause: "test response",
+          code: "offline:chat",
+        }),
+        contentType: "application/json",
+        status: 503,
+      });
+    });
+
+    await page.goto("/");
+    await page.getByRole("button", { name: "聊天设置" }).click();
+    await page
+      .getByRole("menuitemcheckbox", { name: /成年人轻度双关/ })
+      .click();
+    await page.getByTestId("multimodal-input").fill("晚上好");
+    await page.getByTestId("send-button").click();
+
+    await expect
+      .poll(
+        () =>
+          (
+            requestBody?.personaSettings as
+              | { adult_innuendo_opt_in?: boolean }
+              | undefined
+          )?.adult_innuendo_opt_in
+      )
+      .toBe(true);
+  });
+
   test("sends message and receives AI response", async ({ page }) => {
     await page.goto("/");
 

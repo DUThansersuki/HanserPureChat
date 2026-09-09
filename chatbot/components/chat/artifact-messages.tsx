@@ -48,6 +48,13 @@ function PureArtifactMessages({
       {messages.map((message, index) => (
         <PreviewMessage
           addToolApprovalResponse={addToolApprovalResponse}
+          canRegenerate={
+            !isReadonly &&
+            index === messages.length - 1 &&
+            message.role === "assistant" &&
+            status !== "submitted" &&
+            status !== "streaming"
+          }
           chatId={chatId}
           isLoading={status === "streaming" && index === messages.length - 1}
           isReadonly={isReadonly}

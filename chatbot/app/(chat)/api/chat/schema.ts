@@ -1,22 +1,13 @@
 import { z } from "zod";
 
 const textPartSchema = z.object({
-  text: z.string().min(1).max(2000),
+  text: z.string().min(1).max(12_000),
   type: z.enum(["text"]),
 });
 
-const filePartSchema = z.object({
-  mediaType: z.enum(["image/jpeg", "image/png"]),
-  name: z.string().min(1).max(100),
-  type: z.enum(["file"]),
-  url: z.url(),
-});
-
-const partSchema = z.union([textPartSchema, filePartSchema]);
-
 const userMessageSchema = z.object({
   id: z.uuid(),
-  parts: z.array(partSchema),
+  parts: z.array(textPartSchema).min(1),
   role: z.enum(["user"]),
 });
 
@@ -35,6 +26,11 @@ export const postRequestBodySchema = z.object({
       dynamic_live2d: z.boolean().default(false),
       offline_performance: z.boolean().default(false),
       speech: z.boolean().default(false),
+    })
+    .optional(),
+  personaSettings: z
+    .object({
+      adult_innuendo_opt_in: z.boolean().default(false),
     })
     .optional(),
   selectedChatModel: z.string(),

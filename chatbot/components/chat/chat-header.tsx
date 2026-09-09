@@ -1,10 +1,21 @@
 "use client";
 
-import { PanelLeftIcon } from "lucide-react";
+import { PanelLeftIcon, SlidersHorizontalIcon } from "lucide-react";
 import { memo } from "react";
+import useSWR from "swr";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useSidebar } from "@/components/ui/sidebar";
 import { VoiceControls } from "@/components/voice/voice-controls";
+import { useActiveChat } from "@/hooks/use-active-chat";
+import { cn } from "@/lib/utils";
 import type { VisibilityType } from "./visibility-selector";
 
 function PureChatHeader(_props: {
@@ -13,15 +24,43 @@ function PureChatHeader(_props: {
   isReadonly: boolean;
 }) {
   const { state, toggleSidebar, isMobile } = useSidebar();
-
-  if (state === "collapsed" && !isMobile) {
-    return null;
-  }
+  const { adultInnuendoOptIn, setAdultInnuendoOptIn } = useActiveChat();
+  const { data: health, error: healthError } = useSWR<{
+    chat_ready?: boolean;
+    ok: boolean;
+    persona_package?: string;
+  }>(
+    `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/health`,
+    (url: string) =>
+      fetch(url).then((response) => {
+        if (!response.ok) {
+          throw new Error("backend unavailable");
+        }
+        return response.json();
+      }),
+    {
+      refreshInterval: 15_000,
+      revalidateOnFocus: true,
+    }
+  );
+  const isHealthy =
+    health?.ok === true && health.chat_ready !== false && !healthError;
+  const healthLabel = healthError
+    ? "后端离线"
+    : health?.chat_ready === false
+      ? "Persona 未就绪"
+      : health
+        ? "Chat 已就绪"
+        : "连接中";
 
   return (
     <header className="sticky top-0 flex h-14 items-center gap-2 bg-sidebar px-3">
       <Button
-        className="md:hidden"
+        aria-label="打开侧栏"
+        className={cn(
+          "md:hidden",
+          state === "collapsed" && !isMobile && "md:inline-flex"
+        )}
         onClick={toggleSidebar}
         size="icon-sm"
         variant="ghost"
@@ -33,9 +72,53 @@ function PureChatHeader(_props: {
       </span>
       <VoiceControls />
       <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
-        <span className="size-1.5 rounded-full bg-emerald-500" />
-        本地会话
+        <span
+          className={cn(
+            "size-1.5 rounded-full",
+            isHealthy
+              ? "bg-emerald-500"
+              : healthError
+                ? "bg-red-500"
+                : "animate-pulse bg-amber-500"
+          )}
+        />
+        {healthLabel}
       </span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            aria-label="聊天设置"
+            className="ml-auto"
+            size="icon-sm"
+            variant="ghost"
+          >
+            <SlidersHorizontalIcon className="size-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-72">
+          <DropdownMenuLabel>聊天设置</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuCheckboxItem
+            checked={adultInnuendoOptIn}
+            onCheckedChange={setAdultInnuendoOptIn}
+          >
+            <div className="flex flex-col gap-0.5">
+              <span>成年人轻度双关</span>
+              <span className="font-normal text-[11px] text-muted-foreground">
+                确认已成年，并从下一条消息起允许偶发的非露骨双关
+              </span>
+            </div>
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuSeparator />
+          <div className="px-2 py-1.5 text-[11px] text-muted-foreground">
+            {health?.chat_ready === false
+              ? "Persona v2 配置未就绪"
+              : health?.persona_package === "persona-v2-production"
+                ? "Persona v2 已启用"
+                : "Persona 状态未知"}
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </header>
   );
 }

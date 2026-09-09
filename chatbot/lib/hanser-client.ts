@@ -39,6 +39,16 @@ export async function hanserProxyError(response: Response) {
   );
 }
 
+export function hanserUnavailableError() {
+  return Response.json(
+    {
+      cause: "无法连接 Hanser 后端，请确认服务已经启动。",
+      code: "offline:chat",
+    },
+    { status: 503 }
+  );
+}
+
 export type HanserChatResponse = {
   text: string;
   reply_id?: string;

@@ -98,7 +98,15 @@ class ApiContractTests(unittest.TestCase):
                 )
 
         self.assertEqual(health.status_code, 200)
-        self.assertTrue(health.json()["ok"])
+        health_body = health.json()
+        self.assertTrue(health_body["ok"])
+        self.assertFalse(health_body["chat_ready"])
+        self.assertEqual(health_body["persona_package"], "persona-v2-production")
+        self.assertEqual(
+            health_body["style_generation"],
+            settings.persona.candidate_style_generation,
+        )
+        self.assertIsNone(health_body["active_style_generation"])
         self.assertEqual(chat.status_code, 200)
         self.assertTrue(
             chat_agent.last_request.persona_settings.adult_innuendo_opt_in

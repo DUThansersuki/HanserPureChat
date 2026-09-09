@@ -1,7 +1,8 @@
 import {
-  hanserFetch,
   type HanserConversationDetail,
+  hanserFetch,
   hanserProxyError,
+  hanserUnavailableError,
   hanserUserId,
 } from "@/lib/hanser-client";
 
@@ -17,7 +18,10 @@ export async function GET(request: Request) {
   const parameters = new URLSearchParams({ user_id: hanserUserId });
   const response = await hanserFetch(
     `/v1/conversations/${encodeURIComponent(chatId)}?${parameters}`
-  );
+  ).catch(() => null);
+  if (!response) {
+    return hanserUnavailableError();
+  }
   if (response.status === 404) {
     return Response.json({
       isReadonly: false,

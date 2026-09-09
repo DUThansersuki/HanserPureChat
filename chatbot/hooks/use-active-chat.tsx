@@ -9,6 +9,7 @@ import {
   type Dispatch,
   type ReactNode,
   type SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -30,6 +31,8 @@ import type { ChatMessage } from "@/lib/types";
 import { fetcher, fetchWithErrorHandlers, generateUUID } from "@/lib/utils";
 
 type ActiveChatContextValue = {
+  adultInnuendoOptIn: boolean;
+  setAdultInnuendoOptIn: (enabled: boolean) => void;
   chatId: string;
   messages: ChatMessage[];
   setMessages: UseChatHelpers<ChatMessage>["setMessages"];
@@ -43,6 +46,8 @@ type ActiveChatContextValue = {
   visibilityType: VisibilityType;
   isReadonly: boolean;
   isLoading: boolean;
+  loadError: Error | undefined;
+  reloadChat: () => void;
   votes: Vote[] | undefined;
   currentModelId: string;
   setCurrentModelId: (id: string) => void;
@@ -84,9 +89,32 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   }, [currentModelId]);
 
   const [input, setInput] = useState("");
+  const [adultInnuendoOptIn, setAdultInnuendoOptInState] = useState(false);
+  const adultInnuendoOptInRef = useRef(false);
   const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
 
-  const { data: chatData, isLoading } = useSWR(
+  useEffect(() => {
+    const enabled =
+      window.localStorage.getItem("hanser-adult-innuendo-opt-in") === "true";
+    adultInnuendoOptInRef.current = enabled;
+    setAdultInnuendoOptInState(enabled);
+  }, []);
+
+  const setAdultInnuendoOptIn = useCallback((enabled: boolean) => {
+    setAdultInnuendoOptInState(enabled);
+    adultInnuendoOptInRef.current = enabled;
+    window.localStorage.setItem(
+      "hanser-adult-innuendo-opt-in",
+      String(enabled)
+    );
+  }, []);
+
+  const {
+    data: chatData,
+    error: chatError,
+    isLoading,
+    mutate: reloadChatData,
+  } = useSWR(
     isNewChat
       ? null
       : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/messages?chatId=${chatId}`,
@@ -138,7 +166,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
         toast({ description: error.message, type: "error" });
       } else {
         toast({
-          description: error.message || "Oops, an error occurred!",
+          description: error.message || "回复失败，请稍后重试。",
           type: "error",
         });
       }
@@ -185,6 +213,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
               offline_performance: false,
               speech: voiceRef.current.enabled,
             },
+            personaSettings: {
+              adult_innuendo_opt_in: adultInnuendoOptInRef.current,
+            },
             selectedChatModel: currentModelIdRef.current,
             selectedVisibilityType: visibility,
             ...request.body,
@@ -198,9 +229,33 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
     if (status === "submitted") {
       voiceRef.current.interrupt().catch(() => undefined);
     }
-    if (status === "submitted" || status === "ready" || status === "error") {
+    if (status === "ready" || status === "error") {
       setWaitingStatus(undefined);
+      return;
     }
+    if (status !== "submitted" && status !== "streaming") {
+      return;
+    }
+    const stillWaiting = window.setTimeout(() => {
+      setWaitingStatus({
+        message: "还在处理这条消息…",
+        modelId: "hanser/agent",
+        modelName: "Hanser Agent",
+        phase: "still-waiting",
+      });
+    }, 12_000);
+    const longWaiting = window.setTimeout(() => {
+      setWaitingStatus({
+        message: "这次需要久一点，回复完成前可以随时停止。",
+        modelId: "hanser/agent",
+        modelName: "Hanser Agent",
+        phase: "thinking",
+      });
+    }, 35_000);
+    return () => {
+      window.clearTimeout(stillWaiting);
+      window.clearTimeout(longWaiting);
+    };
   }, [status, setWaitingStatus]);
 
   const loadedChatIds = useRef(new Set<string>());
@@ -269,18 +324,25 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   const isReadonly = isNewChat ? false : (chatData?.isReadonly ?? false);
 
   const votes = useMemo<Vote[]>(() => [], []);
+  const reloadChat = useCallback(() => {
+    reloadChatData().catch(() => undefined);
+  }, [reloadChatData]);
 
   const value = useMemo<ActiveChatContextValue>(
     () => ({
       addToolApprovalResponse,
+      adultInnuendoOptIn,
       chatId,
       currentModelId,
       input,
       isLoading: !isNewChat && isLoading,
       isReadonly,
+      loadError: chatError instanceof Error ? chatError : undefined,
       messages,
       regenerate,
+      reloadChat,
       sendMessage,
+      setAdultInnuendoOptIn,
       setCurrentModelId,
       setInput,
       setMessages,
@@ -308,6 +370,10 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       votes,
       currentModelId,
       showCreditCardAlert,
+      adultInnuendoOptIn,
+      setAdultInnuendoOptIn,
+      chatError,
+      reloadChat,
     ]
   );
 

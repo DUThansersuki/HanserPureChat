@@ -1,8 +1,9 @@
 import type { NextRequest } from "next/server";
 import {
-  hanserFetch,
   type HanserConversation,
+  hanserFetch,
   hanserProxyError,
+  hanserUnavailableError,
   hanserUserId,
 } from "@/lib/hanser-client";
 
@@ -28,7 +29,12 @@ export async function GET(request: NextRequest) {
     parameters.set("ending_before", endingBefore);
   }
 
-  const response = await hanserFetch(`/v1/conversations?${parameters}`);
+  const response = await hanserFetch(`/v1/conversations?${parameters}`).catch(
+    () => null
+  );
+  if (!response) {
+    return hanserUnavailableError();
+  }
   if (!response.ok) {
     return hanserProxyError(response);
   }

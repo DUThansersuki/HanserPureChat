@@ -234,10 +234,28 @@ def create_app(
 
     @application.get("/health")
     async def health() -> dict[str, object]:
+        with db.connect(active_settings.db_path) as conn:
+            active_style = conn.execute(
+                "SELECT generation FROM active_index_generations WHERE collection=?",
+                ("style_examples",),
+            ).fetchone()
+        active_style_generation = active_style["generation"] if active_style else None
+        expected_style_generation = (
+            active_settings.persona.candidate_style_generation
+            if active_settings.persona.active_package != "persona-v1-production"
+            else None
+        )
         return {
             "ok": True,
+            "chat_ready": (
+                expected_style_generation is None
+                or active_style_generation == expected_style_generation
+            ),
             "db_path": str(active_settings.db_path),
             "model": active_settings.default_model,
+            "persona_package": active_settings.persona.active_package,
+            "style_generation": expected_style_generation or "legacy-v1",
+            "active_style_generation": active_style_generation,
         }
 
     @application.post(

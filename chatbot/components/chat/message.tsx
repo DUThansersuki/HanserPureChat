@@ -24,7 +24,7 @@ import { Weather } from "./weather";
 
 function WaitingText() {
   const { waitingStatus } = useDataStream();
-  const waitingText = waitingStatus?.message ?? "Waiting...";
+  const waitingText = waitingStatus?.message ?? "正在等待回复…";
 
   return (
     <div className="flex min-h-[calc(13px*1.65)] min-w-0 items-center text-[13px] leading-[1.65]">
@@ -68,14 +68,14 @@ function ToolApprovalActions({
         onClick={handleDeny}
         type="button"
       >
-        Deny
+        拒绝
       </button>
       <button
         className="rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-sm transition-colors hover:bg-primary/90"
         onClick={handleAllow}
         type="button"
       >
-        Allow
+        允许
       </button>
     </div>
   );
@@ -83,17 +83,19 @@ function ToolApprovalActions({
 
 const PurePreviewMessage = ({
   addToolApprovalResponse,
+  canRegenerate,
   chatId,
   message,
   vote,
   isLoading,
   setMessages: _setMessages,
-  regenerate: _regenerate,
+  regenerate,
   isReadonly,
   requiresScrollPadding: _requiresScrollPadding,
   onEdit,
 }: {
   addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
+  canRegenerate: boolean;
   chatId: string;
   message: ChatMessage;
   vote: Vote | undefined;
@@ -104,6 +106,7 @@ const PurePreviewMessage = ({
   requiresScrollPadding: boolean;
   onEdit?: (message: ChatMessage) => void;
 }) => {
+  const handleRetry = useCallback(() => regenerate(), [regenerate]);
   const attachmentsFromMessage = message.parts.filter(
     (part) => part.type === "file"
   );
@@ -185,6 +188,20 @@ const PurePreviewMessage = ({
         >
           <MessageResponse>{sanitizeText(part.text)}</MessageResponse>
         </MessageContent>
+      );
+    }
+
+    if (
+      type === "data-hanser-meta" &&
+      part.data.postTurnStatus === "pending_retry"
+    ) {
+      return (
+        <div
+          className="text-[11px] text-amber-600 dark:text-amber-400"
+          key={key}
+        >
+          回复已保存，本轮记忆整理仍在等待后端重试
+        </div>
       );
     }
 
@@ -348,6 +365,7 @@ const PurePreviewMessage = ({
       key={`action-${message.id}`}
       message={message}
       onEdit={onEdit ? () => onEdit(message) : undefined}
+      onRetry={canRegenerate ? handleRetry : undefined}
       vote={vote}
     />
   );

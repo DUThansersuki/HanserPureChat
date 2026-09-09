@@ -23,7 +23,8 @@ function messageText(message: NonNullable<PostRequestBody["message"]>) {
 }
 
 export async function POST(request: Request) {
-  const parsed = postRequestBodySchema.safeParse(await request.json());
+  const body = await request.json().catch(() => null);
+  const parsed = postRequestBodySchema.safeParse(body);
   if (!parsed.success || !parsed.data.message) {
     return Response.json(
       { cause: "当前本地接入只接受新的文本消息。", code: "bad_request:api" },
@@ -31,9 +32,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const { id, message, outputPreferences } = parsed.data;
+  const { id, message, outputPreferences, personaSettings } = parsed.data;
   const text = messageText(message);
-  if (!text || message.parts.some((part) => part.type === "file")) {
+  if (!text) {
     return Response.json(
       { cause: "Hanser Agent 当前只支持文本输入。", code: "bad_request:api" },
       { status: 400 }
@@ -63,6 +64,10 @@ export async function POST(request: Request) {
               outputPreferences?.offline_performance ?? false,
             speech: outputPreferences?.speech ?? false,
             text: true,
+          },
+          persona_settings: {
+            adult_innuendo_opt_in:
+              personaSettings?.adult_innuendo_opt_in ?? false,
           },
           request_id: message.id,
           user_id: hanserUserId,

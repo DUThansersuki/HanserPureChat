@@ -1,6 +1,6 @@
 "use client";
 
-import { PaletteIcon, PenSquareIcon, Trash2Icon } from "lucide-react";
+import { PaletteIcon, PenSquareIcon } from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
@@ -8,26 +8,20 @@ export type SlashCommand = {
   name: string;
   description: string;
   icon: ReactNode;
-  action: string;
+  action: "new" | "theme";
   shortcut?: string;
 };
 
 export const slashCommands: SlashCommand[] = [
   {
     action: "new",
-    description: "Start a new chat",
+    description: "开始新对话",
     icon: <PenSquareIcon className="size-3.5" />,
     name: "new",
   },
   {
-    action: "clear",
-    description: "Clear current chat",
-    icon: <Trash2Icon className="size-3.5" />,
-    name: "clear",
-  },
-  {
     action: "theme",
-    description: "Toggle dark/light mode",
+    description: "切换深色/浅色主题",
     icon: <PaletteIcon className="size-3.5" />,
     name: "theme",
   },

@@ -41,9 +41,10 @@ export function ChatShell() {
     visibilityType,
     isReadonly,
     isLoading,
+    loadError,
+    reloadChat,
     votes,
     currentModelId,
-    setCurrentModelId,
     showCreditCardAlert,
     setShowCreditCardAlert,
   } = useActiveChat();
@@ -68,18 +69,6 @@ export function ChatShell() {
       setAttachments([]);
     }
   }, [chatId, setArtifact]);
-
-  const handleEditMessage = useCallback(
-    (msg: ChatMessage) => {
-      const text = msg.parts
-        ?.filter((p) => p.type === "text")
-        .map((p) => p.text)
-        .join("");
-      setInput(text ?? "");
-      setEditingMessage(msg);
-    },
-    [setInput]
-  );
 
   const handleCancelEdit = useCallback(() => {
     setEditingMessage(null);
@@ -126,6 +115,18 @@ export function ChatShell() {
           />
 
           <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-background md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40">
+            {loadError ? (
+              <div className="flex items-center justify-center gap-2 border-b border-red-500/20 bg-red-500/5 px-3 py-2 text-[12px] text-red-600 dark:text-red-400">
+                <span>这段对话暂时没加载出来。</span>
+                <button
+                  className="font-medium underline underline-offset-2"
+                  onClick={reloadChat}
+                  type="button"
+                >
+                  重试
+                </button>
+              </div>
+            ) : null}
             <Messages
               addToolApprovalResponse={addToolApprovalResponse}
               chatId={chatId}
@@ -148,11 +149,10 @@ export function ChatShell() {
                   chatId={chatId}
                   editingMessage={editingMessage}
                   input={input}
-                  isLoading={isLoading}
+                  isLoading={isLoading || Boolean(loadError)}
                   messages={messages}
                   onCancelEdit={handleCancelEdit}
-                  onModelChange={setCurrentModelId}
-                  selectedModelId={currentModelId}
+                  retryLastMessage={regenerate}
                   selectedVisibilityType={visibilityType}
                   sendMessage={
                     editingMessage ? handleSendEditedMessage : sendMessage

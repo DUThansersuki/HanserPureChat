@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { memo, useCallback } from "react";
 import type { Chat } from "@/lib/db/schema";
-import {
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "../ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 
 const PureChatItem = ({
   chat,
@@ -13,7 +10,6 @@ const PureChatItem = ({
 }: {
   chat: Chat;
   isActive: boolean;
-  onDelete: (chatId: string) => void;
   setOpenMobile: (open: boolean) => void;
 }) => {
   const closeMobile = useCallback(() => setOpenMobile(false), [setOpenMobile]);
@@ -33,6 +29,8 @@ const PureChatItem = ({
   );
 };
 
-export const ChatItem = memo(PureChatItem, (previous, next) => {
-  return previous.isActive === next.isActive && previous.chat.id === next.chat.id;
-});
+export const ChatItem = memo(
+  PureChatItem,
+  (previous, next) =>
+    previous.isActive === next.isActive && previous.chat.id === next.chat.id
+);

@@ -1,4 +1,5 @@
 import equal from "fast-deep-equal";
+import { RefreshCcwIcon } from "lucide-react";
 import { memo, useCallback } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -14,12 +15,14 @@ export function PureMessageActions({
   message,
   isLoading,
   onEdit,
+  onRetry,
 }: {
   chatId: string;
   message: ChatMessage;
   vote: Vote | undefined;
   isLoading: boolean;
   onEdit?: () => void;
+  onRetry?: () => void;
 }) {
   const [, copyToClipboard] = useCopyToClipboard();
   const text = message.parts
@@ -44,13 +47,18 @@ export function PureMessageActions({
     <Actions
       className={
         message.role === "user"
-          ? "-mr-0.5 justify-end opacity-0 transition-opacity duration-150 group-hover/message:opacity-100"
-          : "-ml-0.5 opacity-0 transition-opacity duration-150 group-hover/message:opacity-100"
+          ? "-mr-0.5 justify-end opacity-100 transition-opacity duration-150 sm:opacity-0 sm:group-hover/message:opacity-100"
+          : "-ml-0.5 opacity-100 transition-opacity duration-150 sm:opacity-0 sm:group-hover/message:opacity-100"
       }
     >
       {message.role === "user" && onEdit ? (
         <Action onClick={onEdit} tooltip="编辑">
           <PencilEditIcon />
+        </Action>
+      ) : null}
+      {message.role === "assistant" && onRetry ? (
+        <Action onClick={onRetry} tooltip="重新生成">
+          <RefreshCcwIcon className="size-3.5" />
         </Action>
       ) : null}
       <Action onClick={handleCopy} tooltip="复制">
@@ -60,10 +68,11 @@ export function PureMessageActions({
   );
 }
 
-export const MessageActions = memo(PureMessageActions, (previous, next) => {
-  return (
+export const MessageActions = memo(
+  PureMessageActions,
+  (previous, next) =>
     equal(previous.vote, next.vote) &&
     previous.isLoading === next.isLoading &&
+    previous.onRetry === next.onRetry &&
     previous.message.id === next.message.id
-  );
-});
+);
