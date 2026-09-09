@@ -1,0 +1,45 @@
+{
+  "schema_version": 3,
+  "frozen_at": "2026-09-09T11:10:53.394000+00:00",
+  "policy": "old repeatedly used inputs are exposed regression; new hidden inputs freeze once and are never prompt-tuning inputs",
+  "inputs": {
+    "daily_calibration": {
+      "path": "daily_calibration_24.jsonl",
+      "sha256": "5c22a27d6c5cf052c6faf3916fe8615d2db31f637e6400077ddd8bdc257ad7d2",
+      "count": 24,
+      "exposure_counts": {
+        "development_calibration": 24
+      }
+    },
+    "hidden_generalization": {
+      "path": "hidden_generalization_8.jsonl",
+      "sha256": "be4b614bb0cca17d85fadff4cb866db83b4938b45beb5f01946ccafba52f9ff9",
+      "count": 8,
+      "exposure_counts": {
+        "hidden_frozen": 8
+      }
+    },
+    "daily_sequences": {
+      "path": "daily_sequences_4.jsonl",
+      "sha256": "7c5f5b245e226d45935ec7149105e6fdcbcfaa61a4304f0d3cdd9a4dd29caf3d",
+      "count": 4,
+      "exposure_counts": {
+        "development_calibration": 3,
+        "hidden_frozen": 1
+      }
+    }
+  },
+  "legacy_inputs": {
+    "cases.jsonl": {
+      "count": 72,
+      "exposure": "exposed_regression"
+    },
+    "sequences.jsonl": {
+      "count": 6,
+      "exposure": "exposed_regression"
+    }
+  },
+  "group_rule": "same source, topic, repeated segment, and rewrites share one group",
+  "style_pollution_rule": "designed cases, contrast pairs, and hidden inputs have no style_runtime scope",
+  "model_operations_at_freeze": "NOT_EXECUTED"
+}

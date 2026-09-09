@@ -244,7 +244,7 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result.attempts, 2)
         self.assertIn("不能直接点头", result.text)
 
-    async def test_candidate_retries_fabricated_unresolved_reference_option(self) -> None:
+    async def test_candidate_does_not_invent_unresolved_state_from_surface_form(self) -> None:
         gateway = SequencedModelGateway(
             ["你是指演唱会场地那个还是别的", "你指的是哪个方案 先把内容发我看看"]
         )
@@ -268,8 +268,8 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
 
         result = await responder.respond(context)
 
-        self.assertEqual(result.attempts, 2)
-        self.assertNotIn("演唱会", result.text)
+        self.assertEqual(result.attempts, 1)
+        self.assertIn("演唱会", result.text)
 
     async def test_candidate_retries_persona_memory_as_fact_source(self) -> None:
         gateway = SequencedModelGateway(
@@ -374,10 +374,8 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(result.attempts, 2)
         self.assertEqual(result.text, "知道了 回到恢复步骤")
-        self.assertIn(
-            "本次整条回答只输出：知道了 不接这个梗 继续按恢复步骤来",
-            gateway.calls[1][1][0].content,
-        )
+        self.assertIn("用户已关闭玩笑", gateway.calls[1][1][0].content)
+        self.assertNotIn("本次整条回答只输出", gateway.calls[1][1][0].content)
 
     async def test_candidate_uses_bounded_fallback_when_permission_retry_still_violates(self) -> None:
         gateway = SequencedModelGateway(
@@ -414,7 +412,8 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
         result = await responder.respond(context)
 
         self.assertEqual(result.attempts, 2)
-        self.assertEqual(result.text, "知道了 不接这个梗 继续按恢复步骤来")
+        self.assertEqual(result.text, "明白 我会停下相关表达")
+        self.assertEqual(result.generation_status, "contract_fallback")
         self.assertIn("bounded_permission_fallback", result.validator_actions)
 
     async def test_candidate_catches_teasing_credit_after_future_permission(self) -> None:
@@ -460,9 +459,11 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
         )
         compiler = PersonaCompiler(CANDIDATE_DIR)
         signals = build_turn_signals(
-            "先只说数据风险",
+            "这个方案先只说数据风险",
             current_message_ref="message:1",
-            history_texts=["你指的是哪个方案", "还没说具体内容"],
+            history_messages=[
+                ChatMessage(role="assistant", content="你指的是哪个方案"),
+            ],
         )
         decision = build_guidance(
             signals,
@@ -477,7 +478,7 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
         context = ContextBundle(
             messages=[
                 ChatMessage(role="system", content="对象缺失"),
-                ChatMessage(role="user", content="先只说数据风险"),
+                ChatMessage(role="user", content="这个方案先只说数据风险"),
             ],
             persona=compiler.compile("casual"),
             turn_signals=signals,

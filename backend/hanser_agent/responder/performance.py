@@ -118,6 +118,7 @@ class ReplySnapshot(BaseModel):
     constraints_ref: str
     render_profile_revision: str
     text_source: Literal["validated_semantic", "legacy_text_source"]
+    persona_trace: dict[str, object] = Field(default_factory=dict)
 
 
 def parse_responder_payload(raw_text: str) -> ParsedResponderPayload:

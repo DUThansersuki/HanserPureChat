@@ -73,6 +73,28 @@ class PersonaSettingsTests(unittest.TestCase):
                     override_path,
                 )
 
+    def test_validated_override_remains_active_in_preview(self) -> None:
+        data = yaml.safe_load(
+            (CANDIDATE_DIR / "product_overrides.yaml").read_text(encoding="utf-8")
+        )
+        for override in data["overrides"]:
+            if override["override_id"] == "product.reduce_cutesy.v1":
+                override["status"] = "validated"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            override_path = Path(tmp) / "overrides.yaml"
+            override_path.write_text(
+                yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+                encoding="utf-8",
+            )
+            settings = load_effective_settings(
+                CANDIDATE_DIR / "expression_policy.yaml", override_path,
+                lifecycle="preview",
+            )
+
+        self.assertEqual(settings.cutesy_bias, 0.10)
+        self.assertEqual(settings.trace["cutesy_bias"].source, "product.reduce_cutesy.v1")
+
 
 if __name__ == "__main__":
     unittest.main()

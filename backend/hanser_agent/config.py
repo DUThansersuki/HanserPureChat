@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 
@@ -105,6 +105,15 @@ class PerformanceConfig:
     request_timeout_seconds: float = 10.0
 
 
+@dataclass(frozen=True, slots=True)
+class PersonaRuntimeConfig:
+    active_package: Literal["persona-v1-production", "hanser-persona-v2-candidate"] = "persona-v1-production"
+    candidate_package: Literal["hanser-persona-v2-candidate"] = "hanser-persona-v2-candidate"
+    candidate_style_generation: str = "persona-v2-style-safe-7bd0970e2164b249"
+    detector_version: str = "persona_lexical_v2"
+    schema_version: int = 2
+
+
 @dataclass(slots=True)
 class ModelProfileConfig:
     provider: str = "ollama"
@@ -142,6 +151,7 @@ class Settings:
     memory: MemoryConfig = field(default_factory=MemoryConfig)
     context: ContextConfig = field(default_factory=ContextConfig)
     performance: PerformanceConfig = field(default_factory=PerformanceConfig)
+    persona: PersonaRuntimeConfig = field(default_factory=PersonaRuntimeConfig)
     planner: ModelProfileConfig = field(default_factory=ModelProfileConfig)
     planner_external: ModelProfileConfig | None = None
     responder: ModelProfileConfig | None = None
@@ -316,6 +326,25 @@ def _performance(raw: dict[str, Any]) -> PerformanceConfig:
     )
 
 
+def _persona(raw: dict[str, Any]) -> PersonaRuntimeConfig:
+    active = str(raw.get("active_package", "persona-v1-production"))
+    candidate = str(raw.get("candidate_package", "hanser-persona-v2-candidate"))
+    allowed_active = {"persona-v1-production", "hanser-persona-v2-candidate"}
+    if active not in allowed_active:
+        raise ValueError(f"未知 persona.active_package: {active}")
+    if candidate != "hanser-persona-v2-candidate":
+        raise ValueError(f"未知 persona.candidate_package: {candidate}")
+    return PersonaRuntimeConfig(
+        active_package=active,  # type: ignore[arg-type]
+        candidate_package=candidate,  # type: ignore[arg-type]
+        candidate_style_generation=str(
+            raw.get("candidate_style_generation", "persona-v2-style-safe-7bd0970e2164b249")
+        ),
+        detector_version=str(raw.get("detector_version", "persona_lexical_v2")),
+        schema_version=int(raw.get("schema_version", 2)),
+    )
+
+
 def _model_profile(
     raw: dict[str, Any],
     *,
@@ -357,6 +386,7 @@ def load_settings(path: str | Path | None = None) -> Settings:
     models = raw.get("models", {})
     server = raw.get("server", {})
     performance_raw = raw.get("performance", {})
+    persona_raw = raw.get("persona", {})
 
     base_url = str(llm.get("base_url") or os.getenv("OPENAI_BASE_URL") or "https://api.openai.com/v1")
     api_key = str(llm.get("api_key") or os.getenv("OPENAI_API_KEY") or "")
@@ -446,6 +476,7 @@ def load_settings(path: str | Path | None = None) -> Settings:
         memory=_memory(raw.get("memory", {})),
         context=_context(raw.get("context", {})),
         performance=_performance(performance_raw),
+        persona=_persona(persona_raw),
         planner=planner,
         planner_external=planner_external,
         responder=responder,

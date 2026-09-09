@@ -123,6 +123,13 @@ style:
   candidate_pool_size: 16
   min_quality: 0.68
 
+persona:
+  active_package: "persona-v1-production"
+  candidate_package: "hanser-persona-v2-candidate"
+  candidate_style_generation: "persona-v2-style-safe-7bd0970e2164b249"
+  detector_version: "persona_lexical_v2"
+  schema_version: 2
+
 memory:
   recent_messages: 12
   summary_trigger_messages: 20

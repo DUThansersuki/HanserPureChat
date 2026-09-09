@@ -91,6 +91,12 @@ class ChatAgentService:
                 or self.performance_config.render_profile_revision
             ),
             "structured_performance": self.performance_config.structured_performance_enabled,
+            "persona_combination": {
+                "package_id": self.context_builder.persona_compiler.package_id,
+                "compiler_version": self.context_builder.persona_compiler.VERSION,
+                "schema_version": self.context_builder.persona_compiler.package_schema_version,
+                "style_generation": getattr(self.style_tool, "pinned_generation", None),
+            },
         }
         if self.request_state is not None:
             claim = self.request_state.claim(
@@ -130,45 +136,59 @@ class ChatAgentService:
             timings["load_context_state"] = time.perf_counter() - started
 
             started = time.perf_counter()
+            planner_gateway = getattr(self.planner, "model_gateway", None)
+            planner_records = getattr(planner_gateway, "call_records", [])
+            planner_call_start = len(planner_records)
             plan = await self.planner.plan(
                 request.message, history, summary.content if summary else None
             )
+            planner_call_records = planner_records[planner_call_start:]
             degraded.extend(plan.degraded_reasons)
             timings["planner"] = time.perf_counter() - started
 
             turn_signals = None
             behavior_decision = None
             expression_observation = None
+            expression_permissions: dict[str, str] = {}
+            scene_for_turn = scene
             effective_persona = self.context_builder.persona_compiler.effective_settings
             if self.context_builder.persona_compiler.is_v2 and effective_persona is not None:
-                history_refs = [
-                    f"conversation:{request.conversation_id}:visible:{index}"
-                    for index, _ in enumerate(history)
+                durable_preferences = [
+                    item
+                    for item in self.memory_store.list_memories(user_id=request.user_id)
+                    if item.type == "user_preference"
+                    and item.predicate == "expression_permission"
+                    and item.memory_scope == "global"
                 ]
                 turn_signals = build_turn_signals(
                     request.message,
                     current_message_ref=f"request:{request_id}:current_user",
                     planner_payload=plan.persona_signals,
-                    history_refs=history_refs,
-                    history_texts=[item.content for item in history],
+                    history_messages=history,
                 )
                 degraded.extend(turn_signals.degraded_reasons)
+                scene_for_turn = self._scene_for_current_turn(
+                    scene, request.message, turn_signals
+                )
                 expression_observation = observe_recent_expressions(
                     history,
                     window_turns=effective_persona.observation_turns,
                     recency_decay=effective_persona.recency_decay,
                 )
+                expression_permissions = infer_expression_permissions(
+                    turn_signals.preference_events,
+                    current_message_id=f"request:{request_id}:current_user",
+                    persistent_preferences=durable_preferences,
+                )
                 behavior_decision = build_guidance(
                     turn_signals,
-                    permissions=infer_expression_permissions(
-                        history,
-                        request.message,
-                    ),
+                    permissions=expression_permissions,
                     observations=expression_observation,
                     effective_persona=effective_persona,
                     response_mode=plan.response_mode,
                     fact_sensitivity=plan.fact_sensitivity,
                     need_wiki=plan.need_wiki,
+                    behavior_priors=self.context_builder.persona_compiler.behavior_priors,
                 )
 
             async def safe_tool(label: str, coroutine):
@@ -198,6 +218,8 @@ class ChatAgentService:
                         turn_signals=turn_signals,
                         behavior_decision=behavior_decision,
                         observations=expression_observation,
+                        recent_example_ids=expression_observation.recent_example_ids,
+                        repetition_penalty=effective_persona.repetition_penalty,
                     )
                 task_specs.append(("style", style_search))
             if plan.need_memory:
@@ -234,7 +256,7 @@ class ChatAgentService:
                 address_options=self.memory_store.list_address_options(user_id=request.user_id),
                 conversation_summary=summary.content if summary else None,
                 relationship_state=relationship,
-                scene_state=scene,
+                scene_state=scene_for_turn,
                 turn_signals=turn_signals,
                 behavior_decision=behavior_decision,
                 effective_persona=effective_persona,
@@ -243,6 +265,9 @@ class ChatAgentService:
             timings["context"] = time.perf_counter() - started
 
             started = time.perf_counter()
+            responder_gateway = getattr(self.responder, "model_gateway", None)
+            responder_records = getattr(responder_gateway, "call_records", [])
+            responder_call_start = len(responder_records)
             if structured_performance:
                 generated = await self.responder.respond(
                     context,
@@ -250,6 +275,7 @@ class ChatAgentService:
                 )
             else:
                 generated = await self.responder.respond(context)
+            responder_call_records = responder_records[responder_call_start:]
             timings["responder"] = time.perf_counter() - started
             if structured_performance:
                 degraded.extend(generated.performance_degraded_reasons)
@@ -311,6 +337,72 @@ class ChatAgentService:
                     if structured_performance
                     else "legacy_text_source"
                 ),
+                persona_trace={
+                    "input": {
+                        "current_message_id": user_message_id,
+                        "visible_history": [
+                            {"message_id": item.message_id, "role": item.role}
+                            for item in history
+                        ],
+                    },
+                    "signals": (
+                        turn_signals.model_dump(mode="json")
+                        if turn_signals is not None else None
+                    ),
+                    "effective_persona": (
+                        effective_persona.model_dump(mode="json")
+                        if effective_persona is not None else None
+                    ),
+                    "permissions": {
+                        "events": (
+                            [item.model_dump(mode="json") for item in turn_signals.preference_events]
+                            if turn_signals is not None else []
+                        ),
+                        "effective": expression_permissions,
+                    },
+                    "policy": (
+                        behavior_decision.model_dump(mode="json")
+                        if behavior_decision is not None else None
+                    ),
+                    "retrieval": {
+                        "selected_style_ids": (
+                            [item.id for item in style_result.examples]
+                            if style_result is not None else []
+                        ),
+                        "scores": getattr(style_result, "scores", {}),
+                        "score_components": getattr(style_result, "score_components", {}),
+                        "excluded": getattr(style_result, "excluded", {}),
+                        "recent_example_ids": (
+                            expression_observation.recent_example_ids
+                            if expression_observation is not None else []
+                        ),
+                    },
+                    "combination": {
+                        "package_id": context.persona.package_id,
+                        "compiler_version": context.persona.compiler_version,
+                        "schema_version": context.persona.schema_version,
+                        "persona_source_sha256": context.persona_source_sha256,
+                        "persona_render_sha256": context.persona_render_sha256,
+                        "prompt_sha256": context.prompt_sha256,
+                        "style_generation": getattr(self.style_tool, "pinned_generation", None),
+                    },
+                    "generation": {
+                        "raw_text": generated.raw_text,
+                        "semantic_text": semantic_text,
+                        "final_text": response.text,
+                        "status": generated.generation_status,
+                        "planner_calls": len(planner_call_records),
+                        "responder_attempts": generated.attempts,
+                        "responder_calls": len(responder_call_records),
+                        "token_usage": self._token_usage(
+                            [*planner_call_records, *responder_call_records]
+                        ),
+                        "latency_seconds": {
+                            key: value for key, value in timings.items()
+                            if key in {"planner", "style", "memory", "wiki", "context", "responder"}
+                        },
+                    },
+                },
             )
 
             started = time.perf_counter()
@@ -328,6 +420,11 @@ class ChatAgentService:
                 response=response,
                 request_hash=request_hash,
                 post_turn_payload=payload,
+                style_example_ids=(
+                    [item.id for item in style_result.examples]
+                    if style_result is not None
+                    else []
+                ),
             )
             timings["persist_reply"] = time.perf_counter() - started
             started = time.perf_counter()
@@ -384,6 +481,22 @@ class ChatAgentService:
             ) from exc
 
     @staticmethod
+    def _token_usage(records: list[dict[str, object]]) -> dict[str, object]:
+        fields = ("prompt_tokens", "completion_tokens", "total_tokens")
+        available = {
+            field: [int(record[field]) for record in records if isinstance(record.get(field), int)]
+            for field in fields
+        }
+        return {
+            "status": "available" if records and all(available[field] for field in fields) else "partial_or_unavailable",
+            **{
+                field: sum(values) if values else None
+                for field, values in available.items()
+            },
+            "calls": len(records),
+        }
+
+    @staticmethod
     def _language_of(text: str) -> str:
         has_japanese = any(
             "\u3040" <= character <= "\u30ff" for character in text
@@ -400,6 +513,33 @@ class ChatAgentService:
         if has_latin:
             return "en"
         return "unknown"
+
+    @staticmethod
+    def _scene_for_current_turn(
+        previous: SceneState,
+        message: str,
+        signals,
+    ) -> SceneState:
+        emotion = signals.get("user_emotion")
+        value = emotion.value if emotion is not None and emotion.status == "observed" else None
+        if value in {"distressed", "negative", "angry"}:
+            mood = "supportive" if value != "angry" else "careful"
+            energy = 0.35
+            emotional = message[:80]
+        elif value == "positive":
+            mood, energy, emotional = "upbeat", 0.7, message[:80]
+        else:
+            mood = "neutral"
+            energy = round((previous.energy + 0.5) / 2, 3)
+            emotional = None
+        return SceneState(
+            current_topic=message[:60],
+            mood=mood,
+            energy=energy,
+            response_tempo="slow" if energy < 0.4 else "normal",
+            emotional_context=emotional,
+            unresolved_threads=previous.unresolved_threads,
+        )
 
     async def retry_post_turn(self, failure_id: str) -> dict[str, object]:
         if self.request_state is None:

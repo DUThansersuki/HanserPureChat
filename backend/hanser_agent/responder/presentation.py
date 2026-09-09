@@ -17,9 +17,12 @@ class DisplayAdapter:
         *,
         required_verbatim_spans: list[str] | None = None,
         exact_output: str | None = None,
+        punctuation_mode: str = "legacy_sparse",
     ) -> ValidationResult:
         if exact_output is not None:
             return ValidationResult(text=semantic_text)
+        if punctuation_mode == "natural":
+            return ValidationResult(text=semantic_text.strip())
 
         protected: list[str] = []
         working = semantic_text

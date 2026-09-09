@@ -4,6 +4,7 @@ import re
 
 from ..config import MemoryConfig
 from ..models import MemoryCandidate, MemoryDecision
+from ..persona.signals import extract_explicit_preference_events
 
 
 _PERSONAL_NAME = re.compile(
@@ -46,6 +47,26 @@ class MemoryCandidateExtractor:
         candidates: list[MemoryCandidate] = []
         visible = _NEGATIVE_ADDRESS.sub("", _QUOTED.sub("", message))
         base_assertion = self._assertion_type(message)
+
+        for event in extract_explicit_preference_events(
+            message, source_message_id=message_id
+        ):
+            if event.scope != "user":
+                continue
+            target_key = self._key(event.target) if event.target else "*"
+            content = (
+                f"用户长期表达偏好：{event.feature}={event.decision}"
+                + (f"，对象={event.target}" if event.target else "")
+            )
+            candidates.append(self._candidate(
+                user_id, conversation_id, message_id, "user_preference",
+                f"preference:expression:{event.feature}:{target_key}",
+                content, 0.95, 0.99,
+                assertion_type="user_instruction",
+                polarity="negative" if event.decision == "deny" else "positive",
+                subject="user", predicate="expression_permission",
+                object_value=event.decision, memory_scope="global",
+            ))
 
         addresses: list[tuple[str, str, float, list[str]]] = []
         for match in _PERSONAL_NAME.finditer(visible):
@@ -210,6 +231,7 @@ class MemoryCandidateExtractor:
         address_kind: str | None = None,
         context_tags: list[str] | None = None,
         address_priority: float = 0.0,
+        memory_scope: str = "global",
     ) -> MemoryCandidate:
         return MemoryCandidate(
             user_id=user_id, conversation_id=conversation_id, type=memory_type,
@@ -219,6 +241,7 @@ class MemoryCandidateExtractor:
             subject=subject, predicate=predicate, object_value=object_value,
             address_kind=address_kind, context_tags=context_tags or [],
             address_priority=address_priority,
+            memory_scope=memory_scope,
         )
 
 
@@ -237,7 +260,7 @@ class MemoryWriteGate:
             return MemoryDecision(candidate=item, accepted=False, reason="question_not_assertion")
         if item.assertion_type == "hypothetical":
             return MemoryDecision(candidate=item, accepted=False, reason="hypothetical_not_assertion")
-        if item.assertion_type == "user_instruction":
+        if item.assertion_type == "user_instruction" and item.predicate != "expression_permission":
             return MemoryDecision(candidate=item, accepted=False, reason="remember_request_is_not_evidence")
         if item.type in {"shared_event", "relationship_event", "episode"} and (
             item.assertion_type != "confirmed_conversation_event" or item.validity != "verified"

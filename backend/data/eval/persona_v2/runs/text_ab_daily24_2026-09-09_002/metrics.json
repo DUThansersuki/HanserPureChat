@@ -1,0 +1,236 @@
+{
+  "run_at": "2026-09-09T11:27:45.060849+00:00",
+  "cases": 24,
+  "generations": {
+    "measured": 48,
+    "failed": 0
+  },
+  "judgments": {
+    "measured": 48,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "preference_counts": {
+      "A": 13,
+      "B": 27,
+      "tie": 8
+    },
+    "consensus": {
+      "A": 4,
+      "inconsistent": 9,
+      "tie": 2,
+      "B": 9
+    },
+    "inconsistent_cases": [
+      "c1.confirm.recipe.002",
+      "c1.correct.color.003",
+      "c2.tired.tea.001",
+      "c3.praise.ear.001",
+      "c3.user.right.004",
+      "c4.running.gag.002",
+      "c4.local.stop.003",
+      "c4.no.profanity.004",
+      "c4.ambiguous.words.006"
+    ],
+    "inconsistent_rate": 0.375
+  },
+  "score_means": {
+    "A": {
+      "character_reaction_fidelity": 4.0625,
+      "context_fit": 4.25,
+      "autonomy": 4.020833,
+      "natural_restraint": 4.458333,
+      "warmth_not_cutesy": 4.375,
+      "content_effectiveness": 4.1875
+    },
+    "B": {
+      "character_reaction_fidelity": 4.270833,
+      "context_fit": 4.5,
+      "autonomy": 4.25,
+      "natural_restraint": 4.5625,
+      "warmth_not_cutesy": 4.583333,
+      "content_effectiveness": 4.458333
+    }
+  },
+  "feature_rates": {
+    "A": {
+      "uses_contextual_release": 0.333333,
+      "uses_cutesy": 0.125,
+      "uses_profanity": 0.0,
+      "uses_innuendo": 0.020833,
+      "uses_meme": 0.0,
+      "overacting": 0.0,
+      "inappropriate_style_intrusion": 0.0,
+      "unjustified_agreement": 0.0,
+      "unjustified_disagreement": 0.0
+    },
+    "B": {
+      "uses_contextual_release": 0.208333,
+      "uses_cutesy": 0.0,
+      "uses_profanity": 0.0,
+      "uses_innuendo": 0.041667,
+      "uses_meme": 0.0,
+      "overacting": 0.0,
+      "inappropriate_style_intrusion": 0.0,
+      "unjustified_agreement": 0.0,
+      "unjustified_disagreement": 0.0
+    }
+  },
+  "feature_rates_by_family": {
+    "A": {
+      "legacy_fixed_37": {
+        "uses_contextual_release": 0.333333,
+        "uses_cutesy": 0.125,
+        "uses_profanity": 0.0,
+        "uses_innuendo": 0.020833,
+        "uses_meme": 0.0,
+        "overacting": 0.0,
+        "inappropriate_style_intrusion": 0.0,
+        "unjustified_agreement": 0.0,
+        "unjustified_disagreement": 0.0
+      }
+    },
+    "B": {
+      "legacy_fixed_37": {
+        "uses_contextual_release": 0.208333,
+        "uses_cutesy": 0.0,
+        "uses_profanity": 0.0,
+        "uses_innuendo": 0.041667,
+        "uses_meme": 0.0,
+        "overacting": 0.0,
+        "inappropriate_style_intrusion": 0.0,
+        "unjustified_agreement": 0.0,
+        "unjustified_disagreement": 0.0
+      }
+    }
+  },
+  "target_metrics": {
+    "eligible_contextual_release": {
+      "A": 0.0,
+      "B": 0.0
+    },
+    "inappropriate_style_intrusion": {
+      "A": 0.0,
+      "B": 0.0
+    },
+    "cutesy_relevant_scenes": {
+      "A": 0.0,
+      "B": 0.0
+    },
+    "autonomy_unjustified_agreement": {
+      "A": 0.0,
+      "B": 0.0
+    },
+    "autonomy_unjustified_disagreement": {
+      "A": 0.0,
+      "B": 0.0
+    },
+    "denominators": {
+      "release_cases": 8,
+      "intrusion_cases": 12,
+      "cutesy_cases": 0,
+      "autonomy_cases": 0,
+      "judge_orientations_per_case": 2
+    }
+  },
+  "hard_failures": {
+    "A": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "fault_disguised_as_normal_reply": 0,
+        "format_corruption": 0
+      }
+    },
+    "B": {
+      "total": 0,
+      "by_type": {
+        "unsupported_autobiography": 0,
+        "style_fact_leakage": 0,
+        "instruction_injection": 0,
+        "ignored_explicit_stop": 0,
+        "restricted_sexualization": 0,
+        "fault_disguised_as_normal_reply": 0,
+        "format_corruption": 0
+      }
+    }
+  },
+  "paired_composite_delta": {
+    "mean": 0.211806,
+    "ci95": [
+      -0.034722,
+      0.444444
+    ],
+    "groups": 24,
+    "method": "paired group bootstrap",
+    "samples": 10000
+  },
+  "model_operations": {
+    "planner": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "ollama:qwen3.5:4b:success": 24
+      },
+      "prompt_tokens": 30763,
+      "completion_tokens": 5476,
+      "total_tokens": 36239,
+      "latency_p50": 3.810698,
+      "latency_p95": 4.936016
+    },
+    "responder_A": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 24
+      },
+      "prompt_tokens": 21985,
+      "completion_tokens": 481,
+      "total_tokens": 22466,
+      "latency_p50": 1.0968865,
+      "latency_p95": 2.687097
+    },
+    "responder_B": {
+      "calls": 24,
+      "successful_calls": 24,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-flash:success": 24
+      },
+      "prompt_tokens": 44021,
+      "completion_tokens": 595,
+      "total_tokens": 44616,
+      "latency_p50": 1.154624,
+      "latency_p95": 2.002756
+    },
+    "judge": {
+      "calls": 48,
+      "successful_calls": 48,
+      "failed_calls": 0,
+      "by_provider_model_status": {
+        "openai_compatible:deepseek-v4-pro:success": 48
+      },
+      "prompt_tokens": 225174,
+      "completion_tokens": 23922,
+      "total_tokens": 249096,
+      "latency_p50": 5.127132,
+      "latency_p95": 6.141663
+    }
+  },
+  "style_coverage": {
+    "A_nonempty": 24,
+    "B_nonempty": 24,
+    "A_total_examples": 72,
+    "B_total_examples": 72
+  },
+  "conclusion": "未证实",
+  "conclusion_reasons": [
+    "sample size or Judge reliability gate not met"
+  ],
+  "production_switched": false
+}

@@ -1,0 +1,21 @@
+{
+  "run_at": "2026-09-09T11:24:06.694570+00:00",
+  "config_sha256": "b54f5bc2fcac42344718a057332df5de0361b0965f317abe4271b4417e054219",
+  "production_database": "H:\\HanserAgent\\source_data\\documents.db",
+  "production_database_sha256": "9cf69115ebcdd479438473aaed362454d434ba1fdf6a67addc510614accb9715",
+  "candidate_database": "H:\\HanserAgent\\audit_artifacts\\persona_v2_candidate_2026-09-08_011\\candidate.db",
+  "candidate_database_sha256": "d417463422e5abde343343c0cfcd65f128a9d9866010b27f473b50aa5f75b102",
+  "production_persona_dir": "H:\\HanserAgent\\backend\\hanser_agent\\prompts\\persona",
+  "candidate_package_dir": "H:\\HanserAgent\\backend\\hanser_agent\\prompts\\persona\\candidates\\hanser-persona-v2-candidate",
+  "candidate_manifest_sha256": "fd68bf0c00aa921640e4738dbb98598aa5e133d015c11db8efb33b6b8c6d74d8",
+  "cases_sha256": "5c22a27d6c5cf052c6faf3916fe8615d2db31f637e6400077ddd8bdc257ad7d2",
+  "frozen_sha256": null,
+  "case_count": 24,
+  "planner_model": "qwen3.5:4b",
+  "responder_model": "deepseek-v4-flash",
+  "judge_model": "deepseek-v4-pro",
+  "responder_temperature": 0.3,
+  "responder_top_p": 0.9,
+  "baseline_mode": "production",
+  "production_switched": false
+}

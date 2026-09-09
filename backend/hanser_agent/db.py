@@ -178,7 +178,8 @@ CREATE TABLE IF NOT EXISTS messages (
     created_at      TEXT NOT NULL,
     turn_index      INTEGER NOT NULL,
     model_name      TEXT,
-    trace_id        TEXT
+    trace_id        TEXT,
+    style_example_ids_json TEXT NOT NULL DEFAULT '[]'
 )
 """
 
@@ -391,8 +392,10 @@ def init_db(conn: sqlite3.Connection) -> None:
     conn.execute(SCHEMA_REPLY_SNAPSHOTS)
     conn.execute(SCHEMA_POST_TURN_FAILURES)
     _apply_memory_assertion_migration(conn)
+    _apply_memory_address_migration(conn)
     _apply_style_review_migration(conn)
     _apply_performance_snapshot_migration(conn)
+    _apply_persona_trace_migration(conn)
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_chunks_document "
         "ON document_chunks(document_id, chunk_index)"
@@ -457,6 +460,26 @@ def _apply_performance_snapshot_migration(conn: sqlite3.Connection) -> None:
         """
         INSERT OR IGNORE INTO schema_migrations(version, name, applied_at)
         VALUES (6, 'performance_reply_snapshots', datetime('now'))
+        """
+    )
+
+
+def _apply_persona_trace_migration(conn: sqlite3.Connection) -> None:
+    """Migration 7: persist Style IDs only for committed assistant turns."""
+
+    columns = {
+        str(row["name"])
+        for row in conn.execute("PRAGMA table_info(messages)").fetchall()
+    }
+    if "style_example_ids_json" not in columns:
+        conn.execute(
+            "ALTER TABLE messages ADD COLUMN style_example_ids_json "
+            "TEXT NOT NULL DEFAULT '[]'"
+        )
+    conn.execute(
+        """
+        INSERT OR IGNORE INTO schema_migrations(version, name, applied_at)
+        VALUES (7, 'persona_style_turn_trace', datetime('now'))
         """
     )
 
@@ -554,11 +577,6 @@ def apply_slice5_ownership_index_migration(conn: sqlite3.Connection) -> None:
 
 def _apply_memory_assertion_migration(conn: sqlite3.Connection) -> None:
     """Migration 1: assertion semantics and revision provenance for memory."""
-    applied = conn.execute(
-        "SELECT 1 FROM schema_migrations WHERE version = 1"
-    ).fetchone()
-    if applied:
-        return
     columns = {
         str(row["name"])
         for row in conn.execute("PRAGMA table_info(memories)").fetchall()
@@ -566,6 +584,11 @@ def _apply_memory_assertion_migration(conn: sqlite3.Connection) -> None:
     for name, definition in MEMORY_ASSERTION_COLUMNS.items():
         if name not in columns:
             conn.execute(f"ALTER TABLE memories ADD COLUMN {name} {definition}")
+    applied = conn.execute(
+        "SELECT 1 FROM schema_migrations WHERE version = 1"
+    ).fetchone()
+    if applied:
+        return
 
     conn.execute(
         "UPDATE memories SET source_kind = 'legacy_import'"
@@ -639,11 +662,6 @@ def _apply_memory_assertion_migration(conn: sqlite3.Connection) -> None:
 
 def _apply_style_review_migration(conn: sqlite3.Connection) -> None:
     """Migration 2: review eligibility and replayable source spans for style."""
-    applied = conn.execute(
-        "SELECT 1 FROM schema_migrations WHERE version = 2"
-    ).fetchone()
-    if applied:
-        return
     columns = {
         str(row["name"])
         for row in conn.execute("PRAGMA table_info(style_examples)").fetchall()
@@ -651,6 +669,11 @@ def _apply_style_review_migration(conn: sqlite3.Connection) -> None:
     for name, definition in STYLE_REVIEW_COLUMNS.items():
         if name not in columns:
             conn.execute(f"ALTER TABLE style_examples ADD COLUMN {name} {definition}")
+    applied = conn.execute(
+        "SELECT 1 FROM schema_migrations WHERE version = 2"
+    ).fetchone()
+    if applied:
+        return
     placeholders = ",".join("?" for _ in CONFIRMED_STYLE_DEFECT_IDS)
     conn.execute(
         f"""
@@ -671,11 +694,6 @@ def _apply_style_review_migration(conn: sqlite3.Connection) -> None:
 
 def _apply_memory_address_migration(conn: sqlite3.Connection) -> None:
     """Migration 3: typed, concurrently active address options."""
-    applied = conn.execute(
-        "SELECT 1 FROM schema_migrations WHERE version = 3"
-    ).fetchone()
-    if applied:
-        return
     columns = {
         str(row["name"])
         for row in conn.execute("PRAGMA table_info(memories)").fetchall()
@@ -683,6 +701,11 @@ def _apply_memory_address_migration(conn: sqlite3.Connection) -> None:
     for name, definition in MEMORY_ADDRESS_COLUMNS.items():
         if name not in columns:
             conn.execute(f"ALTER TABLE memories ADD COLUMN {name} {definition}")
+    applied = conn.execute(
+        "SELECT 1 FROM schema_migrations WHERE version = 3"
+    ).fetchone()
+    if applied:
+        return
     conn.execute(
         """
         UPDATE memories

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+from datetime import datetime
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -23,11 +24,34 @@ SignalName = Literal[
     "tension",
     "humor_receptivity",
     "audience_age_status",
+    "dialogue_function",
 ]
 SignalSource = Literal["rule", "planner", "explicit_setting"]
 SignalConfidence = Literal["high", "medium", "low", "unknown"]
 SignalStatus = Literal["observed", "unavailable", "invalid", "conflicted"]
-SignalScope = Literal["current_turn", "conversation", "user"]
+SignalScope = Literal["current_turn", "current_topic", "conversation", "user"]
+PreferenceFeature = Literal[
+    "humor", "teasing", "profanity", "innuendo", "cutesy", "address", "advice"
+]
+
+
+class ExplicitPreferenceEvent(BaseModel):
+    """Auditable user expression; this is the sole lexical permission contract."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    feature: PreferenceFeature
+    decision: Literal["allow", "deny", "unknown"]
+    subject: Literal["current_user"] = "current_user"
+    scope: SignalScope
+    target: str | None = None
+    source_message_id: str
+    evidence_text: str
+    evidence_start: int = Field(ge=0)
+    evidence_end: int = Field(ge=0)
+    created_at: datetime
+    expires_at: datetime | None = None
+    revoke_condition: str | None = None
 
 
 class SignalObservation(BaseModel):
@@ -44,14 +68,16 @@ class SignalObservation(BaseModel):
     status: SignalStatus = "unavailable"
     model_reported_confidence: str | None = None
     conflict_refs: list[str] = Field(default_factory=list, max_length=8)
+    hard_rule_eligible: bool = False
 
 
 class TurnSignals(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    schema_version: int = 1
+    schema_version: int = 2
     values: dict[str, SignalObservation] = Field(default_factory=dict)
     degraded_reasons: list[str] = Field(default_factory=list)
+    preference_events: list[ExplicitPreferenceEvent] = Field(default_factory=list)
 
     def get(self, name: SignalName) -> SignalObservation | None:
         return self.values.get(name)
@@ -59,6 +85,17 @@ class TurnSignals(BaseModel):
     def observed_bool(self, name: SignalName) -> bool | None:
         item = self.get(name)
         if item is None or item.status != "observed" or not isinstance(item.value, bool):
+            return None
+        return item.value
+
+    def hard_bool(self, name: SignalName) -> bool | None:
+        item = self.get(name)
+        if (
+            item is None
+            or not item.hard_rule_eligible
+            or item.status != "observed"
+            or not isinstance(item.value, bool)
+        ):
             return None
         return item.value
 
@@ -96,6 +133,35 @@ class PersonaAffordance(BaseModel):
     weight: float = Field(ge=0.0, le=1.0)
     basis_refs: list[str] = Field(default_factory=list)
     guidance: str = ""
+
+
+class BehaviorSoftMatch(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    response_modes: list[str] = Field(default_factory=list)
+    signals: list[str] = Field(default_factory=list)
+    dialogue_functions: list[str] = Field(default_factory=list)
+
+
+class BehaviorCardPreferences(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    focus: str
+    avoid: list[str] = Field(default_factory=list)
+
+
+class BehaviorPrior(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    prior_id: str
+    status: Literal["candidate", "validated", "released", "retired"]
+    basis: dict[str, object]
+    soft_match: BehaviorSoftMatch
+    downweight_when: list[str] = Field(default_factory=list)
+    persona_affordances: list[PersonaAffordance] = Field(default_factory=list)
+    soft_preferences: BehaviorCardPreferences
+    boundary_refs: list[str] = Field(default_factory=list)
+    evaluation_tags: list[str] = Field(default_factory=list)
 
 
 class ExpressionCaps(BaseModel):
@@ -204,6 +270,10 @@ class PersonaPackageManifest(BaseModel):
     compatible_compiler_versions: list[str]
     build_status: Literal["candidate", "validated", "released"] = "candidate"
     parent_package_id: str | None = None
+    style_generation: str | None = None
+    detector_version: str = "unknown"
+    signal_schema_version: int = 1
+    style_schema_version: int = 1
     files: list[PersonaPackageFile]
 
     @model_validator(mode="after")

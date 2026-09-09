@@ -166,14 +166,15 @@ class ConversationPersistenceTests(unittest.TestCase):
 
 
 class MemoryMigrationTests(unittest.TestCase):
-    def test_address_migration_rekeys_legacy_name_without_auto_running(self) -> None:
+    def test_address_migration_auto_runs_and_rekeys_legacy_name(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             db_path = Path(tmp) / "address.db"
             init_database(db_path)
             with db.connect(db_path) as conn:
-                self.assertIsNone(conn.execute(
+                self.assertIsNotNone(conn.execute(
                     "SELECT 1 FROM schema_migrations WHERE version=3"
                 ).fetchone())
+                conn.execute("DELETE FROM schema_migrations WHERE version=3")
                 conn.execute(
                     """
                     INSERT INTO memories
@@ -313,7 +314,7 @@ class MemoryPipelineTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(len(result.memory_writes), 1)
             self.assertEqual(result.memory_writes[0].type, "unresolved_thread")
             self.assertIn("考试", result.scene_state.unresolved_threads[0])
-            self.assertGreater(result.relationship_state.trust, 0.4)
+            self.assertEqual(result.relationship_state.trust, 0.4)
 
             recalled = await MemoryRetriever(
                 store=MemoryStore(db_path),

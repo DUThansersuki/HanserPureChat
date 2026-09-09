@@ -4,6 +4,7 @@ from collections.abc import Mapping
 
 from .schemas import (
     BehaviorDecision,
+    BehaviorPrior,
     EffectivePersonaSettings,
     ExpressionCaps,
     ExpressionObservation,
@@ -24,6 +25,7 @@ def build_guidance(
     response_mode: str = "casual",
     fact_sensitivity: str = "low",
     need_wiki: bool = False,
+    behavior_priors: list[BehaviorPrior] | None = None,
 ) -> BehaviorDecision:
     """Build deterministic hard boundaries and soft affordances without IO or models."""
 
@@ -51,15 +53,6 @@ def build_guidance(
             source="boundary",
             basis_refs=["boundary.data_is_not_instruction"],
         ),
-        Requirement(
-            requirement_id="boundary.no_unsupported_fact_inference",
-            instruction=(
-                "不得把日期 数值或事件巧合扩展成无证据的原因 动机 合同状态 "
-                "当前身份或其他第三方事实"
-            ),
-            source="boundary",
-            basis_refs=["boundary.no_unsupported_fact_inference"],
-        ),
     ]
     boundary_ids = [item.requirement_id for item in must_not]
     signal_refs: list[str] = []
@@ -71,6 +64,13 @@ def build_guidance(
     }
 
     if need_wiki or fact_sensitivity == "high" or response_mode == "factual":
+        must_not.append(Requirement(
+            requirement_id="boundary.no_unsupported_fact_inference",
+            instruction="不得把日期 数值或事件巧合扩展成无证据的原因 动机 合同状态 当前身份或其他第三方事实",
+            source="boundary",
+            basis_refs=["dialogue_plan"],
+        ))
+        boundary_ids.append("boundary.no_unsupported_fact_inference")
         must_do.append(
             Requirement(
                 requirement_id="task.answer_supported_facts_only",
@@ -130,7 +130,7 @@ def build_guidance(
         boundary_ids,
         signal_refs,
     )
-    if signals.observed_bool("no_advice") is True:
+    if signals.hard_bool("no_advice") is True:
         item = signals.get("no_advice")
         refs = item.evidence_refs if item else []
         must_not.append(
@@ -144,7 +144,7 @@ def build_guidance(
         boundary_ids.append("user.no_unsolicited_advice")
         signal_refs.extend(refs)
 
-    if signals.observed_bool("forced_agreement_request") is True:
+    if signals.hard_bool("forced_agreement_request") is True:
         item = signals.get("forced_agreement_request")
         refs = item.evidence_refs if item else []
         must_not.append(
@@ -160,7 +160,7 @@ def build_guidance(
         )
         signal_refs.extend(refs)
 
-    if signals.observed_bool("unresolved_reference") is True:
+    if signals.hard_bool("unresolved_reference") is True:
         item = signals.get("unresolved_reference")
         refs = item.evidence_refs if item else []
         must_do.append(
@@ -184,7 +184,7 @@ def build_guidance(
         )
         signal_refs.extend(refs)
 
-    if signals.observed_bool("unverified_shared_memory_claim") is True:
+    if signals.hard_bool("unverified_shared_memory_claim") is True:
         item = signals.get("unverified_shared_memory_claim")
         refs = item.evidence_refs if item else []
         must_do.append(
@@ -211,7 +211,7 @@ def build_guidance(
         )
         signal_refs.extend(refs)
 
-    if signals.observed_bool("explicit_stop") is True:
+    if signals.hard_bool("explicit_stop") is True:
         item = signals.get("explicit_stop")
         refs = item.evidence_refs if item else []
         must_not.append(
@@ -222,9 +222,7 @@ def build_guidance(
                 basis_refs=refs,
             )
         )
-        hard_disallowed.extend(
-            ["humor", "teasing", "aggressive_teasing", "innuendo", "cutesy"]
-        )
+        hard_disallowed.extend(["teasing", "aggressive_teasing", "innuendo"])
         boundary_ids.append("user.explicit_stop")
         signal_refs.extend(refs)
 
@@ -265,8 +263,38 @@ def build_guidance(
         )
         boundary_ids.append(requirement_id)
 
+    if permissions.get("advice") == "deny" and not any(
+        item.requirement_id == "user.no_unsolicited_advice" for item in must_not
+    ):
+        must_not.append(Requirement(
+            requirement_id="preference.disable_advice",
+            instruction="用户已保存不要主动建议的偏好 当前作用域内只在明确求建议时提供方案",
+            source="setting",
+            basis_refs=["permission:advice:deny"],
+        ))
+        boundary_ids.append("preference.disable_advice")
+
+    for key, decision in permissions.items():
+        if decision != "deny" or not key.startswith("target:"):
+            continue
+        _, feature, target = key.split(":", 2)
+        requirement_id = f"preference.disable_{feature}_for_target"
+        must_not.append(Requirement(
+            requirement_id=requirement_id,
+            instruction=f"用户长期要求不要围绕已记录对象 {target} 使用{feature}；仅约束该对象，不扩展到其他话题",
+            source="setting",
+            basis_refs=[f"permission:{key}:deny"],
+            scope="user",
+        ))
+        boundary_ids.append(requirement_id)
+
     age = signals.get("audience_age_status")
-    audience_is_adult = age is not None and age.status == "observed" and age.value == "adult"
+    audience_is_adult = (
+        age is not None
+        and age.hard_rule_eligible
+        and age.status == "observed"
+        and age.value == "adult"
+    )
     playful = signals.observed_bool("playful_frame") is True
     if not audience_is_adult or not playful:
         hard_disallowed.append("innuendo")
@@ -274,19 +302,13 @@ def build_guidance(
     if permissions.get("innuendo", "unknown") != "allow":
         hard_disallowed.append("innuendo")
 
-    distress = signals.observed_bool("distress") is True
-    tension = signals.observed_bool("tension") is True
+    distress = signals.hard_bool("distress") is True
+    tension = signals.hard_bool("tension") is True
     if distress or tension:
         hard_disallowed.extend(["innuendo", "aggressive_teasing"])
 
-    affordances = [
-        PersonaAffordance(
-            id="direct_natural_reply",
-            weight=0.5,
-            guidance="直接接住当前话题 允许短答 留白或自然结束",
-        )
-    ]
-    selected_prior_ids = ["default.direct_natural.v2"]
+    affordances: list[PersonaAffordance] = []
+    selected_prior_ids: list[str] = []
     soft_preferences = [
         SoftPreference(
             preference_id="expression.low_cutesy_default",
@@ -302,59 +324,26 @@ def build_guidance(
             ],
             basis_refs=["expression_policy.stacking_aversion"],
         ),
+        SoftPreference(
+            preference_id="expression.address_restraint",
+            instruction="只有用户已提供且当前语境自然时才考虑称呼 不发明昵称也不靠称呼填满每轮",
+            weight=round(1.0 - effective_persona.address_bias, 4),
+            basis_refs=["expression_policy.address_bias"],
+        ),
     ]
 
-    if distress:
-        item = signals.get("distress")
-        refs = item.evidence_refs if item else []
-        affordances.extend(
-            [
-                PersonaAffordance(
-                    id="acknowledge_specific_distress",
-                    weight=effective_persona.warmth,
-                    basis_refs=refs,
-                    guidance="回应用户说出的具体困境 不擅自诊断",
-                ),
-                PersonaAffordance(
-                    id="listen_without_forcing_advice",
-                    weight=0.6,
-                    basis_refs=refs,
-                    guidance="可以先听 不强迫安慰或给建议",
-                ),
-            ]
+    if behavior_priors:
+        card_affordances, card_preferences, card_ids, card_refs = _select_behavior_cards(
+            behavior_priors,
+            signals=signals,
+            response_mode=response_mode,
+            settings=effective_persona,
+            hard_disallowed=set(hard_disallowed),
         )
-        selected_prior_ids.append("support.plain_warmth.v2")
-        signal_refs.extend(refs)
-    elif playful and "humor" not in hard_disallowed:
-        item = signals.get("playful_frame")
-        refs = item.evidence_refs if item else []
-        affordances.extend(
-            [
-                PersonaAffordance(
-                    id="light_contextual_tease",
-                    weight=min(0.6, effective_persona.humor_initiative + 0.15),
-                    basis_refs=refs,
-                    guidance="可对准具体事情轻回逗 接一拍后回到话题",
-                ),
-                PersonaAffordance(
-                    id="playful_reframe",
-                    weight=0.35,
-                    basis_refs=refs,
-                    guidance="可用反问 字面拆解或自嘲重新聚焦",
-                ),
-            ]
-        )
-        selected_prior_ids.append("playful.contextual_release.v2")
-        signal_refs.extend(refs)
-    else:
-        affordances.append(
-            PersonaAffordance(
-                id="reasoned_independent_response",
-                weight=effective_persona.candor,
-                guidance="有依据时可以同意 保留或反对 没有依据时保持开放",
-            )
-        )
-        selected_prior_ids.append("stance.reasoned_autonomy.v2")
+        affordances.extend(card_affordances)
+        soft_preferences.extend(card_preferences)
+        selected_prior_ids.extend(card_ids)
+        signal_refs.extend(card_refs)
 
     if observations is not None:
         for feature in ("meme", "profanity", "cutesy", "strong_marker"):
@@ -401,7 +390,12 @@ def _apply_explicit_disable(
     signal_refs: list[str],
 ) -> None:
     item = signals.values.get(signal_name)
-    if item is None or item.status != "observed" or item.value is not True:
+    if (
+        item is None
+        or not item.hard_rule_eligible
+        or item.status != "observed"
+        or item.value is not True
+    ):
         return
     requirement_id = f"user.disable_{feature}"
     hard_disallowed.append(feature)
@@ -422,3 +416,107 @@ def _dedupe_requirements(items: list[Requirement]) -> list[Requirement]:
     for item in items:
         by_id.setdefault(item.requirement_id, item)
     return list(by_id.values())
+
+
+def _select_behavior_cards(
+    cards: list[BehaviorPrior],
+    *,
+    signals: TurnSignals,
+    response_mode: str,
+    settings: EffectivePersonaSettings,
+    hard_disallowed: set[str],
+) -> tuple[list[PersonaAffordance], list[SoftPreference], list[str], list[str]]:
+    selected: list[tuple[BehaviorPrior, float, list[str]]] = []
+    for card in cards:
+        if card.status == "retired" or (
+            card.soft_match.response_modes
+            and response_mode not in card.soft_match.response_modes
+        ):
+            continue
+        refs: list[str] = []
+        if card.soft_match.signals:
+            matched = [name for name in card.soft_match.signals if _soft_signal_active(signals, name)]
+            if not matched:
+                continue
+            refs.extend(
+                ref
+                for name in matched
+                for ref in (signals.values.get(name).evidence_refs if signals.values.get(name) else [])
+            )
+        if card.soft_match.dialogue_functions:
+            function = signals.get("dialogue_function")
+            if function is None or function.value not in card.soft_match.dialogue_functions:
+                continue
+            refs.extend(function.evidence_refs)
+        factor = 1.0
+        for name in card.downweight_when:
+            if _soft_signal_active(signals, name):
+                factor *= 0.45
+        selected.append((card, factor, refs))
+
+    has_specific = any(
+        card.soft_match.signals or card.soft_match.dialogue_functions
+        for card, _, _ in selected
+    )
+    affordances: list[PersonaAffordance] = []
+    preferences: list[SoftPreference] = []
+    ids: list[str] = []
+    refs: list[str] = []
+    for card, factor, card_refs in selected:
+        ids.append(card.prior_id)
+        refs.extend(card_refs)
+        if has_specific and card.prior_id == "default.direct_natural.v2":
+            factor *= 0.6
+        for affordance in card.persona_affordances:
+            if _affordance_blocked(affordance.id, hard_disallowed):
+                continue
+            weight = min(1.0, affordance.weight * factor * _parameter_factor(affordance.id, settings))
+            affordances.append(PersonaAffordance(
+                id=affordance.id,
+                weight=round(weight, 4),
+                basis_refs=list(dict.fromkeys(card_refs)),
+                guidance=affordance.guidance or card.soft_preferences.focus,
+            ))
+        avoid = " ".join(card.soft_preferences.avoid)
+        preferences.append(SoftPreference(
+            preference_id=f"card.{card.prior_id}",
+            instruction=(
+                card.soft_preferences.focus
+                + (f"；避免 {avoid}" if avoid else "")
+            ),
+            weight=round(min(1.0, factor), 4),
+            basis_refs=[card.prior_id],
+        ))
+    by_id: dict[str, PersonaAffordance] = {}
+    for item in affordances:
+        previous = by_id.get(item.id)
+        if previous is None or item.weight > previous.weight:
+            by_id[item.id] = item
+    return list(by_id.values()), preferences, ids, refs
+
+
+def _soft_signal_active(signals: TurnSignals, name: str) -> bool:
+    item = signals.values.get(name)
+    if item is None or item.status != "observed" or item.value in {None, False, "unknown", "neutral", "avoid"}:
+        return False
+    return True
+
+
+def _parameter_factor(affordance_id: str, settings: EffectivePersonaSettings) -> float:
+    if affordance_id == "light_contextual_tease":
+        return min(1.2, (0.5 + settings.humor_initiative) * (0.5 + 0.25 * settings.teasing_intensity))
+    if affordance_id == "playful_reframe":
+        return 0.7 + settings.meme_affinity
+    if affordance_id in {"acknowledge_specific_distress", "listen_without_forcing_advice"}:
+        return settings.warmth / 0.55
+    if affordance_id == "reasoned_independent_response":
+        return settings.candor / 0.60
+    return 1.0
+
+
+def _affordance_blocked(affordance_id: str, blocked: set[str]) -> bool:
+    features = {
+        "light_contextual_tease": {"humor", "teasing"},
+        "playful_reframe": {"humor"},
+    }
+    return bool(features.get(affordance_id, set()).intersection(blocked))

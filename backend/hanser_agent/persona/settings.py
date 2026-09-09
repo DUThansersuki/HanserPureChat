@@ -69,7 +69,7 @@ class ProductOverride(BaseModel):
     operation: Literal["reduce_prior", "increase_prior", "set_boundary", "preserve"]
     requested_effect: str
     reason: str
-    status: Literal["candidate", "validated", "retired"]
+    status: Literal["candidate", "validated", "released", "retired"]
     evaluation_tags: list[str] = Field(default_factory=list)
     parameter_effects: dict[str, ParameterEffect] = Field(default_factory=dict)
 
@@ -84,6 +84,8 @@ class ProductOverrideFile(BaseModel):
 def load_effective_settings(
     expression_policy_path: str | Path,
     product_overrides_path: str | Path,
+    *,
+    lifecycle: Literal["preview", "production"] = "preview",
 ) -> EffectivePersonaSettings:
     """Resolve candidate defaults and explicit product overrides without user input or IO side effects."""
 
@@ -122,7 +124,12 @@ def load_effective_settings(
         for name, spec in expression.parameters.items()
     }
 
-    active_overrides = [item for item in overrides.overrides if item.status == "candidate"]
+    active_statuses = (
+        {"candidate", "validated"}
+        if lifecycle == "preview"
+        else {"released"}
+    )
+    active_overrides = [item for item in overrides.overrides if item.status in active_statuses]
     ids = [item.override_id for item in active_overrides]
     if len(ids) != len(set(ids)):
         raise ValueError("duplicate active product override id")

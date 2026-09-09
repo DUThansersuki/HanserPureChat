@@ -60,7 +60,7 @@ class ConversationStore:
             self._assert_owner(conn, conversation_id, user_id)
             rows = conn.execute(
                 """
-                SELECT role, content FROM messages
+                SELECT id, role, content, created_at, style_example_ids_json FROM messages
                 WHERE conversation_id = ?
                 ORDER BY turn_index DESC
                 LIMIT ?
@@ -68,7 +68,13 @@ class ConversationStore:
                 (conversation_id, self.max_messages),
             ).fetchall()
         return [
-            ChatMessage(role=str(row["role"]), content=str(row["content"]))
+            ChatMessage(
+                role=str(row["role"]),
+                content=str(row["content"]),
+                message_id=str(row["id"]),
+                created_at=datetime.fromisoformat(str(row["created_at"])),
+                style_example_ids=json.loads(str(row["style_example_ids_json"])),
+            )
             for row in reversed(rows)
         ]
 
@@ -194,6 +200,7 @@ class ConversationStore:
         response: ChatResponse | None = None,
         request_hash: str | None = None,
         post_turn_payload: dict[str, object] | None = None,
+        style_example_ids: list[str] | None = None,
     ) -> tuple[str, str]:
         now = datetime.now(timezone.utc).isoformat()
         user_message_id = user_message_id or str(uuid4())
@@ -241,8 +248,8 @@ class ConversationStore:
                 """
                 INSERT INTO messages
                     (id, conversation_id, role, content, created_at,
-                     turn_index, model_name, trace_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                     turn_index, model_name, trace_id, style_example_ids_json)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 [
                     (
@@ -254,6 +261,7 @@ class ConversationStore:
                         first_index,
                         None,
                         trace_id,
+                        "[]",
                     ),
                     (
                         assistant_message_id,
@@ -264,6 +272,7 @@ class ConversationStore:
                         first_index + 1,
                         model_name,
                         trace_id,
+                        json.dumps(style_example_ids or []),
                     ),
                 ],
             )

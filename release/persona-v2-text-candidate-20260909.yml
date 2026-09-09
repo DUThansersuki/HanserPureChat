@@ -1,0 +1,95 @@
+schema_version: 1
+release_id: persona-v2-text-candidate-20260909
+status: candidate_unproven
+decision:
+  verdict: keep_candidate
+  production_switched: false
+  decided_at: "2026-09-09T20:15:00+08:00"
+  activation_time: null
+  reasons:
+    - preregistered_contextual_release_improvement_not_demonstrated
+    - hidden_generalization_sample_insufficient_and_judge_inconsistency_high
+    - hidden_run_predates_final_signal_calibration
+
+production:
+  package_selector: persona-v1-production
+  database: source_data/documents.db
+  style_generation: legacy-v1
+  style_generation_revision: 1
+  config_sha256: b54f5bc2fcac42344718a057332df5de0361b0965f317abe4271b4417e054219
+
+candidate:
+  package_selector: hanser-persona-v2-candidate
+  package_id: hanser-persona-v2-candidate-20260908
+  package_manifest: backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/manifest.yaml
+  package_manifest_sha256: fd68bf0c00aa921640e4738dbb98598aa5e133d015c11db8efb33b6b8c6d74d8
+  database: audit_artifacts/persona_v2_candidate_2026-09-08_011/candidate.db
+  database_sha256: 74b08795ffdfbee6066b2ded345fccee8ee50b65784b39464ea351c30fe932a0
+  style_generation: persona-v2-style-safe-7bd0970e2164b249
+  style_generation_revision: 3
+  style_item_count: 416
+  style_reviewed_sha256: 46d9b87c2819b49b509c81f8a0a542262a6a18e86aa9929308e05a165cc9ea3f
+  review_decisions_sha256: 0128018f541559a322fbff1a6abb64157a608562736b98edcf35cfb8e7637464
+  compatibility:
+    compiler: persona_compiler_v2
+    detector: persona_lexical_v2
+    signal_schema: 2
+    style_schema: 2
+
+source_state:
+  branch: main
+  base_revision: f084ab8437f72391473ae3cc4b3ac46d305785e9
+  worktree: uncommitted_candidate_changes
+  deployable_revision_frozen: false
+  note: file-level candidate assets are hashed; no production commit or activation was created after a keep-candidate verdict
+
+evaluation_inputs:
+  split_manifest: backend/data/eval/persona_v2/split_manifest_v3.json
+  split_manifest_sha256: 242cfb9b87ca7af50982857f5b9e62e67bfa943e8b264576308aa2c1b6d72b70
+  daily_calibration_sha256: 5c22a27d6c5cf052c6faf3916fe8615d2db31f637e6400077ddd8bdc257ad7d2
+  hidden_generalization_sha256: be4b614bb0cca17d85fadff4cb866db83b4938b45beb5f01946ccafba52f9ff9
+  daily_sequences_sha256: 7c5f5b245e226d45935ec7149105e6fdcbcfaa61a4304f0d3cdd9a4dd29caf3d
+
+evidence:
+  focused_and_full_tests:
+    result: pass
+    passed: 141
+    failed: 0
+  signal_accuracy:
+    gold: 25/25
+    unknown: 24/24
+    label_defect: c4.adult.pun.005 audience_age_status appears in both gold and unknown
+  development_text_ab:
+    run: backend/data/eval/persona_v2/runs/text_ab_daily24_2026-09-09_003
+    metrics_sha256: 5bd77fdaae22e36632ecdd7a75427ac36e4d1d14f253c54c74c5f533aa3101df
+    candidate_hard_failures: 0
+    composite_delta: 0.375
+    composite_ci95: [0.131944, 0.607639]
+    judge_inconsistent_rate: 0.208333
+    verdict: unproven
+  hidden_text_ab:
+    run: backend/data/eval/persona_v2/runs/text_ab_hidden8_2026-09-09_001
+    metrics_sha256: d73fd54378b411616fd25676fa32545e4d0a70f7e86a9b7288fb14ff056d8b97
+    candidate_hard_failures: 0
+    judge_inconsistent_rate: 0.375
+    verdict: unproven
+  sequence_text_ab:
+    run: backend/data/eval/persona_v2/runs/sequence_ab_daily3_2026-09-09_001
+    metrics_sha256: 4665ca3ef290a1f363828d43dc27c003a00996dda3abad009b432ed9015b7f1b
+    candidate_hard_failures: 0
+    verdict: unproven
+  real_lifecycle:
+    run: backend/data/eval/persona_v2/runs/real_lifecycle_2026-09-09_003
+    result_sha256: 6f9b2ea68632e77fc17b0c0ff9e87c66b6134cf2b08fc5ddc6c3322a0c9c4381
+    checks_passed: 8/8
+    verdict: pass
+
+rollback:
+  action: keep_existing_production_combination
+  package_selector: persona-v1-production
+  database: source_data/documents.db
+  style_generation: legacy-v1
+  preserve_chat_history: true
+  preserve_user_memories: true
+  preserve_later_explicit_user_preferences: true
+

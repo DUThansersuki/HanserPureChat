@@ -189,6 +189,7 @@ class ContextBuilder:
                 required_verbatim_spans=required_verbatim_spans,
                 exact_output=exact_output,
                 structured_performance=structured_performance,
+                effective_persona=effective_persona,
             ),
         }
         sources: dict[str, list[str]] = {
@@ -474,6 +475,7 @@ class ContextBuilder:
         required_verbatim_spans: list[str] | None = None,
         exact_output: str | None = None,
         structured_performance: bool = False,
+        effective_persona: EffectivePersonaSettings | None = None,
     ) -> str:
         output_instruction = (
             "只输出一个JSON对象 不要代码围栏 对象必须包含semantic_text字符串 "
@@ -484,6 +486,15 @@ class ContextBuilder:
             if structured_performance
             else "只输出给当前用户看的最终回答"
         )
+        target_length = plan.target_length
+        length_reason = "Planner任务长度"
+        if effective_persona is not None:
+            if effective_persona.reply_length == "short" and plan.target_length != "long":
+                target_length = "short"
+                length_reason = "Persona偏好覆盖非长篇任务"
+            elif effective_persona.reply_length == "detailed" and plan.target_length == "short":
+                target_length = "medium"
+                length_reason = "Persona偏好扩展短任务"
         contract = (
             "[RESPONSE CONTRACT]\n"
             f"{output_instruction}\n"
@@ -491,7 +502,7 @@ class ContextBuilder:
             "遵守Persona的表达方式和事实边界\n"
             f"本轮模式 {plan.response_mode}\n"
             f"事实敏感度 {plan.fact_sensitivity}\n"
-            f"目标长度 {plan.target_length}"
+            f"目标长度 {target_length} 来源 {length_reason} 必要事实不得为长度偏好截断"
         )
         spans = required_verbatim_spans or []
         if spans:

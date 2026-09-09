@@ -59,7 +59,15 @@ def build_chat_agent(
 ) -> ChatAgentService:
     package_dir = Path(__file__).parent
     prompt_dir = package_dir / "prompts"
-    persona_dir = prompt_dir / "persona"
+    persona_root = prompt_dir / "persona"
+    package_registry = {
+        "persona-v1-production": persona_root,
+        "hanser-persona-v2-candidate": persona_root / "candidates" / "hanser-persona-v2-candidate",
+    }
+    persona_dir = package_registry[settings.persona.active_package]
+    persona_compiler = PersonaCompiler(persona_dir)
+    if persona_compiler.is_v2 and not settings.style.reviewed_only:
+        raise ValueError("Persona v2 requires style.reviewed_only=true")
 
     embedder = build_embedder(settings.embedding)
     vector_store = SQLiteVectorStore(settings.db_path)
@@ -79,6 +87,12 @@ def build_chat_agent(
         settings=settings,
         embedder=embedder,
         vector_store=vector_store,
+        strict_v2=persona_compiler.is_v2,
+        pinned_generation=(
+            settings.persona.candidate_style_generation
+            if persona_compiler.is_v2
+            else None
+        ),
     )
     memory_retriever = MemoryRetriever(
         store=memory_store,
@@ -104,7 +118,7 @@ def build_chat_agent(
         state_engine=CharacterStateEngine(),
     )
     context_builder = ContextBuilder(
-        PersonaCompiler(persona_dir),
+        persona_compiler,
         settings.context,
         provider_context_window=settings.responder.context_window,
         provider_max_output_tokens=settings.responder.max_tokens,

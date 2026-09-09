@@ -14,6 +14,7 @@ from ...persona.data_pipeline import (
     style_row_to_model,
 )
 from ...persona.schemas import BehaviorDecision, ExpressionObservation, TurnSignals
+from ...persona.style_ranking import style_score_components
 from ...retrieval import Embedder, VectorStore
 
 
@@ -28,6 +29,7 @@ class StyleSearchResult(BaseModel):
 class _ScoredExample:
     score: float
     example: StyleExample
+    components: dict[str, float]
 
 
 class StyleSearchTool:
@@ -48,11 +50,13 @@ class StyleSearchTool:
         embedder: Embedder,
         vector_store: VectorStore,
         strict_v2: bool = False,
+        pinned_generation: str | None = None,
     ):
         self.settings = settings
         self.embedder = embedder
         self.vector_store = vector_store
         self.strict_v2 = strict_v2
+        self.pinned_generation = pinned_generation
 
     async def search(
         self,
@@ -63,6 +67,7 @@ class StyleSearchTool:
         behavior_decision: BehaviorDecision | None = None,
         observations: ExpressionObservation | None = None,
         recent_example_ids: list[str] | None = None,
+        repetition_penalty: float = 0.30,
     ) -> StyleSearchResult:
         if not self.settings.style.enabled or plan.response_mode == "factual":
             return StyleSearchResult()
@@ -97,6 +102,10 @@ class StyleSearchTool:
                     if active is None:
                         return StyleSearchResult()
                     active_generation = str(active["generation"])
+                    if self.pinned_generation is not None and active_generation != self.pinned_generation:
+                        return StyleSearchResult(
+                            excluded={"__generation__": "active_generation_incompatible_with_persona_package"}
+                        )
                 eligible_ids = [
                     str(row["id"])
                     for row in conn.execute(
@@ -171,43 +180,58 @@ class StyleSearchTool:
             ):
                 excluded[example.id] = "legacy_first_person_fact_guard"
                 continue
-            components = {
-                "dense": 0.55 * dense_scores[item_id],
-                "quality": 0.2 * example.quality_score,
-                "authenticity": 0.15 * example.authenticity_score,
-                "scene": 0.12 if example.scene == scene else 0.0,
-                "mode": 0.08 if example.response_mode == plan.response_mode else 0.0,
-                "length": 0.05 if example.answer_length == plan.target_length else 0.0,
-                "behavior": self._behavior_bonus(example, behavior_decision),
-                "source_penalty": -0.12 if example.source_type == "synthetic" else 0.0,
-                "recent_example_penalty": (
-                    -self.settings.style.min_quality * 0.25 if example.id in recent_ids else 0.0
-                ),
-                "expression_penalty": -self._expression_penalty(example, observations),
-            }
+            components = style_score_components(
+                dense_score=dense_scores[item_id],
+                quality_score=example.quality_score,
+                authenticity_score=example.authenticity_score,
+                response_mode_match=example.response_mode == plan.response_mode,
+                behavior_tags=set(example.behavior_tags),
+                decision=behavior_decision or BehaviorDecision(),
+                expression_tags=set(example.expression_tags),
+                observations=observations,
+                repetition_penalty=repetition_penalty,
+                scene_match=example.scene == scene,
+                length_match=example.answer_length == plan.target_length,
+                synthetic=example.source_type == "synthetic",
+                recently_used=example.id in recent_ids,
+            )
             score = sum(components.values())
             components_by_id[example.id] = {
                 key: round(value, 6) for key, value in components.items()
             }
-            scored.append(_ScoredExample(score=score, example=example))
+            scored.append(_ScoredExample(score=score, example=example, components=components))
         selected: list[_ScoredExample] = []
         non_verbatim = 0
         seen_groups: set[str] = set()
-        for item in sorted(scored, key=lambda candidate: candidate.score, reverse=True):
+        remaining = list(scored)
+        while remaining and len(selected) < self.settings.style.top_k:
+            item = max(
+                remaining,
+                key=lambda candidate: candidate.score - (
+                    0.12 if candidate.example.group_id in seen_groups else 0.0
+                ),
+            )
+            remaining.remove(item)
             example = item.example
             is_non_verbatim = example.provenance_kind in {"adapted", "designed", "generated"}
             if v2_active and is_non_verbatim and non_verbatim >= 1:
                 excluded[example.id] = "non_verbatim_limit"
                 continue
-            if v2_active and example.group_id and example.group_id in seen_groups:
-                excluded[example.id] = "same_group_diversity"
-                continue
+            group_penalty = -0.12 if example.group_id and example.group_id in seen_groups else 0.0
+            if group_penalty:
+                item.components["same_group_penalty"] = group_penalty
+                item = _ScoredExample(
+                    score=item.score + group_penalty,
+                    example=example,
+                    components=item.components,
+                )
+                components_by_id[example.id] = {
+                    key: round(value, 6) for key, value in item.components.items()
+                }
             selected.append(item)
             non_verbatim += int(is_non_verbatim)
             if example.group_id:
                 seen_groups.add(example.group_id)
-            if len(selected) >= self.settings.style.top_k:
-                break
         return StyleSearchResult(
             examples=[item.example for item in selected],
             scores={item.example.id: round(item.score, 6) for item in selected},
@@ -228,7 +252,7 @@ class StyleSearchTool:
             return False
         if "style_runtime" not in example.runtime_scope or example.hidden_eval:
             return False
-        if example.provenance_kind not in {"verbatim", "adapted", "designed", "generated"}:
+        if example.provenance_kind not in {"verbatim", "adapted"}:
             return False
         if example.payload_class not in {"reaction_only", "turn_local_stance"}:
             return False
@@ -249,28 +273,3 @@ class StyleSearchTool:
             if blocked.intersection(example.expression_tags):
                 return False
         return True
-
-    @staticmethod
-    def _behavior_bonus(
-        example: StyleExample,
-        decision: BehaviorDecision | None,
-    ) -> float:
-        if decision is None or not example.behavior_tags:
-            return 0.0
-        wanted = {item.id for item in decision.persona_affordances}
-        matches = len(wanted.intersection(example.behavior_tags))
-        return min(0.16, 0.08 * matches)
-
-    @staticmethod
-    def _expression_penalty(
-        example: StyleExample,
-        observations: ExpressionObservation | None,
-    ) -> float:
-        if observations is None:
-            return 0.0
-        penalty = 0.0
-        for tag in set(example.expression_tags):
-            item = observations.features.get(tag)
-            if item is not None and item.weighted_rate is not None:
-                penalty += 0.12 * item.weighted_rate
-        return min(0.24, penalty)

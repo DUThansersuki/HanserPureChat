@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 
 from hanser_agent.persona.policy import build_guidance
-from hanser_agent.persona.schemas import EffectivePersonaSettings
+from hanser_agent.persona.schemas import BehaviorDecision, EffectivePersonaSettings, PersonaAffordance
 from hanser_agent.persona.signals import build_turn_signals
 from hanser_agent.persona.style_ranking import rank_fixed_style_candidates
 
@@ -21,12 +21,12 @@ class PersonaStyleRankingTests(unittest.TestCase):
                 }
             },
         )
-        decision = build_guidance(
-            signals,
-            {"humor": "allow"},
-            None,
-            EffectivePersonaSettings(),
-            response_mode="playful",
+        decision = BehaviorDecision(
+            persona_affordances=[
+                PersonaAffordance(
+                    id="light_contextual_tease", weight=1.0, guidance="轻吐槽"
+                )
+            ]
         )
         base = {
             "index_generation": "v2",
@@ -99,6 +99,29 @@ class PersonaStyleRankingTests(unittest.TestCase):
         )
 
         self.assertEqual(result["selected"], [])
+
+    def test_recent_example_penalty_changes_fixed_ranking_component(self) -> None:
+        decision = BehaviorDecision()
+        candidate = {
+            "id": "recent",
+            "index_generation": "v2",
+            "review_status": "approved",
+            "schema_review_status": "approved",
+            "speaker_status": "transcript_verified",
+            "provenance_kind": "verbatim",
+            "payload_class": "reaction_only",
+            "group_id": "g1",
+            "dense_score": 0.8,
+            "quality_score": 0.9,
+            "authenticity_score": 0.9,
+        }
+        result = rank_fixed_style_candidates(
+            [candidate], decision,
+            response_mode="casual", active_generation="v2",
+            recent_example_ids={"recent"}, repetition_penalty=0.4,
+        )
+        components = result["selected"][0]["score_components"]
+        self.assertEqual(components["recent_example_penalty"], -0.2)
 
 
 if __name__ == "__main__":

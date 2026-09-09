@@ -1,65 +1,107 @@
 {
-  "mode": "OFFLINE_AGGREGATION",
-  "episodes": 7,
-  "episode_groups": 5,
-  "episode_review_status": {
-    "pending": 7
+  "schema_version": 3,
+  "mode": "CANDIDATE_FREEZE_AGGREGATION",
+  "candidate_id": "persona_v2_candidate_2026-09-08_011",
+  "style_generation": "persona-v2-style-safe-7bd0970e2164b249",
+  "style": {
+    "total_rows": 840,
+    "eligible_rows": 416,
+    "pending_rows": 0,
+    "quarantined_rows": 101,
+    "provenance": {
+      "designed": 17,
+      "verbatim": 823
+    },
+    "eligible_provenance": {
+      "verbatim": 416
+    },
+    "payload_class": {
+      "fiction_or_quote": 2,
+      "past_or_current_autobiography": 217,
+      "reaction_only": 367,
+      "third_party_fact": 161,
+      "turn_local_stance": 89,
+      "unreviewed": 4
+    },
+    "eligible_payload_class": {
+      "reaction_only": 336,
+      "turn_local_stance": 80
+    },
+    "speaker_status": {
+      "transcript_verified": 823,
+      "unverified": 17
+    },
+    "runtime_scope": {
+      "<none>": 424,
+      "style_runtime": 416
+    },
+    "unique_groups_total": 132,
+    "unique_groups_eligible": 102,
+    "exclusion_reasons": {
+      "eligible": 416,
+      "quarantined_fact_payload": 101,
+      "schema_not_approved": 323
+    },
+    "eligible_behavior_tags": {
+      "acknowledge_specific_distress": 5,
+      "concise_closing": 14,
+      "direct_natural_reply": 371,
+      "light_contextual_tease": 17,
+      "listen_without_forcing_advice": 1,
+      "playful_reframe": 80,
+      "premise_correction": 18,
+      "reasoned_independent_response": 31,
+      "self_deprecation": 3
+    },
+    "eligible_expression_tags": {
+      "cutesy": 30,
+      "innuendo": 2,
+      "meme": 5,
+      "strong_marker": 30
+    },
+    "expression_opportunity_denominators": {
+      "humor_or_meme": 5,
+      "profanity": 2,
+      "innuendo": 1,
+      "cutesy": 18,
+      "note": "denominators are frozen evaluation opportunities, not source-frequency estimates"
+    },
+    "coverage_caveat": "legacy scene and generic multi-label counts do not prove daily-chat coverage or real-person frequency"
   },
-  "candidate_trait_mentions": {
-    "playful_reframe": 1,
-    "independent_focus": 1,
-    "attachment_deescalation": 1,
-    "self_deprecation": 2,
-    "contrast_then_continue": 1,
-    "direct_reaction": 1,
-    "reasoned_disagreement": 1,
-    "premise_correction": 1,
-    "accountability": 1,
-    "deescalation": 1,
-    "direct_candor": 1,
-    "self_awareness": 1,
-    "natural_topic_exit": 1,
-    "contextual_joke": 1,
-    "immediate_repair": 1,
-    "reasoned_followup": 1,
-    "contextual_profanity": 1,
-    "return_to_topic": 1,
-    "tension_check": 1,
-    "playful_explanation": 1,
-    "concise_closing": 1
+  "episodes": {
+    "source_total": 7,
+    "source_independent_groups": 5,
+    "source_review_status": {
+      "pending": 7
+    },
+    "designed_total": 12,
+    "designed_independent_groups": 12,
+    "designed_runtime_eligible": 0,
+    "designed_frequency_evidence": 0
   },
-  "traits": 11,
-  "trait_basis": {
-    "owner_preference": 4,
+  "evaluation": {
+    "legacy_exposed_cases": 72,
+    "legacy_exposed_sequences": 6,
+    "daily_calibration_cases": 24,
+    "daily_category_counts": {
+      "C1": 6,
+      "C2": 6,
+      "C3": 6,
+      "C4": 6
+    },
+    "hidden_generalization_cases": 8,
+    "daily_sequences": 4,
+    "hidden_sequences": 1
+  },
+  "trait_evidence": {
     "source_supported": 6,
-    "hypothesis": 1
-  },
-  "style_rows": 840,
-  "style_schema_review": {
-    "pending": 840
-  },
-  "eval_cases": 16,
-  "retrieval_fixtures": 5,
-  "eval_scenes": {
-    "ordinary_daily": 2,
-    "receiving_praise": 1,
-    "reasoned_disagreement": 1,
-    "preference_difference": 1,
-    "playful_opportunity": 1,
-    "adult_humor_gate": 2,
-    "distress_no_advice": 1,
-    "explicit_stop": 1,
-    "quoted_scope": 1,
-    "negation_scope": 1,
-    "explicit_setting": 1,
-    "fact_mixed": 2,
-    "signal_tolerance": 1
+    "owner_preference": 4,
+    "hypothesis": 1,
+    "plain_warmth_without_infantilizing": "research_candidate; not promoted by designed examples"
   },
   "known_gaps": [
-    "all extracted episodes remain transcript-only and pending audio/speaker verification",
-    "legacy approved rows have not been upgraded to persona-v2 payload/behavior approval",
-    "72-case target and multi-turn target are not yet complete",
-    "embedding index build and end-to-end generations are NOT_EXECUTED"
-  ],
-  "model_operations": "NOT_EXECUTED"
+    "source episodes remain transcript-only/pending and do not establish cross-context frequency",
+    "designed daily episodes validate product behavior only",
+    "model acceptance and real lifecycle verdict are reported separately after execution"
+  ]
 }

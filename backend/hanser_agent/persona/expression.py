@@ -1,16 +1,25 @@
 from __future__ import annotations
 
+import re
 from collections.abc import Sequence
 
 from ..models import ChatMessage
 from .schemas import ExpressionObservation, FeatureObservation
 
 
-DETECTOR_VERSION = "persona_lexical_v1"
-_TOKENS: dict[str, tuple[str, ...]] = {
-    "meme": ("233", "www", "笑死", "绷不住", "草"),
-    "profanity": ("卧槽", "我操", "靠", "妈的", "操蛋"),
-    "cutesy": ("人家", "呜呜", "害羞羞", "主人", "撒娇", "捏"),
+DETECTOR_VERSION = "persona_lexical_v2"
+_TOKENS: dict[str, tuple[re.Pattern[str], ...]] = {
+    "meme": tuple(re.compile(value) for value in (
+        r"233", r"www", r"笑死", r"绷不住",
+        r"(?:^|[\s，。！？!?])草(?:$|[\s，。！？!?])",
+    )),
+    "profanity": tuple(re.compile(value) for value in (
+        r"卧槽", r"我操", r"妈的", r"操蛋",
+        r"(?:^|[\s，。！？!?])靠(?:$|[\s，。！？!?])",
+    )),
+    "cutesy": tuple(re.compile(re.escape(value)) for value in (
+        "人家", "呜呜", "害羞羞", "主人", "撒娇", "捏",
+    )),
 }
 
 
@@ -30,7 +39,7 @@ def observe_recent_expressions(
     newest_first = list(reversed(assistant_turns))
     features: dict[str, FeatureObservation] = {}
     for feature, tokens in _TOKENS.items():
-        present = [any(token in text for token in tokens) for text in newest_first]
+        present = [any(token.search(text) for token in tokens) for text in newest_first]
         rate = _weighted_rate(present, recency_decay)
         features[feature] = FeatureObservation(
             feature=feature,  # type: ignore[arg-type]
@@ -49,7 +58,7 @@ def observe_recent_expressions(
         detector_version=DETECTOR_VERSION,
     )
     strong_present = [
-        any(token in text for tokens in _TOKENS.values() for token in tokens)
+        any(token.search(text) for tokens in _TOKENS.values() for token in tokens)
         for text in newest_first
     ]
     features["strong_marker"] = FeatureObservation(
@@ -62,6 +71,12 @@ def observe_recent_expressions(
     return ExpressionObservation(
         window_turns=len(newest_first),
         features=features,
+        recent_example_ids=[
+            example_id
+            for item in history
+            if item.role == "assistant"
+            for example_id in item.style_example_ids
+        ][-window_turns * 3:],
     )
 
 

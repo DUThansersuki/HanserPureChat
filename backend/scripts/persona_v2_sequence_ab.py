@@ -192,6 +192,7 @@ async def run(args: argparse.Namespace) -> None:
         provider_max_output_tokens=settings.responder.max_tokens,
     )
     candidate_compiler = PersonaCompiler(package_dir)
+    candidate_style.pinned_generation = candidate_compiler.manifest.style_generation
     candidate_builder = ContextBuilder(
         candidate_compiler,
         settings.context,
@@ -233,15 +234,16 @@ async def run(args: argparse.Namespace) -> None:
                 current,
                 current_message_ref=current_ref,
                 planner_payload=plan.persona_signals,
-                history_refs=[
-                    f"sequence:{sequence_id}:{key}:user:{index}"
-                    for index in range(len(planning_history))
+                history_messages=[
+                    item.model_copy(update={
+                        "message_id": f"sequence:{sequence_id}:{key}:user:{index}"
+                    })
+                    for index, item in enumerate(planning_history)
                 ],
-                history_texts=[item.content for item in planning_history],
             )
             explicit_permissions = (
-                turn.get("permissions")
-                if isinstance(turn.get("permissions"), dict)
+                turn.get("preferences", turn.get("permissions", {}))
+                if isinstance(turn.get("preferences", turn.get("permissions", {})), dict)
                 else {}
             )
             evidence = []
@@ -264,8 +266,8 @@ async def run(args: argparse.Namespace) -> None:
             for variant in ("A", "B"):
                 history = histories[variant].setdefault(key, [])
                 permissions = infer_expression_permissions(
-                    history,
-                    current,
+                    signals.preference_events,
+                    current_message_id=current_ref,
                     explicit_overrides=explicit_permissions,
                 )
                 observations = observe_recent_expressions(
@@ -281,6 +283,7 @@ async def run(args: argparse.Namespace) -> None:
                     response_mode=plan.response_mode,
                     fact_sensitivity=plan.fact_sensitivity,
                     need_wiki=plan.need_wiki,
+                    behavior_priors=candidate_compiler.behavior_priors,
                 )
                 if plan.need_style_examples:
                     if variant == "A":
@@ -292,6 +295,8 @@ async def run(args: argparse.Namespace) -> None:
                             turn_signals=signals,
                             behavior_decision=decision,
                             observations=observations,
+                            recent_example_ids=observations.recent_example_ids,
+                            repetition_penalty=candidate_compiler.effective_settings.repetition_penalty,
                         )
                 else:
                     from hanser_agent.agent.tools.style_search import StyleSearchResult

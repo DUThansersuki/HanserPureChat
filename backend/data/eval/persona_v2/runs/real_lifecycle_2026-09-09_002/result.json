@@ -1,0 +1,305 @@
+{
+  "run_at": "2026-09-09T11:51:00.256090+00:00",
+  "execution_mode": "real_chat_agent_service_memory_post_turn_conversation_ownership",
+  "elapsed_seconds": 133.471131,
+  "checks": {
+    "all_turns_completed": true,
+    "post_turn_completed": true,
+    "conversation_ownership": true,
+    "user_a_durable_profanity_deny": false,
+    "user_b_has_own_profanity_deny": false,
+    "no_cross_user_memory_ids": true,
+    "trace_complete": true,
+    "candidate_package_frozen": true,
+    "safe_generation_frozen": true
+  },
+  "verdict": "fail",
+  "ownership": [
+    {
+      "id": "s1",
+      "user_id": "user-a"
+    },
+    {
+      "id": "s2",
+      "user_id": "user-a"
+    },
+    {
+      "id": "s3",
+      "user_id": "user-b"
+    }
+  ],
+  "memory_counts": {
+    "user-a": 0,
+    "user-b": 0
+  },
+  "expression_preferences": {
+    "user-a": [],
+    "user-b": []
+  },
+  "model_calls": [
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1276,
+      "completion_tokens": 254,
+      "total_tokens": 1530,
+      "latency_seconds": 3.762634,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2025,
+      "completion_tokens": 19,
+      "total_tokens": 2044,
+      "latency_seconds": 2.615374,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1307,
+      "completion_tokens": 296,
+      "total_tokens": 1603,
+      "latency_seconds": 4.60938,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2083,
+      "completion_tokens": 23,
+      "total_tokens": 2106,
+      "latency_seconds": 1.072383,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1346,
+      "completion_tokens": 297,
+      "total_tokens": 1643,
+      "latency_seconds": 4.316997,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2119,
+      "completion_tokens": 28,
+      "total_tokens": 2147,
+      "latency_seconds": 0.863974,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1389,
+      "completion_tokens": 289,
+      "total_tokens": 1678,
+      "latency_seconds": 4.210412,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2107,
+      "completion_tokens": 11,
+      "total_tokens": 2118,
+      "latency_seconds": 1.084062,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1413,
+      "completion_tokens": 429,
+      "total_tokens": 1842,
+      "latency_seconds": 6.25634,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 5013,
+      "completion_tokens": 113,
+      "total_tokens": 5126,
+      "latency_seconds": 3.167286,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1495,
+      "completion_tokens": 407,
+      "total_tokens": 1902,
+      "latency_seconds": 21.479211,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2274,
+      "completion_tokens": 57,
+      "total_tokens": 2331,
+      "latency_seconds": 2.375109,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1277,
+      "completion_tokens": 216,
+      "total_tokens": 1493,
+      "latency_seconds": 5.264747,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2044,
+      "completion_tokens": 11,
+      "total_tokens": 2055,
+      "latency_seconds": 2.129255,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1304,
+      "completion_tokens": 196,
+      "total_tokens": 1500,
+      "latency_seconds": 4.692119,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2050,
+      "completion_tokens": 12,
+      "total_tokens": 2062,
+      "latency_seconds": 1.708424,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1273,
+      "completion_tokens": 256,
+      "total_tokens": 1529,
+      "latency_seconds": 5.975384,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2126,
+      "completion_tokens": 26,
+      "total_tokens": 2152,
+      "latency_seconds": 1.930641,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1313,
+      "completion_tokens": 477,
+      "total_tokens": 1790,
+      "latency_seconds": 8.359027,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2090,
+      "completion_tokens": 32,
+      "total_tokens": 2122,
+      "latency_seconds": 1.961283,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1358,
+      "completion_tokens": 224,
+      "total_tokens": 1582,
+      "latency_seconds": 5.034181,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2049,
+      "completion_tokens": 18,
+      "total_tokens": 2067,
+      "latency_seconds": 1.64509,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
+      "kind": "json",
+      "prompt_tokens": 1334,
+      "completion_tokens": 281,
+      "total_tokens": 1615,
+      "latency_seconds": 6.688892,
+      "status": "success",
+      "error_type": null
+    },
+    {
+      "provider": "openai_compatible",
+      "model": "deepseek-v4-flash",
+      "kind": "text",
+      "prompt_tokens": 2140,
+      "completion_tokens": 16,
+      "total_tokens": 2156,
+      "latency_seconds": 1.682915,
+      "status": "success",
+      "error_type": null
+    }
+  ]
+}

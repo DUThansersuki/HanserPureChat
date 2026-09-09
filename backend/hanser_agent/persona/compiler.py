@@ -12,6 +12,7 @@ import yaml
 from .policy import build_guidance
 from .schemas import (
     BehaviorDecision,
+    BehaviorPrior,
     EffectivePersonaSettings,
     PersonaPackageManifest,
     PersonaSnapshot,
@@ -118,7 +119,8 @@ class PersonaCompiler:
             raise ValueError("behavior.yaml must contain only schema_version and priors")
         if int(behavior.get("schema_version", 0)) != 2 or not isinstance(behavior.get("priors"), list):
             raise ValueError("invalid behavior.yaml schema")
-        prior_ids = [str(item.get("prior_id", "")) for item in behavior["priors"] if isinstance(item, dict)]
+        self.behavior_priors = [BehaviorPrior.model_validate(item) for item in behavior["priors"]]
+        prior_ids = [item.prior_id for item in self.behavior_priors]
         if any(not value for value in prior_ids) or len(prior_ids) != len(set(prior_ids)):
             raise ValueError("behavior.yaml prior_id values must be non-empty and unique")
         self.behavior_prior_ids = frozenset(prior_ids)
@@ -157,6 +159,7 @@ class PersonaCompiler:
                 response_mode=mode,
                 fact_sensitivity=fact_sensitivity,
                 need_wiki=need_wiki,
+                behavior_priors=self.behavior_priors,
             )
             unknown_priors = set(decision.selected_prior_ids) - self.behavior_prior_ids
             if unknown_priors:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pydantic import BaseModel, Field
+from typing import Literal
 
 from ..agent.context_builder import ContextBundle
 from ..failures import ServiceFailure
@@ -23,6 +24,7 @@ class GeneratedResponse(BaseModel):
     performance_degraded_reasons: list[str] = Field(default_factory=list)
     validator_actions: list[str] = Field(default_factory=list)
     attempts: int = 1
+    generation_status: Literal["model_success", "contract_fallback"] = "model_success"
 
 
 class HanserResponder:
@@ -92,13 +94,14 @@ class HanserResponder:
                 except (ValueError, TypeError):
                     structured_error = "invalid_structured_response"
 
+            semantic_mode = use_structured or context.effective_persona is not None
             validated = self.validator.validate_semantic_output(
                 candidate_text,
                 required_verbatim_spans=context.required_verbatim_spans,
                 exact_output=context.exact_output,
                 turn_signals=context.turn_signals,
                 behavior_decision=context.behavior_decision,
-            ) if use_structured and structured_error is None else self.validator.validate_output(
+            ) if semantic_mode and structured_error is None else self.validator.validate_output(
                 candidate_text,
                 required_verbatim_spans=context.required_verbatim_spans,
                 exact_output=context.exact_output,
@@ -110,6 +113,20 @@ class HanserResponder:
             actions.extend(validated.actions)
             if not validated.violations:
                 if not use_structured:
+                    if context.effective_persona is not None:
+                        display = self.display_adapter.render(
+                            validated.text,
+                            required_verbatim_spans=context.required_verbatim_spans,
+                            exact_output=context.exact_output,
+                            punctuation_mode=context.effective_persona.display_punctuation,
+                        )
+                        return GeneratedResponse(
+                            text=display.text,
+                            semantic_text=validated.text,
+                            raw_text=raw_text,
+                            validator_actions=[*actions, *display.actions],
+                            attempts=attempts,
+                        )
                     return GeneratedResponse(
                         text=validated.text,
                         semantic_text=validated.text,
@@ -122,6 +139,11 @@ class HanserResponder:
                     validated.text,
                     required_verbatim_spans=context.required_verbatim_spans,
                     exact_output=context.exact_output,
+                    punctuation_mode=(
+                        context.effective_persona.display_punctuation
+                        if context.effective_persona is not None
+                        else "legacy_sparse"
+                    ),
                 )
                 performance_reasons = [
                     *(f"responder_ignored_field:{field}" for field in ignored_fields),
@@ -145,9 +167,11 @@ class HanserResponder:
                     actions.append("bounded_permission_fallback")
                     return GeneratedResponse(
                         text=fallback_text,
+                        semantic_text=fallback_text,
                         raw_text=raw_text,
                         validator_actions=actions,
                         attempts=attempts,
+                        generation_status="contract_fallback",
                     )
                 raise ServiceFailure(
                     "response_constraint_violation",
@@ -196,16 +220,6 @@ class HanserResponder:
                     "只说明现有记录无法确认 不要猜用户记错 记混或与别人发生过"
                 )
         if (
-            any(
-                violation in {"disallowed_feature:humor", "disallowed_feature:teasing"}
-                for violation in violations
-            )
-            and "我开玩笑" in current_user
-        ):
-            repair_instructions = [
-                "本次整条回答只输出：知道了 不接这个梗 继续按恢复步骤来"
-            ]
-        elif (
             "disallowed_feature:teasing" in violations
             and any(marker in current_user for marker in ("下次", "以后", "等我明确说"))
         ):
@@ -245,11 +259,9 @@ class HanserResponder:
         }
         if not permission_violations.intersection(violations):
             return None
-        if "我开玩笑" in current_user:
-            return "知道了 不接这个梗 继续按恢复步骤来"
         if (
             "disallowed_feature:teasing" in violations
             and any(marker in current_user for marker in ("下次", "以后", "等我明确说"))
         ):
             return "明白 等你以后那一轮再次明确允许再说"
-        return None
+        return "明白 我会停下相关表达"

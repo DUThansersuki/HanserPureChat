@@ -316,6 +316,7 @@ async def run(args: argparse.Namespace) -> None:
         provider_max_output_tokens=base.responder.max_tokens,
     )
     candidate_compiler = PersonaCompiler(package_dir)
+    candidate_style.pinned_generation = candidate_compiler.manifest.style_generation
     candidate_builder = ContextBuilder(
         candidate_compiler,
         base.context,
@@ -339,12 +340,15 @@ async def run(args: argparse.Namespace) -> None:
             for record in planner_gateway.call_records[planner_call_start:]
         ]
         history_refs = [f"case:{case_id}:history:{i}" for i in range(len(history))]
+        history = [
+            item.model_copy(update={"message_id": history_refs[i]})
+            for i, item in enumerate(history)
+        ]
         signals = build_turn_signals(
             str(case["input"]),
             current_message_ref=f"case:{case_id}:current_user",
             planner_payload=plan.persona_signals,
-            history_refs=history_refs,
-            history_texts=[item.content for item in history],
+            history_messages=history,
         )
         observations = observe_recent_expressions(
             history,
@@ -354,11 +358,11 @@ async def run(args: argparse.Namespace) -> None:
         decision = build_guidance(
             signals,
             infer_expression_permissions(
-                history,
-                str(case["input"]),
+                signals.preference_events,
+                current_message_id=f"case:{case_id}:current_user",
                 explicit_overrides=(
-                    case.get("permissions")
-                    if isinstance(case.get("permissions"), dict)
+                    case.get("preferences", case.get("permissions", {}))
+                    if isinstance(case.get("preferences", case.get("permissions", {})), dict)
                     else {}
                 ),
             ),
@@ -367,6 +371,7 @@ async def run(args: argparse.Namespace) -> None:
             response_mode=plan.response_mode,
             fact_sensitivity=plan.fact_sensitivity,
             need_wiki=plan.need_wiki,
+            behavior_priors=candidate_compiler.behavior_priors,
         )
         fixture_evidence = case.get("fixture_evidence")
         if isinstance(fixture_evidence, list) and fixture_evidence:
@@ -393,6 +398,8 @@ async def run(args: argparse.Namespace) -> None:
                 turn_signals=signals,
                 behavior_decision=decision,
                 observations=observations,
+                recent_example_ids=observations.recent_example_ids,
+                repetition_penalty=candidate_compiler.effective_settings.repetition_penalty,
             )
         else:
             from hanser_agent.agent.tools.style_search import StyleSearchResult
@@ -543,7 +550,13 @@ async def run(args: argparse.Namespace) -> None:
                 "input": case["input"],
                 "history": case.get("history", []),
                 "scene": case["scene"],
-                "gold": case["gold"],
+            "gold": case.get("gold", {
+                "signal_gold": case.get("signal_gold", {}),
+                "signal_unknown": case.get("signal_unknown", []),
+                "acceptable_reactions": case.get("acceptable_reactions", []),
+                "hard_prohibitions": case.get("hard_prohibitions", []),
+                "persona_scoring_points": case.get("persona_scoring_points", []),
+            }),
             },
             "evidence": item["evidence"],
             "left_answer": left["final_text"],

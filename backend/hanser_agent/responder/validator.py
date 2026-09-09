@@ -183,7 +183,7 @@ class StyleValidator:
             if (
                 unless_signal
                 and turn_signals is not None
-                and turn_signals.observed_bool(unless_signal) is True
+                and turn_signals.hard_bool(unless_signal) is True
             ):
                 continue
             if pattern.search(result.text):
@@ -191,14 +191,14 @@ class StyleValidator:
 
         if (
             turn_signals is not None
-            and turn_signals.observed_bool("forced_agreement_request") is True
+            and turn_signals.hard_bool("forced_agreement_request") is True
             and any(pattern.search(result.text) for pattern in self.coerced_agreement_patterns)
         ):
             violations.append("coerced_agreement_without_basis")
 
         if (
             turn_signals is not None
-            and turn_signals.observed_bool("unresolved_reference") is True
+            and turn_signals.hard_bool("unresolved_reference") is True
             and any(
                 pattern.search(result.text)
                 for pattern in self.unresolved_reference_patterns
@@ -218,7 +218,7 @@ class StyleValidator:
                 violations.append("persona_memory_used_for_missing_evidence")
             if (
                 turn_signals is not None
-                and turn_signals.observed_bool("unverified_shared_memory_claim") is True
+                and turn_signals.hard_bool("unverified_shared_memory_claim") is True
                 and any(
                     pattern.search(result.text)
                     for pattern in self.unverified_memory_guess_patterns

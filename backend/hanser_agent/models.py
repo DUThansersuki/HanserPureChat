@@ -68,6 +68,9 @@ class DialoguePlan(BaseModel):
 class ChatMessage(BaseModel):
     role: Literal["system", "user", "assistant"]
     content: str
+    message_id: str | None = Field(default=None, exclude=True)
+    created_at: datetime | None = Field(default=None, exclude=True)
+    style_example_ids: list[str] = Field(default_factory=list, exclude=True)
 
 
 class SearchResult(BaseModel):
