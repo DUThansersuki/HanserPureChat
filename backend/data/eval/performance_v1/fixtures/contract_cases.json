@@ -1,0 +1,20 @@
+[
+  {
+    "case_id": "markdown_url_date",
+    "semantic_text": "详情见[说明](https://example.test/doc)，日期是2026-09-09。`code`仅展示。",
+    "expected_speech_contains": ["详情见说明", "二零二六年九月九日"],
+    "expected_speech_excludes": ["https://", "code"]
+  },
+  {
+    "case_id": "repeated_unicode",
+    "semantic_text": "哈哈，哈哈。大丈夫です🙂",
+    "expected_mapping": "program_generated_codepoint_ranges",
+    "generated_performance_spans": false
+  },
+  {
+    "case_id": "silent_visual",
+    "semantic_text": "我在听。",
+    "clock": "presentation",
+    "audio_present": false
+  }
+]

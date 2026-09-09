@@ -7,6 +7,7 @@ import logging
 import time
 from uuid import uuid4
 
+from ..config import PerformanceConfig
 from ..failures import ServiceFailure
 from ..memory import MemoryStore, PostTurnPipeline
 from ..models import ChatRequest, ChatResponse, RelationshipState, SceneState
@@ -14,7 +15,14 @@ from ..persona.expression import observe_recent_expressions
 from ..persona.permissions import infer_expression_permissions
 from ..persona.policy import build_guidance
 from ..persona.signals import build_turn_signals
-from ..responder import HanserResponder
+from ..responder import (
+    HanserResponder,
+    OutputPreferences,
+    PerformancePolicyResolver,
+    ReplySnapshot,
+    SpeechTicket,
+)
+from ..responder.performance import effective_preferences
 from .context_builder import ContextBuilder
 from .conversation import ConversationOwnershipError, ConversationStore
 from .planner import DialoguePlanner
@@ -38,6 +46,7 @@ class ChatAgentService:
         context_builder: ContextBuilder,
         responder: HanserResponder,
         request_state: RequestStateStore | None = None,
+        performance_config: PerformanceConfig | None = None,
     ):
         self.conversations = conversations
         self.planner = planner
@@ -49,21 +58,40 @@ class ChatAgentService:
         self.context_builder = context_builder
         self.responder = responder
         self.request_state = request_state
+        self.performance_config = performance_config or PerformanceConfig()
+        self.performance_policy = PerformancePolicyResolver()
 
     async def send(self, request: ChatRequest) -> ChatResponse:
         trace_id = str(uuid4())
         request_id = request.request_id or trace_id
+        request_identity = {
+            "user_id": request.user_id,
+            "conversation_id": request.conversation_id,
+            "message": request.message,
+            "output_preferences": request.output_preferences.model_dump(mode="json"),
+            "render_profile_revision": request.render_profile_revision,
+        }
         request_hash = hashlib.sha256(
             json.dumps(
-                {
-                    "user_id": request.user_id,
-                    "conversation_id": request.conversation_id,
-                    "message": request.message,
-                },
+                request_identity,
                 ensure_ascii=False,
                 sort_keys=True,
             ).encode("utf-8")
         ).hexdigest()
+        frozen_request: dict[str, object] = {
+            "output_preferences": effective_preferences(
+                request.output_preferences,
+                structured_enabled=self.performance_config.structured_performance_enabled,
+                speech_enabled=self.performance_config.speech_runtime_enabled,
+                dynamic_live2d_enabled=self.performance_config.dynamic_live2d_enabled,
+                offline_export_enabled=self.performance_config.offline_export_enabled,
+            ).model_dump(mode="json"),
+            "render_profile_revision": (
+                request.render_profile_revision
+                or self.performance_config.render_profile_revision
+            ),
+            "structured_performance": self.performance_config.structured_performance_enabled,
+        }
         if self.request_state is not None:
             claim = self.request_state.claim(
                 request_id=request_id,
@@ -71,10 +99,23 @@ class ChatAgentService:
                 conversation_id=request.conversation_id,
                 request_hash=request_hash,
                 trace_id=trace_id,
+                effective_request=frozen_request,
             )
             if claim.cached_response is not None:
                 return claim.cached_response
             trace_id = claim.trace_id
+            frozen_request = {
+                **frozen_request,
+                **(claim.effective_request or {}),
+            }
+
+        output_preferences = OutputPreferences.model_validate(
+            frozen_request["output_preferences"]
+        )
+        structured_performance = bool(
+            frozen_request["structured_performance"]
+        ) and output_preferences.requests_performance()
+        render_profile_revision = str(frozen_request["render_profile_revision"])
 
         timings: dict[str, float] = {}
         degraded: list[str] = []
@@ -197,34 +238,51 @@ class ChatAgentService:
                 turn_signals=turn_signals,
                 behavior_decision=behavior_decision,
                 effective_persona=effective_persona,
+                structured_performance=structured_performance,
             )
             timings["context"] = time.perf_counter() - started
 
             started = time.perf_counter()
-            generated = await self.responder.respond(context)
+            if structured_performance:
+                generated = await self.responder.respond(
+                    context,
+                    structured_performance=True,
+                )
+            else:
+                generated = await self.responder.respond(context)
             timings["responder"] = time.perf_counter() - started
+            if structured_performance:
+                degraded.extend(generated.performance_degraded_reasons)
+            allowed_performance = self.performance_policy.resolve(
+                generated.performance if structured_performance else None,
+                behavior_decision,
+            )
+            semantic_text = generated.semantic_text or generated.text
+            assistant_message_id = str(uuid4())
+            user_message_id = str(uuid4())
+            requested_consumers = request.output_preferences.requests_performance()
+            speech_ticket = None
+            if request.output_preferences.speech:
+                speech_ticket = SpeechTicket(
+                    status="eligible" if output_preferences.speech else "unavailable",
+                    reason=(
+                        None
+                        if output_preferences.speech
+                        else "speech_feature_disabled"
+                    ),
+                )
             response = ChatResponse(
                 text=generated.text,
                 keywords=plan.keywords if plan.need_wiki else [],
                 anchored=wiki_result.anchored if wiki_result else [],
                 sources=wiki_result.candidates if wiki_result else [],
                 request_id=request_id,
+                reply_id=assistant_message_id if requested_consumers else None,
+                speech=speech_ticket,
                 trace_id=trace_id,
                 status="degraded" if degraded else "ok",
                 degraded_reasons=list(dict.fromkeys(degraded)),
             )
-
-            started = time.perf_counter()
-            user_message_id, _ = self.conversations.append_turn(
-                conversation_id=request.conversation_id,
-                user_id=request.user_id,
-                user_text=request.message,
-                assistant_text=response.text,
-                model_name=self.responder.model_name,
-                trace_id=trace_id,
-                persona_version=context.persona.version,
-            )
-            timings["persist_reply"] = time.perf_counter() - started
 
             payload = {
                 "user_id": request.user_id,
@@ -234,6 +292,44 @@ class ChatAgentService:
                 "previous_relationship": relationship.model_dump(mode="json"),
                 "previous_scene": scene.model_dump(mode="json"),
             }
+            snapshot = ReplySnapshot(
+                request_id=request_id,
+                reply_id=assistant_message_id,
+                user_id=request.user_id,
+                conversation_id=request.conversation_id,
+                semantic_text=semantic_text,
+                display_text=response.text,
+                performance=(generated.performance if structured_performance else None),
+                allowed_performance=allowed_performance,
+                output_preferences=output_preferences,
+                allow_tts=output_preferences.speech,
+                language=self._language_of(semantic_text),
+                constraints_ref=allowed_performance.constraints_ref,
+                render_profile_revision=render_profile_revision,
+                text_source=(
+                    "validated_semantic"
+                    if structured_performance
+                    else "legacy_text_source"
+                ),
+            )
+
+            started = time.perf_counter()
+            self.conversations.append_turn(
+                conversation_id=request.conversation_id,
+                user_id=request.user_id,
+                user_text=request.message,
+                assistant_text=response.text,
+                model_name=self.responder.model_name,
+                trace_id=trace_id,
+                persona_version=context.persona.version,
+                user_message_id=user_message_id,
+                assistant_message_id=assistant_message_id,
+                reply_snapshot=snapshot,
+                response=response,
+                request_hash=request_hash,
+                post_turn_payload=payload,
+            )
+            timings["persist_reply"] = time.perf_counter() - started
             started = time.perf_counter()
             try:
                 await self.post_turn.process(
@@ -244,6 +340,7 @@ class ChatAgentService:
                     previous_relationship=relationship,
                     previous_scene=scene,
                 )
+                self.conversations.mark_post_turn_completed(request_id)
             except Exception as exc:
                 logging.getLogger(__name__).exception(
                     "post-turn failed after reply persistence",
@@ -286,6 +383,24 @@ class ChatAgentService:
                 trace_id=trace_id,
             ) from exc
 
+    @staticmethod
+    def _language_of(text: str) -> str:
+        has_japanese = any(
+            "\u3040" <= character <= "\u30ff" for character in text
+        )
+        has_cjk = any("\u4e00" <= character <= "\u9fff" for character in text)
+        has_latin = any(character.isascii() and character.isalpha() for character in text)
+        present = sum((has_japanese, has_cjk, has_latin))
+        if present > 1:
+            return "mixed"
+        if has_japanese:
+            return "ja"
+        if has_cjk:
+            return "zh"
+        if has_latin:
+            return "en"
+        return "unknown"
+
     async def retry_post_turn(self, failure_id: str) -> dict[str, object]:
         if self.request_state is None:
             raise KeyError(failure_id)
@@ -312,6 +427,7 @@ class ChatAgentService:
                 retryable=True,
             ) from exc
         self.request_state.mark_post_turn_completed(failure_id)
+        self.conversations.mark_post_turn_completed(str(row["request_id"]))
         return {"id": failure_id, "status": "completed"}
 
     def pending_post_turn_failures(self) -> list[dict[str, object]]:

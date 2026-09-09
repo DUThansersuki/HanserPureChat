@@ -1,0 +1,25 @@
+schema_version: "1.1"
+profile_id: hanser-live2d-candidate
+revision: hanser-rig-candidate-1
+status: candidate
+enabled: false
+model_path: null
+attack_ms: 160
+hold_ms: 900
+release_ms: 240
+presets:
+  neutral:
+    preset: neutral
+    max_weight: 0.2
+    motion: none
+    feature_tags: []
+  gentle:
+    preset: soft_smile
+    max_weight: 0.35
+    motion: none
+    feature_tags: [warmth]
+  serious:
+    preset: attentive
+    max_weight: 0.3
+    motion: none
+    feature_tags: []

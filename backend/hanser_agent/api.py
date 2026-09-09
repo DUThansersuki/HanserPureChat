@@ -5,7 +5,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Protocol
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, Header, HTTPException, Query, Request
+from fastapi.responses import StreamingResponse
 
 from . import db
 from .agent import ChatAgentService
@@ -19,7 +20,12 @@ from .agent.tools.wiki_search import WikiSearchTool
 from .config import Settings, load_settings
 from .failures import ServiceFailure
 from .model_gateway import ModelGateway, build_model_gateway
-from .models import ChatRequest, ChatResponse
+from .models import (
+    ChatRequest,
+    ChatResponse,
+    VisualPlanCreateRequest,
+    VoiceJobCreateRequest,
+)
 from .models import MemoryItem, MemoryPatch
 from .memory import (
     MemoryCandidateExtractor,
@@ -38,6 +44,7 @@ from .retrieval import (
     build_reranker,
 )
 from .responder import HanserResponder, StyleValidator
+from .render_bridge import RenderBridge, RenderBridgeFailure
 
 
 class ChatService(Protocol):
@@ -107,6 +114,9 @@ def build_chat_agent(
         validator=StyleValidator(
             persona_dir / "style_constraints.yaml"
         ),
+        structured_performance_enabled=(
+            settings.performance.structured_performance_enabled
+        ),
     )
     return ChatAgentService(
         conversations=conversations,
@@ -119,6 +129,7 @@ def build_chat_agent(
         context_builder=context_builder,
         responder=responder,
         request_state=RequestStateStore(settings.db_path),
+        performance_config=settings.performance,
     )
 
 
@@ -145,6 +156,7 @@ def create_app(
             max_messages=active_settings.memory.recent_messages,
         ),
     )
+    render_bridge = RenderBridge(active_conversations, active_settings.performance)
     active_memory_retriever: MemoryRetriever | None = None
     if chat_agent is None:
         active_model_gateway = active_model_gateway or build_model_gateway(
@@ -160,6 +172,7 @@ def create_app(
     @asynccontextmanager
     async def lifespan(_: FastAPI):
         yield
+        await render_bridge.close()
         if owned_model_gateway and active_model_gateway is not None:
             await active_model_gateway.close()
 
@@ -211,6 +224,104 @@ def create_app(
     )
     async def chat(request: ChatRequest) -> ChatResponse:
         return await chat_agent.send(request)
+
+    @application.post("/v1/voice/jobs", status_code=202)
+    async def create_voice_job(body: VoiceJobCreateRequest) -> dict[str, object]:
+        try:
+            return await render_bridge.create_voice_job(
+                reply_id=body.reply_id,
+                user_id=body.user_id,
+                mode=body.mode,
+                rendition_id=body.rendition_id,
+                variant_salt=body.variant_salt,
+            )
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    @application.get("/v1/voice/jobs/{job_id}")
+    async def get_voice_job(
+        job_id: str, user_id: str = "local-user"
+    ) -> dict[str, object]:
+        try:
+            return await render_bridge.get_job(job_id, user_id)
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    @application.get("/v1/voice/jobs/{job_id}/events")
+    async def voice_job_events(
+        job_id: str,
+        after: int = Query(default=0, ge=0),
+        user_id: str = "local-user",
+        last_event_id: str | None = Header(default=None, alias="Last-Event-ID"),
+    ) -> StreamingResponse:
+        try:
+            stream = await render_bridge.stream_events(
+                job_id,
+                user_id,
+                after=after,
+                last_event_id=last_event_id,
+            )
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+        return StreamingResponse(
+            stream.body,
+            status_code=stream.status_code,
+            headers=stream.headers,
+            media_type="text/event-stream",
+        )
+
+    @application.post("/v1/voice/jobs/{job_id}/cancel")
+    async def cancel_voice_job(
+        job_id: str, user_id: str = "local-user"
+    ) -> dict[str, object]:
+        try:
+            return await render_bridge.cancel_job(job_id, user_id)
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    @application.post("/v1/voice/jobs/{job_id}/playback")
+    async def record_voice_playback(
+        job_id: str,
+        payload: dict[str, object],
+        user_id: str = "local-user",
+    ) -> dict[str, object]:
+        try:
+            return await render_bridge.record_playback(job_id, user_id, payload)
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    @application.get("/v1/voice/artifacts/{artifact_id}")
+    async def voice_artifact(
+        artifact_id: str,
+        request: Request,
+        user_id: str = "local-user",
+    ) -> StreamingResponse:
+        try:
+            stream = await render_bridge.stream_artifact(
+                artifact_id,
+                user_id,
+                range_header=request.headers.get("range"),
+            )
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+        return StreamingResponse(
+            stream.body,
+            status_code=stream.status_code,
+            headers=stream.headers,
+        )
+
+    @application.post("/v1/performance/visual-plans")
+    async def create_visual_plan(
+        body: VisualPlanCreateRequest,
+    ) -> dict[str, object]:
+        try:
+            return await render_bridge.create_visual_plan(
+                reply_id=body.reply_id,
+                user_id=body.user_id,
+                epoch=body.epoch,
+            )
+        except RenderBridgeFailure as exc:
+            raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
 
     @application.get("/v1/conversations")
     async def list_conversations(

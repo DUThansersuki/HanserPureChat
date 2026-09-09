@@ -94,6 +94,18 @@ class ContextConfig:
 
 
 @dataclass(slots=True)
+class PerformanceConfig:
+    structured_performance_enabled: bool = False
+    speech_runtime_enabled: bool = False
+    dynamic_live2d_enabled: bool = False
+    offline_export_enabled: bool = False
+    render_profile_revision: str = "hanser-render-candidate-1"
+    voice_runtime_base_url: str = "http://127.0.0.1:8770"
+    internal_token: str = field(default="", repr=False)
+    request_timeout_seconds: float = 10.0
+
+
+@dataclass(slots=True)
 class ModelProfileConfig:
     provider: str = "ollama"
     endpoint: str = "http://127.0.0.1:11434"
@@ -129,6 +141,7 @@ class Settings:
     style: StyleConfig = field(default_factory=StyleConfig)
     memory: MemoryConfig = field(default_factory=MemoryConfig)
     context: ContextConfig = field(default_factory=ContextConfig)
+    performance: PerformanceConfig = field(default_factory=PerformanceConfig)
     planner: ModelProfileConfig = field(default_factory=ModelProfileConfig)
     planner_external: ModelProfileConfig | None = None
     responder: ModelProfileConfig | None = None
@@ -278,6 +291,31 @@ def _context(raw: dict[str, Any]) -> ContextConfig:
     )
 
 
+def _performance(raw: dict[str, Any]) -> PerformanceConfig:
+    return PerformanceConfig(
+        structured_performance_enabled=bool(
+            raw.get("structured_performance_enabled", False)
+        ),
+        speech_runtime_enabled=bool(raw.get("speech_runtime_enabled", False)),
+        dynamic_live2d_enabled=bool(raw.get("dynamic_live2d_enabled", False)),
+        offline_export_enabled=bool(raw.get("offline_export_enabled", False)),
+        render_profile_revision=str(
+            raw.get("render_profile_revision", "hanser-render-candidate-1")
+        ),
+        voice_runtime_base_url=str(
+            raw.get("voice_runtime_base_url", "http://127.0.0.1:8770")
+        ).rstrip("/"),
+        internal_token=str(
+            raw.get("internal_token")
+            or os.getenv("HANSER_VOICE_INTERNAL_TOKEN")
+            or ""
+        ),
+        request_timeout_seconds=max(
+            1.0, float(raw.get("request_timeout_seconds", 10.0))
+        ),
+    )
+
+
 def _model_profile(
     raw: dict[str, Any],
     *,
@@ -318,6 +356,7 @@ def load_settings(path: str | Path | None = None) -> Settings:
     llm = raw.get("llm", {})
     models = raw.get("models", {})
     server = raw.get("server", {})
+    performance_raw = raw.get("performance", {})
 
     base_url = str(llm.get("base_url") or os.getenv("OPENAI_BASE_URL") or "https://api.openai.com/v1")
     api_key = str(llm.get("api_key") or os.getenv("OPENAI_API_KEY") or "")
@@ -406,6 +445,7 @@ def load_settings(path: str | Path | None = None) -> Settings:
         style=_style(raw.get("style", {}), root),
         memory=_memory(raw.get("memory", {})),
         context=_context(raw.get("context", {})),
+        performance=_performance(performance_raw),
         planner=planner,
         planner_external=planner_external,
         responder=responder,

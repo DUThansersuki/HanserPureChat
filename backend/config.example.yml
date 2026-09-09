@@ -2,6 +2,17 @@ server:
   host: 127.0.0.1
   port: 8765
 
+# Multimodal extensions remain disabled until their individual release gates pass.
+performance:
+  structured_performance_enabled: false
+  speech_runtime_enabled: false
+  dynamic_live2d_enabled: false
+  offline_export_enabled: false
+  render_profile_revision: "hanser-render-candidate-1"
+  voice_runtime_base_url: "http://127.0.0.1:8770"
+  internal_token: ""
+  request_timeout_seconds: 10
+
 data:
   # 默认指向本仓库 source_data 中的 documents.db / userdict.txt / data
   db_path: "../source_data/documents.db"

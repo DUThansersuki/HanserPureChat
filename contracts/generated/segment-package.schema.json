@@ -1,0 +1,218 @@
+{
+  "$defs": {
+    "AmplitudeCue": {
+      "properties": {
+        "end_sample": {
+          "exclusiveMinimum": 0,
+          "title": "End Sample",
+          "type": "integer"
+        },
+        "start_sample": {
+          "minimum": 0,
+          "title": "Start Sample",
+          "type": "integer"
+        },
+        "value": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_sample",
+        "end_sample",
+        "value"
+      ],
+      "title": "AmplitudeCue",
+      "type": "object"
+    },
+    "AudioArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "channels": {
+          "const": 1,
+          "title": "Channels",
+          "type": "integer"
+        },
+        "native_sample_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Native Sample Rate",
+          "type": "integer"
+        },
+        "qa_status": {
+          "enum": [
+            "passed",
+            "failed"
+          ],
+          "title": "Qa Status",
+          "type": "string"
+        },
+        "relative_path": {
+          "title": "Relative Path",
+          "type": "string"
+        },
+        "sample_count": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "sample_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Rate",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "relative_path",
+        "sample_rate",
+        "channels",
+        "sample_count",
+        "native_sample_rate",
+        "qa_status"
+      ],
+      "title": "AudioArtifact",
+      "type": "object"
+    },
+    "Timeline": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "clock": {
+          "const": "audio",
+          "default": "audio",
+          "title": "Clock",
+          "type": "string"
+        },
+        "expression": {
+          "additionalProperties": true,
+          "title": "Expression",
+          "type": "object"
+        },
+        "mouth": {
+          "items": {
+            "$ref": "#/$defs/AmplitudeCue"
+          },
+          "title": "Mouth",
+          "type": "array"
+        },
+        "mouth_precision": {
+          "enum": [
+            "amplitude",
+            "rhubarb",
+            "closed"
+          ],
+          "title": "Mouth Precision",
+          "type": "string"
+        },
+        "pause_after_samples": {
+          "minimum": 0,
+          "title": "Pause After Samples",
+          "type": "integer"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "sample_rate": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Rate",
+          "type": "integer"
+        },
+        "subtitle_precision": {
+          "default": "segment",
+          "enum": [
+            "segment",
+            "word",
+            "character"
+          ],
+          "title": "Subtitle Precision",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "revision",
+        "sample_rate",
+        "pause_after_samples",
+        "mouth_precision"
+      ],
+      "title": "Timeline",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "audio": {
+      "$ref": "#/$defs/AudioArtifact"
+    },
+    "degraded_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Degraded Reasons",
+      "type": "array"
+    },
+    "index": {
+      "title": "Index",
+      "type": "integer"
+    },
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "qa": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Qa",
+      "type": "object"
+    },
+    "rendition_id": {
+      "title": "Rendition Id",
+      "type": "string"
+    },
+    "reply_id": {
+      "title": "Reply Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "segment_duration_samples": {
+      "title": "Segment Duration Samples",
+      "type": "integer"
+    },
+    "segment_id": {
+      "title": "Segment Id",
+      "type": "string"
+    },
+    "timeline": {
+      "$ref": "#/$defs/Timeline"
+    }
+  },
+  "required": [
+    "job_id",
+    "reply_id",
+    "rendition_id",
+    "segment_id",
+    "index",
+    "audio",
+    "segment_duration_samples",
+    "timeline",
+    "qa"
+  ],
+  "title": "SegmentPackage",
+  "type": "object"
+}

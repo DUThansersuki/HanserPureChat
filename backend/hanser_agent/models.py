@@ -6,7 +6,6 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-
 class DialoguePlan(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -282,11 +281,20 @@ class SceneState(BaseModel):
     unresolved_threads: list[str] = Field(default_factory=list)
 
 
+from .responder.performance import OutputPreferences, SpeechTicket
+
+
 class ChatRequest(BaseModel):
     conversation_id: str = "default"
     user_id: str = "local-user"
     message: str
     request_id: str | None = Field(default=None, min_length=1, max_length=128)
+    output_preferences: OutputPreferences = Field(default_factory=OutputPreferences)
+    render_profile_revision: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=128,
+    )
 
 
 class ChatResponse(BaseModel):
@@ -295,6 +303,11 @@ class ChatResponse(BaseModel):
     anchored: list[str] = Field(default_factory=list)
     sources: list[SearchResult] = Field(default_factory=list)
     request_id: str | None = Field(default=None, exclude_if=lambda value: value is None)
+    reply_id: str | None = Field(default=None, exclude_if=lambda value: value is None)
+    speech: SpeechTicket | None = Field(
+        default=None,
+        exclude_if=lambda value: value is None,
+    )
     trace_id: str | None = Field(default=None, exclude_if=lambda value: value is None)
     status: Literal["ok", "degraded"] = Field(
         default="ok", exclude_if=lambda value: value == "ok"
@@ -308,6 +321,24 @@ class ChatResponse(BaseModel):
     post_turn_retry_id: str | None = Field(
         default=None, exclude_if=lambda value: value is None
     )
+
+
+class VoiceJobCreateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reply_id: str = Field(min_length=1, max_length=128)
+    mode: Literal["interactive", "offline"] = "interactive"
+    rendition_id: str = Field(default="default", min_length=1, max_length=128)
+    variant_salt: str | None = Field(default=None, max_length=128)
+    user_id: str = "local-user"
+
+
+class VisualPlanCreateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reply_id: str = Field(min_length=1, max_length=128)
+    epoch: int = Field(default=0, ge=0)
+    user_id: str = "local-user"
 
 
 @dataclass(slots=True)

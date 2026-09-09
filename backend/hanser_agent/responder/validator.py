@@ -134,6 +134,43 @@ class StyleValidator:
         behavior_decision: "BehaviorDecision | None" = None,
     ) -> ValidationResult:
         result = self.normalize(text)
+        return self._validate(
+            result,
+            required_verbatim_spans=required_verbatim_spans,
+            exact_output=exact_output,
+            turn_signals=turn_signals,
+            behavior_decision=behavior_decision,
+        )
+
+    def validate_semantic_output(
+        self,
+        text: str,
+        *,
+        required_verbatim_spans: list[str] | None = None,
+        exact_output: str | None = None,
+        turn_signals: "TurnSignals | None" = None,
+        behavior_decision: "BehaviorDecision | None" = None,
+    ) -> ValidationResult:
+        """Validate canonical language while preserving its syntactic punctuation."""
+
+        result = ValidationResult(text=text.strip())
+        return self._validate(
+            result,
+            required_verbatim_spans=required_verbatim_spans,
+            exact_output=exact_output,
+            turn_signals=turn_signals,
+            behavior_decision=behavior_decision,
+        )
+
+    def _validate(
+        self,
+        result: ValidationResult,
+        *,
+        required_verbatim_spans: list[str] | None,
+        exact_output: str | None,
+        turn_signals: "TurnSignals | None",
+        behavior_decision: "BehaviorDecision | None",
+    ) -> ValidationResult:
         violations: list[str] = []
 
         for span in required_verbatim_spans or []:

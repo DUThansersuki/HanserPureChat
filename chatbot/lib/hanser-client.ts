@@ -41,6 +41,12 @@ export async function hanserProxyError(response: Response) {
 
 export type HanserChatResponse = {
   text: string;
+  reply_id?: string;
+  speech?: {
+    schema_version: "1.1";
+    status: "eligible" | "unavailable" | "no_speakable_content";
+    reason?: string;
+  };
   request_id?: string;
   trace_id?: string;
   status?: "ok" | "degraded";

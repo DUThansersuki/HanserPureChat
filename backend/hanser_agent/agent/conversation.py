@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
 from .. import db
-from ..models import ChatMessage
+from ..models import ChatMessage, ChatResponse
+from ..responder.performance import ReplySnapshot
 
 
 @dataclass(frozen=True, slots=True)
@@ -186,10 +188,23 @@ class ConversationStore:
         model_name: str,
         trace_id: str,
         persona_version: str,
+        user_message_id: str | None = None,
+        assistant_message_id: str | None = None,
+        reply_snapshot: ReplySnapshot | None = None,
+        response: ChatResponse | None = None,
+        request_hash: str | None = None,
+        post_turn_payload: dict[str, object] | None = None,
     ) -> tuple[str, str]:
         now = datetime.now(timezone.utc).isoformat()
-        user_message_id = str(uuid4())
-        assistant_message_id = str(uuid4())
+        user_message_id = user_message_id or str(uuid4())
+        assistant_message_id = assistant_message_id or str(uuid4())
+        if reply_snapshot is not None:
+            if response is None or request_hash is None or post_turn_payload is None:
+                raise ValueError("reply snapshot persistence requires response, hash, and post-turn payload")
+            if reply_snapshot.reply_id != assistant_message_id:
+                raise ValueError("reply snapshot reply_id must equal assistant message id")
+            if reply_snapshot.conversation_id != conversation_id or reply_snapshot.user_id != user_id:
+                raise ValueError("reply snapshot owner does not match conversation turn")
         with db.connect(self.db_path) as conn:
             conn.execute("BEGIN IMMEDIATE")
             self._assert_owner(conn, conversation_id, user_id)
@@ -252,8 +267,60 @@ class ConversationStore:
                     ),
                 ],
             )
+            if reply_snapshot is not None:
+                conn.execute(
+                    """
+                    INSERT INTO reply_snapshots
+                        (reply_id,request_id,request_hash,user_id,conversation_id,
+                         snapshot_json,response_json,post_turn_payload_json,
+                         post_turn_status,created_at,updated_at)
+                    VALUES (?,?,?,?,?,?,?,?,'pending',?,?)
+                    """,
+                    (
+                        reply_snapshot.reply_id,
+                        reply_snapshot.request_id,
+                        request_hash,
+                        user_id,
+                        conversation_id,
+                        reply_snapshot.model_dump_json(),
+                        response.model_dump_json(),
+                        json.dumps(post_turn_payload, ensure_ascii=False),
+                        now,
+                        now,
+                    ),
+                )
             conn.commit()
         return user_message_id, assistant_message_id
+
+    def get_reply_snapshot(
+        self,
+        reply_id: str,
+        *,
+        user_id: str,
+    ) -> ReplySnapshot | None:
+        with db.connect(self.db_path) as conn:
+            row = conn.execute(
+                "SELECT user_id,snapshot_json FROM reply_snapshots WHERE reply_id=?",
+                (reply_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        if str(row["user_id"]) != user_id:
+            raise ConversationOwnershipError(reply_id)
+        return ReplySnapshot.model_validate_json(str(row["snapshot_json"]))
+
+    def mark_post_turn_completed(self, request_id: str) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with db.connect(self.db_path) as conn:
+            conn.execute(
+                """
+                UPDATE reply_snapshots
+                SET post_turn_status='completed',updated_at=?
+                WHERE request_id=?
+                """,
+                (now, request_id),
+            )
+            conn.commit()
 
     @staticmethod
     def _assert_owner(conn, conversation_id: str, user_id: str) -> None:

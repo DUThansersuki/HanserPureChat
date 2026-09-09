@@ -10,7 +10,7 @@ import httpx
 from fastapi.testclient import TestClient
 
 from hanser_agent import db
-from hanser_agent.agent.context_builder import ContextBuilder
+from hanser_agent.agent.context_builder import ContextBuilder, ContextBundle
 from hanser_agent.agent.conversation import ConversationStore
 from hanser_agent.agent.request_state import RequestStateStore
 from hanser_agent.agent.service import ChatAgentService
@@ -89,7 +89,10 @@ class ResponderFailureTests(unittest.IsolatedAsyncioTestCase):
         )
         responder = HanserResponder(gateway, StyleValidator(PERSONA_DIR / "style_constraints.yaml"))
         result = await responder.respond(
-            SimpleNamespace(messages=[ChatMessage(role="user", content="晚上好")])
+            ContextBundle(
+                messages=[ChatMessage(role="user", content="晚上好")],
+                persona=PersonaCompiler(PERSONA_DIR).compile("casual"),
+            )
         )
         await client.aclose()
         self.assertEqual(result.attempts, 2)
@@ -106,7 +109,12 @@ class ResponderFailureTests(unittest.IsolatedAsyncioTestCase):
         )
         responder = HanserResponder(gateway, StyleValidator(PERSONA_DIR / "style_constraints.yaml"))
         with self.assertRaises(ServiceFailure) as raised:
-            await responder.respond(SimpleNamespace(messages=[ChatMessage(role="user", content="我考上啦")]))
+            await responder.respond(
+                ContextBundle(
+                    messages=[ChatMessage(role="user", content="我考上啦")],
+                    persona=PersonaCompiler(PERSONA_DIR).compile("casual"),
+                )
+            )
         await client.aclose()
         self.assertEqual(raised.exception.code, "empty_provider_output")
         self.assertNotIn("不知道", raised.exception.safe_message)

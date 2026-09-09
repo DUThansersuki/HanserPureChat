@@ -1,0 +1,2 @@
+# Frozen upstream public API implementation. Install only in Python 3.10-3.12.
+voxcpm @ git+https://github.com/OpenBMB/VoxCPM.git@f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69

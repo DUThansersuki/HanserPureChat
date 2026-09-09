@@ -6,12 +6,21 @@ from ..agent.context_builder import ContextBundle
 from ..failures import ServiceFailure
 from ..model_gateway import ModelGateway
 from ..models import ChatMessage
+from .performance import (
+    PerformanceIntent,
+    parse_performance,
+    parse_responder_payload,
+)
+from .presentation import DisplayAdapter
 from .validator import StyleValidator
 
 
 class GeneratedResponse(BaseModel):
     text: str
     raw_text: str
+    semantic_text: str | None = None
+    performance: PerformanceIntent | None = None
+    performance_degraded_reasons: list[str] = Field(default_factory=list)
     validator_actions: list[str] = Field(default_factory=list)
     attempts: int = 1
 
@@ -25,14 +34,27 @@ class HanserResponder:
         validator: StyleValidator,
         profile_name: str = "responder",
         max_empty_retries: int = 1,
+        structured_performance_enabled: bool = False,
     ):
         self.model_gateway = model_gateway
         self.profile_name = profile_name
         self.model_name = model_gateway.profiles[profile_name].model
         self.validator = validator
+        self.display_adapter = DisplayAdapter(validator)
         self.max_empty_retries = max(0, max_empty_retries)
+        self.structured_performance_enabled = structured_performance_enabled
 
-    async def respond(self, context: ContextBundle) -> GeneratedResponse:
+    async def respond(
+        self,
+        context: ContextBundle,
+        *,
+        structured_performance: bool | None = None,
+    ) -> GeneratedResponse:
+        use_structured = (
+            self.structured_performance_enabled
+            if structured_performance is None
+            else structured_performance
+        )
         raw_text = ""
         attempts = 0
         empty_retries = self.max_empty_retries
@@ -57,19 +79,61 @@ class HanserResponder:
                     status_code=502,
                 )
 
-            validated = self.validator.validate_output(
-                raw_text,
+            raw_performance: object | None = None
+            ignored_fields: list[str] = []
+            candidate_text = raw_text
+            structured_error: str | None = None
+            if use_structured:
+                try:
+                    payload = parse_responder_payload(raw_text)
+                    candidate_text = payload.semantic_text
+                    raw_performance = payload.raw_performance
+                    ignored_fields = payload.ignored_fields
+                except (ValueError, TypeError):
+                    structured_error = "invalid_structured_response"
+
+            validated = self.validator.validate_semantic_output(
+                candidate_text,
+                required_verbatim_spans=context.required_verbatim_spans,
+                exact_output=context.exact_output,
+                turn_signals=context.turn_signals,
+                behavior_decision=context.behavior_decision,
+            ) if use_structured and structured_error is None else self.validator.validate_output(
+                candidate_text,
                 required_verbatim_spans=context.required_verbatim_spans,
                 exact_output=context.exact_output,
                 turn_signals=context.turn_signals,
                 behavior_decision=context.behavior_decision,
             )
+            if structured_error is not None:
+                validated.violations.append(structured_error)
             actions.extend(validated.actions)
             if not validated.violations:
+                if not use_structured:
+                    return GeneratedResponse(
+                        text=validated.text,
+                        semantic_text=validated.text,
+                        raw_text=raw_text,
+                        validator_actions=actions,
+                        attempts=attempts,
+                    )
+                parsed_performance = parse_performance(raw_performance)
+                display = self.display_adapter.render(
+                    validated.text,
+                    required_verbatim_spans=context.required_verbatim_spans,
+                    exact_output=context.exact_output,
+                )
+                performance_reasons = [
+                    *(f"responder_ignored_field:{field}" for field in ignored_fields),
+                    *parsed_performance.degraded_reasons,
+                ]
                 return GeneratedResponse(
-                    text=validated.text,
+                    text=display.text,
+                    semantic_text=validated.text,
                     raw_text=raw_text,
-                    validator_actions=actions,
+                    performance=parsed_performance.intent,
+                    performance_degraded_reasons=performance_reasons,
+                    validator_actions=[*actions, *display.actions],
                     attempts=attempts,
                 )
             if constraint_retries <= 0:

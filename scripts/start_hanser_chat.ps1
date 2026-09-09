@@ -4,8 +4,10 @@ $projectRoot = Split-Path -Parent $PSScriptRoot
 $backendRoot = Join-Path $projectRoot "backend"
 $frontendRoot = Join-Path $projectRoot "chatbot"
 $runtimeRoot = Join-Path $projectRoot ".runtime"
+$voicePython = Join-Path $projectRoot "voice_runtime\.venv\Scripts\python.exe"
 $backendUrl = "http://127.0.0.1:8765"
 $frontendUrl = "http://127.0.0.1:3000"
+$voiceUrl = "http://127.0.0.1:8770"
 
 New-Item -ItemType Directory -Path $runtimeRoot -Force | Out-Null
 
@@ -84,7 +86,20 @@ if (-not (Test-Path -LiteralPath (Join-Path $frontendRoot "node_modules"))) {
 
 $backendProcess = $null
 $frontendProcess = $null
+$voiceProcess = $null
 try {
+    if ((Test-Path -LiteralPath $voicePython) -and -not (Test-Endpoint "$voiceUrl/health")) {
+        $voiceProcess = Start-Process `
+            -FilePath $voicePython `
+            -ArgumentList "-m", "voice_runtime.api" `
+            -WorkingDirectory $projectRoot `
+            -RedirectStandardOutput (Join-Path $runtimeRoot "voice.out.log") `
+            -RedirectStandardError (Join-Path $runtimeRoot "voice.err.log") `
+            -WindowStyle Hidden `
+            -PassThru
+        Wait-Endpoint "$voiceUrl/health" $voiceProcess 30
+    }
+
     if (-not (Test-Endpoint "$backendUrl/health")) {
         $backendProcess = Start-Process `
             -FilePath $python.Source `
@@ -125,4 +140,5 @@ try {
 finally {
     Stop-ProcessTree $frontendProcess
     Stop-ProcessTree $backendProcess
+    Stop-ProcessTree $voiceProcess
 }

@@ -309,8 +309,25 @@ CREATE TABLE IF NOT EXISTS request_executions (
     error_code          TEXT,
     attempts            INTEGER NOT NULL DEFAULT 1,
     stage_timings_json  TEXT NOT NULL DEFAULT '{}',
+    effective_request_json TEXT NOT NULL DEFAULT '{}',
     created_at          TEXT NOT NULL,
     updated_at          TEXT NOT NULL
+)
+"""
+
+SCHEMA_REPLY_SNAPSHOTS = """
+CREATE TABLE IF NOT EXISTS reply_snapshots (
+    reply_id               TEXT PRIMARY KEY,
+    request_id             TEXT NOT NULL UNIQUE,
+    request_hash           TEXT NOT NULL,
+    user_id                TEXT NOT NULL,
+    conversation_id        TEXT NOT NULL,
+    snapshot_json          TEXT NOT NULL,
+    response_json          TEXT NOT NULL,
+    post_turn_payload_json TEXT NOT NULL,
+    post_turn_status       TEXT NOT NULL DEFAULT 'pending',
+    created_at             TEXT NOT NULL,
+    updated_at             TEXT NOT NULL
 )
 """
 
@@ -371,9 +388,11 @@ def init_db(conn: sqlite3.Connection) -> None:
     conn.execute(SCHEMA_EVALUATION_RUNS)
     conn.execute(SCHEMA_EVALUATION_OUTPUTS)
     conn.execute(SCHEMA_REQUEST_EXECUTIONS)
+    conn.execute(SCHEMA_REPLY_SNAPSHOTS)
     conn.execute(SCHEMA_POST_TURN_FAILURES)
     _apply_memory_assertion_migration(conn)
     _apply_style_review_migration(conn)
+    _apply_performance_snapshot_migration(conn)
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_chunks_document "
         "ON document_chunks(document_id, chunk_index)"
@@ -414,7 +433,32 @@ def init_db(conn: sqlite3.Connection) -> None:
         "CREATE INDEX IF NOT EXISTS idx_post_turn_failure_status "
         "ON post_turn_failures(status, updated_at)"
     )
+    conn.execute(
+        "CREATE INDEX IF NOT EXISTS idx_reply_snapshots_owner "
+        "ON reply_snapshots(user_id, conversation_id, created_at)"
+    )
     conn.commit()
+
+
+def _apply_performance_snapshot_migration(conn: sqlite3.Connection) -> None:
+    """Migration 6: effective request snapshots and atomic canonical replies."""
+
+    columns = {
+        str(row["name"])
+        for row in conn.execute("PRAGMA table_info(request_executions)").fetchall()
+    }
+    if "effective_request_json" not in columns:
+        conn.execute(
+            "ALTER TABLE request_executions "
+            "ADD COLUMN effective_request_json TEXT NOT NULL DEFAULT '{}'"
+        )
+    conn.execute(SCHEMA_REPLY_SNAPSHOTS)
+    conn.execute(
+        """
+        INSERT OR IGNORE INTO schema_migrations(version, name, applied_at)
+        VALUES (6, 'performance_reply_snapshots', datetime('now'))
+        """
+    )
 
 
 def apply_slice4_failure_state_migration(conn: sqlite3.Connection) -> None:

@@ -4,8 +4,8 @@ import {
   generateId,
 } from "ai";
 import {
-  hanserFetch,
   type HanserChatResponse,
+  hanserFetch,
   hanserUserId,
   readHanserError,
 } from "@/lib/hanser-client";
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { id, message } = parsed.data;
+  const { id, message, outputPreferences } = parsed.data;
   const text = messageText(message);
   if (!text || message.parts.some((part) => part.type === "file")) {
     return Response.json(
@@ -57,6 +57,13 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           conversation_id: id,
           message: text,
+          output_preferences: {
+            dynamic_live2d: outputPreferences?.dynamic_live2d ?? false,
+            offline_performance:
+              outputPreferences?.offline_performance ?? false,
+            speech: outputPreferences?.speech ?? false,
+            text: true,
+          },
           request_id: message.id,
           user_id: hanserUserId,
         }),
@@ -76,8 +83,10 @@ export async function POST(request: Request) {
       writer.write({
         data: {
           degradedReasons: result.degraded_reasons ?? [],
+          replyId: result.reply_id,
           requestId: result.request_id,
           sourceCount: result.sources?.length ?? 0,
+          speech: result.speech,
           status: result.status ?? "ok",
           traceId: result.trace_id,
         },

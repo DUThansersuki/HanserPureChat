@@ -4,6 +4,7 @@ import { PanelLeftIcon } from "lucide-react";
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
+import { VoiceControls } from "@/components/voice/voice-controls";
 import type { VisibilityType } from "./visibility-selector";
 
 function PureChatHeader(_props: {
@@ -30,7 +31,8 @@ function PureChatHeader(_props: {
       <span className="text-sm font-medium text-sidebar-foreground">
         Hanser Agent
       </span>
-      <span className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
+      <VoiceControls />
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
         <span className="size-1.5 rounded-full bg-emerald-500" />
         本地会话
       </span>

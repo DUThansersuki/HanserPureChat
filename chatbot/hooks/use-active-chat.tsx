@@ -21,6 +21,7 @@ import { useDataStream } from "@/components/chat/data-stream-provider";
 import { getChatHistoryPaginationKey } from "@/components/chat/sidebar-history";
 import { toast } from "@/components/chat/toast";
 import type { VisibilityType } from "@/components/chat/visibility-selector";
+import { useVoice } from "@/components/voice/voice-provider";
 import { useAutoResume } from "@/hooks/use-auto-resume";
 import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
 import type { Vote } from "@/lib/db/schema";
@@ -59,6 +60,9 @@ function extractChatId(pathname: string): string | null {
 export function ActiveChatProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { setDataStream, setWaitingStatus } = useDataStream();
+  const voice = useVoice();
+  const voiceRef = useRef(voice);
+  voiceRef.current = voice;
   const { mutate } = useSWRConfig();
 
   const chatIdFromUrl = extractChatId(pathname);
@@ -115,6 +119,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
         setWaitingStatus(dataPart.data);
         return;
       }
+      if (dataPart.type === "data-hanser-meta") {
+        voiceRef.current.acceptReply(dataPart.data);
+      }
       setDataStream((ds) => (ds ? [...ds, dataPart] : []));
     },
     onError: (error) => {
@@ -166,6 +173,11 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
             ...(isToolApprovalContinuation
               ? { messages: request.messages }
               : { message: lastMessage }),
+            outputPreferences: {
+              dynamic_live2d: false,
+              offline_performance: false,
+              speech: voiceRef.current.enabled,
+            },
             selectedChatModel: currentModelIdRef.current,
             selectedVisibilityType: visibility,
             ...request.body,
@@ -176,6 +188,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
+    if (status === "submitted") {
+      voiceRef.current.interrupt().catch(() => undefined);
+    }
     if (status === "submitted" || status === "ready" || status === "error") {
       setWaitingStatus(undefined);
     }
@@ -246,7 +261,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
 
   const isReadonly = isNewChat ? false : (chatData?.isReadonly ?? false);
 
-  const votes: Vote[] = [];
+  const votes = useMemo<Vote[]>(() => [], []);
 
   const value = useMemo<ActiveChatContextValue>(
     () => ({

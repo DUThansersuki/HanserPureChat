@@ -19,6 +19,7 @@ def _now() -> str:
 class RequestClaim:
     trace_id: str
     cached_response: ChatResponse | None = None
+    effective_request: dict[str, object] | None = None
 
 
 class RequestStateStore:
@@ -33,6 +34,7 @@ class RequestStateStore:
         conversation_id: str,
         request_hash: str,
         trace_id: str,
+        effective_request: dict[str, object] | None = None,
     ) -> RequestClaim:
         with db.connect(self.db_path) as conn:
             db.init_db(conn)
@@ -46,13 +48,25 @@ class RequestStateStore:
                     """
                     INSERT INTO request_executions
                         (request_id,user_id,conversation_id,request_hash,trace_id,
-                         status,created_at,updated_at)
-                    VALUES (?,?,?,?,?,'in_progress',?,?)
+                         status,effective_request_json,created_at,updated_at)
+                    VALUES (?,?,?,?,?,'in_progress',?,?,?)
                     """,
-                    (request_id, user_id, conversation_id, request_hash, trace_id, now, now),
+                    (
+                        request_id,
+                        user_id,
+                        conversation_id,
+                        request_hash,
+                        trace_id,
+                        json.dumps(effective_request or {}, ensure_ascii=False),
+                        now,
+                        now,
+                    ),
                 )
                 conn.commit()
-                return RequestClaim(trace_id=trace_id)
+                return RequestClaim(
+                    trace_id=trace_id,
+                    effective_request=effective_request or {},
+                )
             if (
                 str(row["user_id"]) != user_id
                 or str(row["conversation_id"]) != conversation_id
@@ -60,15 +74,41 @@ class RequestStateStore:
             ):
                 raise IdempotencyConflict()
             status = str(row["status"])
+            frozen_request = json.loads(str(row["effective_request_json"] or "{}"))
             if status == "completed" and row["response_json"]:
                 return RequestClaim(
                     trace_id=str(row["trace_id"]),
                     cached_response=ChatResponse.model_validate_json(
                         str(row["response_json"])
                     ),
+                    effective_request=frozen_request,
                 )
             if status == "in_progress":
-                raise RequestInProgress()
+                committed = conn.execute(
+                    """
+                    SELECT response_json,post_turn_status
+                    FROM reply_snapshots WHERE request_id=? AND request_hash=?
+                    """,
+                    (request_id, request_hash),
+                ).fetchone()
+                if committed is None:
+                    raise RequestInProgress()
+                response = ChatResponse.model_validate_json(
+                    str(committed["response_json"])
+                )
+                if str(committed["post_turn_status"]) != "completed":
+                    response.status = "degraded"
+                    response.post_turn_status = "pending_retry"
+                    response.degraded_reasons = list(
+                        dict.fromkeys(
+                            [*response.degraded_reasons, "post_turn_pending_retry"]
+                        )
+                    )
+                return RequestClaim(
+                    trace_id=str(row["trace_id"]),
+                    cached_response=response,
+                    effective_request=frozen_request,
+                )
             conn.execute(
                 """
                 UPDATE request_executions
@@ -79,7 +119,10 @@ class RequestStateStore:
                 (trace_id, _now(), request_id),
             )
             conn.commit()
-            return RequestClaim(trace_id=trace_id)
+            return RequestClaim(
+                trace_id=trace_id,
+                effective_request=frozen_request,
+            )
 
     def complete(
         self,

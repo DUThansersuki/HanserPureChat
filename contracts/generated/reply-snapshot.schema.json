@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "AllowedPerformance": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints_ref": {
+          "default": "constraints:legacy-neutral",
+          "title": "Constraints Ref",
+          "type": "string"
+        },
+        "decisions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Decisions",
+          "type": "array"
+        },
+        "delivery": {
+          "$ref": "#/$defs/Delivery",
+          "default": "neutral"
+        },
+        "forbidden_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Forbidden Features",
+          "type": "array"
+        },
+        "intensity": {
+          "default": 0.2,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Intensity",
+          "type": "number"
+        },
+        "schema_version": {
+          "const": "1.1",
+          "default": "1.1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "title": "AllowedPerformance",
+      "type": "object"
+    },
+    "Delivery": {
+      "enum": [
+        "neutral",
+        "gentle",
+        "concerned",
+        "serious",
+        "soft_surprised",
+        "excited",
+        "amused",
+        "teasing",
+        "deadpan",
+        "annoyed_soft",
+        "annoyed_playful",
+        "embarrassed",
+        "hesitant"
+      ],
+      "title": "Delivery",
+      "type": "string"
+    },
+    "OutputPreferences": {
+      "additionalProperties": false,
+      "description": "Consumer choices frozen at the chat request boundary.",
+      "properties": {
+        "dynamic_live2d": {
+          "default": false,
+          "title": "Dynamic Live2D",
+          "type": "boolean"
+        },
+        "offline_performance": {
+          "default": false,
+          "title": "Offline Performance",
+          "type": "boolean"
+        },
+        "speech": {
+          "default": false,
+          "title": "Speech",
+          "type": "boolean"
+        },
+        "text": {
+          "default": true,
+          "title": "Text",
+          "type": "boolean"
+        }
+      },
+      "title": "OutputPreferences",
+      "type": "object"
+    },
+    "PerformanceIntent": {
+      "additionalProperties": false,
+      "description": "The one optional delivery decision emitted with the response text.",
+      "properties": {
+        "delivery": {
+          "$ref": "#/$defs/Delivery"
+        },
+        "intensity": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Intensity",
+          "type": "number"
+        },
+        "schema_version": {
+          "const": "1.1",
+          "default": "1.1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "delivery",
+        "intensity"
+      ],
+      "title": "PerformanceIntent",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Canonical committed reply consumed by rendering services.",
+  "properties": {
+    "allow_tts": {
+      "title": "Allow Tts",
+      "type": "boolean"
+    },
+    "allowed_performance": {
+      "$ref": "#/$defs/AllowedPerformance"
+    },
+    "constraints_ref": {
+      "title": "Constraints Ref",
+      "type": "string"
+    },
+    "conversation_id": {
+      "title": "Conversation Id",
+      "type": "string"
+    },
+    "display_text": {
+      "title": "Display Text",
+      "type": "string"
+    },
+    "language": {
+      "title": "Language",
+      "type": "string"
+    },
+    "output_preferences": {
+      "$ref": "#/$defs/OutputPreferences"
+    },
+    "performance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PerformanceIntent"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "render_profile_revision": {
+      "title": "Render Profile Revision",
+      "type": "string"
+    },
+    "reply_id": {
+      "title": "Reply Id",
+      "type": "string"
+    },
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_text": {
+      "title": "Semantic Text",
+      "type": "string"
+    },
+    "text_source": {
+      "enum": [
+        "validated_semantic",
+        "legacy_text_source"
+      ],
+      "title": "Text Source",
+      "type": "string"
+    },
+    "user_id": {
+      "title": "User Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "reply_id",
+    "user_id",
+    "conversation_id",
+    "semantic_text",
+    "display_text",
+    "allowed_performance",
+    "output_preferences",
+    "allow_tts",
+    "language",
+    "constraints_ref",
+    "render_profile_revision",
+    "text_source"
+  ],
+  "title": "ReplySnapshot",
+  "type": "object"
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.1",
+  "job_id": "voice_example",
+  "reply_id": "reply_example",
+  "rendition_id": "default",
+  "status": "completed",
+  "partial": false,
+  "segments": [
+    {
+      "schema_version": "1.1",
+      "job_id": "voice_example",
+      "reply_id": "reply_example",
+      "rendition_id": "default",
+      "segment_id": "segment_example_0",
+      "index": 0,
+      "audio": {
+        "artifact_id": "audio_example",
+        "relative_path": "owner/audio_example.wav",
+        "sample_rate": 48000,
+        "channels": 1,
+        "sample_count": 48000,
+        "native_sample_rate": 48000,
+        "qa_status": "passed"
+      },
+      "segment_duration_samples": 60000,
+      "timeline": {
+        "artifact_id": "timeline_example",
+        "revision": "timeline_1",
+        "clock": "audio",
+        "sample_rate": 48000,
+        "pause_after_samples": 12000,
+        "mouth_precision": "amplitude",
+        "subtitle_precision": "segment",
+        "mouth": [],
+        "expression": {
+          "preset": "neutral",
+          "weight": 0.2
+        }
+      },
+      "qa": {
+        "status": "passed"
+      },
+      "degraded_reasons": []
+    }
+  ],
+  "total_duration_samples": 60000,
+  "timeline_sample_rate": 48000,
+  "source_map": [
+    {
+      "semantic_span": [0, 3],
+      "speech_span": [0, 3],
+      "operation": "copy",
+      "precision": "exact",
+      "rule_id": "identity",
+      "rule_version": "speech_mapper_1"
+    }
+  ],
+  "requested": {
+    "delivery": "neutral",
+    "intensity": 0.2
+  },
+  "allowed": {
+    "delivery": "neutral",
+    "intensity": 0.2,
+    "schema_version": "1.1",
+    "forbidden_features": [],
+    "constraints_ref": "constraints:example",
+    "decisions": []
+  },
+  "voice_resolved": [],
+  "visual_resolved": {
+    "preset": "neutral",
+    "weight": 0.2
+  },
+  "profile_revision": "hanser-voice-candidate-1",
+  "model_revision": "32279effe8c19989596f05d353d1447f51d9e915",
+  "compiler_revision": "timeline_1"
+}

@@ -36,7 +36,12 @@ export type WaitingStatusData = {
 
 export type HanserMetaData = {
   degradedReasons: string[];
+  replyId?: string;
   requestId?: string;
+  speech?: {
+    status: "eligible" | "unavailable" | "no_speakable_content";
+    reason?: string;
+  };
   sourceCount: number;
   status: "ok" | "degraded";
   traceId?: string;

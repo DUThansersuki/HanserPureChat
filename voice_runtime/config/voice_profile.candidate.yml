@@ -1,0 +1,36 @@
+schema_version: "1.1"
+profile_id: hanser-voxcpm2-neutral-candidate
+profile_revision: hanser-voice-candidate-1
+status: candidate
+enabled: false
+backend: voxcpm2
+speaker_id: hanser
+model:
+  id: openbmb/VoxCPM2
+  revision: 32279effe8c19989596f05d353d1447f51d9e915
+  package_version: git-f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69
+  local_path: models/VoxCPM2
+clone:
+  mode: ref_continuation
+  identity_reference_id: hanser-identity-reference-v1
+  default_style_prompt_id: hanser-neutral-prompt-v1
+  recursive_generated_prompt: false
+capabilities:
+  approved_delivery: [neutral]
+  voice_intensity_mode: not_controllable
+  intensity_bands: [low]
+  text_control: false
+  style_switches_per_reply: 0
+runtime:
+  api_mode: public
+  explicit_prompt_cache: false
+inference:
+  cfg_value: 2.0
+  inference_timesteps: 10
+  normalize: false
+  retry_badcase: false
+  load_denoiser: false
+output:
+  package_sample_rate: 48000
+  channels: 1
+assets_manifest: ../../assets/voices/hanser/manifest.jsonl

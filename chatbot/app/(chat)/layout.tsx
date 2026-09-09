@@ -5,14 +5,15 @@ import { AppSidebar } from "@/components/chat/app-sidebar";
 import { DataStreamProvider } from "@/components/chat/data-stream-provider";
 import { ChatShell } from "@/components/chat/shell";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { VoiceProvider } from "@/components/voice/voice-provider";
 import { ActiveChatProvider } from "@/hooks/use-active-chat";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <DataStreamProvider>
-        <Suspense fallback={<div className="flex h-dvh bg-sidebar" />}>
-          <SidebarShell>{children}</SidebarShell>
-        </Suspense>
+      <Suspense fallback={<div className="flex h-dvh bg-sidebar" />}>
+        <SidebarShell>{children}</SidebarShell>
+      </Suspense>
     </DataStreamProvider>
   );
 }
@@ -34,9 +35,11 @@ async function SidebarShell({ children }: { children: React.ReactNode }) {
           }}
         />
         <Suspense fallback={<div className="flex h-dvh" />}>
-          <ActiveChatProvider>
-            <ChatShell />
-          </ActiveChatProvider>
+          <VoiceProvider>
+            <ActiveChatProvider>
+              <ChatShell />
+            </ActiveChatProvider>
+          </VoiceProvider>
         </Suspense>
         {children}
       </SidebarInset>

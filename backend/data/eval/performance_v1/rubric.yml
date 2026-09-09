@@ -1,0 +1,11 @@
+schema_version: "1.1"
+dimensions:
+  text_hard_gates: zero_failures_required
+  speaker_similarity: human_review_required
+  naturalness: human_review_required
+  pronunciation: human_review_required
+  delivery_fit: human_review_required
+  overacting: human_review_required
+  cross_modal_conflict: zero_known_hard_conflicts
+  cancellation_epoch: zero_late_audio_required
+unmeasured_value: NOT_MEASURED
