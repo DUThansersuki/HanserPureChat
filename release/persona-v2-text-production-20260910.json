@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "promoted_at": "2026-09-09T17:25:50.965973+00:00",
+  "production_database": "H:\\HanserAgent\\source_data\\documents.db",
+  "backup_database": "H:\\HanserAgent\\source_data\\backups\\documents.pre_persona_v2.20260909T172550Z.db",
+  "previous_generation": "legacy-v1",
+  "active_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "active_generation_revision": 2,
+  "installed_style_rows": 739,
+  "installed_vectors": 416,
+  "chat_database_replaced": false,
+  "preserve_chat_history_and_memory": true
+}

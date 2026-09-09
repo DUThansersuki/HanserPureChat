@@ -116,15 +116,14 @@ retrieval:
 
 style:
   enabled: true
-  # Keep false until a reviewed candidate generation passes blind acceptance.
-  reviewed_only: false
+  reviewed_only: true
   output_dir: "data/persona"
   top_k: 3
   candidate_pool_size: 16
   min_quality: 0.68
 
 persona:
-  active_package: "persona-v1-production"
+  active_package: "persona-v2-production"
   candidate_package: "hanser-persona-v2-candidate"
   candidate_style_generation: "persona-v2-style-profanity15-1c71903569618d5d"
   detector_version: "persona_lexical_v3"

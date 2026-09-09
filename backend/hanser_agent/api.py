@@ -62,10 +62,18 @@ def build_chat_agent(
     persona_root = prompt_dir / "persona"
     package_registry = {
         "persona-v1-production": persona_root,
+        "persona-v2-production": persona_root / "candidates" / "hanser-persona-v2-candidate",
         "hanser-persona-v2-candidate": persona_root / "candidates" / "hanser-persona-v2-candidate",
     }
     persona_dir = package_registry[settings.persona.active_package]
-    persona_compiler = PersonaCompiler(persona_dir)
+    persona_compiler = PersonaCompiler(
+        persona_dir,
+        settings_lifecycle=(
+            "production"
+            if settings.persona.active_package == "persona-v2-production"
+            else "preview"
+        ),
+    )
     if persona_compiler.is_v2 and not settings.style.reviewed_only:
         raise ValueError("Persona v2 requires style.reviewed_only=true")
 

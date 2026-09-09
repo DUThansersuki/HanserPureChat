@@ -66,7 +66,7 @@ class HybridRetrievalConfig:
 @dataclass(slots=True)
 class StyleConfig:
     enabled: bool = True
-    reviewed_only: bool = False
+    reviewed_only: bool = True
     output_dir: Path = Path("data/persona")
     top_k: int = 3
     candidate_pool_size: int = 16
@@ -107,7 +107,11 @@ class PerformanceConfig:
 
 @dataclass(frozen=True, slots=True)
 class PersonaRuntimeConfig:
-    active_package: Literal["persona-v1-production", "hanser-persona-v2-candidate"] = "persona-v1-production"
+    active_package: Literal[
+        "persona-v1-production",
+        "persona-v2-production",
+        "hanser-persona-v2-candidate",
+    ] = "persona-v2-production"
     candidate_package: Literal["hanser-persona-v2-candidate"] = "hanser-persona-v2-candidate"
     candidate_style_generation: str = "persona-v2-style-profanity15-1c71903569618d5d"
     detector_version: str = "persona_lexical_v3"
@@ -241,7 +245,7 @@ def _retrieval(raw: dict[str, Any]) -> HybridRetrievalConfig:
 def _style(raw: dict[str, Any], root: Path) -> StyleConfig:
     return StyleConfig(
         enabled=bool(raw.get("enabled", True)),
-        reviewed_only=bool(raw.get("reviewed_only", False)),
+        reviewed_only=bool(raw.get("reviewed_only", True)),
         output_dir=_resolve(
             root,
             str(raw.get("output_dir", "data/persona")),
@@ -327,9 +331,13 @@ def _performance(raw: dict[str, Any]) -> PerformanceConfig:
 
 
 def _persona(raw: dict[str, Any]) -> PersonaRuntimeConfig:
-    active = str(raw.get("active_package", "persona-v1-production"))
+    active = str(raw.get("active_package", "persona-v2-production"))
     candidate = str(raw.get("candidate_package", "hanser-persona-v2-candidate"))
-    allowed_active = {"persona-v1-production", "hanser-persona-v2-candidate"}
+    allowed_active = {
+        "persona-v1-production",
+        "persona-v2-production",
+        "hanser-persona-v2-candidate",
+    }
     if active not in allowed_active:
         raise ValueError(f"未知 persona.active_package: {active}")
     if candidate != "hanser-persona-v2-candidate":

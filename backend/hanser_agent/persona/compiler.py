@@ -5,7 +5,7 @@ import html
 import json
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 
@@ -44,8 +44,14 @@ class PersonaCompiler:
         "unresolved_threads",
     )
 
-    def __init__(self, prompt_dir: str | Path):
+    def __init__(
+        self,
+        prompt_dir: str | Path,
+        *,
+        settings_lifecycle: Literal["preview", "production"] = "preview",
+    ):
         self.prompt_dir = Path(prompt_dir)
+        self.settings_lifecycle = settings_lifecycle
         self.manifest_path = self.prompt_dir / "manifest.yaml"
         self.is_v2 = self.manifest_path.exists()
         self.manifest: PersonaPackageManifest | None = None
@@ -128,6 +134,7 @@ class PersonaCompiler:
         self.effective_settings = load_effective_settings(
             self.prompt_dir / "expression_policy.yaml",
             self.prompt_dir / "product_overrides.yaml",
+            lifecycle=self.settings_lifecycle,
         )
         self.package_id = self.manifest.package_id
         self.package_schema_version = self.manifest.schema_version

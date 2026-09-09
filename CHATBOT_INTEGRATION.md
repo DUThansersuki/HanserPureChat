@@ -29,6 +29,8 @@ Hanser 后端仍是会话、Persona、Wiki 检索、长期记忆和幂等状态�
 
 当前文字聊天入口连接统一 `ChatAgentService`，不从浏览器直接选择 Planner/Responder，也不在前端维护第二套 Persona 或历史。`selectedChatModel` 仅保留 AI SDK 请求兼容值 `hanser/agent`；实际模型、Persona package 和 Style generation 均由后端配置与请求冻结逻辑决定。若回复已持久化但 PostTurn 失败，正文仍正常显示，UI 会明确提示记忆更新待重试，不能把该轮误报为完整成功。
 
+当前 Text 生产组合已切换为 `persona-v2-production`，其不可变包 ID 为 `hanser-persona-v2-production-20260910`，Style generation 为 `persona-v2-style-profanity15-1c71903569618d5d`，并强制 `style.reviewed_only=true`。回滚时将 Persona selector 与 Style active generation 一并恢复到 `persona-v1-production + legacy-v1`，不回滚聊天记录、Memory 或用户之后保存的明确偏好。
+
 ## 本地版取舍
 
 不需要 `AI_GATEWAY_API_KEY`、`POSTGRES_URL`、`REDIS_URL`、`BLOB_READ_WRITE_TOKEN` 或 Auth.js 登录。当前仅开放文本对话和历史读取；附件、公开分享、投票、编辑旧消息和删除会话没有接入，因为现有 Hanser 后端尚无与这些操作一致的语义。其中删除操作还会影响记忆来源追溯，不能只删 UI 记录。

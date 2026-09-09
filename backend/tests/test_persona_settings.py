@@ -100,6 +100,20 @@ class PersonaSettingsTests(unittest.TestCase):
         self.assertEqual(settings.cutesy_bias, 0.10)
         self.assertEqual(settings.trace["cutesy_bias"].source, "product.reduce_cutesy.v1")
 
+    def test_released_overrides_are_active_in_production(self) -> None:
+        settings = load_effective_settings(
+            CANDIDATE_DIR / "expression_policy.yaml",
+            CANDIDATE_DIR / "product_overrides.yaml",
+            lifecycle="production",
+        )
+
+        self.assertEqual(settings.cutesy_bias, 0.10)
+        self.assertEqual(settings.profanity_target_rate, 0.15)
+        self.assertEqual(
+            settings.trace["profanity_target_rate"].source,
+            "product.profanity_target_15.v1",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

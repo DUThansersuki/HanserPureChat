@@ -127,7 +127,7 @@ def load_effective_settings(
     }
 
     active_statuses = (
-        {"candidate", "validated"}
+        {"candidate", "validated", "released"}
         if lifecycle == "preview"
         else {"released"}
     )
