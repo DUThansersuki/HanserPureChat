@@ -46,7 +46,7 @@ GPT-SoVITS 使用它自带的 Python 3.9/CUDA 11.8 运行包作为 loopback side
 - runtime profile：`voice_runtime/config/voice_profile.gpt-sovits-v2pro.candidate.yml`
 - 启动脚本：`scripts/start_gpt_sovits_v2pro_sidecar.ps1`
 
-sidecar 配置先使用完整的 v2Pro 底模。`GPT_weights_v2Pro/`、`SoVITS_weights_v2Pro/` 中的 `GL2` 自训练权重没有绑定听感评估记录，不能由 `weight.json` 的单边 GPT 选择自动推断为可用组合。候选 profile 保持 `enabled: false`，以下命令仅留作素材和权重批准后的启动入口，本阶段不要执行：
+sidecar 配置先使用完整的 v2Pro 底模。候选 profile 保持 `enabled: false`，以下命令仅留作素材和权重批准后的启动入口，本阶段不要执行：
 
 ```powershell
 ./scripts/start_gpt_sovits_v2pro_sidecar.ps1
