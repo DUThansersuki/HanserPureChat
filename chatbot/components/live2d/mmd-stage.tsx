@@ -78,9 +78,15 @@ export function MmdStage() {
       for (const material of materials) {
         const toonMaterial = material as import("three").Material & {
           emissive?: import("three").Color;
+          gradientMap?: import("three").Texture;
         };
         if (toonMaterial.emissive && "map" in material && material.map) {
           toonMaterial.emissive.set(0x00_00_00);
+        }
+        if (toonMaterial.gradientMap) {
+          toonMaterial.gradientMap.magFilter = THREE.LinearFilter;
+          toonMaterial.gradientMap.minFilter = THREE.LinearFilter;
+          toonMaterial.gradientMap.needsUpdate = true;
         }
       }
 
@@ -100,9 +106,12 @@ export function MmdStage() {
       const keyLight = new THREE.DirectionalLight(0xff_ea_d6, 1.18);
       keyLight.position.set(5, 10, 12);
       scene.add(keyLight);
-      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.22);
+      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.25);
       fillLight.position.set(-7, 5, 8);
       scene.add(fillLight);
+      const rimLight = new THREE.DirectionalLight(0xff_d2_b8, 0.14);
+      rimLight.position.set(-5, 9, -8);
+      scene.add(rimLight);
       scene.add(mesh);
 
       const bounds = new THREE.Box3().setFromObject(mesh);
