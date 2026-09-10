@@ -77,12 +77,10 @@ export function MmdStage() {
         : [mesh.material];
       for (const material of materials) {
         const toonMaterial = material as import("three").Material & {
-          color?: import("three").Color;
-          emissiveIntensity?: number;
+          emissive?: import("three").Color;
         };
-        if (toonMaterial.color && "map" in material && material.map) {
-          toonMaterial.color.setScalar(1);
-          toonMaterial.emissiveIntensity = 0.35;
+        if (toonMaterial.emissive && "map" in material && material.map) {
+          toonMaterial.emissive.set(0x00_00_00);
         }
       }
 
@@ -98,11 +96,11 @@ export function MmdStage() {
       renderer.setClearColor(0x00_00_00, 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
-      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 0.52));
-      const keyLight = new THREE.DirectionalLight(0xff_ea_d6, 1.25);
+      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 0.1));
+      const keyLight = new THREE.DirectionalLight(0xff_ea_d6, 1.18);
       keyLight.position.set(5, 10, 12);
       scene.add(keyLight);
-      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.16);
+      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.22);
       fillLight.position.set(-7, 5, 8);
       scene.add(fillLight);
       scene.add(mesh);
