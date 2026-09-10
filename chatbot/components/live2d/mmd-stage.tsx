@@ -78,9 +78,11 @@ export function MmdStage() {
       for (const material of materials) {
         const toonMaterial = material as import("three").Material & {
           color?: import("three").Color;
+          emissiveIntensity?: number;
         };
         if (toonMaterial.color && "map" in material && material.map) {
           toonMaterial.color.setScalar(1);
+          toonMaterial.emissiveIntensity = 0.35;
         }
       }
 
@@ -96,11 +98,11 @@ export function MmdStage() {
       renderer.setClearColor(0x00_00_00, 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
-      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 1.35));
-      const keyLight = new THREE.DirectionalLight(0xff_f0_df, 1.05);
+      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 0.52));
+      const keyLight = new THREE.DirectionalLight(0xff_ea_d6, 1.25);
       keyLight.position.set(5, 10, 12);
       scene.add(keyLight);
-      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.32);
+      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.16);
       fillLight.position.set(-7, 5, 8);
       scene.add(fillLight);
       scene.add(mesh);
@@ -211,7 +213,10 @@ export function MmdStage() {
         </span>
       </div>
       <div className="relative min-h-0 flex-1 overflow-hidden bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(-45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(45deg,transparent_75%,hsl(var(--muted))_75%),linear-gradient(-45deg,transparent_75%,hsl(var(--muted))_75%)] bg-[length:24px_24px] bg-[position:0_0,0_12px,12px_-12px,-12px_0]">
-        <canvas className="h-full w-full" ref={canvasRef} />
+        <canvas
+          className="h-full w-full [filter:saturate(1.32)_contrast(1.08)]"
+          ref={canvasRef}
+        />
       </div>
       <div className="grid grid-cols-2 gap-2 border-t border-border/50 p-3">
         {MMD_MOTION_NAMES.map((motion) => (
