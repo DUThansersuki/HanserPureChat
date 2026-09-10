@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 const basePath = process.env.IS_DEMO === "1" ? "/demo" : "";
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1"],
   ...(basePath
     ? {
         assetPrefix: "/demo-assets",
