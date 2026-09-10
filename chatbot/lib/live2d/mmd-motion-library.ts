@@ -96,6 +96,7 @@ export function sampleMmdPose(
       0.05 * wave * envelope,
       0.04 + (-2.25 - 0.04) * envelope,
     ];
+    bones.右手捩 = [1.17 * envelope, 0, 0];
     bones.右手首 = [0, 0.12 * wave * envelope, 0.32 * wave * envelope];
     morphs.にこり = 0.55 * envelope;
     morphs.にやり = 0.3 * envelope;
@@ -106,9 +107,9 @@ export function sampleMmdPose(
     morphs.にこり = 0.42 * envelope;
   } else {
     const settle = 0.9 + 0.1 * Math.sin(progress * Math.PI);
-    bones.上半身 = [0.01 * breath, -0.035 * envelope, -0.055 * envelope];
-    bones.上半身2 = [0, -0.045 * envelope, -0.055 * envelope];
-    bones.頭 = [-0.025 * envelope, 0.12 * envelope, 0.2 * envelope * settle];
+    bones.上半身 = [0.01 * breath, -0.015 * envelope, -0.012 * envelope];
+    bones.上半身2 = [0, -0.018 * envelope, -0.015 * envelope];
+    bones.頭 = [-0.025 * envelope, 0.11 * envelope, 0.27 * envelope * settle];
     morphs.困る = 0.28 * envelope;
     morphs.にこり = 0.16 * envelope;
   }

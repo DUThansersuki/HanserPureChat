@@ -72,6 +72,18 @@ export function MmdStage() {
         return;
       }
 
+      const materials = Array.isArray(mesh.material)
+        ? mesh.material
+        : [mesh.material];
+      for (const material of materials) {
+        const toonMaterial = material as import("three").Material & {
+          color?: import("three").Color;
+        };
+        if (toonMaterial.color && "map" in material && material.map) {
+          toonMaterial.color.setScalar(1);
+        }
+      }
+
       const scene = new THREE.Scene();
       const camera = new THREE.OrthographicCamera(-5, 5, 8, -8, 0.1, 200);
       renderer = new THREE.WebGLRenderer({
@@ -84,10 +96,13 @@ export function MmdStage() {
       renderer.setClearColor(0x00_00_00, 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
-      scene.add(new THREE.AmbientLight(0xff_ff_ff, 0.85));
-      const keyLight = new THREE.DirectionalLight(0xff_ff_ff, 0.75);
-      keyLight.position.set(4, 10, 12);
+      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 1.35));
+      const keyLight = new THREE.DirectionalLight(0xff_f0_df, 1.05);
+      keyLight.position.set(5, 10, 12);
       scene.add(keyLight);
+      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.32);
+      fillLight.position.set(-7, 5, 8);
+      scene.add(fillLight);
       scene.add(mesh);
 
       const bounds = new THREE.Box3().setFromObject(mesh);
