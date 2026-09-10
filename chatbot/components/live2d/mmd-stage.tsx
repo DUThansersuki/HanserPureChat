@@ -212,7 +212,7 @@ export function MmdStage() {
       </div>
       <div className="relative min-h-0 flex-1 overflow-hidden bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(-45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(45deg,transparent_75%,hsl(var(--muted))_75%),linear-gradient(-45deg,transparent_75%,hsl(var(--muted))_75%)] bg-[length:24px_24px] bg-[position:0_0,0_12px,12px_-12px,-12px_0]">
         <canvas
-          className="h-full w-full [filter:saturate(1.32)_contrast(1.08)]"
+          className="h-full w-full [filter:saturate(1.32)_contrast(1.08)_brightness(1.35)]"
           ref={canvasRef}
         />
       </div>
