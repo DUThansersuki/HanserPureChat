@@ -39,9 +39,11 @@ def generation_identity(
         "engine_text": engine_text.engine_text,
         "adapter_revision": engine_text.adapter_revision,
         "control_text": voice_plan.control_text,
-        "cfg_value": profile.inference.cfg_value,
-        "inference_timesteps": profile.inference.inference_timesteps,
-        "normalize": False,
+        "backend_parameters": (
+            profile.gpt_sovits.generation_parameters()
+            if profile.gpt_sovits is not None
+            else profile.inference.model_dump(mode="json")
+        ),
         "postprocess_revision": postprocess_revision,
         "variant_salt": variant_salt,
     }

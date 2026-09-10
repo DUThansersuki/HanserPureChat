@@ -5,7 +5,7 @@
 ## 当前结构
 
 - `backend/`：一次回复内生成、校验并原子落库 `ReplySnapshot`，向独立运行时代理任务、事件、产物与播放回执。
-- `voice_runtime/`：单 worker 有界队列，执行 speech 映射、分段、资产选择、VoxCPM2 公共 API 适配、48 kHz 单声道 PCM16 归一化、时间线与产物封装。
+- `voice_runtime/`：单 worker 有界队列，执行 speech 映射、分段、资产选择、VoxCPM2 或 GPT-SoVITS v2Pro 适配、48 kHz 单声道 PCM16 归一化、时间线与产物封装。
 - `chatbot/`：同源代理、SSE 事件消费、Web Audio 播放时钟、暂停/恢复/中断和 Live2D 时间线适配。
 - `renderer/`：离线渲染骨架；没有角色源文件时只能生成 presentation plan。
 - `contracts/`：从后端与运行时 Pydantic 模型导出的 JSON Schema。
@@ -34,6 +34,38 @@
 - 权重目录：`voice_runtime/models/VoxCPM2`（被 Git 忽略）
 
 机器只需搭链路时，不要设置 `HANSER_VOICE_LOAD_MODEL=true`。
+
+### GPT-SoVITS v2Pro 候选
+
+GPT-SoVITS 使用它自带的 Python 3.9/CUDA 11.8 运行包作为 loopback sidecar，不能导入本项目 Python 3.12 进程。候选配置固定为非流式单段请求；项目侧继续负责已审核资产选择、确定性 seed、任务取消、缓存、基础 QA 和 32 kHz 到 48 kHz 的一次高质量重采样。
+
+本机候选文件：
+
+- 分发目录：`K:/GPT-SoVITS-v2pro-20250604`
+- sidecar 配置：`voice_runtime/config/gpt_sovits_v2pro.sidecar.candidate.yml`
+- runtime profile：`voice_runtime/config/voice_profile.gpt-sovits-v2pro.candidate.yml`
+- 启动脚本：`scripts/start_gpt_sovits_v2pro_sidecar.ps1`
+
+sidecar 配置先使用完整的 v2Pro 底模。`GPT_weights_v2Pro/`、`SoVITS_weights_v2Pro/` 中的 `GL2` 自训练权重没有绑定听感评估记录，不能由 `weight.json` 的单边 GPT 选择自动推断为可用组合。候选 profile 保持 `enabled: false`，以下命令仅留作素材和权重批准后的启动入口，本阶段不要执行：
+
+```powershell
+./scripts/start_gpt_sovits_v2pro_sidecar.ps1
+$env:HANSER_VOICE_PROFILE = "voice_runtime/config/voice_profile.gpt-sovits-v2pro.candidate.yml"
+$env:HANSER_VOICE_LOAD_MODEL = "true"
+./scripts/start_voice_runtime.ps1
+```
+
+GPT-SoVITS 的 `/set_gpt_weights`、`/set_sovits_weights` 和 `/control` 不由 Hanser runtime 暴露或调用；权重组合只在 sidecar 启动配置中冻结，避免运行中全局切换影响在途任务。endpoint 只允许 loopback HTTP origin，不接受远程地址或重定向。
+
+上游静态审计（2026-09-11）：
+
+- 官方最后一个正式 release/tag 仍是 `20250606v2pro@d7c2210`；不能把当前 `main` 当作新的已发布模型版本。
+- 官方 `main@48b1a016` 已包含 2025-12 的采样/吞句修复、2026-04 的音频后处理与中文多音字/长句开销修复。这些变更适合在独立副本中固定 revision 后做下一轮候选，不覆盖 `K:` 下无 Git 元数据的测试包。
+- `K:` 测试包的 `/tts` 已包含新版流式字段，和本适配器所用的非流式请求兼容；但核心 `TTS.py` 仍缺少 2026-04 的若干修复，因此它只作为接口联调基线，不作为发布来源。
+- 2026-04 的 CUDA Graph 加速目前接在官方 WebUI 普通推理路径，并未进入 `api_v2.py` 的 `/tts` 契约；6 GB 显存机器上不在 sidecar 适配器里私自移植或默认开启。
+- 当前主线把默认 `top_k` 从本地包的 `5` 调整为 `15`。候选配置显式冻结 `5` 以保证本地基线可复现；升级主线后在同一冻结参考集上把 `5/15` 作为听感 A/B，而不是无评估地改变默认值。
+
+建议的推进顺序是：先用现有 `K:` 包完成一次小规模接口联调；之后另建固定到 `48b1a016`（或届时选定 commit）的干净上游副本和隔离环境，验证显存峰值、截断/吞句、中文多音字与长句，再决定是否晋级。开放但未合并的 PR 不进入候选基线。
 
 ## 启动和检查
 

@@ -16,7 +16,7 @@ from .performance import (
 )
 from .profiles import load_rig_profile, load_voice_assets, load_voice_profile
 from .settings import RuntimeSettings
-from .tts.voxcpm2 import VoxCPM2Backend
+from .tts import load_backend
 
 
 def create_app(
@@ -29,7 +29,7 @@ def create_app(
     rig = load_rig_profile(active.rig_profile)
     assets = load_voice_assets(active.voice_profile, profile) if profile.enabled else {}
     backend = (
-        VoxCPM2Backend.load(profile)
+        load_backend(profile)
         if profile.enabled and active.load_voice_model
         else None
     )
