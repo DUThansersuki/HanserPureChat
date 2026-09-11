@@ -5,9 +5,14 @@ $backendRoot = Join-Path $projectRoot "backend"
 $frontendRoot = Join-Path $projectRoot "chatbot"
 $runtimeRoot = Join-Path $projectRoot ".runtime"
 $voicePython = Join-Path $projectRoot "voice_runtime\.venv\Scripts\python.exe"
+$gptRoot = Join-Path $projectRoot "voice_runtime\models\GPT-SoVITS-v2Pro"
+$gptPython = Join-Path $gptRoot "runtime\python.exe"
+$gptApi = Join-Path $gptRoot "api_v2.py"
+$gptConfig = Join-Path $projectRoot "voice_runtime\config\gpt_sovits_v2pro.sidecar.candidate.yml"
 $backendUrl = "http://127.0.0.1:8765"
 $frontendUrl = "http://127.0.0.1:3000"
 $voiceUrl = "http://127.0.0.1:8770"
+$gptUrl = "http://127.0.0.1:9880"
 
 New-Item -ItemType Directory -Path $runtimeRoot -Force | Out-Null
 
@@ -87,7 +92,20 @@ if (-not (Test-Path -LiteralPath (Join-Path $frontendRoot "node_modules"))) {
 $backendProcess = $null
 $frontendProcess = $null
 $voiceProcess = $null
+$gptProcess = $null
 try {
+    if ((Test-Path -LiteralPath $gptPython) -and -not (Test-Endpoint "$gptUrl/docs")) {
+        $gptProcess = Start-Process `
+            -FilePath $gptPython `
+            -ArgumentList $gptApi, "-a", "127.0.0.1", "-p", "9880", "-c", $gptConfig `
+            -WorkingDirectory $gptRoot `
+            -RedirectStandardOutput (Join-Path $runtimeRoot "gpt-sovits.out.log") `
+            -RedirectStandardError (Join-Path $runtimeRoot "gpt-sovits.err.log") `
+            -WindowStyle Hidden `
+            -PassThru
+        Wait-Endpoint "$gptUrl/docs" $gptProcess 180
+    }
+
     if ((Test-Path -LiteralPath $voicePython) -and -not (Test-Endpoint "$voiceUrl/health")) {
         $voiceProcess = Start-Process `
             -FilePath $voicePython `
@@ -141,4 +159,5 @@ finally {
     Stop-ProcessTree $frontendProcess
     Stop-ProcessTree $backendProcess
     Stop-ProcessTree $voiceProcess
+    Stop-ProcessTree $gptProcess
 }

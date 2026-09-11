@@ -8,6 +8,7 @@ import {
 } from "./client";
 import type {
   PlaybackPosition,
+  PlaybackSample,
   PlaybackState,
   SegmentPackage,
   VoiceJob,
@@ -31,6 +32,7 @@ export class PlaybackController {
   private resumeWaiter: (() => void) | undefined;
   private sourceWaiter: ((result: "ended" | "paused") => void) | undefined;
   private currentPosition: PlaybackPosition | undefined;
+  private currentSegment: SegmentPackage | undefined;
   private audioOffsetSamples = 0;
   private audioStartedAt = 0;
   private playbackId = crypto.randomUUID();
@@ -59,6 +61,14 @@ export class PlaybackController {
       };
     }
     return this.currentPosition ? { ...this.currentPosition } : undefined;
+  }
+
+  samplePerformance(): PlaybackSample | undefined {
+    const position = this.sample();
+    if (!(position && this.currentSegment)) {
+      return;
+    }
+    return { position, segment: this.currentSegment };
   }
 
   async start(replyId: string) {
@@ -174,6 +184,7 @@ export class PlaybackController {
     this.terminal = true;
     this.jobId = undefined;
     this.currentPosition = undefined;
+    this.currentSegment = undefined;
     if (previousJob) {
       this.setState("INTERRUPTED");
       await cancelVoiceJob(previousJob).catch(() => undefined);
@@ -205,6 +216,8 @@ export class PlaybackController {
       this.wake = undefined;
     } else if (event.type === "turn.failed") {
       this.terminal = true;
+      this.currentPosition = undefined;
+      this.currentSegment = undefined;
       this.setState("FAILED");
       this.wake?.();
       this.wake = undefined;
@@ -222,6 +235,8 @@ export class PlaybackController {
     } else if (status === "failed") {
       this.terminal = true;
       this.queue = [];
+      this.currentPosition = undefined;
+      this.currentSegment = undefined;
       this.setState("FAILED");
     } else if (status === "cancelled") {
       this.terminal = true;
@@ -235,6 +250,8 @@ export class PlaybackController {
       if (this.queue.length === 0) {
         if (this.terminal) {
           if (this.state !== "FAILED" && this.state !== "INTERRUPTED") {
+            this.currentPosition = undefined;
+            this.currentSegment = undefined;
             this.setState("FINISHED");
           }
           return;
@@ -291,6 +308,7 @@ export class PlaybackController {
     runEpoch: number
   ) {
     this.audioOffsetSamples = 0;
+    this.currentSegment = segment;
     while (
       runEpoch === this.epoch &&
       this.audioOffsetSamples < segment.audio.sample_count
@@ -343,6 +361,7 @@ export class PlaybackController {
   }
 
   private async waitGap(segment: SegmentPackage, runEpoch: number) {
+    this.currentSegment = segment;
     const total = segment.timeline.pause_after_samples;
     let consumed = 0;
     this.currentPosition = {

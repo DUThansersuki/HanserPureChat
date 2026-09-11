@@ -1,11 +1,11 @@
 param(
-    [string]$DistributionRoot = "K:\GPT-SoVITS-v2pro-20250604",
     [string]$ConfigPath = "",
     [int]$Port = 9880
 )
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
+$DistributionRoot = Join-Path $ProjectRoot "voice_runtime\models\GPT-SoVITS-v2Pro"
 $ResolvedDistribution = (Resolve-Path -LiteralPath $DistributionRoot).Path
 $Python = Join-Path $ResolvedDistribution "runtime\python.exe"
 $Api = Join-Path $ResolvedDistribution "api_v2.py"

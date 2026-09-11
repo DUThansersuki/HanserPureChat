@@ -1,15 +1,15 @@
 schema_version: "1.1"
-profile_id: hanser-voxcpm2-neutral-candidate
-profile_revision: hanser-voice-candidate-1
-status: candidate
-enabled: false
-backend: voxcpm2
+profile_id: hanser-gpt-sovits-v2pro-integrated
+profile_revision: hanser-gpt-sovits-v2pro-integrated-1
+status: validated
+enabled: true
+backend: gpt_sovits_v2pro
 speaker_id: hanser
 model:
-  id: openbmb/VoxCPM2
-  revision: 32279effe8c19989596f05d353d1447f51d9e915
-  package_version: git-f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69
-  local_path: models/VoxCPM2
+  id: RVC-Boss/GPT-SoVITS-v2Pro
+  revision: local-v2pro-base-observed-20251201
+  package_version: local-bundle-20250604
+  local_path: models/GPT-SoVITS-v2Pro
 clone:
   mode: ref_continuation
   identity_reference_id: hanser-identity-reference-v1
@@ -30,6 +30,20 @@ inference:
   normalize: false
   retry_badcase: false
   load_denoiser: false
+gpt_sovits:
+  endpoint: http://127.0.0.1:9880
+  request_timeout_seconds: 90
+  text_language: zh
+  prompt_language: zh
+  text_split_method: cut5
+  top_k: 5
+  top_p: 1.0
+  temperature: 1.0
+  batch_size: 1
+  split_bucket: true
+  speed_factor: 1.0
+  parallel_infer: false
+  repetition_penalty: 1.35
 output:
   package_sample_rate: 48000
   channels: 1

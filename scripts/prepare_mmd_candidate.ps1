@@ -1,11 +1,17 @@
 param(
-    [string]$SourceRoot = "H:\hanser_ver2.0",
-    [string]$DestinationRoot = "H:\HanserAgent\.runtime\mmd\hanser_v2.0_cloth2_test"
+    [Parameter(Mandatory = $true)]
+    [string]$SourceRoot,
+    [string]$DestinationRoot = ""
 )
 
 $ErrorActionPreference = "Stop"
+$project = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $source = (Resolve-Path -LiteralPath $SourceRoot).Path
-$runtime = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\.runtime")).Path
+$runtime = Join-Path $project ".runtime"
+New-Item -ItemType Directory -Force -Path $runtime | Out-Null
+if (-not $DestinationRoot) {
+    $DestinationRoot = Join-Path $runtime "mmd\hanser_v2.0_cloth2_test"
+}
 $destination = [System.IO.Path]::GetFullPath($DestinationRoot)
 
 if (-not $destination.StartsWith($runtime, [System.StringComparison]::OrdinalIgnoreCase)) {

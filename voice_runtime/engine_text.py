@@ -4,9 +4,9 @@ from .contracts import EngineMapEntry, EngineTextPlan, VoicePlan
 
 
 class EngineTextAdapter:
-    """Compile the exact public VoxCPM ``text`` argument and its projection."""
+    """Compile the exact GPT-SoVITS ``text`` argument and its projection."""
 
-    revision = "voxcpm2_text_1"
+    revision = "gpt_sovits_text_1"
 
     def compile(self, speech_text: str, voice_plan: VoicePlan) -> EngineTextPlan:
         if voice_plan.style_prompt is not None and voice_plan.control_text is not None:

@@ -49,24 +49,7 @@ def allowed() -> AllowedPerformance:
 
 
 def profile() -> VoiceProfile:
-    return VoiceProfile.model_validate(
-        {
-            "profile_id": "test",
-            "profile_revision": "test-1",
-            "status": "validated",
-            "enabled": True,
-            "model": {
-                "id": "test/model",
-                "revision": "model-1",
-                "package_version": "package-1",
-            },
-            "clone": {
-                "mode": "ref_continuation",
-                "identity_reference_id": "identity",
-                "default_style_prompt_id": "neutral",
-            },
-        }
-    )
+    return gpt_sovits_profile()
 
 
 def gpt_sovits_profile() -> VoiceProfile:
@@ -234,7 +217,7 @@ def test_candidate_runtime_exposes_control_plane_without_loading_model() -> None
             assert runtime.status_code == 200
             assert runtime.json()["control_ready"] is True
             assert runtime.json()["voice_ready"] is False
-            assert runtime.json()["visual_ready"] is False
+            assert runtime.json()["visual_ready"] is True
             assert runtime.json()["model_loaded"] is False
 
             unavailable = client.post(

@@ -1,8 +1,8 @@
 # Hanser voice assets
 
-No voice asset is bundled or approved yet. Add only lawfully usable source
-recordings, keep identity reference and style prompts distinct, and record the
-exact transcript and review scope in `manifest.jsonl`.
+The local integrated profile uses two user-reviewed recordings copied from
+`H:\voice_process\without_bgm_clarified`. Runtime copies live under this
+project, while `manifest.jsonl` preserves their frozen revisions and transcripts.
 
 Lifecycle directories:
 

@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import type { HanserMetaData } from "@/lib/types";
-import type { PlaybackState } from "@/lib/voice/contracts";
+import type { PlaybackSample, PlaybackState } from "@/lib/voice/contracts";
 import { PlaybackController } from "@/lib/voice/playback-controller";
 
 type VoiceContextValue = {
@@ -22,6 +22,7 @@ type VoiceContextValue = {
   resume: () => Promise<void>;
   interrupt: () => Promise<void>;
   acceptReply: (metadata: HanserMetaData) => void;
+  samplePerformance: () => PlaybackSample | undefined;
 };
 
 const VoiceContext = createContext<VoiceContextValue | null>(null);
@@ -69,6 +70,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
       interrupt: () => controller.current?.interrupt() ?? Promise.resolve(),
       pause: () => controller.current?.pause(),
       resume: () => controller.current?.resume() ?? Promise.resolve(),
+      samplePerformance: () => controller.current?.samplePerformance(),
       setEnabled,
       state,
     }),

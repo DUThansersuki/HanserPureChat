@@ -9,10 +9,13 @@ import { ParameterOwner, type RigAdapter } from "./rig-adapter";
 import type { Live2DFrame } from "./timeline-evaluator";
 
 const EXPRESSION_MORPHS: Record<string, string> = {
+  attentive: "まじめ",
   curious: "困る",
+  gentle: "にこり",
   happy: "にこり",
   neutral: "",
   sad: "困る",
+  soft_smile: "にこり",
   surprised: "びっくり",
 };
 

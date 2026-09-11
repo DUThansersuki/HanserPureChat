@@ -2,25 +2,25 @@ schema_version: "1.1"
 release_id: hanser-performance-candidate-1
 status: candidate
 enabled:
-  structured_performance: false
-  speech_runtime: false
-  dynamic_live2d: false
+  structured_performance: true
+  speech_runtime: true
+  dynamic_live2d: true
   offline_export: false
 revisions:
   responder_contract: performance_schema_1_1
   policy_resolver: performance_policy_1
   speech_mapper: speech_mapper_1
-  engine_adapter: voxcpm2_text_1
-  voice_profile: hanser-voice-candidate-1
-  voice_model: 32279effe8c19989596f05d353d1447f51d9e915
-  voxcpm_package: f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69
+  engine_adapter: gpt_sovits_text_1
+  voice_profile: hanser-gpt-sovits-v2pro-integrated-1
+  voice_model: local-v2pro-base-observed-20251201
+  voice_backend: gpt_sovits_v2pro_http_1
   voice_selector: voice_asset_selector_1
   rig_profile: hanser-rig-candidate-1
   timeline_compiler: timeline_1
   client_protocol: playback_controller_1
 gates:
   text_regression: pending
-  voice_assets_reviewed: false
+  voice_assets_reviewed: true
   voice_golden_set: not_measured
   rig_calibrated: false
   multimodal_acceptance: not_measured

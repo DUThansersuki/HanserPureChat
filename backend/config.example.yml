@@ -2,11 +2,11 @@ server:
   host: 127.0.0.1
   port: 8765
 
-# Multimodal extensions remain disabled until their individual release gates pass.
+# Integrated local GPT-SoVITS + MMD profile.
 performance:
-  structured_performance_enabled: false
-  speech_runtime_enabled: false
-  dynamic_live2d_enabled: false
+  structured_performance_enabled: true
+  speech_runtime_enabled: true
+  dynamic_live2d_enabled: true
   offline_export_enabled: false
   render_profile_revision: "hanser-render-candidate-1"
   voice_runtime_base_url: "http://127.0.0.1:8770"

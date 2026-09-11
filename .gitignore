@@ -67,6 +67,10 @@ models/
 *.onnx
 *.gguf
 
+# Reviewed Hanser reference recordings are release inputs, not generated audio.
+!assets/voices/hanser/reference/identity.wav
+!assets/voices/hanser/prompts/neutral.wav
+
 # Editor and operating-system files
 .DS_Store
 Thumbs.db
@@ -74,4 +78,3 @@ Desktop.ini
 .idea/
 *.user
 *.suo
-

@@ -11,4 +11,4 @@
 
 ## 语音素材来源
 
-- `H:\voice_process\without_bgm_clarified` 下的语音切片及同名对照文本均由用户人工核查，属于高可用素材；后续语音训练、参考音频选择和冻结评估可将该目录作为已核查来源，同时继续保留具体文件的来源追溯。
+- `H:\voice_process\without_bgm_clarified` 下的语音切片及同名对照文本均由用户人工核查，属于高可用来源；运行时副本必须放在项目内 `assets/voices/hanser`，并在 manifest 保留来源追溯。

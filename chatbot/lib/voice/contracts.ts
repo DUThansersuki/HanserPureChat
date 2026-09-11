@@ -33,6 +33,16 @@ export type SegmentPackage = {
     sample_rate: number;
     pause_after_samples: number;
     mouth_precision: "amplitude" | "rhubarb" | "closed";
+    mouth: Array<{
+      start_sample: number;
+      end_sample: number;
+      value: number;
+    }>;
+    expression: {
+      preset?: string;
+      weight?: number;
+      motion?: string;
+    };
   };
 };
 
@@ -75,4 +85,9 @@ export type PlaybackPosition = {
   phase: "audio" | "gap";
   sampleOffset: number;
   timelineRevision: string;
+};
+
+export type PlaybackSample = {
+  position: PlaybackPosition;
+  segment: SegmentPackage;
 };

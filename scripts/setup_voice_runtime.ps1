@@ -1,8 +1,3 @@
-param(
-    [switch]$InstallVoxCPM,
-    [switch]$DownloadModel
-)
-
 $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
 $VoiceRoot = Join-Path $ProjectRoot "voice_runtime"
@@ -17,11 +12,3 @@ if (-not (Test-Path -LiteralPath $VoicePython)) {
 }
 & $VoicePython -m pip install --upgrade pip
 & $VoicePython -m pip install -r (Join-Path $VoiceRoot "requirements-base.txt")
-
-if ($InstallVoxCPM) {
-    & $VoicePython -m pip install -r (Join-Path $VoiceRoot "requirements-torch-cu130.txt")
-    & $VoicePython -m pip install -r (Join-Path $VoiceRoot "requirements-voxcpm2.txt")
-}
-if ($DownloadModel) {
-    & $VoicePython (Join-Path $VoiceRoot "download_model.py")
-}

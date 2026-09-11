@@ -8,21 +8,30 @@ import {
   useState,
 } from "react";
 import { Button } from "@/components/ui/button";
+import { useVoice } from "@/components/voice/voice-provider";
 import {
   MMD_MOTION_LABELS,
   MMD_MOTION_NAMES,
   type MmdMotionName,
 } from "@/lib/live2d/mmd-motion-library";
 import type { MmdRigAdapter } from "@/lib/live2d/mmd-rig-adapter";
+import { evaluateAudioFrame } from "@/lib/live2d/timeline-evaluator";
 
 type StageState = "error" | "loading" | "ready";
 
 export function MmdStage() {
+  const { samplePerformance, state: voiceState } = useVoice();
+  const samplePerformanceRef = useRef(samplePerformance);
+  const voiceStateRef = useRef(voiceState);
+  const lastVoiceEpochRef = useRef(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const adapterRef = useRef<MmdRigAdapter | null>(null);
   const [activeMotion, setActiveMotion] = useState<MmdMotionName>("idle");
   const [detail, setDetail] = useState("正在加载模型与贴图…");
   const [stageState, setStageState] = useState<StageState>("loading");
+
+  samplePerformanceRef.current = samplePerformance;
+  voiceStateRef.current = voiceState;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -151,6 +160,26 @@ export function MmdStage() {
       function draw(now: number) {
         if (disposed || !(renderer && mesh)) {
           return;
+        }
+        const sample = samplePerformanceRef.current();
+        if (sample) {
+          lastVoiceEpochRef.current = sample.position.epoch;
+          adapter.apply(
+            evaluateAudioFrame(sample.segment, sample.position),
+            sample.position.epoch
+          );
+        } else if (
+          ["FINISHED", "INTERRUPTED", "FAILED"].includes(voiceStateRef.current)
+        ) {
+          adapter.apply(
+            {
+              expressionPreset: "neutral",
+              expressionWeight: 0,
+              motion: "idle",
+              mouthOpen: 0,
+            },
+            lastVoiceEpochRef.current
+          );
         }
         adapter.update(now);
         renderer.render(scene, camera);

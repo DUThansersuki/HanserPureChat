@@ -108,7 +108,7 @@ class VoiceProfile(BaseModel):
     profile_revision: str
     status: Literal["candidate", "validated", "released"] = "candidate"
     enabled: bool = False
-    backend: Literal["voxcpm2", "gpt_sovits_v2pro"] = "voxcpm2"
+    backend: Literal["gpt_sovits_v2pro"] = "gpt_sovits_v2pro"
     speaker_id: str = "hanser"
     model: ModelRevision
     clone: CloneConfig
@@ -125,10 +125,8 @@ class VoiceProfile(BaseModel):
             raise ValueError("candidate voice profile cannot be enabled")
         if self.enabled and (not self.model.revision or not self.model.package_version):
             raise ValueError("enabled voice profile requires frozen model and package revisions")
-        if self.backend == "gpt_sovits_v2pro" and self.gpt_sovits is None:
+        if self.gpt_sovits is None:
             raise ValueError("GPT-SoVITS profile requires gpt_sovits settings")
-        if self.backend == "voxcpm2" and self.gpt_sovits is not None:
-            raise ValueError("VoxCPM2 profile cannot include gpt_sovits settings")
         return self
 
 
