@@ -1,92 +1,54 @@
-# Hanser 语音与 Live2D 扩展链路
+# Hanser Voice runtime
 
-本分支提供 schema 1.1 的 Chat + GPT-SoVITS v2Pro + MMD 动态角色集成链路。运行文件统一位于项目目录；Voice runtime 只支持 GPT-SoVITS，不包含其他 TTS 后端。
+本分支使用 schema 1.1 的 Chat + VoxCPM2 hybrid Voice + MMD/L2D 集成链路。GPT Voice 已退出项目活动配置与启动流程。
 
-## 当前结构
+## 当前 Voice 方案
 
-- `backend/`：一次回复内生成、校验并原子落库 `ReplySnapshot`，向独立运行时代理任务、事件、产物与播放回执。
-- `voice_runtime/`：单 worker 有界队列，执行 speech 映射、分段、资产选择、GPT-SoVITS v2Pro sidecar 适配、48 kHz 单声道 PCM16 归一化、时间线与产物封装。
-- `chatbot/`：同源代理、SSE 事件消费、Web Audio 播放时钟、暂停/恢复/中断和 Live2D 时间线适配。
-- `renderer/`：离线渲染骨架；没有角色源文件时只能生成 presentation plan。
-- `contracts/`：从后端与运行时 Pydantic 模型导出的 JSON Schema。
-- `release/performance-stack.candidate.yml`：候选版本、门禁与一键回滚定义。
+- 后端：`voxcpm2_hybrid`
+- 模型：项目内 `voice_runtime/models/VoxCPM2`
+- 显存策略：VoxCPM2 主模型放 CUDA，AudioVAE 编解码放 CPU
+- 推理：`cfg_value=2.0`、`inference_timesteps=10`、固定 seed 派生
+- 输出：48 kHz、单声道
+- 参考音频：`assets/voices/hanser/training/v1/clip_000180.wav`
+- 参考文本：来自人工核查的同名文本，并由 manifest 保留来源与版本
 
-规范化文本 `semantic_text` 是语音和展示的共同事实源；`display_text`、`speech_text` 分别派生。语音与视觉能力独立裁剪，性能意图在切段前解析，参考资产在切段后选择。停顿只进入时间线，不进入音频缓存键。
+活动配置位于 `voice_runtime/config/voice_profile.candidate.yml`。它禁止运行时下载、后端切换和递归生成参考音频；模型只在 `HANSER_VOICE_LOAD_MODEL=true` 时加载，因此控制面与静态联调可以不占用显存。
 
-## 安装
+## 与 Chat 和 L2D 的组合
 
-需要 Python 3.12。基础控制链路不加载任何模型：
+Chat backend 根据回复快照向 Voice runtime 创建任务。Voice runtime 完成 speech 映射、分段、参考资产选择、VoxCPM2 合成和 48 kHz 时间线封装。前端播放控制器以同一采样时钟播放音频；MMD rig adapter 通过 timeline evaluator 读取该时钟，驱动口型和允许的表情/动作。
 
-```powershell
-./scripts/setup_voice_runtime.ps1
+```text
+Chat reply snapshot
+  -> backend RenderBridge
+  -> Voice runtime /internal/v1/jobs
+  -> VoxCPM2 hybrid segment + 48 kHz timeline
+  -> browser PlaybackController
+  -> MMD timeline evaluator / rig adapter
 ```
 
-### GPT-SoVITS v2Pro
+组合版本固定在 `release/performance-stack.candidate.yml`。后端开关位于 `backend/config.example.yml`：`speech_runtime_enabled` 与 `dynamic_live2d_enabled` 均开启，并指向 `http://127.0.0.1:8770`。
 
-GPT-SoVITS 使用它自带的 Python 3.9/CUDA 11.8 运行包作为 loopback sidecar，不能导入本项目 Python 3.12 进程。候选配置固定为非流式单段请求；项目侧继续负责已审核资产选择、确定性 seed、任务取消、缓存、基础 QA 和 32 kHz 到 48 kHz 的一次高质量重采样。
+## 启动与静态验证
 
-项目内运行文件：
-
-- 分发目录：`voice_runtime/models/GPT-SoVITS-v2Pro`
-- sidecar 配置：`voice_runtime/config/gpt_sovits_v2pro.sidecar.candidate.yml`
-- runtime profile：`voice_runtime/config/voice_profile.candidate.yml`
-- 启动脚本：`scripts/start_gpt_sovits_v2pro_sidecar.ps1`
-
-默认 profile 使用完整的 v2Pro 底模和已人工核查的项目内参考音频：
-
-```powershell
-./scripts/start_gpt_sovits_v2pro_sidecar.ps1
-$env:HANSER_VOICE_PROFILE = "voice_runtime/config/voice_profile.candidate.yml"
-$env:HANSER_VOICE_LOAD_MODEL = "true"
-./scripts/start_voice_runtime.ps1
-```
-
-GPT-SoVITS 的 `/set_gpt_weights`、`/set_sovits_weights` 和 `/control` 不由 Hanser runtime 暴露或调用；权重组合只在 sidecar 启动配置中冻结，避免运行中全局切换影响在途任务。endpoint 只允许 loopback HTTP origin，不接受远程地址或重定向。
-
-上游静态审计（2026-09-11）：
-
-- 官方最后一个正式 release/tag 仍是 `20250606v2pro@d7c2210`；不能把当前 `main` 当作新的已发布模型版本。
-- 官方 `main@48b1a016` 已包含 2025-12 的采样/吞句修复、2026-04 的音频后处理与中文多音字/长句开销修复。这些变更适合在独立副本中固定 revision 后做下一轮候选，不覆盖 `K:` 下无 Git 元数据的测试包。
-- 项目内测试包的 `/tts` 已包含新版流式字段，和本适配器所用的非流式请求兼容；核心 `TTS.py` 仍缺少 2026-04 的若干修复，因此当前定位为本地集成基线。
-- 2026-04 的 CUDA Graph 加速目前接在官方 WebUI 普通推理路径，并未进入 `api_v2.py` 的 `/tts` 契约；6 GB 显存机器上不在 sidecar 适配器里私自移植或默认开启。
-- 当前配置显式冻结 `top_k=5` 以保证本地基线可复现。
-
-后续升级应在独立副本中固定上游 revision，并在同一冻结输入上验证显存峰值、截断/吞句、中文多音字与长句。
-
-## 启动和检查
-
-启动 GPT-SoVITS sidecar 后再启动 Voice runtime：
-
-```powershell
-./scripts/start_voice_runtime.ps1
-Invoke-RestMethod http://127.0.0.1:8770/runtime
-```
-
-完整本地聊天入口会在独立环境存在时同时启动该运行时：
+需要实际运行时使用：
 
 ```powershell
 ./scripts/start_hanser_chat.ps1
 ```
 
-本地集成配置已开启 structured performance、speech runtime 和 dynamic MMD/L2D；offline export 仍关闭。浏览器只有在用户明确开启语音后，才会为后续回复请求 speech 输出。Voice 返回的音频时间线会逐帧驱动 MMD 口型、表情和受支持动作。
+该脚本依次编排 Voice runtime、Chat backend 和前端，不再启动 GPT sidecar。
 
-## 当前素材与后续验收
-
-1. 两段人工确认的身份参考与中性提示音频已纳入 `assets/voices/hanser/` 和 manifest。
-2. MMD 模型与贴图位于 `.runtime/mmd/hanser_v2.0_cloth2_test/`；GPT 分发包位于 `voice_runtime/models/GPT-SoVITS-v2Pro/`。两者都在项目目录内，重型运行时不提交 Git。
-3. voice/rig profile 已标记为 `validated + enabled`，用于本地集成候选。
-4. 静态与假后端测试通过；真实推理 golden set、动态 rig 目视校准和端到端多模态验收仍需在启动服务后执行。
-5. 回滚只需关闭 performance 消费开关，不改历史对话、记忆或已落库快照。
-
-## 不需要模型的验证
+只检查文件、配置与组合关系，不启动服务或模型：
 
 ```powershell
-backend/.venv/Scripts/python.exe -m pip install -r backend/requirements-dev.txt
-backend/.venv/Scripts/python.exe -m pytest backend/tests/test_performance_contract.py
-voice_runtime/.venv/Scripts/python.exe -m pytest voice_runtime/tests
-pnpm --dir chatbot exec tsc --noEmit
-backend/.venv/Scripts/python.exe scripts/export_performance_schemas.py
 ./scripts/verify_integrated_stack.ps1
 ```
 
-这些检查使用假 TTS 后端或仅验证控制面，不执行真实 GPT-SoVITS 推理。
+聚焦测试同样使用假 TTS 后端或 `load_voice_model=false` 控制面，不执行真实 VoxCPM2 推理：
+
+```powershell
+./voice_runtime/.venv/Scripts/python.exe -m pytest voice_runtime/tests
+```
+
+真实音质、端到端延迟和多模态验收仍属于后续运行门禁；本轮静态切换不会把它们标记为已测量。

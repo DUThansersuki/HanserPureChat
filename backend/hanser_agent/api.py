@@ -197,6 +197,10 @@ def create_app(
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
+        embedder = getattr(getattr(chat_agent, "style_tool", None), "embedder", None)
+        warmup = getattr(embedder, "warmup", None)
+        if warmup is not None:
+            await warmup()
         yield
         await render_bridge.close()
         if owned_model_gateway and active_model_gateway is not None:

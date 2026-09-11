@@ -414,15 +414,17 @@ def load_settings(path: str | Path | None = None) -> Settings:
         default_temp=0.1,
     )
     planner_raw = models.get("planner", {})
+    planner_provider = str(planner_raw.get("provider", "openai_compatible"))
     external_fallback = bool(planner_raw.get("external_fallback", True))
     planner = _model_profile(
         planner_raw,
-        provider="ollama",
-        endpoint="http://127.0.0.1:11434",
-        model="qwen3.5:4b",
+        provider="openai_compatible",
+        endpoint=base_url,
+        model=bunny.model,
+        api_key=api_key,
         fallback_profile=(
             "planner_external"
-            if external_fallback
+            if planner_provider != "openai_compatible" and external_fallback
             else None
         ),
     )
@@ -437,7 +439,7 @@ def load_settings(path: str | Path | None = None) -> Settings:
             top_p=bunny.top_p,
             context_window=4096,
         )
-        if external_fallback
+        if planner_provider != "openai_compatible" and external_fallback
         else None
     )
     hanser = _task(

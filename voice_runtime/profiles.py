@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Literal
-from urllib.parse import urlsplit
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -46,41 +45,13 @@ class RuntimeMode(BaseModel):
     explicit_prompt_cache: Literal[False] = False
 
 
-class GPTSoVITSConfig(BaseModel):
+class VoxCPM2Config(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    endpoint: str = "http://127.0.0.1:9880"
-    request_timeout_seconds: float = Field(default=90.0, gt=0.0, le=900.0)
-    text_language: Literal["zh", "all_zh"] = "zh"
-    prompt_language: Literal["zh", "all_zh"] = "zh"
-    text_split_method: Literal["cut5"] = "cut5"
-    top_k: int = Field(default=5, ge=1)
-    top_p: float = Field(default=1.0, gt=0.0, le=1.0)
-    temperature: float = Field(default=1.0, gt=0.0)
-    batch_size: Literal[1] = 1
-    split_bucket: Literal[True] = True
-    speed_factor: Literal[1.0] = 1.0
-    parallel_infer: Literal[False] = False
-    repetition_penalty: float = Field(default=1.35, gt=0.0)
-
-    @model_validator(mode="after")
-    def endpoint_is_loopback_http(self) -> "GPTSoVITSConfig":
-        parsed = urlsplit(self.endpoint)
-        if (
-            parsed.scheme != "http"
-            or parsed.hostname not in {"127.0.0.1", "localhost", "::1"}
-            or parsed.username is not None
-            or parsed.password is not None
-            or parsed.query
-            or parsed.fragment
-            or parsed.path not in {"", "/"}
-        ):
-            raise ValueError("GPT-SoVITS endpoint must be a loopback HTTP origin")
-        self.endpoint = self.endpoint.rstrip("/")
-        return self
-
-    def generation_parameters(self) -> dict[str, object]:
-        return self.model_dump(exclude={"endpoint", "request_timeout_seconds"})
+    model_device: Literal["cuda"] = "cuda"
+    audio_vae_device: Literal["cpu"] = "cpu"
+    local_files_only: Literal[True] = True
+    optimize: Literal[False] = False
 
 
 class InferenceConfig(BaseModel):
@@ -108,14 +79,14 @@ class VoiceProfile(BaseModel):
     profile_revision: str
     status: Literal["candidate", "validated", "released"] = "candidate"
     enabled: bool = False
-    backend: Literal["gpt_sovits_v2pro"] = "gpt_sovits_v2pro"
+    backend: Literal["voxcpm2_hybrid"] = "voxcpm2_hybrid"
     speaker_id: str = "hanser"
     model: ModelRevision
     clone: CloneConfig
     capabilities: VoiceCapabilities = Field(default_factory=VoiceCapabilities)
     runtime: RuntimeMode = Field(default_factory=RuntimeMode)
     inference: InferenceConfig = Field(default_factory=InferenceConfig)
-    gpt_sovits: GPTSoVITSConfig | None = None
+    voxcpm2: VoxCPM2Config | None = None
     output: OutputConfig = Field(default_factory=OutputConfig)
     assets_manifest: str = "../../assets/voices/hanser/manifest.jsonl"
 
@@ -125,8 +96,8 @@ class VoiceProfile(BaseModel):
             raise ValueError("candidate voice profile cannot be enabled")
         if self.enabled and (not self.model.revision or not self.model.package_version):
             raise ValueError("enabled voice profile requires frozen model and package revisions")
-        if self.gpt_sovits is None:
-            raise ValueError("GPT-SoVITS profile requires gpt_sovits settings")
+        if self.voxcpm2 is None:
+            raise ValueError("VoxCPM2 hybrid profile requires voxcpm2 settings")
         return self
 
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import unittest
-from hanser_agent.agent.planner import DialoguePlanner
+from hanser_agent.agent.planner import DialoguePlanner, PlannerDecision
 from hanser_agent.models import ChatMessage, DialoguePlan
 
 
@@ -30,7 +30,50 @@ class RecordingGateway:
         )
 
 
+class CompactRecordingGateway:
+    def __init__(self) -> None:
+        self.calls = 0
+        self.schema = None
+
+    async def generate_json(self, profile, messages, schema):
+        self.calls += 1
+        self.schema = schema
+        return PlannerDecision(
+            intent="wiki_fact",
+            wiki=True,
+            query="Hanser什么时候退出VirtuaReal？",
+            keywords=["Hanser", "VirtuaReal", "退出"],
+            mode="factual",
+            sensitivity="high",
+            length="medium",
+        )
+
+
 class PlannerFallbackTests(unittest.IsolatedAsyncioTestCase):
+    async def test_simple_greeting_uses_zero_call_fast_path(self) -> None:
+        gateway = CompactRecordingGateway()
+        planner = DialoguePlanner(gateway)
+
+        plan = await planner.plan("你好呀", [])
+
+        self.assertEqual(plan.intent, "chitchat")
+        self.assertTrue(planner.last_fast_path)
+        self.assertEqual(gateway.calls, 0)
+
+    async def test_compact_external_contract_is_adapted_and_cached(self) -> None:
+        gateway = CompactRecordingGateway()
+        planner = DialoguePlanner(gateway)
+
+        first = await planner.plan("Hanser什么时候退出VirtuaReal？", [])
+        second = await planner.plan("Hanser什么时候退出VirtuaReal？", [])
+
+        self.assertIs(gateway.schema, PlannerDecision)
+        self.assertTrue(first.need_wiki)
+        self.assertEqual(first.standalone_query, "Hanser什么时候退出VirtuaReal？")
+        self.assertEqual(second.keywords, first.keywords)
+        self.assertTrue(planner.last_cache_hit)
+        self.assertEqual(gateway.calls, 1)
+
     def test_old_planner_json_without_optional_signals_remains_valid(self) -> None:
         plan = DialoguePlan.model_validate({
             "intent": "chitchat",

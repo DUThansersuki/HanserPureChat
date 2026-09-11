@@ -1,13 +1,13 @@
 from .base import SynthesisRequest, SynthesisResult, TTSBackend
-from .gpt_sovits_v2pro import GPTSoVITSV2ProBackend
+from .voxcpm2_hybrid import VoxCPM2HybridBackend
 
 
 def load_backend(profile):
-    return GPTSoVITSV2ProBackend.load(profile)
+    return VoxCPM2HybridBackend.load(profile)
 
 
 __all__ = [
-    "GPTSoVITSV2ProBackend",
+    "VoxCPM2HybridBackend",
     "SynthesisRequest",
     "SynthesisResult",
     "TTSBackend",

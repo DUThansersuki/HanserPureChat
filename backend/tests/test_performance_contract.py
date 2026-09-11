@@ -135,6 +135,35 @@ def test_reply_snapshot_is_atomic_with_assistant_message_and_owner_checked() -> 
             store.get_reply_snapshot("assistant-1", user_id="owner-2")
 
 
+def test_render_bridge_projects_persona_trace_out_of_runtime_snapshot() -> None:
+    snapshot = ReplySnapshot(
+        request_id="request-1",
+        reply_id="assistant-1",
+        user_id="owner-1",
+        conversation_id="conversation-1",
+        semantic_text="你好。",
+        display_text="你好",
+        allowed_performance=AllowedPerformance(),
+        output_preferences=OutputPreferences(speech=True, dynamic_live2d=True),
+        allow_tts=True,
+        language="zh",
+        constraints_ref="constraints:test",
+        render_profile_revision="render-test",
+        text_source="validated_semantic",
+        persona_trace={"debug": {"large": "payload"}},
+    )
+
+    projected = RenderBridge._runtime_snapshot(snapshot)
+
+    assert "persona_trace" not in projected
+    assert projected["output_preferences"] == {
+        "text": True,
+        "speech": True,
+        "dynamic_live2d": True,
+        "offline_performance": False,
+    }
+
+
 @pytest.mark.asyncio
 async def test_streaming_runtime_error_is_read_before_forwarding() -> None:
     def respond(_: httpx.Request) -> httpx.Response:

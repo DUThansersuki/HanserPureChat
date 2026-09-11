@@ -2,7 +2,13 @@ from __future__ import annotations
 
 import logging
 import re
+import hashlib
+import json
+from collections import OrderedDict
 from pathlib import Path
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from ..model_gateway import ModelGateway
 from ..models import (
@@ -11,7 +17,31 @@ from ..models import (
 )
 
 
+class PlannerDecision(BaseModel):
+    """Small, strict wire contract used only for the external planner call."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    intent: Literal[
+        "chitchat", "wiki_fact", "followup_fact", "user_memory",
+        "relationship", "mixed", "unknown",
+    ]
+    wiki: bool
+    memory: bool = True
+    query: str | None = None
+    keywords: list[str] = Field(default_factory=list, max_length=5)
+    mode: Literal["casual", "factual", "emotional", "playful", "storytelling"]
+    sensitivity: Literal["low", "medium", "high"]
+    length: Literal["short", "medium", "long"]
+    signals: dict[str, object] = Field(default_factory=dict)
+
+
 class DialoguePlanner:
+
+    _FAST_CHITCHAT = re.compile(
+        r"^(?:你?好(?:呀|啊|哇)?|嗨(?:呀)?|哈喽|早上好|上午好|中午好|下午好|晚上好|晚安)[！!。,.，~～ ]*$"
+    )
+    _CACHE_LIMIT = 256
 
     _FACT_CUES = (
         "什么时候",
@@ -58,6 +88,9 @@ class DialoguePlanner:
         self.prompt = prompt_path.read_text(
             encoding="utf-8"
         )
+        self._cache: OrderedDict[str, dict[str, object]] = OrderedDict()
+        self.last_cache_hit = False
+        self.last_fast_path = False
 
     async def plan(
         self,
@@ -65,6 +98,20 @@ class DialoguePlanner:
         history: list[ChatMessage],
         summary: str | None = None,
     ) -> DialoguePlan:
+
+        self.last_cache_hit = False
+        self.last_fast_path = False
+        fast_plan = self._fast_plan(message)
+        if fast_plan is not None:
+            self.last_fast_path = True
+            return fast_plan
+
+        cache_key = self._cache_key(message, history, summary)
+        cached = self._cache.get(cache_key)
+        if cached is not None:
+            self._cache.move_to_end(cache_key)
+            self.last_cache_hit = True
+            return DialoguePlan.model_validate(cached)
 
         messages = self.build_messages(message, history, summary)
 
@@ -77,15 +124,16 @@ class DialoguePlanner:
                 plan = await self.model_gateway.generate_json(
                     self.profile_name,
                     messages,
-                    DialoguePlan,
+                    PlannerDecision,
                 )
             else:
                 plan, provider_reasons = await generate_with_status(
                     self.profile_name,
                     messages,
-                    DialoguePlan,
+                    PlannerDecision,
                 )
                 degraded_reasons.extend(provider_reasons)
+            plan = self._to_dialogue_plan(plan, message)
         except Exception as exc:
             logging.getLogger(__name__).warning(
                 "planner structured output failed; using deterministic fallback",
@@ -94,7 +142,9 @@ class DialoguePlanner:
             plan = self._fallback_plan(message, history)
             degraded_reasons.append("planner_deterministic_fallback")
 
-        if plan.need_wiki:
+        profiles = getattr(self.model_gateway, "profiles", {})
+        active_profile = profiles.get(self.profile_name) if isinstance(profiles, dict) else None
+        if plan.need_wiki and getattr(active_profile, "provider", None) == "ollama":
             try:
                 await self.model_gateway.unload(self.profile_name)
             except Exception as exc:
@@ -104,7 +154,60 @@ class DialoguePlanner:
                 )
                 degraded_reasons.append("planner_unload_failed")
         plan.degraded_reasons = list(dict.fromkeys(degraded_reasons))
+        if not plan.degraded_reasons:
+            self._cache[cache_key] = plan.model_dump(mode="json")
+            self._cache.move_to_end(cache_key)
+            while len(self._cache) > self._CACHE_LIMIT:
+                self._cache.popitem(last=False)
         return plan
+
+    def _fast_plan(self, message: str) -> DialoguePlan | None:
+        if not self._FAST_CHITCHAT.fullmatch(message.strip()):
+            return None
+        return DialoguePlan(
+            intent="chitchat",
+            need_wiki=False,
+            standalone_query=message.strip(),
+            keywords=[],
+            response_mode="casual",
+            fact_sensitivity="low",
+            target_length="short",
+        )
+
+    def _cache_key(
+        self,
+        message: str,
+        history: list[ChatMessage],
+        summary: str | None,
+    ) -> str:
+        payload = {
+            "contract": "planner-decision-v1",
+            "prompt": self.prompt,
+            "message": message,
+            "summary": summary,
+            "history": [item.model_dump(mode="json") for item in history[-8:]],
+        }
+        return hashlib.sha256(
+            json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
+        ).hexdigest()
+
+    @staticmethod
+    def _to_dialogue_plan(plan: PlannerDecision | DialoguePlan, message: str) -> DialoguePlan:
+        if isinstance(plan, DialoguePlan):
+            return plan
+        query = (plan.query or message).strip() or message
+        return DialoguePlan(
+            intent=plan.intent,
+            need_wiki=plan.wiki,
+            need_memory=plan.memory,
+            need_style_examples=True,
+            standalone_query=query,
+            keywords=plan.keywords if plan.wiki else [],
+            response_mode=plan.mode,
+            fact_sensitivity=plan.sensitivity,
+            target_length=plan.length,
+            persona_signals=plan.signals,
+        )
 
     def build_messages(
         self,

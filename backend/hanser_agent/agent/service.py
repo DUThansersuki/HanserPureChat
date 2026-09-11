@@ -451,6 +451,8 @@ class ChatAgentService:
                         "status": generated.generation_status,
                         "validator_actions": generated.validator_actions,
                         "planner_calls": len(planner_call_records),
+                        "planner_cache_hit": bool(getattr(self.planner, "last_cache_hit", False)),
+                        "planner_fast_path": bool(getattr(self.planner, "last_fast_path", False)),
                         "responder_attempts": generated.attempts,
                         "responder_calls": len(responder_call_records),
                         "token_usage": self._token_usage(

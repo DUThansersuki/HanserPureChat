@@ -63,7 +63,7 @@ class RenderBridge:
             owner=user_id,
             json={
                 "owner": user_id,
-                "snapshot": snapshot.model_dump(mode="json"),
+                "snapshot": self._runtime_snapshot(snapshot),
                 "mode": mode,
                 "rendition_id": rendition_id,
                 "variant_salt": variant_salt,
@@ -86,7 +86,7 @@ class RenderBridge:
             owner=user_id,
             json={
                 "owner": user_id,
-                "snapshot": snapshot.model_dump(mode="json"),
+                "snapshot": self._runtime_snapshot(snapshot),
                 "epoch": epoch,
             },
         )
@@ -219,6 +219,10 @@ class RenderBridge:
         if self.config.internal_token:
             headers["Authorization"] = f"Bearer {self.config.internal_token}"
         return headers
+
+    @staticmethod
+    def _runtime_snapshot(snapshot: ReplySnapshot) -> dict[str, object]:
+        return snapshot.model_dump(mode="json", exclude={"persona_trace"})
 
     @staticmethod
     def _error_message(response: httpx.Response) -> str:

@@ -70,6 +70,10 @@ models/
 # Reviewed Hanser reference recordings are release inputs, not generated audio.
 !assets/voices/hanser/reference/identity.wav
 !assets/voices/hanser/prompts/neutral.wav
+assets/voices/hanser/training/**
+!assets/voices/hanser/training/
+!assets/voices/hanser/training/v1/
+!assets/voices/hanser/training/v1/clip_000180.wav
 
 # Editor and operating-system files
 .DS_Store

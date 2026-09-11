@@ -1,19 +1,19 @@
 schema_version: "1.1"
-profile_id: hanser-gpt-sovits-v2pro-integrated
-profile_revision: hanser-gpt-sovits-v2pro-integrated-1
+profile_id: hanser-voxcpm2-hybrid-integrated
+profile_revision: hanser-voxcpm2-hybrid-clip180-20260911-1
 status: validated
 enabled: true
-backend: gpt_sovits_v2pro
+backend: voxcpm2_hybrid
 speaker_id: hanser
 model:
-  id: RVC-Boss/GPT-SoVITS-v2Pro
-  revision: local-v2pro-base-observed-20251201
-  package_version: local-bundle-20250604
-  local_path: models/GPT-SoVITS-v2Pro
+  id: openbmb/VoxCPM2
+  revision: local-voxcpm2-observed-20260909
+  package_version: voxcpm-f772e498a45f
+  local_path: models/VoxCPM2
 clone:
   mode: ref_continuation
-  identity_reference_id: hanser-identity-reference-v1
-  default_style_prompt_id: hanser-neutral-prompt-v1
+  identity_reference_id: hanser-voxcpm2-identity-clip180-v1
+  default_style_prompt_id: hanser-voxcpm2-neutral-clip180-v1
   recursive_generated_prompt: false
 capabilities:
   approved_delivery: [neutral]
@@ -30,20 +30,11 @@ inference:
   normalize: false
   retry_badcase: false
   load_denoiser: false
-gpt_sovits:
-  endpoint: http://127.0.0.1:9880
-  request_timeout_seconds: 90
-  text_language: zh
-  prompt_language: zh
-  text_split_method: cut5
-  top_k: 5
-  top_p: 1.0
-  temperature: 1.0
-  batch_size: 1
-  split_bucket: true
-  speed_factor: 1.0
-  parallel_infer: false
-  repetition_penalty: 1.35
+voxcpm2:
+  model_device: cuda
+  audio_vae_device: cpu
+  local_files_only: true
+  optimize: false
 output:
   package_sample_rate: 48000
   channels: 1

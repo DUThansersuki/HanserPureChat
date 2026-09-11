@@ -209,7 +209,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
               ? { messages: request.messages }
               : { message: lastMessage }),
             outputPreferences: {
-              dynamic_live2d: false,
+              dynamic_live2d: true,
               offline_performance: false,
               speech: voiceRef.current.enabled,
             },

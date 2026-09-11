@@ -135,6 +135,8 @@ class VoiceAsset(BaseModel):
     speaker_id: str
     kind: Literal["identity_reference", "style_prompt"]
     path: str
+    source_path: str | None = None
+    source_sha256: str | None = None
     transcript: str | None = None
     review_status: Literal["candidate", "approved", "rejected"]
     approved_languages: list[str] = Field(default_factory=list)

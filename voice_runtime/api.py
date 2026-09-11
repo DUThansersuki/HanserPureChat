@@ -257,7 +257,7 @@ if __name__ == "__main__":
 
     configured = RuntimeSettings.from_environment()
     uvicorn.run(
-        "voice_runtime.api:app",
+        app,
         host=configured.host,
         port=configured.port,
         reload=False,

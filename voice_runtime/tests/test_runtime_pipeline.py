@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import tempfile
 import time
-from io import BytesIO
 from pathlib import Path
 
-import httpx
 import numpy as np
 import pytest
-import soundfile as sf
 from fastapi.testclient import TestClient
 
 from voice_runtime.api import create_app
@@ -36,7 +32,7 @@ from voice_runtime.profiles import RigPreset, RigProfile, VoiceProfile
 from voice_runtime.speech import SpeechPlanner
 from voice_runtime.settings import RuntimeSettings
 from voice_runtime.tts.base import SynthesisRequest, SynthesisResult
-from voice_runtime.tts.gpt_sovits_v2pro import GPTSoVITSV2ProBackend
+from voice_runtime.tts.voxcpm2_hybrid import VoxCPM2HybridBackend
 from voice_runtime.voice_assets import VoiceAssetSelector
 
 
@@ -49,19 +45,19 @@ def allowed() -> AllowedPerformance:
 
 
 def profile() -> VoiceProfile:
-    return gpt_sovits_profile()
+    return voxcpm2_profile()
 
 
-def gpt_sovits_profile() -> VoiceProfile:
+def voxcpm2_profile() -> VoiceProfile:
     return VoiceProfile.model_validate(
         {
-            "profile_id": "gpt-sovits-test",
-            "profile_revision": "gpt-sovits-test-1",
+            "profile_id": "voxcpm2-hybrid-test",
+            "profile_revision": "voxcpm2-hybrid-test-1",
             "status": "validated",
             "enabled": True,
-            "backend": "gpt_sovits_v2pro",
+            "backend": "voxcpm2_hybrid",
             "model": {
-                "id": "RVC-Boss/GPT-SoVITS-v2Pro",
+                "id": "openbmb/VoxCPM2",
                 "revision": "model-1",
                 "package_version": "package-1",
             },
@@ -70,7 +66,7 @@ def gpt_sovits_profile() -> VoiceProfile:
                 "identity_reference_id": "identity",
                 "default_style_prompt_id": "neutral",
             },
-            "gpt_sovits": {"endpoint": "http://127.0.0.1:9880"},
+            "voxcpm2": {},
         }
     )
 
@@ -241,37 +237,34 @@ def test_candidate_runtime_exposes_control_plane_without_loading_model() -> None
             assert invalid_cursor.status_code == 400
 
 
-def test_gpt_sovits_profile_rejects_non_loopback_endpoint() -> None:
-    payload = gpt_sovits_profile().model_dump(mode="json")
-    payload["gpt_sovits"]["endpoint"] = "https://example.test"
-    with pytest.raises(ValueError, match="loopback HTTP origin"):
+def test_voxcpm2_profile_rejects_gpu_audio_vae() -> None:
+    payload = voxcpm2_profile().model_dump(mode="json")
+    payload["voxcpm2"]["audio_vae_device"] = "cuda"
+    with pytest.raises(ValueError):
         VoiceProfile.model_validate(payload)
 
 
-def test_gpt_sovits_adapter_posts_exact_prompt_and_resamples_to_48k() -> None:
+def test_voxcpm2_adapter_passes_exact_prompt_and_hybrid_devices() -> None:
     observed: dict[str, object] = {}
 
-    def handler(request: httpx.Request) -> httpx.Response:
-        observed.update(json.loads(request.content))
-        buffer = BytesIO()
-        samples = np.sin(np.linspace(0, 30, 3200, dtype=np.float32)) * 0.1
-        sf.write(buffer, samples, 32_000, format="WAV", subtype="PCM_16")
-        return httpx.Response(
-            200,
-            content=buffer.getvalue(),
-            headers={"content-type": "audio/wav"},
-        )
+    class FakeTTSModel:
+        sample_rate = 48_000
 
-    active_profile = gpt_sovits_profile()
+    class FakeModel:
+        tts_model = FakeTTSModel()
+
+        def generate(self, **kwargs):
+            observed.update(kwargs)
+            return np.sin(np.linspace(0, 30, 4800, dtype=np.float32)) * 0.1
+
+    active_profile = voxcpm2_profile()
     segment = SpeechPlanner().plan("reply-1", "你好。", allowed()).segments[0]
     voice = VoiceCapabilityMapper().resolve(allowed(), active_profile)
     voice_plan = VoiceAssetSelector().select(
         segment, voice, active_profile, assets()
     )
     engine_text = EngineTextAdapter().compile(segment.speech_text, voice_plan)
-    backend = GPTSoVITSV2ProBackend(
-        active_profile, transport=httpx.MockTransport(handler)
-    )
+    backend = VoxCPM2HybridBackend(active_profile, FakeModel())
     result = backend.synthesize(
         SynthesisRequest(
             engine_text=engine_text,
@@ -284,13 +277,16 @@ def test_gpt_sovits_adapter_posts_exact_prompt_and_resamples_to_48k() -> None:
     backend.close()
 
     assert observed["text"] == "你好。"
-    assert observed["ref_audio_path"] == "neutral.wav"
+    assert observed["prompt_wav_path"] == "neutral.wav"
     assert observed["prompt_text"] == "这是中性参考。"
-    assert observed["streaming_mode"] == 0
+    assert observed["reference_wav_path"] == "identity.wav"
+    assert observed["cfg_value"] == 2.0
+    assert observed["inference_timesteps"] == 10
     assert observed["seed"] == 1234
     assert result.sample_rate == 48_000
-    assert 4_790 <= len(result.pcm) <= 4_810
-    assert result.backend_metadata["native_sample_rate"] == 32_000
+    assert len(result.pcm) == 4_800
+    assert result.backend_metadata["model_device"] == "cuda"
+    assert result.backend_metadata["audio_vae_device"] == "cpu"
 
 
 class _Backend:

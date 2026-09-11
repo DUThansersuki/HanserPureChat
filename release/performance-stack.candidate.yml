@@ -10,10 +10,10 @@ revisions:
   responder_contract: performance_schema_1_1
   policy_resolver: performance_policy_1
   speech_mapper: speech_mapper_1
-  engine_adapter: gpt_sovits_text_1
-  voice_profile: hanser-gpt-sovits-v2pro-integrated-1
-  voice_model: local-v2pro-base-observed-20251201
-  voice_backend: gpt_sovits_v2pro_http_1
+  engine_adapter: voxcpm2_text_1
+  voice_profile: hanser-voxcpm2-hybrid-clip180-20260911-1
+  voice_model: local-voxcpm2-observed-20260909
+  voice_backend: voxcpm2_hybrid_vae_cpu_1
   voice_selector: voice_asset_selector_1
   rig_profile: hanser-rig-candidate-1
   timeline_compiler: timeline_1

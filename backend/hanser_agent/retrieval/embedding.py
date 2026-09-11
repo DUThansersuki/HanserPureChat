@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import threading
+from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Any, Protocol
 
@@ -34,16 +35,45 @@ class LocalQwenEmbedder:
         self._runtime: _EmbeddingRuntime | None = None
         self._load_lock = threading.Lock()
         self._inference_lock = threading.Lock()
+        self._cache: OrderedDict[tuple[str, str], list[float]] = OrderedDict()
+        self._cache_limit = 512
 
     async def embed_queries(self, texts: list[str]) -> list[list[float]]:
         instructed = [
             f"Instruct: {self.config.instruction}\nQuery: {text}"
             for text in texts
         ]
-        return await asyncio.to_thread(self._encode, instructed)
+        return await self._cached_encode("query", instructed)
 
     async def embed_documents(self, texts: list[str]) -> list[list[float]]:
-        return await asyncio.to_thread(self._encode, texts)
+        return await self._cached_encode("document", texts)
+
+    async def warmup(self) -> None:
+        await self.embed_queries(["Hanser 对话检索预热"])
+
+    async def _cached_encode(self, namespace: str, texts: list[str]) -> list[list[float]]:
+        results: list[list[float] | None] = [None] * len(texts)
+        missing_texts: list[str] = []
+        missing_indexes: list[int] = []
+        with self._inference_lock:
+            for index, value in enumerate(texts):
+                key = (namespace, value)
+                cached = self._cache.get(key)
+                if cached is None:
+                    missing_texts.append(value)
+                    missing_indexes.append(index)
+                else:
+                    self._cache.move_to_end(key)
+                    results[index] = cached
+        if missing_texts:
+            vectors = await asyncio.to_thread(self._encode, missing_texts)
+            with self._inference_lock:
+                for index, value, vector in zip(missing_indexes, missing_texts, vectors, strict=True):
+                    self._cache[(namespace, value)] = vector
+                    results[index] = vector
+                while len(self._cache) > self._cache_limit:
+                    self._cache.popitem(last=False)
+        return [vector for vector in results if vector is not None]
 
     def _encode(self, texts: list[str]) -> list[list[float]]:
         if not texts:
