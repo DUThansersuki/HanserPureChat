@@ -1,6 +1,13 @@
-import { type Bone, Euler, Quaternion, type SkinnedMesh } from "three";
+import { type Bone, Euler, Quaternion, type SkinnedMesh, Vector3 } from "three";
+import {
+  type GrantSolver,
+  MMDAnimationHelper,
+} from "three/addons/animation/MMDAnimationHelper.js";
 import {
   isMmdMotionComplete,
+  MMD_IDLE_ACTION_INTERVAL_MS,
+  MMD_IDLE_ACTION_SEQUENCE,
+  MMD_MOTION_DURATION_MS,
   MMD_MOTION_NAMES,
   type MmdMotionName,
   sampleMmdPose,
@@ -19,23 +26,34 @@ const EXPRESSION_MORPHS: Record<string, string> = {
   surprised: "びっくり",
 };
 
+const FIXED_BONE_AXES = new Map<string, Vector3>([
+  ["右手捩", new Vector3(-0.827_429, -0.558_297, -0.060_552).normalize()],
+  ["右腕捩", new Vector3(-0.794_183, -0.607_069, 0.027_227).normalize()],
+  ["左手捩", new Vector3(0.827_428, -0.558_298, -0.060_552).normalize()],
+  ["左腕捩", new Vector3(0.794_183, -0.607_069, 0.027_227).normalize()],
+]);
+
 export class MmdRigAdapter implements RigAdapter {
   readonly capabilities = {
     expressionPresets: Object.keys(EXPRESSION_MORPHS),
     motions: [...MMD_MOTION_NAMES],
     mouthParameter: "あ",
-    revision: "hanser-mmd-rig-v0.1",
+    revision: "hanser-mmd-rig-v0.2",
   };
 
   private readonly baseRotations = new Map<Bone, Quaternion>();
   private readonly bones = new Map<string, Bone>();
   private readonly euler = new Euler();
+  private readonly grantSolver: GrantSolver;
   private readonly owner = new ParameterOwner();
   private readonly rotationDelta = new Quaternion();
   private readonly mesh: SkinnedMesh;
   private activeMotion: MmdMotionName = "idle";
   private requestedMotion: MmdMotionName = "idle";
   private motionStartedAt = 0;
+  private idlePhaseStartedAt: number | undefined;
+  private idleActionIndex = 0;
+  private nextIdleActionAt: number | undefined;
   private lastUpdatedAt = 0;
   private speechActivity = 0;
   private frame: Live2DFrame = {
@@ -47,6 +65,7 @@ export class MmdRigAdapter implements RigAdapter {
 
   constructor(mesh: SkinnedMesh) {
     this.mesh = mesh;
+    this.grantSolver = new MMDAnimationHelper().createGrantSolver(mesh);
     for (const bone of mesh.skeleton.bones) {
       this.bones.set(bone.name, bone);
       this.baseRotations.set(bone, bone.quaternion.clone());
@@ -74,6 +93,14 @@ export class MmdRigAdapter implements RigAdapter {
   play(motion: MmdMotionName, now = performance.now()) {
     this.activeMotion = motion;
     this.motionStartedAt = now;
+    this.nextIdleActionAt =
+      motion === "idle"
+        ? now + MMD_IDLE_ACTION_INTERVAL_MS[this.idleActionIndex]
+        : undefined;
+  }
+
+  getActiveMotion() {
+    return this.activeMotion;
   }
 
   reset(epoch: number) {
@@ -86,6 +113,9 @@ export class MmdRigAdapter implements RigAdapter {
     this.resetMorphs();
     this.activeMotion = "idle";
     this.motionStartedAt = performance.now();
+    this.idlePhaseStartedAt = undefined;
+    this.idleActionIndex = 0;
+    this.nextIdleActionAt = undefined;
   }
 
   update(now = performance.now()) {
@@ -97,14 +127,34 @@ export class MmdRigAdapter implements RigAdapter {
     const follow = speechTarget > this.speechActivity ? 0.24 : 0.12;
     this.speechActivity +=
       (speechTarget - this.speechActivity) * follow * (deltaMs / 16);
-    let elapsedMs = now - this.motionStartedAt;
-    if (isMmdMotionComplete(this.activeMotion, elapsedMs)) {
+    this.idlePhaseStartedAt ??= now;
+    this.nextIdleActionAt ??=
+      now + MMD_IDLE_ACTION_INTERVAL_MS[this.idleActionIndex];
+    if (
+      this.activeMotion === "idle" &&
+      this.requestedMotion === "idle" &&
+      now >= this.nextIdleActionAt
+    ) {
+      this.activeMotion = MMD_IDLE_ACTION_SEQUENCE[this.idleActionIndex];
+      this.idleActionIndex =
+        (this.idleActionIndex + 1) % MMD_IDLE_ACTION_SEQUENCE.length;
+      this.motionStartedAt = now;
+      this.nextIdleActionAt = undefined;
+    }
+    const idleElapsedMs = now - this.idlePhaseStartedAt;
+    const sampledMotion = this.activeMotion;
+    const elapsedMs = now - this.motionStartedAt;
+    const motionComplete = isMmdMotionComplete(sampledMotion, elapsedMs);
+    const sampledElapsedMs = motionComplete
+      ? MMD_MOTION_DURATION_MS[sampledMotion]
+      : elapsedMs;
+    const pose = sampleMmdPose(sampledMotion, sampledElapsedMs, idleElapsedMs);
+    if (motionComplete) {
       this.activeMotion = "idle";
       this.motionStartedAt = now;
-      elapsedMs = 0;
+      this.nextIdleActionAt =
+        now + MMD_IDLE_ACTION_INTERVAL_MS[this.idleActionIndex];
     }
-
-    const pose = sampleMmdPose(this.activeMotion, elapsedMs);
     for (const [bone, base] of this.baseRotations) {
       bone.quaternion.copy(base);
     }
@@ -114,12 +164,15 @@ export class MmdRigAdapter implements RigAdapter {
       if (!(bone && base)) {
         continue;
       }
-      bone.quaternion
-        .copy(base)
-        .multiply(
-          this.rotationDelta.setFromEuler(this.euler.set(...rotation, "XYZ"))
-        );
+      const fixedAxis = FIXED_BONE_AXES.get(name);
+      if (fixedAxis) {
+        this.rotationDelta.setFromAxisAngle(fixedAxis, rotation[0]);
+      } else {
+        this.rotationDelta.setFromEuler(this.euler.set(...rotation, "XYZ"));
+      }
+      bone.quaternion.copy(base).multiply(this.rotationDelta);
     }
+    this.grantSolver.update();
 
     // Small audio-driven posture changes make the rig feel connected to the
     // spoken cadence while keeping semantic gestures under explicit control.

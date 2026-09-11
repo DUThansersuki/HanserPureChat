@@ -15,7 +15,11 @@ import type {
   VoiceJobEvent,
 } from "./contracts";
 
-type Listener = (state: PlaybackState, position?: PlaybackPosition) => void;
+type Listener = (
+  state: PlaybackState,
+  position: PlaybackPosition | undefined,
+  replayableReplyIds: readonly string[]
+) => void;
 
 export class PlaybackController {
   private state: PlaybackState = "IDLE";
@@ -36,10 +40,16 @@ export class PlaybackController {
   private audioOffsetSamples = 0;
   private audioStartedAt = 0;
   private playbackId = crypto.randomUUID();
+  private replyId: string | undefined;
+  private readonly collectedSegments = new Map<string, SegmentPackage>();
+  private readonly replayableReplies = new Map<string, SegmentPackage[]>();
+  private readonly audioBuffers = new Map<string, AudioBuffer>();
 
   subscribe(listener: Listener) {
     this.listeners.add(listener);
-    listener(this.state, this.currentPosition);
+    listener(this.state, this.currentPosition, [
+      ...this.replayableReplies.keys(),
+    ]);
     return () => {
       this.listeners.delete(listener);
     };
@@ -75,6 +85,10 @@ export class PlaybackController {
     return { position, segment: this.currentSegment };
   }
 
+  canReplay(replyId: string) {
+    return this.replayableReplies.has(replyId);
+  }
+
   async start(replyId: string) {
     await this.interrupt();
     this.epoch += 1;
@@ -82,6 +96,8 @@ export class PlaybackController {
     this.aborter = new AbortController();
     this.queue = [];
     this.terminal = false;
+    this.replyId = replyId;
+    this.collectedSegments.clear();
     this.playbackId = crypto.randomUUID();
     this.setState("PREPARING");
     try {
@@ -90,6 +106,7 @@ export class PlaybackController {
         return;
       }
       this.jobId = job.job_id;
+      this.rememberSegments(job.ready_segments);
       this.queue.push(...job.ready_segments.sort((a, b) => a.index - b.index));
       this.applySnapshotStatus(job.status);
       this.context ??= new AudioContext({ sampleRate: 48_000 });
@@ -118,6 +135,7 @@ export class PlaybackController {
         const snapshot = await getVoiceJob(job.job_id, this.aborter.signal);
         sequence = Math.max(sequence, snapshot.last_sequence);
         for (const segment of snapshot.ready_segments) {
+          this.rememberSegment(segment);
           if (
             !this.queue.some((item) => item.segment_id === segment.segment_id)
           ) {
@@ -135,6 +153,30 @@ export class PlaybackController {
         throw error;
       }
     }
+  }
+
+  async replay(replyId: string) {
+    const segments = this.replayableReplies.get(replyId);
+    if (!segments) {
+      throw new Error("语音尚未准备就绪");
+    }
+    await this.interrupt();
+    this.epoch += 1;
+    const runEpoch = this.epoch;
+    this.aborter = new AbortController();
+    this.queue = [...segments];
+    this.terminal = true;
+    this.replyId = replyId;
+    this.jobId = undefined;
+    this.playbackId = crypto.randomUUID();
+    this.context ??= new AudioContext({ sampleRate: 48_000 });
+    await this.context.resume();
+    this.setState("READY");
+    this.pump(runEpoch).catch(() => {
+      if (runEpoch === this.epoch && !this.aborter?.signal.aborted) {
+        this.setState("FAILED");
+      }
+    });
   }
 
   async resume() {
@@ -175,7 +217,7 @@ export class PlaybackController {
   }
 
   async interrupt() {
-    const previousJob = this.jobId;
+    const previousJob = this.terminal ? undefined : this.jobId;
     this.epoch += 1;
     this.aborter?.abort();
     this.aborter = undefined;
@@ -191,6 +233,7 @@ export class PlaybackController {
     this.jobId = undefined;
     this.currentPosition = undefined;
     this.currentSegment = undefined;
+    this.replyId = undefined;
     if (previousJob) {
       this.setState("INTERRUPTED");
       await cancelVoiceJob(previousJob).catch(() => undefined);
@@ -204,6 +247,7 @@ export class PlaybackController {
       return;
     }
     if (event.type === "segment.ready" && event.segment) {
+      this.rememberSegment(event.segment);
       if (
         !this.queue.some(
           (item) => item.segment_id === event.segment?.segment_id
@@ -218,6 +262,7 @@ export class PlaybackController {
     }
     if (event.type === "turn.completed") {
       this.terminal = true;
+      this.publishReplay();
       this.wake?.();
       this.wake = undefined;
     } else if (event.type === "turn.failed") {
@@ -238,6 +283,7 @@ export class PlaybackController {
   private applySnapshotStatus(status: VoiceJob["status"]) {
     if (status === "completed") {
       this.terminal = true;
+      this.publishReplay();
     } else if (status === "failed") {
       this.terminal = true;
       this.queue = [];
@@ -273,11 +319,15 @@ export class PlaybackController {
       if (!segment || !this.context || !this.aborter) {
         return;
       }
-      const buffer = await loadAudioArtifact(
-        segment.audio.artifact_id,
-        this.context,
-        this.aborter.signal
-      );
+      let buffer = this.audioBuffers.get(segment.audio.artifact_id);
+      if (!buffer) {
+        buffer = await loadAudioArtifact(
+          segment.audio.artifact_id,
+          this.context,
+          this.aborter.signal
+        );
+        this.audioBuffers.set(segment.audio.artifact_id, buffer);
+      }
       if (runEpoch !== this.epoch) {
         return;
       }
@@ -450,7 +500,30 @@ export class PlaybackController {
 
   private emit() {
     for (const listener of this.listeners) {
-      listener(this.state, this.currentPosition);
+      listener(this.state, this.currentPosition, [
+        ...this.replayableReplies.keys(),
+      ]);
     }
+  }
+
+  private rememberSegment(segment: SegmentPackage) {
+    this.collectedSegments.set(segment.segment_id, segment);
+  }
+
+  private rememberSegments(segments: SegmentPackage[]) {
+    for (const segment of segments) {
+      this.rememberSegment(segment);
+    }
+  }
+
+  private publishReplay() {
+    if (!(this.replyId && this.collectedSegments.size > 0)) {
+      return;
+    }
+    this.replayableReplies.set(
+      this.replyId,
+      [...this.collectedSegments.values()].sort((a, b) => a.index - b.index)
+    );
+    this.emit();
   }
 }

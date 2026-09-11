@@ -1,8 +1,9 @@
 import equal from "fast-deep-equal";
-import { RefreshCcwIcon } from "lucide-react";
+import { RefreshCcwIcon, Volume2Icon } from "lucide-react";
 import { memo, useCallback } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
+import { useVoice } from "@/components/voice/voice-provider";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import {
@@ -25,6 +26,12 @@ export function PureMessageActions({
   onRetry?: () => void;
 }) {
   const [, copyToClipboard] = useCopyToClipboard();
+  const { canReplay, replay } = useVoice();
+  const voiceMetadata = message.parts.find(
+    (part) => part.type === "data-hanser-meta"
+  );
+  const replyId = voiceMetadata?.data.replyId;
+  const hasReplayableVoice = Boolean(replyId && canReplay(replyId));
   const text = message.parts
     .filter((part) => part.type === "text")
     .map((part) => part.text)
@@ -38,6 +45,14 @@ export function PureMessageActions({
     await copyToClipboard(text);
     toast.success("已复制");
   }, [copyToClipboard, text]);
+  const handleReplay = useCallback(() => {
+    if (!replyId) {
+      return;
+    }
+    replay(replyId).catch((error: unknown) => {
+      toast.error(error instanceof Error ? error.message : "语音重播失败");
+    });
+  }, [replay, replyId]);
 
   if (isLoading) {
     return null;
@@ -59,6 +74,16 @@ export function PureMessageActions({
       {message.role === "assistant" && onRetry ? (
         <Action onClick={onRetry} tooltip="重新生成">
           <RefreshCcwIcon className="size-3.5" />
+        </Action>
+      ) : null}
+      {message.role === "assistant" &&
+      voiceMetadata?.data.speech?.status === "eligible" ? (
+        <Action
+          disabled={!hasReplayableVoice}
+          onClick={handleReplay}
+          tooltip={hasReplayableVoice ? "重新播放语音与动作" : "语音准备中"}
+        >
+          <Volume2Icon className="size-3.5" />
         </Action>
       ) : null}
       <Action onClick={handleCopy} tooltip="复制">

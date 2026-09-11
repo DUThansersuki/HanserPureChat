@@ -20,6 +20,8 @@ type VoiceContextValue = {
   setEnabled: (enabled: boolean) => void;
   pause: () => void;
   resume: () => Promise<void>;
+  replay: (replyId: string) => Promise<void>;
+  canReplay: (replyId: string) => boolean;
   interrupt: () => Promise<void>;
   acceptReply: (metadata: HanserMetaData) => void;
   samplePerformance: () => PlaybackSample | undefined;
@@ -32,12 +34,26 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   controller.current ??= new PlaybackController();
   const [enabled, setEnabledState] = useState(false);
   const [state, setState] = useState<PlaybackState>("IDLE");
+  const [replayableReplyIds, setReplayableReplyIds] = useState<
+    ReadonlySet<string>
+  >(new Set());
 
   useEffect(() => {
     setEnabledState(
       window.localStorage.getItem("hanser-speech-enabled") === "true"
     );
-    return controller.current?.subscribe(setState);
+    return controller.current?.subscribe((nextState, _position, replyIds) => {
+      setState(nextState);
+      setReplayableReplyIds((current) => {
+        if (
+          current.size === replyIds.length &&
+          replyIds.every((replyId) => current.has(replyId))
+        ) {
+          return current;
+        }
+        return new Set(replyIds);
+      });
+    });
   }, []);
 
   const setEnabled = useCallback((next: boolean) => {
@@ -66,15 +82,18 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   const value = useMemo<VoiceContextValue>(
     () => ({
       acceptReply,
+      canReplay: (replyId) => replayableReplyIds.has(replyId),
       enabled,
       interrupt: () => controller.current?.interrupt() ?? Promise.resolve(),
       pause: () => controller.current?.pause(),
+      replay: (replyId) =>
+        controller.current?.replay(replyId) ?? Promise.resolve(),
       resume: () => controller.current?.resume() ?? Promise.resolve(),
       samplePerformance: () => controller.current?.samplePerformance(),
       setEnabled,
       state,
     }),
-    [acceptReply, enabled, setEnabled, state]
+    [acceptReply, enabled, replayableReplyIds, setEnabled, state]
   );
 
   return (

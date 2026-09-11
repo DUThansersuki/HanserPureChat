@@ -42,12 +42,32 @@ export function MmdStage() {
     let disposed = false;
     let animationFrame = 0;
     let renderer: import("three").WebGLRenderer | undefined;
+    let composer:
+      | import("three/addons/postprocessing/EffectComposer.js").EffectComposer
+      | undefined;
+    let chromaticPass:
+      | import("three/addons/postprocessing/ShaderPass.js").ShaderPass
+      | undefined;
+    const postPasses: Array<{ dispose: () => void }> = [];
     let mesh: import("three").SkinnedMesh | undefined;
 
     async function start() {
       const THREE = await import("three");
-      const [{ MMDLoader }, { MmdRigAdapter: Adapter }] = await Promise.all([
+      const [
+        { MMDLoader },
+        { EffectComposer },
+        { RenderPass },
+        { UnrealBloomPass },
+        { ShaderPass },
+        { OutputPass },
+        { MmdRigAdapter: Adapter },
+      ] = await Promise.all([
         import("three/addons/loaders/MMDLoader.js"),
+        import("three/addons/postprocessing/EffectComposer.js"),
+        import("three/addons/postprocessing/RenderPass.js"),
+        import("three/addons/postprocessing/UnrealBloomPass.js"),
+        import("three/addons/postprocessing/ShaderPass.js"),
+        import("three/addons/postprocessing/OutputPass.js"),
         import("@/lib/live2d/mmd-rig-adapter"),
       ]);
       if (disposed || !canvas) {
@@ -81,26 +101,6 @@ export function MmdStage() {
         return;
       }
 
-      const materials = Array.isArray(mesh.material)
-        ? mesh.material
-        : [mesh.material];
-      for (const material of materials) {
-        const toonMaterial = material as import("three").Material & {
-          emissive?: import("three").Color;
-          gradientMap?: import("three").Texture;
-        };
-        if (toonMaterial.emissive && "map" in material && material.map) {
-          toonMaterial.emissive.set(0x00_00_00);
-        }
-        if (toonMaterial.gradientMap) {
-          toonMaterial.gradientMap.magFilter = THREE.LinearFilter;
-          toonMaterial.gradientMap.minFilter = THREE.LinearFilter;
-          toonMaterial.gradientMap.needsUpdate = true;
-        }
-      }
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.OrthographicCamera(-5, 5, 8, -8, 0.1, 200);
       renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: true,
@@ -108,20 +108,131 @@ export function MmdStage() {
         powerPreference: "high-performance",
       });
       renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
       renderer.setClearColor(0x00_00_00, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      scene.add(new THREE.HemisphereLight(0xff_f3_e8, 0x46_53_6f, 0.1));
-      const keyLight = new THREE.DirectionalLight(0xff_ea_d6, 1.18);
-      keyLight.position.set(5, 10, 12);
+      const materials = Array.isArray(mesh.material)
+        ? mesh.material
+        : [mesh.material];
+      const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+      for (const material of materials) {
+        const toonMaterial = material as import("three").Material & {
+          emissive?: import("three").Color;
+          emissiveIntensity?: number;
+          gradientMap?: import("three").Texture;
+          map?: import("three").Texture;
+          userData: {
+            MMD?: { mapFileName?: string };
+          };
+        };
+        if (toonMaterial.emissive && toonMaterial.map) {
+          toonMaterial.emissive.set(0x00_00_00);
+        }
+        if (toonMaterial.map) {
+          toonMaterial.map.anisotropy = Math.min(maxAnisotropy, 8);
+          toonMaterial.map.colorSpace = THREE.SRGBColorSpace;
+          toonMaterial.map.needsUpdate = true;
+        }
+        const mapFileName = toonMaterial.userData.MMD?.mapFileName
+          ?.replaceAll("\\", "/")
+          .toLowerCase();
+        if (mapFileName?.includes("hair")) {
+          toonMaterial.emissive?.setRGB(0.022, 0.007, 0.003);
+          toonMaterial.emissiveIntensity = 0.7;
+        } else if (
+          mapFileName?.includes("face") ||
+          mapFileName?.includes("body")
+        ) {
+          toonMaterial.emissive?.setRGB(0.018, 0.006, 0.004);
+          toonMaterial.emissiveIntensity = 0.55;
+        } else if (mapFileName?.includes("eyes")) {
+          toonMaterial.emissive?.setRGB(0.025, 0.018, 0.004);
+          toonMaterial.emissiveIntensity = 0.8;
+        }
+        if (toonMaterial.gradientMap) {
+          toonMaterial.gradientMap.magFilter = THREE.LinearFilter;
+          toonMaterial.gradientMap.minFilter = THREE.LinearFilter;
+          toonMaterial.gradientMap.needsUpdate = true;
+        }
+        material.needsUpdate = true;
+      }
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xb8_b5_b2);
+      const camera = new THREE.OrthographicCamera(-5, 5, 8, -8, 0.1, 200);
+
+      scene.add(new THREE.HemisphereLight(0xff_f7_f0, 0x5c_64_78, 0.34));
+      const keyLight = new THREE.DirectionalLight(0xff_e7_d3, 1.34);
+      keyLight.position.set(4.5, 10, 12);
       scene.add(keyLight);
-      const fillLight = new THREE.DirectionalLight(0xa9_c6_ff, 0.25);
+      const fillLight = new THREE.DirectionalLight(0xb8_ce_ff, 0.32);
       fillLight.position.set(-7, 5, 8);
       scene.add(fillLight);
-      const rimLight = new THREE.DirectionalLight(0xff_d2_b8, 0.14);
-      rimLight.position.set(-5, 9, -8);
+      const rimLight = new THREE.DirectionalLight(0xff_78_52, 0.5);
+      rimLight.position.set(-5.5, 8.5, -7);
       scene.add(rimLight);
       scene.add(mesh);
+
+      const postTarget = new THREE.WebGLRenderTarget(1, 1, {
+        depthBuffer: true,
+        format: THREE.RGBAFormat,
+        stencilBuffer: false,
+        type: THREE.UnsignedByteType,
+      });
+      postTarget.samples = 4;
+      composer = new EffectComposer(renderer, postTarget);
+      composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const renderPass = new RenderPass(scene, camera);
+      composer.addPass(renderPass);
+      postPasses.push(renderPass);
+
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(1, 1),
+        0.18,
+        0.58,
+        0.84
+      );
+      composer.addPass(bloomPass);
+      postPasses.push(bloomPass);
+
+      chromaticPass = new ShaderPass({
+        fragmentShader: `
+          uniform sampler2D tDiffuse;
+          uniform vec2 resolution;
+          uniform float amount;
+          varying vec2 vUv;
+
+          void main() {
+            vec2 fromCenter = vUv - 0.5;
+            float radial = smoothstep(0.12, 0.72, length(fromCenter));
+            vec2 offset = fromCenter * amount * radial / resolution;
+            vec4 center = texture2D(tDiffuse, vUv);
+            float red = texture2D(tDiffuse, vUv + offset).r;
+            float blue = texture2D(tDiffuse, vUv - offset).b;
+            gl_FragColor = vec4(red, center.g, blue, center.a);
+          }
+        `,
+        uniforms: {
+          amount: { value: 1.1 },
+          resolution: { value: new THREE.Vector2(1, 1) },
+          tDiffuse: { value: null },
+        },
+        vertexShader: `
+          varying vec2 vUv;
+
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+      });
+      composer.addPass(chromaticPass);
+      postPasses.push(chromaticPass);
+      const outputPass = new OutputPass();
+      composer.addPass(outputPass);
+      postPasses.push(outputPass);
 
       const bounds = new THREE.Box3().setFromObject(mesh);
       const size = bounds.getSize(new THREE.Vector3());
@@ -145,6 +256,11 @@ export function MmdStage() {
         camera.lookAt(cameraCenterX, cameraCenterY, center.z);
         camera.updateProjectionMatrix();
         renderer.setSize(width, height, false);
+        composer?.setSize(width, height);
+        chromaticPass?.uniforms.resolution.value.set(
+          width * renderer.getPixelRatio(),
+          height * renderer.getPixelRatio()
+        );
       }
 
       const resizeObserver = new ResizeObserver(resize);
@@ -152,10 +268,11 @@ export function MmdStage() {
       resize();
 
       const adapter = new Adapter(mesh);
+      let displayedMotion: MmdMotionName = "idle";
       adapterRef.current = adapter;
       adapter.reset(0);
       setStageState("ready");
-      setDetail("无物理模式｜4 个候选动作");
+      setDetail("循环待机｜挥手 · 歪头 · 比耶 Wink");
 
       function draw(now: number) {
         if (disposed || !(renderer && mesh)) {
@@ -182,7 +299,12 @@ export function MmdStage() {
           );
         }
         adapter.update(now);
-        renderer.render(scene, camera);
+        const renderedMotion = adapter.getActiveMotion();
+        if (renderedMotion !== displayedMotion) {
+          displayedMotion = renderedMotion;
+          setActiveMotion(renderedMotion);
+        }
+        composer?.render();
         animationFrame = requestAnimationFrame(draw);
       }
       animationFrame = requestAnimationFrame(draw);
@@ -206,6 +328,10 @@ export function MmdStage() {
       disconnectResize?.();
       adapterRef.current?.destroy();
       adapterRef.current = null;
+      for (const pass of postPasses) {
+        pass.dispose();
+      }
+      composer?.dispose();
       if (mesh) {
         mesh.geometry.dispose();
         const materials = Array.isArray(mesh.material)
@@ -248,9 +374,9 @@ export function MmdStage() {
               : "加载中"}
         </span>
       </div>
-      <div className="relative min-h-0 flex-1 overflow-hidden bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(-45deg,hsl(var(--muted))_25%,transparent_25%),linear-gradient(45deg,transparent_75%,hsl(var(--muted))_75%),linear-gradient(-45deg,transparent_75%,hsl(var(--muted))_75%)] bg-[length:24px_24px] bg-[position:0_0,0_12px,12px_-12px,-12px_0]">
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-[radial-gradient(circle_at_50%_38%,#f8f5f2_0%,#e8e6e5_58%,#d6d6d8_100%)] dark:bg-[radial-gradient(circle_at_50%_38%,#39383b_0%,#242429_62%,#17171b_100%)]">
         <canvas
-          className="h-full w-full [filter:saturate(1.32)_contrast(1.08)_brightness(1.35)]"
+          className="h-full w-full [filter:saturate(1.1)_contrast(1.025)_brightness(1.04)]"
           ref={canvasRef}
         />
       </div>
