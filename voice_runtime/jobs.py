@@ -562,13 +562,15 @@ class VoiceJobManager:
             self._identity_index[job.identity] = snapshot.job_id
             self._persist(job)
 
-    @staticmethod
-    def _job_identity(request: VoiceJobRequest) -> str:
+    def _job_identity(self, request: VoiceJobRequest) -> str:
         encoded = json.dumps(
             {
                 "owner": request.owner,
                 "reply_id": request.snapshot.reply_id,
                 "render_profile_revision": request.snapshot.render_profile_revision,
+                "voice_profile_revision": self.profile.profile_revision,
+                "rig_revision": self.rig.revision,
+                "timeline_revision": self.timeline_compiler.revision,
                 "mode": request.mode,
                 "rendition_id": request.rendition_id,
             },

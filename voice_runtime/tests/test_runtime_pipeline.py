@@ -10,6 +10,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from voice_runtime.api import create_app
+from voice_runtime.alignment import amplitude_envelope
 from voice_runtime.cache import generation_identity
 from voice_runtime.contracts import (
     AllowedPerformance,
@@ -34,6 +35,24 @@ from voice_runtime.settings import RuntimeSettings
 from voice_runtime.tts.base import SynthesisRequest, SynthesisResult
 from voice_runtime.tts.voxcpm2_hybrid import VoxCPM2HybridBackend
 from voice_runtime.voice_assets import VoiceAssetSelector
+
+
+def test_amplitude_envelope_gates_silence_and_uses_speech_dynamic_range() -> None:
+    sample_rate = 48_000
+    silence = np.zeros(sample_rate // 5, dtype=np.float32)
+    quiet_speech = (
+        np.sin(np.linspace(0, 80 * np.pi, sample_rate // 2, dtype=np.float32))
+        * 0.035
+    )
+    cues = amplitude_envelope(
+        np.concatenate((silence, quiet_speech, silence)), sample_rate
+    )
+    values = [cue.value for cue in cues]
+
+    assert max(values[:8]) == 0
+    assert max(values) > 0.65
+    assert values[-1] < 0.04
+    assert all(0 <= value <= 1 for value in values)
 
 
 def allowed() -> AllowedPerformance:

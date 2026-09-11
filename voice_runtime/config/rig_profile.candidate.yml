@@ -1,12 +1,12 @@
 schema_version: "1.1"
 profile_id: hanser-live2d-candidate
-revision: hanser-rig-candidate-1
+revision: hanser-rig-candidate-2
 status: validated
 enabled: true
 model_path: ../../.runtime/mmd/hanser_v2.0_cloth2_test/hanser_ver2.0.pmx
-attack_ms: 160
+attack_ms: 140
 hold_ms: 900
-release_ms: 240
+release_ms: 260
 presets:
   neutral:
     preset: neutral

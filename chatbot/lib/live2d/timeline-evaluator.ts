@@ -19,6 +19,15 @@ export function evaluateAudioFrame(
   position: PlaybackPosition
 ): Live2DFrame {
   const expression = segment.timeline.expression ?? {};
+  const sampleRate = segment.timeline.sample_rate;
+  const elapsedMs = (position.sampleOffset / sampleRate) * 1000;
+  const remainingMs =
+    ((segment.audio.sample_count - position.sampleOffset) / sampleRate) * 1000;
+  const attackMs = Math.max(0, Number(expression.attack_ms ?? 160));
+  const releaseMs = Math.max(0, Number(expression.release_ms ?? 240));
+  const attack = attackMs ? Math.min(1, elapsedMs / attackMs) : 1;
+  const release = releaseMs ? Math.min(1, remainingMs / releaseMs) : 1;
+  const expressionEnvelope = Math.max(0, Math.min(attack, release));
   const mouthOpen =
     position.phase === "audio"
       ? ((segment.timeline.mouth ?? []).find(
@@ -29,7 +38,7 @@ export function evaluateAudioFrame(
       : 0;
   return {
     expressionPreset: String(expression.preset ?? "neutral"),
-    expressionWeight: Number(expression.weight ?? 0),
+    expressionWeight: Number(expression.weight ?? 0) * expressionEnvelope,
     motion: String(expression.motion ?? "none"),
     mouthOpen,
   };

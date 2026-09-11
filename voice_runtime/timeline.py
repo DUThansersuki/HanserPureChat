@@ -11,7 +11,7 @@ from .performance import VisualResolution
 
 
 class TimelineCompiler:
-    revision = "timeline_1"
+    revision = "timeline_2"
 
     def __init__(self, root: str | Path):
         self.root = Path(root).resolve()

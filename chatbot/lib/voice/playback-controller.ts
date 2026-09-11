@@ -57,7 +57,11 @@ export class PlaybackController {
       );
       return {
         ...this.currentPosition,
-        sampleOffset: this.audioOffsetSamples + Math.round(elapsed * 48_000),
+        sampleOffset:
+          this.audioOffsetSamples +
+          Math.round(
+            elapsed * (this.currentSegment?.timeline.sample_rate ?? 48_000)
+          ),
       };
     }
     return this.currentPosition ? { ...this.currentPosition } : undefined;
@@ -158,7 +162,9 @@ export class PlaybackController {
         0,
         this.context.currentTime - this.audioStartedAt
       );
-      this.audioOffsetSamples += Math.round(elapsed * 48_000);
+      this.audioOffsetSamples += Math.round(
+        elapsed * (this.currentSegment?.timeline.sample_rate ?? 48_000)
+      );
       this.source.onended = null;
       this.source.stop();
       this.source = undefined;
@@ -326,9 +332,12 @@ export class PlaybackController {
       const gain = this.context.createGain();
       source.buffer = buffer;
       source.connect(gain).connect(this.context.destination);
+      const now = this.context.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(1, now + 0.012);
       this.source = source;
       this.gain = gain;
-      this.audioStartedAt = this.context.currentTime;
+      this.audioStartedAt = now;
       this.currentPosition = {
         epoch: runEpoch,
         phase: "audio",
@@ -382,7 +391,7 @@ export class PlaybackController {
       this.setState("PLAYING");
       const chunk = Math.min(960, total - consumed);
       await new Promise((resolve) =>
-        setTimeout(resolve, (chunk / 48_000) * 1000)
+        setTimeout(resolve, (chunk / segment.timeline.sample_rate) * 1000)
       );
       consumed += chunk;
       if (this.currentPosition) {

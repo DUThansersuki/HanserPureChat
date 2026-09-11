@@ -36,6 +36,8 @@ export class MmdRigAdapter implements RigAdapter {
   private activeMotion: MmdMotionName = "idle";
   private requestedMotion: MmdMotionName = "idle";
   private motionStartedAt = 0;
+  private lastUpdatedAt = 0;
+  private speechActivity = 0;
   private frame: Live2DFrame = {
     expressionPreset: "neutral",
     expressionWeight: 0,
@@ -87,6 +89,14 @@ export class MmdRigAdapter implements RigAdapter {
   }
 
   update(now = performance.now()) {
+    const deltaMs = this.lastUpdatedAt
+      ? Math.min(50, now - this.lastUpdatedAt)
+      : 16;
+    this.lastUpdatedAt = now;
+    const speechTarget = Math.min(1, this.frame.mouthOpen * 1.25);
+    const follow = speechTarget > this.speechActivity ? 0.24 : 0.12;
+    this.speechActivity +=
+      (speechTarget - this.speechActivity) * follow * (deltaMs / 16);
     let elapsedMs = now - this.motionStartedAt;
     if (isMmdMotionComplete(this.activeMotion, elapsedMs)) {
       this.activeMotion = "idle";
@@ -111,6 +121,16 @@ export class MmdRigAdapter implements RigAdapter {
         );
     }
 
+    // Small audio-driven posture changes make the rig feel connected to the
+    // spoken cadence while keeping semantic gestures under explicit control.
+    this.addBoneRotation("頭", [
+      -0.01 * this.speechActivity +
+        0.006 * (this.frame.mouthOpen - this.speechActivity),
+      0,
+      0,
+    ]);
+    this.addBoneRotation("上半身2", [0.004 * this.speechActivity, 0, 0]);
+
     this.resetMorphs();
     for (const [name, value] of Object.entries(pose.morphs)) {
       this.setMorph(name, value);
@@ -124,6 +144,19 @@ export class MmdRigAdapter implements RigAdapter {
 
   private resetMorphs() {
     this.mesh.morphTargetInfluences?.fill(0);
+  }
+
+  private addBoneRotation(
+    name: string,
+    rotation: readonly [number, number, number]
+  ) {
+    const bone = this.bones.get(name);
+    if (!bone) {
+      return;
+    }
+    bone.quaternion.multiply(
+      this.rotationDelta.setFromEuler(this.euler.set(...rotation, "XYZ"))
+    );
   }
 
   private setMorph(name: string, value: number) {

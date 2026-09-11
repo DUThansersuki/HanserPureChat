@@ -42,6 +42,8 @@ export type SegmentPackage = {
       preset?: string;
       weight?: number;
       motion?: string;
+      attack_ms?: number;
+      release_ms?: number;
     };
   };
 };

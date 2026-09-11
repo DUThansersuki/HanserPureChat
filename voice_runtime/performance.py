@@ -38,6 +38,8 @@ class VisualResolution(BaseModel):
     preset: str
     weight: float = Field(ge=0.0, le=1.0)
     motion: str = "none"
+    attack_ms: int = Field(default=160, ge=0)
+    release_ms: int = Field(default=240, ge=0)
     feature_tags: list[str] = Field(default_factory=list)
     degraded_reasons: list[str] = Field(default_factory=list)
 
@@ -77,6 +79,8 @@ class VisualCapabilityMapper:
             return VisualResolution(
                 preset="neutral",
                 weight=0.0,
+                attack_ms=rig.attack_ms,
+                release_ms=rig.release_ms,
                 degraded_reasons=["rig_preset_unavailable"],
             )
         forbidden = set(allowed.forbidden_features)
@@ -86,12 +90,16 @@ class VisualCapabilityMapper:
                 preset=neutral.preset if neutral else "neutral",
                 weight=0.0,
                 motion="none",
+                attack_ms=rig.attack_ms,
+                release_ms=rig.release_ms,
                 degraded_reasons=["visual_features_forbidden"],
             )
         return VisualResolution(
             preset=preset.preset,
             weight=min(allowed.intensity, preset.max_weight),
             motion=preset.motion,
+            attack_ms=rig.attack_ms,
+            release_ms=rig.release_ms,
             feature_tags=preset.feature_tags,
         )
 

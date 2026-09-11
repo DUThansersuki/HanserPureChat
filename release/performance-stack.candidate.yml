@@ -15,9 +15,9 @@ revisions:
   voice_model: local-voxcpm2-observed-20260909
   voice_backend: voxcpm2_hybrid_vae_cpu_1
   voice_selector: voice_asset_selector_1
-  rig_profile: hanser-rig-candidate-1
-  timeline_compiler: timeline_1
-  client_protocol: playback_controller_1
+  rig_profile: hanser-rig-candidate-2
+  timeline_compiler: timeline_2
+  client_protocol: playback_controller_2
 gates:
   text_regression: pending
   voice_assets_reviewed: true
