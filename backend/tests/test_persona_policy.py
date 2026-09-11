@@ -197,7 +197,7 @@ class PersonaPolicyTests(unittest.TestCase):
             {item.id for item in decision.persona_affordances},
         )
 
-    def test_profanity_pacing_is_deterministic_and_never_overrides_deny(self) -> None:
+    def test_profanity_target_is_soft_and_never_overrides_deny(self) -> None:
         signals = build_turn_signals(
             "这游戏又把存档弄没了",
             current_message_ref="m",
@@ -222,12 +222,6 @@ class PersonaPolicyTests(unittest.TestCase):
             )
             for index in range(20)
         ]
-        scheduled_index = next(
-            index
-            for index, decision in enumerate(decisions)
-            if "expression.use_light_profanity"
-            in {item.requirement_id for item in decision.must_do}
-        )
         denied = build_guidance(
             signals,
             {"profanity": "deny"},
@@ -235,7 +229,7 @@ class PersonaPolicyTests(unittest.TestCase):
             settings,
             response_mode="casual",
             pacing_key="u:c",
-            successful_assistant_turns=scheduled_index,
+            successful_assistant_turns=0,
         )
 
         self.assertEqual(
@@ -244,11 +238,20 @@ class PersonaPolicyTests(unittest.TestCase):
                 in {item.requirement_id for item in decision.must_do}
                 for decision in decisions
             ),
-            3,
+            0,
         )
+        self.assertTrue(all(
+            "light_profanity_release"
+            in {item.id for item in decision.persona_affordances}
+            for decision in decisions
+        ))
         self.assertNotIn(
             "expression.use_light_profanity",
             {item.requirement_id for item in denied.must_do},
+        )
+        self.assertNotIn(
+            "light_profanity_release",
+            {item.id for item in denied.persona_affordances},
         )
 
     def test_adult_humor_requires_both_context_and_permission(self) -> None:

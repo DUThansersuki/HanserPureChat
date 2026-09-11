@@ -349,6 +349,27 @@ CREATE TABLE IF NOT EXISTS post_turn_failures (
 )
 """
 
+SCHEMA_POST_TURN_COMMITS = """
+CREATE TABLE IF NOT EXISTS post_turn_commits (
+    user_message_id TEXT PRIMARY KEY,
+    conversation_id TEXT NOT NULL,
+    committed_at    TEXT NOT NULL
+)
+"""
+
+SCHEMA_PERSONA_PERMISSION_EVENTS = """
+CREATE TABLE IF NOT EXISTS persona_permission_events (
+    source_message_id TEXT NOT NULL,
+    event_index       INTEGER NOT NULL,
+    user_id           TEXT NOT NULL,
+    conversation_id   TEXT NOT NULL,
+    scope             TEXT NOT NULL,
+    event_json        TEXT NOT NULL,
+    created_at        TEXT NOT NULL,
+    PRIMARY KEY (source_message_id, event_index)
+)
+"""
+
 
 class ClosingConnection(sqlite3.Connection):
     """Match C# `using` semantics: commit/rollback, then close the handle."""
@@ -391,6 +412,8 @@ def init_db(conn: sqlite3.Connection) -> None:
     conn.execute(SCHEMA_REQUEST_EXECUTIONS)
     conn.execute(SCHEMA_REPLY_SNAPSHOTS)
     conn.execute(SCHEMA_POST_TURN_FAILURES)
+    conn.execute(SCHEMA_POST_TURN_COMMITS)
+    conn.execute(SCHEMA_PERSONA_PERMISSION_EVENTS)
     _apply_memory_assertion_migration(conn)
     _apply_memory_address_migration(conn)
     _apply_style_review_migration(conn)

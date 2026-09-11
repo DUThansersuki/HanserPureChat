@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import uuid4
 
@@ -23,8 +23,9 @@ class RequestClaim:
 
 
 class RequestStateStore:
-    def __init__(self, db_path: str | Path):
+    def __init__(self, db_path: str | Path, *, lease_seconds: float = 300.0):
         self.db_path = Path(db_path)
+        self.lease_seconds = lease_seconds
 
     def claim(
         self,
@@ -92,7 +93,24 @@ class RequestStateStore:
                     (request_id, request_hash),
                 ).fetchone()
                 if committed is None:
-                    raise RequestInProgress()
+                    updated_at = datetime.fromisoformat(str(row["updated_at"]))
+                    if datetime.now(timezone.utc) - updated_at < timedelta(
+                        seconds=self.lease_seconds
+                    ):
+                        raise RequestInProgress()
+                    conn.execute(
+                        """
+                        UPDATE request_executions
+                        SET trace_id=?,attempts=attempts+1,updated_at=?
+                        WHERE request_id=?
+                        """,
+                        (trace_id, _now(), request_id),
+                    )
+                    conn.commit()
+                    return RequestClaim(
+                        trace_id=trace_id,
+                        effective_request=frozen_request,
+                    )
                 response = ChatResponse.model_validate_json(
                     str(committed["response_json"])
                 )
@@ -221,6 +239,39 @@ class RequestStateStore:
 
     def list_post_turn_failures(self) -> list[dict[str, object]]:
         with db.connect(self.db_path) as conn:
+            now = _now()
+            pending = conn.execute(
+                """
+                SELECT s.request_id,s.post_turn_payload_json,
+                       COALESCE(r.trace_id, s.request_id) AS trace_id
+                FROM reply_snapshots s
+                LEFT JOIN request_executions r ON r.request_id=s.request_id
+                LEFT JOIN post_turn_failures f ON f.request_id=s.request_id
+                WHERE s.post_turn_status='pending' AND f.request_id IS NULL
+                """
+            ).fetchall()
+            conn.executemany(
+                """
+                INSERT INTO post_turn_failures
+                    (id,request_id,trace_id,stage,status,attempts,payload_json,
+                     last_error_type,last_error_message,created_at,updated_at)
+                VALUES (?,?,?,'post_turn','pending',1,?,
+                        'RecoveredPendingSnapshot',
+                        'reply persisted before post-turn completion was recorded',?,?)
+                """,
+                [
+                    (
+                        str(uuid4()),
+                        str(row["request_id"]),
+                        str(row["trace_id"]),
+                        str(row["post_turn_payload_json"]),
+                        now,
+                        now,
+                    )
+                    for row in pending
+                ],
+            )
+            conn.commit()
             rows = conn.execute(
                 """
                 SELECT id,request_id,trace_id,stage,status,attempts,

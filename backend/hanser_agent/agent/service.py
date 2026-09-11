@@ -20,6 +20,7 @@ from ..models import (
 from ..persona.expression import observe_recent_expressions
 from ..persona.permissions import infer_expression_permissions
 from ..persona.policy import build_guidance
+from ..persona.schemas import ExplicitPreferenceEvent
 from ..persona.signals import build_turn_signals
 from ..responder import (
     HanserResponder,
@@ -66,8 +67,14 @@ class ChatAgentService:
         self.request_state = request_state
         self.performance_config = performance_config or PerformanceConfig()
         self.performance_policy = PerformancePolicyResolver()
+        self._user_locks: dict[str, asyncio.Lock] = {}
 
     async def send(self, request: ChatRequest) -> ChatResponse:
+        lock = self._user_locks.setdefault(request.user_id, asyncio.Lock())
+        async with lock:
+            return await self._send(request)
+
+    async def _send(self, request: ChatRequest) -> ChatResponse:
         trace_id = str(uuid4())
         request_id = request.request_id or trace_id
         request_identity = {
@@ -137,11 +144,16 @@ class ChatAgentService:
         timings: dict[str, float] = {}
         degraded: list[str] = []
         try:
+            user_message_id = str(uuid4())
             started = time.perf_counter()
-            history = self.conversations.get_recent(
-                request.conversation_id, user_id=request.user_id
-            )
             summary = self.memory_store.get_summary(request.conversation_id)
+            history = self.conversations.get_context_history(
+                request.conversation_id,
+                user_id=request.user_id,
+                summary_through_index=(
+                    summary.through_message_index if summary else None
+                ),
+            )
             relationship = self.memory_store.get_relationship(request.user_id)
             scene = self.memory_store.get_scene(request.conversation_id)
             timings["load_context_state"] = time.perf_counter() - started
@@ -173,7 +185,7 @@ class ChatAgentService:
                 ]
                 turn_signals = build_turn_signals(
                     request.message,
-                    current_message_ref=f"request:{request_id}:current_user",
+                    current_message_ref=user_message_id,
                     adult_innuendo_opt_in=persona_settings.adult_innuendo_opt_in,
                     planner_payload=plan.persona_signals,
                     history_messages=history,
@@ -188,8 +200,17 @@ class ChatAgentService:
                     recency_decay=effective_persona.recency_decay,
                 )
                 expression_permissions = infer_expression_permissions(
-                    turn_signals.preference_events,
-                    current_message_id=f"request:{request_id}:current_user",
+                    [
+                        *self.memory_store.list_permission_events(
+                            user_id=request.user_id,
+                            conversation_id=request.conversation_id,
+                        ),
+                        *[
+                            item for item in turn_signals.preference_events
+                            if item.source_message_id == user_message_id
+                        ],
+                    ],
+                    current_message_id=user_message_id,
                     persistent_preferences=durable_preferences,
                     explicit_overrides=(
                         {"innuendo": "allow"}
@@ -248,7 +269,11 @@ class ChatAgentService:
                     )
                 task_specs.append(("style", style_search))
             if plan.need_memory:
-                task_specs.append(("memory", self.memory_tool.search(query=plan.memory_query or request.message, user_id=request.user_id)))
+                task_specs.append(("memory", self.memory_tool.search(
+                    query=plan.memory_query or request.message,
+                    user_id=request.user_id,
+                    conversation_id=request.conversation_id,
+                )))
             if plan.need_wiki:
                 task_specs.append(("wiki", self.wiki_tool.search(plan.standalone_query, plan.keywords)))
             results = await asyncio.gather(
@@ -310,7 +335,6 @@ class ChatAgentService:
             )
             semantic_text = generated.semantic_text or generated.text
             assistant_message_id = str(uuid4())
-            user_message_id = str(uuid4())
             requested_consumers = request.output_preferences.requests_performance()
             speech_ticket = None
             if request.output_preferences.speech:
@@ -342,6 +366,14 @@ class ChatAgentService:
                 "user_message": request.message,
                 "previous_relationship": relationship.model_dump(mode="json"),
                 "previous_scene": scene.model_dump(mode="json"),
+                "permission_events": (
+                    [
+                        item.model_dump(mode="json")
+                        for item in turn_signals.preference_events
+                        if item.source_message_id == user_message_id
+                    ]
+                    if turn_signals is not None else []
+                ),
             }
             snapshot = ReplySnapshot(
                 request_id=request_id,
@@ -463,6 +495,13 @@ class ChatAgentService:
                     user_message=request.message,
                     previous_relationship=relationship,
                     previous_scene=scene,
+                    permission_events=(
+                        [
+                            item for item in turn_signals.preference_events
+                            if item.source_message_id == user_message_id
+                        ]
+                        if turn_signals is not None else []
+                    ),
                 )
                 self.conversations.mark_post_turn_completed(request_id)
             except Exception as exc:
@@ -585,6 +624,10 @@ class ChatAgentService:
                 user_message=payload["user_message"],
                 previous_relationship=RelationshipState.model_validate(payload["previous_relationship"]),
                 previous_scene=SceneState.model_validate(payload["previous_scene"]),
+                permission_events=[
+                    ExplicitPreferenceEvent.model_validate(item)
+                    for item in payload.get("permission_events", [])
+                ],
             )
         except Exception as exc:
             self.request_state.update_post_turn_error(failure_id, exc)

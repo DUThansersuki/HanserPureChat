@@ -78,6 +78,38 @@ class ConversationStore:
             for row in reversed(rows)
         ]
 
+    def get_context_history(
+        self,
+        conversation_id: str,
+        *,
+        user_id: str,
+        summary_through_index: int | None,
+    ) -> list[ChatMessage]:
+        """Return every message not covered by the summary, or the recent window."""
+        if summary_through_index is None:
+            return self.get_recent(conversation_id, user_id=user_id)
+        with db.connect(self.db_path) as conn:
+            self._assert_owner(conn, conversation_id, user_id)
+            rows = conn.execute(
+                """
+                SELECT id, role, content, created_at, style_example_ids_json
+                FROM messages
+                WHERE conversation_id = ? AND turn_index > ?
+                ORDER BY turn_index
+                """,
+                (conversation_id, summary_through_index),
+            ).fetchall()
+        return [
+            ChatMessage(
+                role=str(row["role"]),
+                content=str(row["content"]),
+                message_id=str(row["id"]),
+                created_at=datetime.fromisoformat(str(row["created_at"])),
+                style_example_ids=json.loads(str(row["style_example_ids_json"])),
+            )
+            for row in rows
+        ]
+
     def list_conversations(
         self,
         *,

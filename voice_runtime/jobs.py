@@ -277,7 +277,7 @@ class VoiceJobManager:
             voice_trace: list[dict[str, object]] = []
             visual_trace: list[dict[str, object]] = []
             for segment in speech.segments:
-                await self._wait_for_capacity(job, segment.index)
+                await self._wait_for_capacity(job, segment.index, deadline)
                 async with self._condition:
                     if job.snapshot.status == JobStatus.CANCELLED:
                         return
@@ -431,16 +431,27 @@ class VoiceJobManager:
                     self._terminal(job, JobStatus.FAILED, str(exc)[:240])
                     self._condition.notify_all()
 
-    async def _wait_for_capacity(self, job: _Job, next_index: int) -> None:
+    async def _wait_for_capacity(
+        self, job: _Job, next_index: int, deadline: float
+    ) -> None:
         if job.request is None:
             raise RuntimeError("persisted terminal job cannot be queued")
         if job.request.mode == "offline" or next_index < self.max_ready_segments:
             return
+        remaining = deadline - (time.monotonic() - job.created_monotonic)
+        if remaining <= 0:
+            raise TimeoutError("voice_job_deadline_exceeded")
         async with self._condition:
-            await self._condition.wait_for(
-                lambda: job.snapshot.status == JobStatus.CANCELLED
-                or next_index - job.consumed_index <= self.max_ready_segments
-            )
+            try:
+                await asyncio.wait_for(
+                    self._condition.wait_for(
+                        lambda: job.snapshot.status == JobStatus.CANCELLED
+                        or next_index - job.consumed_index <= self.max_ready_segments
+                    ),
+                    timeout=remaining,
+                )
+            except TimeoutError as exc:
+                raise TimeoutError("voice_job_deadline_exceeded") from exc
 
     def _visual(
         self,

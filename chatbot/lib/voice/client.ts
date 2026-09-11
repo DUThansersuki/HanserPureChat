@@ -30,6 +30,15 @@ export async function createVoiceJob(replyId: string, signal: AbortSignal) {
   return (await response.json()) as VoiceJob;
 }
 
+export async function getVoiceJob(jobId: string, signal: AbortSignal) {
+  const response = await checked(
+    await fetch(`${basePath}/api/voice/jobs/${encodeURIComponent(jobId)}`, {
+      signal,
+    })
+  );
+  return (await response.json()) as VoiceJob;
+}
+
 export async function cancelVoiceJob(jobId: string) {
   await fetch(
     `${basePath}/api/voice/jobs/${encodeURIComponent(jobId)}/cancel`,
@@ -43,13 +52,15 @@ export async function reportPlayback(
   jobId: string,
   payload: Record<string, unknown>
 ) {
-  await fetch(
-    `${basePath}/api/voice/jobs/${encodeURIComponent(jobId)}/playback`,
-    {
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-    }
+  await checked(
+    await fetch(
+      `${basePath}/api/voice/jobs/${encodeURIComponent(jobId)}/playback`,
+      {
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      }
+    )
   );
 }
 

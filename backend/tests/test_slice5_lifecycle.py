@@ -12,7 +12,11 @@ from hanser_agent.agent.conversation import (
     ConversationOwnershipError,
     ConversationStore,
 )
-from hanser_agent.retrieval.indexer import delete_document_chunks
+from hanser_agent.retrieval.indexer import (
+    delete_document_chunks,
+    restore_fact_lexical_index,
+    snapshot_fact_lexical_index,
+)
 from hanser_agent.retrieval.vector_store import SQLiteVectorStore
 
 
@@ -57,6 +61,48 @@ class Slice5OwnershipTests(unittest.TestCase):
 
 
 class Slice5IndexLifecycleTests(unittest.TestCase):
+    def test_failed_offline_rebuild_can_restore_lexical_ids_and_tokens(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "test.db"
+            migrated_database(path)
+            with db.connect(path) as conn:
+                document = conn.execute(
+                    "INSERT INTO documents(filename,filepath,content,mtime,size,indexed_at) "
+                    "VALUES ('a','a','old',0,3,'now')"
+                )
+                chunk = conn.execute(
+                    "INSERT INTO document_chunks(document_id,chunk_index,text,start_char,"
+                    "end_char,token_count,metadata_json,embedding_ref) "
+                    "VALUES (?,0,'old',0,3,1,'{}','fact_chunks:1')",
+                    (int(document.lastrowid),),
+                )
+                old_id = int(chunk.lastrowid)
+                conn.execute(
+                    "INSERT INTO chunk_tokens(chunk_id,token,tf) VALUES (?,'old',1)",
+                    (old_id,),
+                )
+                conn.commit()
+            frozen = snapshot_fact_lexical_index(db_path=path)
+            with db.connect(path) as conn:
+                conn.execute("DELETE FROM chunk_tokens")
+                conn.execute("DELETE FROM document_chunks")
+                conn.execute(
+                    "INSERT INTO document_chunks(document_id,chunk_index,text,start_char,"
+                    "end_char,token_count,metadata_json) VALUES (?,0,'new',0,3,1,'{}')",
+                    (1,),
+                )
+                conn.commit()
+            restore_fact_lexical_index(db_path=path, snapshot=frozen)
+            with db.connect(path) as conn:
+                restored = conn.execute(
+                    "SELECT id,text,embedding_ref FROM document_chunks"
+                ).fetchone()
+                token = conn.execute(
+                    "SELECT chunk_id,token FROM chunk_tokens"
+                ).fetchone()
+            self.assertEqual(tuple(restored), (old_id, "old", "fact_chunks:1"))
+            self.assertEqual(tuple(token), (old_id, "old"))
+
     def test_failed_build_keeps_old_generation_and_cross_instance_cache_refreshes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "test.db"

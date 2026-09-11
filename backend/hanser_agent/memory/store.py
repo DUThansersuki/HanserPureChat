@@ -36,11 +36,20 @@ class MemoryStore:
                 """
                 SELECT * FROM memories
                 WHERE user_id = ? AND type = ? AND memory_key = ?
+                  AND memory_scope = ?
+                  AND (? = 'global' OR conversation_id = ?)
                   AND status = 'active'
                 ORDER BY created_at DESC
                 LIMIT 1
                 """,
-                (candidate.user_id, candidate.type, candidate.memory_key),
+                (
+                    candidate.user_id,
+                    candidate.type,
+                    candidate.memory_key,
+                    candidate.memory_scope,
+                    candidate.memory_scope,
+                    candidate.conversation_id,
+                ),
             ).fetchone()
             if existing and str(existing["content"]) == candidate.content:
                 return self._memory_from_row(existing), False
@@ -130,6 +139,91 @@ class MemoryStore:
             ).fetchone()
         return row is not None and row["embedding_ref"] is None
 
+    def memories_by_source_message(self, source_message_id: str) -> list[MemoryItem]:
+        with db.connect(self.db_path) as conn:
+            rows = conn.execute(
+                """
+                SELECT DISTINCT m.* FROM memories m
+                JOIN json_each(m.source_message_ids_json) source
+                  ON source.value = ?
+                WHERE m.status='active'
+                """,
+                (source_message_id,),
+            ).fetchall()
+        return [self._memory_from_row(row) for row in rows]
+
+    def is_post_turn_committed(self, user_message_id: str) -> bool:
+        with db.connect(self.db_path) as conn:
+            return conn.execute(
+                "SELECT 1 FROM post_turn_commits WHERE user_message_id=?",
+                (user_message_id,),
+            ).fetchone() is not None
+
+    def mark_post_turn_committed(
+        self, *, user_message_id: str, conversation_id: str
+    ) -> None:
+        with db.connect(self.db_path) as conn:
+            conn.execute(
+                "INSERT OR IGNORE INTO post_turn_commits "
+                "(user_message_id,conversation_id,committed_at) "
+                "VALUES (?,?,?)",
+                (user_message_id, conversation_id, utc_now().isoformat()),
+            )
+            conn.commit()
+
+    def save_permission_events(
+        self,
+        *,
+        user_id: str,
+        conversation_id: str,
+        events: list[object],
+    ) -> None:
+        durable = [
+            item for item in events
+            if getattr(item, "scope", None) in {"conversation", "user"}
+        ]
+        if not durable:
+            return
+        with db.connect(self.db_path) as conn:
+            conn.executemany(
+                """
+                INSERT OR IGNORE INTO persona_permission_events
+                    (source_message_id,event_index,user_id,conversation_id,scope,
+                     event_json,created_at)
+                VALUES (?,?,?,?,?,?,?)
+                """,
+                [
+                    (
+                        item.source_message_id,
+                        index,
+                        user_id,
+                        conversation_id,
+                        item.scope,
+                        item.model_dump_json(),
+                        item.created_at.isoformat(),
+                    )
+                    for index, item in enumerate(durable)
+                ],
+            )
+            conn.commit()
+
+    def list_permission_events(self, *, user_id: str, conversation_id: str):
+        from ..persona.schemas import ExplicitPreferenceEvent
+
+        with db.connect(self.db_path) as conn:
+            rows = conn.execute(
+                """
+                SELECT event_json FROM persona_permission_events
+                WHERE user_id=? AND (scope='user' OR conversation_id=?)
+                ORDER BY created_at, source_message_id, event_index
+                """,
+                (user_id, conversation_id),
+            ).fetchall()
+        return [
+            ExplicitPreferenceEvent.model_validate_json(str(row["event_json"]))
+            for row in rows
+        ]
+
     def list_memories(
         self,
         *,
@@ -172,17 +266,28 @@ class MemoryStore:
         }
         return [by_id[value] for value in memory_ids if value in by_id]
 
-    def eligible_memory_ids(self, *, user_id: str) -> list[str]:
+    def eligible_memory_ids(
+        self, *, user_id: str, conversation_id: str | None = None
+    ) -> list[str]:
+        scope_clause = ""
+        params: list[object] = [user_id]
+        if conversation_id is not None:
+            scope_clause = (
+                "AND (memory_scope='global' OR "
+                "(memory_scope='conversation' AND conversation_id=?))"
+            )
+            params.append(conversation_id)
         with db.connect(self.db_path) as conn:
             rows = conn.execute(
-                """
+                f"""
                 SELECT id FROM memories
                 WHERE user_id = ? AND status = 'active'
                   AND validity IN ('asserted', 'verified')
                   AND embedding_ref IS NOT NULL
+                  {scope_clause}
                 ORDER BY created_at DESC
                 """,
-                (user_id,),
+                params,
             ).fetchall()
         return [str(row["id"]) for row in rows]
 
@@ -240,6 +345,7 @@ class MemoryStore:
             )
             new_id = str(uuid4())
             created_at = utc_now().isoformat()
+            content_changed = "content" in updates
             conn.execute(
                 """
                 INSERT INTO memories
@@ -263,15 +369,15 @@ class MemoryStore:
                     updates.get("importance", original["importance"]),
                     updates.get("confidence", original["confidence"]),
                     created_at,
-                    original["polarity"],
-                    original["subject"],
-                    original["predicate"],
-                    original["object_value"],
+                    "neutral" if content_changed else original["polarity"],
+                    None if content_changed else original["subject"],
+                    None if content_changed else original["predicate"],
+                    None if content_changed else original["object_value"],
                     memory_id,
                     original["memory_scope"],
-                    original["address_kind"],
-                    original["context_tags_json"],
-                    original["address_priority"],
+                    None if content_changed else original["address_kind"],
+                    "[]" if content_changed else original["context_tags_json"],
+                    0 if content_changed else original["address_priority"],
                 ),
             )
             conn.commit()

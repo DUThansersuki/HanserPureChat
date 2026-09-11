@@ -14,6 +14,8 @@ from hanser_agent.retrieval import SQLiteVectorStore, build_embedder
 from hanser_agent.retrieval.indexer import (
     rebuild_document_chunks,
     rebuild_fact_embeddings,
+    restore_fact_lexical_index,
+    snapshot_fact_lexical_index,
 )
 
 
@@ -26,18 +28,25 @@ async def build(args: argparse.Namespace) -> int:
         batch_size=args.batch_size or settings.embedding.batch_size,
     )
     started = time.perf_counter()
-    chunk_count = rebuild_document_chunks(
-        db_path=settings.db_path,
-        userdict_path=settings.userdict_path,
-        config=settings.retrieval,
-    )
-    embedder = build_embedder(embedding)
-    vector_count = await rebuild_fact_embeddings(
-        db_path=settings.db_path,
-        embedder=embedder,
-        vector_store=SQLiteVectorStore(settings.db_path),
-        batch_size=embedding.batch_size,
-    )
+    lexical_snapshot = snapshot_fact_lexical_index(db_path=settings.db_path)
+    try:
+        chunk_count = rebuild_document_chunks(
+            db_path=settings.db_path,
+            userdict_path=settings.userdict_path,
+            config=settings.retrieval,
+        )
+        embedder = build_embedder(embedding)
+        vector_count = await rebuild_fact_embeddings(
+            db_path=settings.db_path,
+            embedder=embedder,
+            vector_store=SQLiteVectorStore(settings.db_path),
+            batch_size=embedding.batch_size,
+        )
+    except BaseException:
+        restore_fact_lexical_index(
+            db_path=settings.db_path, snapshot=lexical_snapshot
+        )
+        raise
     print(
         f"documents_db={settings.db_path} chunks={chunk_count} "
         f"vectors={vector_count} model={embedding.model} "

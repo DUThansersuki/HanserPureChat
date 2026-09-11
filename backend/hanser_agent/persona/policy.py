@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 from collections.abc import Mapping
 
 from .schemas import (
@@ -355,36 +354,6 @@ def build_guidance(
         and signals.hard_bool("explicit_stop") is not True
     )
     target_rate = effective_persona.profanity_target_rate
-    profanity_scheduled = _expression_turn_scheduled(
-        pacing_key,
-        successful_assistant_turns,
-        target_rate,
-    )
-    humor = signals.get("humor_receptivity")
-    playful_expression_context = (
-        signals.observed_bool("playful_frame") is True
-        or humor is not None
-        and humor.status == "observed"
-        and humor.value == "welcome"
-    )
-    if (
-        profanity_eligible
-        and profanity_scheduled
-        and playful_expression_context
-        and profanity_rate <= target_rate * 1.3
-    ):
-        must_do.append(
-            Requirement(
-                requirement_id="expression.use_light_profanity",
-                instruction=(
-                    "本轮自然融入一个低强度粗口或强势戏谑自称来加强反应 "
-                    "实际使用我靠 卧槽 妈的 他妈的 老子 老娘中的一个最贴合语境的表达 "
-                    "只对准事情或自己 不压用户 不做人身攻击 不与黄腔或卖萌堆叠"
-                ),
-                source="setting",
-                basis_refs=["product.profanity_target_15.v1"],
-            )
-        )
     if profanity_eligible and profanity_rate < target_rate * 0.5:
         affordances.append(
             PersonaAffordance(
@@ -606,24 +575,3 @@ def _affordance_blocked(affordance_id: str, blocked: set[str]) -> bool:
         "light_profanity_release": {"profanity"},
     }
     return bool(features.get(affordance_id, set()).intersection(blocked))
-
-
-def _expression_turn_scheduled(
-    pacing_key: str | None,
-    completed_turns: int,
-    target_rate: float,
-    *,
-    horizon: int = 20,
-) -> bool:
-    if not pacing_key or target_rate <= 0:
-        return False
-    slots = max(1, round(target_rate * horizon))
-    scheduled = {
-        min(horizon - 1, int((index + 0.5) * horizon / slots))
-        for index in range(slots)
-    }
-    offset = int.from_bytes(
-        hashlib.sha256(pacing_key.encode("utf-8")).digest()[:2],
-        "big",
-    ) % horizon
-    return (completed_turns + offset) % horizon in scheduled

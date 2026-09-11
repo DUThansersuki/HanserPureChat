@@ -190,6 +190,10 @@ def create_app(
             active_memory_store,
         )
         active_memory_retriever = chat_agent.memory_tool.retriever
+    else:
+        active_memory_retriever = getattr(
+            getattr(chat_agent, "memory_tool", None), "retriever", None
+        )
 
     @asynccontextmanager
     async def lifespan(_: FastAPI):
@@ -460,8 +464,11 @@ def create_app(
             memory = active_memory_store.update_memory(memory_id, patch)
         except KeyError as exc:
             raise HTTPException(status_code=404, detail="memory not found") from exc
-        if patch.content is not None and active_memory_retriever is not None:
+        # Every revision has a new identity. Index it regardless of which field
+        # changed so metadata-only edits remain eligible for vector recall.
+        if active_memory_retriever is not None:
             await active_memory_retriever.index(memory)
+            active_memory_retriever.delete_index(memory_id)
         return memory
 
     @application.delete("/v1/memories/{memory_id}")

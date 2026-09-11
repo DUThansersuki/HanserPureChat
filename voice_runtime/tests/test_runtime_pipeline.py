@@ -312,3 +312,40 @@ async def test_cancel_wins_over_late_backend_result() -> None:
         events = await manager.events_after(created.job_id, "owner-1", 0)
         assert events[-1].type == "turn.cancelled"
         assert sum(item.type.startswith("turn.") and item.type != "turn.started" for item in events) == 1
+
+
+@pytest.mark.asyncio
+async def test_missing_playback_receipt_releases_the_worker_at_deadline() -> None:
+    with tempfile.TemporaryDirectory() as temporary:
+        manager = VoiceJobManager(
+            data_root=temporary,
+            profile=profile(),
+            rig=RigProfile(profile_id="rig", revision="rig-1"),
+            assets=assets(),
+            backend=_Backend(),
+            max_ready_segments=1,
+            interactive_deadline_seconds=0.05,
+        )
+        await manager.start()
+        first, _ = await manager.create(
+            VoiceJobRequest(
+                owner="owner-1",
+                snapshot=snapshot("第一段内容。" * 20 + "第二段内容。" * 20),
+                mode="interactive",
+            )
+        )
+        second_request = VoiceJobRequest(
+            owner="owner-1",
+            snapshot=snapshot("后续任务。").model_copy(
+                update={"request_id": "request-2", "reply_id": "reply-2"}
+            ),
+            mode="offline",
+        )
+        second, _ = await manager.create(second_request)
+        await asyncio.sleep(0.2)
+        first_final = await manager.get(first.job_id, "owner-1")
+        second_final = await manager.get(second.job_id, "owner-1")
+        await manager.close()
+        assert first_final.status == JobStatus.FAILED
+        assert first_final.terminal_reason == "voice_job_deadline_exceeded"
+        assert second_final.status == JobStatus.COMPLETED

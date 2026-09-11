@@ -173,6 +173,16 @@ class RenderBridge:
 
     async def _stream(self, path: str, headers: dict[str, str]) -> ProxiedStream:
         request = self.client.build_request("GET", path, headers=headers)
+        # SSE is heartbeat-driven and may legitimately be idle longer than the
+        # ordinary request timeout. Keep connect/write/pool bounded, but do not
+        # impose that timeout on reads from an established event stream.
+        timeout = self.config.request_timeout_seconds
+        request.extensions["timeout"] = {
+            "connect": timeout,
+            "read": None,
+            "write": timeout,
+            "pool": timeout,
+        }
         try:
             response = await self.client.send(request, stream=True)
         except httpx.RequestError as exc:

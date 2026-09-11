@@ -49,6 +49,11 @@ class FakeChatAgent:
         return ChatResponse(text=f"收到 {request.message}")
 
 
+class FakeChatAgentWithMemory(FakeChatAgent):
+    def __init__(self, retriever):
+        self.memory_tool = type("MemoryTool", (), {"retriever": retriever})()
+
+
 def init_database(path: Path) -> None:
     with db.connect(path) as conn:
         db.init_db(conn)
@@ -71,6 +76,49 @@ def settings_for(root: Path) -> Settings:
 
 
 class ConversationPersistenceTests(unittest.TestCase):
+    def test_summary_budget_and_unsummarized_tail_are_both_bounded_and_covered(self) -> None:
+        entries = ["用户: " + character * 24 for character in "甲乙丙丁"]
+        fitted = ConversationSummarizer._fit_complete_entries(entries, 70)
+        self.assertLessEqual(len(fitted), 70)
+        self.assertNotIn("甲" * 24, fitted)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "documents.db"
+            init_database(db_path)
+            conversations = ConversationStore(db_path, max_messages=4)
+            store = MemoryStore(db_path)
+            summarizer = ConversationSummarizer(
+                conversations=conversations,
+                memories=store,
+                config=MemoryConfig(
+                    recent_messages=4,
+                    summary_trigger_messages=8,
+                    summary_interval_messages=4,
+                ),
+            )
+            for index in range(4):
+                conversations.append_turn(
+                    conversation_id="conversation", user_id="user",
+                    user_text=f"用户消息{index}", assistant_text=f"回答{index}",
+                    model_name="model", trace_id=str(index),
+                    persona_version="persona_v1",
+                )
+            summary = summarizer.update("conversation", user_id="user")
+            self.assertIsNotNone(summary)
+            conversations.append_turn(
+                conversation_id="conversation", user_id="user",
+                user_text="窗口空档消息", assistant_text="窗口空档回答",
+                model_name="model", trace_id="gap", persona_version="persona_v1",
+            )
+            stale = summarizer.update("conversation", user_id="user")
+            self.assertEqual(stale.through_message_index, summary.through_message_index)
+            history = conversations.get_context_history(
+                "conversation", user_id="user",
+                summary_through_index=stale.through_message_index,
+            )
+            self.assertEqual(len(history), 6)
+            self.assertEqual(history[0].content, "用户消息2")
+
     def test_messages_and_summary_survive_store_recreation(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             db_path = Path(tmp) / "documents.db"
@@ -265,6 +313,61 @@ class MemoryMigrationTests(unittest.TestCase):
 
 
 class MemoryPipelineTests(unittest.IsolatedAsyncioTestCase):
+    async def test_index_failure_retry_does_not_reapply_committed_turn(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "documents.db"
+            init_database(db_path)
+            conversations = ConversationStore(db_path)
+            message_id, _ = conversations.append_turn(
+                conversation_id="conversation", user_id="user",
+                user_text="我喜欢咖啡", assistant_text="收到", model_name="model",
+                trace_id="trace", persona_version="persona_v1",
+            )
+            store = MemoryStore(db_path)
+            actual = MemoryRetriever(
+                store=store, embedder=FakeEmbedder(),
+                vector_store=SQLiteVectorStore(db_path), config=MemoryConfig(),
+            )
+
+            class FailOnceRetriever:
+                def __init__(self):
+                    self.calls = 0
+
+                async def index(inner_self, memory):
+                    inner_self.calls += 1
+                    if inner_self.calls == 1:
+                        raise RuntimeError("index unavailable")
+                    await actual.index(memory)
+
+            flaky = FailOnceRetriever()
+            pipeline = PostTurnPipeline(
+                store=store, extractor=MemoryCandidateExtractor(),
+                write_gate=MemoryWriteGate(MemoryConfig()), retriever=flaky,
+                summarizer=ConversationSummarizer(
+                    conversations=conversations, memories=store,
+                    config=MemoryConfig(summary_trigger_messages=100),
+                ),
+                state_engine=CharacterStateEngine(),
+            )
+            with self.assertRaises(RuntimeError):
+                await pipeline.process(
+                    user_id="user", conversation_id="conversation",
+                    user_message_id=message_id, user_message="我喜欢咖啡",
+                    previous_relationship=RelationshipState(),
+                    previous_scene=SceneState(),
+                )
+            first_state = store.get_relationship("user")
+            retried = await pipeline.process(
+                user_id="user", conversation_id="conversation",
+                user_message_id=message_id, user_message="我喜欢咖啡",
+                previous_relationship=RelationshipState(recent_tension=1.0),
+                previous_scene=SceneState(mood="careful"),
+            )
+            self.assertEqual(flaky.calls, 2)
+            self.assertEqual(retried.relationship_state, first_state)
+            self.assertEqual(len(store.list_memories(user_id="user")), 1)
+            self.assertTrue(store.eligible_memory_ids(user_id="user"))
+
     async def test_write_retrieve_state_and_conflict(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             db_path = Path(tmp) / "documents.db"
@@ -353,6 +456,44 @@ class MemoryPipelineTests(unittest.IsolatedAsyncioTestCase):
 
 
 class MemoryApiTests(unittest.TestCase):
+    def test_metadata_only_edit_reindexes_new_revision(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            settings = settings_for(root)
+            init_database(settings.db_path)
+            store = MemoryStore(settings.db_path)
+            conversations = ConversationStore(settings.db_path)
+            message_id, _ = conversations.append_turn(
+                conversation_id="conversation", user_id="user",
+                user_text="我喜欢咖啡", assistant_text="收到", model_name="model",
+                trace_id="seed", persona_version="persona_v1",
+            )
+            candidate = MemoryCandidateExtractor().extract(
+                user_id="user", conversation_id="conversation",
+                message_id=message_id, message="我喜欢咖啡",
+            )[0]
+            original, _ = store.upsert_candidate(candidate)
+            retriever = MemoryRetriever(
+                store=store, embedder=FakeEmbedder(),
+                vector_store=SQLiteVectorStore(settings.db_path),
+                config=MemoryConfig(),
+            )
+            import asyncio
+            asyncio.run(retriever.index(original))
+            app = create_app(
+                settings=settings,
+                chat_agent=FakeChatAgentWithMemory(retriever),
+                memory_store=store,
+            )
+            with TestClient(app) as client:
+                edited = client.patch(
+                    f"/v1/memories/{original.id}", json={"importance": 0.7}
+                )
+            self.assertEqual(edited.status_code, 200)
+            new_id = edited.json()["id"]
+            self.assertIn(new_id, store.eligible_memory_ids(user_id="user"))
+            self.assertNotIn(original.id, store.eligible_memory_ids(user_id="user"))
+
     def test_user_can_list_edit_and_delete_memory(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

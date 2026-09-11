@@ -202,9 +202,13 @@ class SQLiteVectorStore:
     def search_filtered(self, collection: str, model: str, query_vector: list[float], *, item_ids: list[str], top_k: int) -> list[VectorHit]:
         if not item_ids:
             return []
-        rows, _ = self._rows(collection, model, item_ids)
-        ids, matrix = self._to_matrix(rows)
-        return self._rank(ids, matrix, query_vector, top_k)
+        ids, matrix = self._matrix(collection, model)
+        allowed = set(item_ids)
+        indices = [index for index, item_id in enumerate(ids) if item_id in allowed]
+        if not indices:
+            return []
+        filtered_ids = [ids[index] for index in indices]
+        return self._rank(filtered_ids, matrix[indices], query_vector, top_k)
 
     def count(self, collection: str) -> int:
         with db.connect(self.db_path) as conn:
@@ -215,11 +219,13 @@ class SQLiteVectorStore:
             return int(conn.execute("SELECT COUNT(*) FROM vector_embeddings WHERE collection=?", (collection,)).fetchone()[0])
 
     def _matrix(self, collection: str, model: str):
-        rows, active = self._rows(collection, model)
+        with db.connect(self.db_path) as conn:
+            active = self._active(conn, collection, model)
         revision = int(active["revision"]) if active is not None else 0
         generation = str(active["generation"]) if active is not None else "legacy"
         key = (collection, generation, revision, model)
         if key not in self._cache:
+            rows, _ = self._rows(collection, model)
             self._cache[key] = self._to_matrix(rows)
         return self._cache[key]
 

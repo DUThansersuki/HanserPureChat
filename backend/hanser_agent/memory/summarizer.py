@@ -81,19 +81,14 @@ class ConversationSummarizer:
     @staticmethod
     def _fit_complete_entries(entries: list[str], limit: int) -> str:
         selected: list[str] = []
-        used = 0
         for entry in reversed(entries):
-            cost = len(entry) + (1 if selected else 0)
-            if cost > limit and selected:
+            candidate = [entry, *selected]
+            omitted = len(entries) - len(candidate)
+            prefix = f"[已省略{omitted}条较早消息]\n" if omitted > 0 else ""
+            if len(prefix) + len("\n".join(candidate)) > limit:
                 break
-            if cost > limit:
-                continue
-            selected.append(entry)
-            used += cost
-        selected.reverse()
+            selected = candidate
         omitted = len(entries) - len(selected)
         prefix = f"[已省略{omitted}条较早消息]\n" if omitted > 0 else ""
         body = "\n".join(selected)
-        if len(prefix) + len(body) > limit:
-            return body
-        return prefix + body
+        return (prefix + body)[:limit]

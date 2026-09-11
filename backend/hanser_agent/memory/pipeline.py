@@ -14,6 +14,7 @@ from .retriever import MemoryRetriever
 from .state_engine import CharacterStateEngine
 from .store import MemoryStore
 from .summarizer import ConversationSummarizer
+from ..persona.schemas import ExplicitPreferenceEvent
 
 
 class PostTurnResult(BaseModel):
@@ -52,7 +53,17 @@ class PostTurnPipeline:
         user_message: str,
         previous_relationship: RelationshipState,
         previous_scene: SceneState,
+        permission_events: list[ExplicitPreferenceEvent] | None = None,
     ) -> PostTurnResult:
+        if self.store.is_post_turn_committed(user_message_id):
+            for memory in self.store.memories_by_source_message(user_message_id):
+                if self.store.needs_embedding(memory.id):
+                    await self.retriever.index(memory)
+            return PostTurnResult(
+                relationship_state=self.store.get_relationship(user_id),
+                scene_state=self.store.get_scene(conversation_id),
+                summary=self.store.get_summary(conversation_id),
+            )
         candidates = self.extractor.extract(
             user_id=user_id,
             conversation_id=conversation_id,
@@ -63,8 +74,6 @@ class PostTurnPipeline:
         writes: list[MemoryItem] = []
         for candidate in [item.candidate for item in decisions if item.accepted]:
             memory, created = self.store.upsert_candidate(candidate)
-            if created or self.store.needs_embedding(memory.id):
-                await self.retriever.index(memory)
             if created:
                 writes.append(memory)
 
@@ -104,6 +113,18 @@ class PostTurnPipeline:
         )
         self.store.save_scene(conversation_id, scene)
         summary = self.summarizer.update(conversation_id, user_id=user_id)
+        self.store.save_permission_events(
+            user_id=user_id,
+            conversation_id=conversation_id,
+            events=permission_events or [],
+        )
+        self.store.mark_post_turn_committed(
+            user_message_id=user_message_id,
+            conversation_id=conversation_id,
+        )
+        for memory in writes:
+            if self.store.needs_embedding(memory.id):
+                await self.retriever.index(memory)
         return PostTurnResult(
             memory_writes=writes,
             memory_decisions=decisions,

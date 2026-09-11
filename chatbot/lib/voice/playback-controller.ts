@@ -1,6 +1,7 @@
 import {
   cancelVoiceJob,
   createVoiceJob,
+  getVoiceJob,
   loadAudioArtifact,
   readVoiceEvents,
   reportPlayback,
@@ -9,6 +10,7 @@ import type {
   PlaybackPosition,
   PlaybackState,
   SegmentPackage,
+  VoiceJob,
   VoiceJobEvent,
 } from "./contracts";
 
@@ -75,6 +77,7 @@ export class PlaybackController {
       }
       this.jobId = job.job_id;
       this.queue.push(...job.ready_segments.sort((a, b) => a.index - b.index));
+      this.applySnapshotStatus(job.status);
       this.context ??= new AudioContext({ sampleRate: 48_000 });
       this.pump(runEpoch).catch(() => {
         if (runEpoch === this.epoch && !this.aborter?.signal.aborted) {
@@ -83,12 +86,35 @@ export class PlaybackController {
           this.aborter?.abort();
         }
       });
-      await readVoiceEvents(
-        job.job_id,
-        job.last_sequence,
-        this.aborter.signal,
-        (event) => this.receiveEvent(event, runEpoch)
-      );
+      let sequence = job.last_sequence;
+      while (runEpoch === this.epoch && !this.terminal) {
+        // biome-ignore lint/performance/noAwaitInLoops: reconnects must preserve SSE event order.
+        await readVoiceEvents(
+          job.job_id,
+          sequence,
+          this.aborter.signal,
+          (event) => {
+            sequence = Math.max(sequence, event.sequence);
+            this.receiveEvent(event, runEpoch);
+          }
+        );
+        if (runEpoch !== this.epoch || this.terminal) {
+          break;
+        }
+        const snapshot = await getVoiceJob(job.job_id, this.aborter.signal);
+        sequence = Math.max(sequence, snapshot.last_sequence);
+        for (const segment of snapshot.ready_segments) {
+          if (
+            !this.queue.some((item) => item.segment_id === segment.segment_id)
+          ) {
+            this.queue.push(segment);
+          }
+        }
+        this.queue.sort((a, b) => a.index - b.index);
+        this.applySnapshotStatus(snapshot.status);
+        this.wake?.();
+        this.wake = undefined;
+      }
     } catch (error) {
       if (runEpoch === this.epoch && !this.aborter?.signal.aborted) {
         this.setState("FAILED");
@@ -138,6 +164,8 @@ export class PlaybackController {
     this.aborter?.abort();
     this.aborter = undefined;
     this.fadeAndStop();
+    this.sourceWaiter?.("paused");
+    this.sourceWaiter = undefined;
     this.resumeWaiter?.();
     this.resumeWaiter = undefined;
     this.wake?.();
@@ -188,6 +216,20 @@ export class PlaybackController {
     }
   }
 
+  private applySnapshotStatus(status: VoiceJob["status"]) {
+    if (status === "completed") {
+      this.terminal = true;
+    } else if (status === "failed") {
+      this.terminal = true;
+      this.queue = [];
+      this.setState("FAILED");
+    } else if (status === "cancelled") {
+      this.terminal = true;
+      this.queue = [];
+      this.setState("INTERRUPTED");
+    }
+  }
+
   private async pump(runEpoch: number) {
     while (runEpoch === this.epoch) {
       if (this.queue.length === 0) {
@@ -226,8 +268,15 @@ export class PlaybackController {
   }
 
   private async ensureContextReady() {
+    if (this.state === "PAUSED") {
+      await new Promise<void>((resolve) => {
+        this.resumeWaiter = resolve;
+      });
+    }
     if (!this.context || this.context.state === "running") {
-      this.setState("READY");
+      if (this.state !== "PAUSED") {
+        this.setState("READY");
+      }
       return;
     }
     this.setState("WAITING_USER_GESTURE");

@@ -71,6 +71,14 @@ class FakeConversationStore:
     def get_recent(self, conversation_id, *, user_id):
         return list(self.history)
 
+    def get_context_history(
+        self, conversation_id, *, user_id, summary_through_index
+    ):
+        return list(self.history)
+
+    def message_count(self, conversation_id, *, user_id):
+        return len(self.history)
+
     def append_turn(self, **values):
         self.history.extend(
             [
@@ -92,6 +100,12 @@ class FakeMemoryStore:
         return SceneState()
 
     def list_address_options(self, user_id):
+        return []
+
+    def list_memories(self, *, user_id):
+        return []
+
+    def list_permission_events(self, *, user_id, conversation_id):
         return []
 
 
@@ -216,9 +230,9 @@ class UnifiedResponderTests(unittest.IsolatedAsyncioTestCase):
 
         result = await responder.respond(context)
 
-        self.assertEqual(result.text, "真的很会折磨人")
-        self.assertEqual(result.generation_status, "contract_fallback")
-        self.assertIn(
+        self.assertEqual(result.text, "这游戏也太折磨人了")
+        self.assertEqual(result.generation_status, "model_success")
+        self.assertNotIn(
             "optional_feature_unfulfilled:profanity",
             result.validator_actions,
         )

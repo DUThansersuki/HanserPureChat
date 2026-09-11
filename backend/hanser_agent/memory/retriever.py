@@ -50,9 +50,12 @@ class MemoryRetriever:
         *,
         query: str,
         user_id: str,
+        conversation_id: str | None = None,
         top_k: int | None = None,
     ) -> list[RetrievedMemory]:
-        eligible_ids = self.store.eligible_memory_ids(user_id=user_id)
+        eligible_ids = self.store.eligible_memory_ids(
+            user_id=user_id, conversation_id=conversation_id
+        )
         if not eligible_ids:
             return []
         vector = (await self.embedder.embed_queries([query]))[0]

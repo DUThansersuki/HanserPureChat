@@ -21,10 +21,12 @@ class MemorySearchTool:
         *,
         query: str,
         user_id: str,
+        conversation_id: str | None = None,
     ) -> MemorySearchResult:
         return MemorySearchResult(
             memories=await self.retriever.search(
                 query=query,
                 user_id=user_id,
+                conversation_id=conversation_id,
             )
         )

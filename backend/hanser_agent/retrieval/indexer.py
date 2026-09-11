@@ -4,6 +4,7 @@ import json
 import hashlib
 import re
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 
 from .. import db
@@ -17,6 +18,61 @@ from .vector_store import VectorStore
 
 _DATE = re.compile(r"(20\d{2})年\s*(\d{1,2})月\s*(\d{1,2})日")
 _TITLE = re.compile(r"(?:Title|标题)[：:]\s*([^\n]{1,100})", re.IGNORECASE)
+
+
+@dataclass(frozen=True, slots=True)
+class FactLexicalSnapshot:
+    chunks: list[dict[str, object]]
+    tokens: list[dict[str, object]]
+
+
+def snapshot_fact_lexical_index(*, db_path: str | Path) -> FactLexicalSnapshot:
+    """Freeze the lexical half before an offline fact-index rebuild."""
+    with db.connect(db_path) as conn:
+        db.init_db(conn)
+        chunks = [
+            dict(row)
+            for row in conn.execute(
+                "SELECT * FROM document_chunks ORDER BY id"
+            ).fetchall()
+        ]
+        tokens = [
+            dict(row)
+            for row in conn.execute(
+                "SELECT * FROM chunk_tokens ORDER BY chunk_id, token"
+            ).fetchall()
+        ]
+    return FactLexicalSnapshot(chunks=chunks, tokens=tokens)
+
+
+def restore_fact_lexical_index(
+    *, db_path: str | Path, snapshot: FactLexicalSnapshot
+) -> None:
+    """Restore chunk IDs so the previously active dense generation stays valid."""
+    with db.connect(db_path) as conn:
+        conn.execute("BEGIN IMMEDIATE")
+        conn.execute("DELETE FROM chunk_tokens")
+        conn.execute("DELETE FROM document_chunks")
+        if snapshot.chunks:
+            columns = tuple(snapshot.chunks[0])
+            conn.executemany(
+                f"INSERT INTO document_chunks ({','.join(columns)}) "
+                f"VALUES ({','.join('?' for _ in columns)})",
+                [tuple(row[column] for column in columns) for row in snapshot.chunks],
+            )
+        if snapshot.tokens:
+            columns = tuple(snapshot.tokens[0])
+            conn.executemany(
+                f"INSERT INTO chunk_tokens ({','.join(columns)}) "
+                f"VALUES ({','.join('?' for _ in columns)})",
+                [tuple(row[column] for column in columns) for row in snapshot.tokens],
+            )
+        maximum_id = max((int(row["id"]) for row in snapshot.chunks), default=0)
+        conn.execute(
+            "UPDATE sqlite_sequence SET seq=? WHERE name='document_chunks'",
+            (maximum_id,),
+        )
+        conn.commit()
 
 
 def rebuild_document_chunks(
@@ -125,12 +181,23 @@ async def rebuild_fact_embeddings(
                 [f"{row['filename']}\n{row['text']}" for row in batch]
             )
             if generation is None:
+                embedder_config = getattr(embedder, "config", None)
+                vector_identity = {
+                    "model": embedder.model_name,
+                    "batch_size": batch_size,
+                    "max_length": getattr(embedder_config, "max_length", None),
+                    "dimension": getattr(embedder_config, "dimension", len(vectors[0])),
+                    "instruction": getattr(embedder_config, "instruction", None),
+                    "dtype": getattr(embedder_config, "dtype", None),
+                }
                 generation = vector_store.begin_generation(
                     HybridRetriever.FACT_COLLECTION,
                     embedder.model_name,
                     len(vectors[0]),
                     source_revision=source_revision,
-                    config_hash=hashlib.sha256(f"batch_size={batch_size}".encode()).hexdigest(),
+                    config_hash=hashlib.sha256(
+                        json.dumps(vector_identity, sort_keys=True).encode()
+                    ).hexdigest(),
                 )
             vector_store.stage_upsert(
                 HybridRetriever.FACT_COLLECTION, generation, embedder.model_name,

@@ -238,9 +238,13 @@ class PersonaV2LogicChecklistTests(unittest.TestCase):
             successful_assistant_turns=0,
         )
 
-        self.assertIn(
+        self.assertNotIn(
             "expression.use_light_profanity",
             {item.requirement_id for item in decision.must_do},
+        )
+        self.assertIn(
+            "light_profanity_release",
+            {item.id for item in decision.persona_affordances},
         )
         missing = validator.validate_semantic_output(
             "这游戏也太折磨人了", behavior_decision=decision
@@ -248,7 +252,7 @@ class PersonaV2LogicChecklistTests(unittest.TestCase):
         present = validator.validate_semantic_output(
             "我靠 这游戏也太折磨人了", behavior_decision=decision
         )
-        self.assertIn("missing_required_feature:profanity", missing.violations)
+        self.assertNotIn("missing_required_feature:profanity", missing.violations)
         self.assertNotIn("missing_required_feature:profanity", present.violations)
 
     def test_unverified_past_experience_exposed_by_profanity_eval_is_rejected(self) -> None:
