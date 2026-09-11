@@ -111,14 +111,16 @@ class VoiceJobManager:
             self._worker_task = asyncio.create_task(self._worker(), name="voice-worker")
 
     async def close(self) -> None:
-        if self._worker_task is None:
-            return
-        self._worker_task.cancel()
-        try:
-            await self._worker_task
-        except asyncio.CancelledError:
-            pass
-        self._worker_task = None
+        if self._worker_task is not None:
+            self._worker_task.cancel()
+            try:
+                await self._worker_task
+            except asyncio.CancelledError:
+                pass
+            self._worker_task = None
+        close_backend = getattr(self.backend, "close", None)
+        if close_backend is not None:
+            close_backend()
 
     async def create(self, request: VoiceJobRequest) -> tuple[JobSnapshot, bool]:
         if len(request.snapshot.semantic_text) > self.max_text_codepoints:

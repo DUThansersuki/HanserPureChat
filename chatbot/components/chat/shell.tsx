@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MmdStage } from "@/components/live2d/mmd-stage";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -189,6 +190,7 @@ export function ChatShell() {
       </div>
 
       <DataStreamHandler />
+      <MmdStage />
 
       <AlertDialog
         onOpenChange={setShowCreditCardAlert}
