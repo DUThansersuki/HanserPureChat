@@ -1,0 +1,12 @@
+frontend/node_modules/
+frontend/.next/
+frontend/.next-*/
+backend/.venv/
+backend/config.desktop.yml
+resources/database/*.db
+resources/database/*.db-*
+resources/models/
+dist/
+release/unpacked/
+*.log
+

@@ -1,0 +1,152 @@
+"use client";
+
+import {
+  Music2Icon,
+  PaletteIcon,
+  PenSquareIcon,
+  SquareIcon,
+} from "lucide-react";
+import { type ReactNode, useCallback, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
+
+export type SlashCommand = {
+  name: string;
+  description: string;
+  icon: ReactNode;
+  action: "new" | "sing" | "stop" | "theme";
+  shortcut?: string;
+};
+
+export const slashCommands: SlashCommand[] = (
+  [
+    {
+      action: "sing",
+      description: "播放《它像一颗》歌唱场景",
+      icon: <Music2Icon className="size-3.5" />,
+      name: "sing",
+    },
+    {
+      action: "new",
+      description: "开始新对话",
+      icon: <PenSquareIcon className="size-3.5" />,
+      name: "new",
+    },
+    {
+      action: "stop",
+      description: "停止当前歌唱场景",
+      icon: <SquareIcon className="size-3.5" />,
+      name: "stop",
+    },
+    {
+      action: "theme",
+      description: "切换深色/浅色主题",
+      icon: <PaletteIcon className="size-3.5" />,
+      name: "theme",
+    },
+  ] satisfies SlashCommand[]
+).filter(
+  (command) =>
+    process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY !== "1" ||
+    (command.action !== "sing" && command.action !== "stop")
+);
+
+type SlashCommandMenuProps = {
+  query: string;
+  onSelect: (command: SlashCommand) => void;
+  onClose: () => void;
+  selectedIndex: number;
+};
+
+function SlashCommandMenuItem({
+  cmd,
+  index,
+  onSelect,
+  selectedIndex,
+}: {
+  cmd: SlashCommand;
+  index: number;
+  onSelect: (command: SlashCommand) => void;
+  selectedIndex: number;
+}) {
+  const handleClick = useCallback(() => {
+    onSelect(cmd);
+  }, [cmd, onSelect]);
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+    },
+    []
+  );
+
+  return (
+    <button
+      className={cn(
+        "flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors",
+        index === selectedIndex ? "bg-muted/70" : "hover:bg-muted/40"
+      )}
+      data-selected={index === selectedIndex}
+      onClick={handleClick}
+      onMouseDown={handleMouseDown}
+      type="button"
+    >
+      <div className="flex size-6 shrink-0 items-center justify-center text-muted-foreground/60">
+        {cmd.icon}
+      </div>
+      <span className="font-mono text-[13px] text-foreground">/{cmd.name}</span>
+      <span className="text-[12px] text-muted-foreground/50">
+        {cmd.description}
+      </span>
+      {cmd.shortcut ? (
+        <span className="ml-auto text-[11px] text-muted-foreground/30">
+          {cmd.shortcut}
+        </span>
+      ) : null}
+    </button>
+  );
+}
+
+export function SlashCommandMenu({
+  query,
+  onSelect,
+  onClose: _onClose,
+  selectedIndex,
+}: SlashCommandMenuProps) {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const filtered = slashCommands.filter((cmd) =>
+    cmd.name.startsWith(query.toLowerCase())
+  );
+
+  useEffect(() => {
+    const selected = menuRef.current?.querySelector("[data-selected='true']");
+    if (selected) {
+      selected.scrollIntoView({ block: "nearest" });
+    }
+  }, []);
+
+  if (filtered.length === 0) {
+    return null;
+  }
+
+  return (
+    <div
+      className="absolute bottom-full left-0 right-0 z-50 mb-2 overflow-hidden rounded-xl border border-border/50 bg-card/95 shadow-[var(--shadow-float)] backdrop-blur-xl"
+      ref={menuRef}
+    >
+      <div className="px-4 py-2.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/40">
+        Commands
+      </div>
+      <div className="max-h-64 overflow-y-auto pb-1 no-scrollbar">
+        {filtered.map((cmd, index) => (
+          <SlashCommandMenuItem
+            cmd={cmd}
+            index={index}
+            key={cmd.name}
+            onSelect={onSelect}
+            selectedIndex={selectedIndex}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}

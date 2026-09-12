@@ -1,0 +1,24 @@
+schema_version: "1.1"
+revision: speech_rules_1
+canonical_source: validated_semantic_text
+rules:
+  fenced_code: display_only
+  inline_code: display_only
+  long_path: display_only
+  long_hash: display_only
+  markdown_link: speak_anchor_only
+  bare_url: replace_with_link_word
+  emoji: omit
+  date_ymd: deterministic_zh_readout
+segmentation:
+  preferred_chars: 60
+  soft_max_chars: 80
+  hard_max_chars: 120
+  ordinary_gap_ms: 180
+  sentence_gap_ms: 300
+mapping_units:
+  source: unicode_codepoint_half_open
+  audio: sample_half_open
+notes:
+  - Rules are deterministic and must not add role dialogue.
+  - Generated beat, anchor, and Unicode span fields are not part of P1.

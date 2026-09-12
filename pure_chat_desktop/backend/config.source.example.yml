@@ -1,0 +1,171 @@
+server:
+  host: 127.0.0.1
+  port: 8765
+
+# Integrated local VoxCPM2 hybrid Voice + MMD profile.
+performance:
+  structured_performance_enabled: true
+  speech_runtime_enabled: true
+  dynamic_live2d_enabled: true
+  offline_export_enabled: false
+  render_profile_revision: "hanser-voxcpm2-mmd-integrated-1"
+  voice_runtime_base_url: "http://127.0.0.1:8770"
+  internal_token: ""
+  request_timeout_seconds: 10
+
+data:
+  # 默认指向本仓库 source_data 中的 documents.db / userdict.txt / data
+  db_path: "../source_data/documents.db"
+  data_dir: "../source_data/data"
+  userdict_path: "../source_data/userdict.txt"
+
+models:
+  planner:
+    # Inherits llm base_url / api_key / bunny model to avoid a second local model in VRAM.
+    provider: "openai_compatible"
+    temperature: 0.1
+    top_p: 0.9
+    max_tokens: 256
+    context_window: 4096
+    keep_alive: "5m"
+    think: false
+    external_fallback: false
+
+  responder:
+    # Set this to the documented capability of the configured responder.
+    context_window: 32768
+
+  reranker:
+    provider: "local"
+    model: "Qwen/Qwen3-Reranker-0.6B"
+    device: "auto"
+    dtype: "auto"
+    max_length: 768
+    batch_size: 8
+    candidate_pool_size: 20
+    top_k: 5
+    local_files_only: false
+    instruction: "Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question"
+
+  embedding:
+    provider: "local"
+    model: "Qwen/Qwen3-Embedding-0.6B"
+    # 6GB 显存机器在线使用 CPU，避免与保活的 Planner 争抢显存。
+    device: "cpu"
+    dtype: "float32"
+    max_length: 1024
+    batch_size: 8
+    dimension: 1024
+    local_files_only: false
+    instruction: "Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question"
+
+  # Phase 7 公平对照；benchmark 脚本只会运行 --profiles 显式选择的项。
+  responder_benchmarks:
+    qwen35_2b:
+      provider: "ollama"
+      endpoint: "http://127.0.0.1:11434"
+      model: "qwen3.5:2b"
+      temperature: 0.65
+      top_p: 0.9
+      max_tokens: 256
+      context_window: 4096
+      keep_alive: "5m"
+      think: false
+    qwen35_4b:
+      provider: "ollama"
+      endpoint: "http://127.0.0.1:11434"
+      model: "qwen3.5:4b"
+      temperature: 0.65
+      top_p: 0.9
+      max_tokens: 256
+      context_window: 4096
+      keep_alive: "5m"
+      think: false
+    qwen3_rpg_4b_q4:
+      provider: "ollama"
+      endpoint: "http://127.0.0.1:11434"
+      model: "hf.co/Chun121/Qwen3-4B-RPG-Roleplay-V2:Q4_K_M"
+      temperature: 0.65
+      top_p: 0.9
+      max_tokens: 256
+      context_window: 4096
+      keep_alive: "5m"
+      think: false
+    qwen35_9b_q4:
+      provider: "ollama"
+      endpoint: "http://127.0.0.1:11434"
+      model: "qwen3.5:9b"
+      temperature: 0.65
+      top_p: 0.9
+      max_tokens: 256
+      context_window: 4096
+      keep_alive: "5m"
+      think: false
+
+retrieval:
+  mode: "hybrid"
+  bm25_top_k: 40
+  dense_top_k: 40
+  fusion_k: 60
+  candidate_pool_size: 24
+  top_k: 6
+  chunk_target_chars: 800
+  chunk_max_chars: 1000
+  chunk_overlap_chars: 120
+
+style:
+  enabled: true
+  reviewed_only: true
+  output_dir: "data/persona"
+  top_k: 3
+  candidate_pool_size: 16
+  min_quality: 0.68
+
+persona:
+  active_package: "persona-v2-production"
+  candidate_package: "hanser-persona-v2-candidate"
+  candidate_style_generation: "persona-v2-style-profanity15-1c71903569618d5d"
+  detector_version: "persona_lexical_v3"
+  schema_version: 2
+
+memory:
+  recent_messages: 12
+  summary_trigger_messages: 20
+  summary_interval_messages: 12
+  summary_max_chars: 800
+  retrieval_top_k: 5
+  candidate_pool_size: 20
+  min_importance: 0.6
+  min_confidence: 0.75
+
+context:
+  # Must fit together within models.responder.context_window.
+  input_token_budget: 24576
+  output_reserve_tokens: 8192
+  estimator: "utf8_bytes_div_3"
+  message_overhead_tokens: 4
+
+llm:
+  # DeepSeek V4.1 Flash: base_url "https://api.deepseek.com", model "deepseek-flash".
+  base_url: "https://api.openai.com/v1"
+  api_key: ""
+  model: ""
+
+  bunny:
+    model: ""
+    max_tokens: 512
+    temperature: 0.1
+    top_p: 0.9
+
+  prometheus:
+    # 仅供 scripts/eval_reranker.py 的旧链路 A/B，不参与在线 /v1/chat。
+    model: ""
+    max_tokens: 1024
+    temperature: 0.1
+    top_p: 0.9
+
+  hanser:
+    model: ""
+    max_tokens: 8192
+    temperature: 0.3
+    top_p: 0.9

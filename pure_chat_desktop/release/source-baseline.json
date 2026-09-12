@@ -1,0 +1,2603 @@
+{
+    "schema_version":  1,
+    "created_at":  "2026-09-13T05:48:45.0528780+08:00",
+    "source_branch":  "codex/chat-l2d-gpt-voice-full",
+    "source_commit":  "6ae3919294beb225e9ce0260ac9516cafd4201fd",
+    "source_root":  "H:/HanserAgent",
+    "copy_mode":  "filesystem snapshot; source tree was not modified",
+    "persona_selector":  "persona-v2-production",
+    "persona_package_id":  "hanser-persona-v2-production-20260910",
+    "style_generation":  "persona-v2-style-profanity15-1c71903569618d5d",
+    "exclusions":  [
+                       "all source node_modules, .next, .venv and runtime outputs",
+                       "voice_runtime",
+                       "renderer",
+                       "assets/live2d",
+                       "assets/voices",
+                       "audit_artifacts",
+                       "backend/data/eval run outputs",
+                       "source_data backups and raw documents"
+                   ],
+    "files":  [
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/policy.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/policy.cpython-312.pyc",
+                      "bytes":  23833,
+                      "sha256":  "c5a178d39e9581016cc1efa16f69f2d2e2c9a49f8ca704c645c4b1227475d517"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/policy.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/policy.cpython-313.pyc",
+                      "bytes":  22400,
+                      "sha256":  "c4d691431dba70409fcff75da30e3bbb4ff895f628f4e56da64765e1a46323c5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-311.pyc",
+                      "bytes":  20987,
+                      "sha256":  "2edc09cb3a468a53d16c5672324c81d7bbf864b1ac752f7e9d0b06b6252fb300"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-312.pyc",
+                      "bytes":  3212,
+                      "sha256":  "e628e2127fdcba39fa2b812de17a720e838935ea7c24cc4ce58a5f0fd701d585"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-313.pyc",
+                      "bytes":  3273,
+                      "sha256":  "3fafa522a300b4cc2c951547b4026801834ebb39358edef9745cbcef9845f1fd"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/policy.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/policy.cpython-311.pyc",
+                      "bytes":  26062,
+                      "sha256":  "ce571a7e0e73349fa24fdd537dace6ecd8e2839777aed7e5c52a13ab4f3be91c"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-312.pyc",
+                      "bytes":  17502,
+                      "sha256":  "b02da09f12fde700838fc21e98b6d070da3b55205cc05fea57e1092aefa4462d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/settings.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/settings.cpython-313.pyc",
+                      "bytes":  9502,
+                      "sha256":  "931383f47799cafae71ac8dc36e718c066a4c665ece7d137f7c4754ba14efdae"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/signals.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/signals.cpython-311.pyc",
+                      "bytes":  34444,
+                      "sha256":  "e3b306d881b5dc030b584d06f7ef2a88dddc29e2f39a2a12870c0af3e8ce5c53"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/signals.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/signals.cpython-312.pyc",
+                      "bytes":  30549,
+                      "sha256":  "7f2063978373f69a60ffd0a9b441620f0babbb9d258d3e282d11ae2b1afeb3f6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/schemas.cpython-313.pyc",
+                      "bytes":  17707,
+                      "sha256":  "46c74117219f6e9f880d28e8cf4d2ef4bdb94af67442f1c10947553cd837b15f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/settings.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/settings.cpython-311.pyc",
+                      "bytes":  10743,
+                      "sha256":  "668b1ad0ba557dca163fb5cdecfa5d0ed302b4e7f5c01c0f3d7c964f33e97d3a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/settings.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/settings.cpython-312.pyc",
+                      "bytes":  9212,
+                      "sha256":  "b10dbab33d046ebc485df372d9b84058a7aa36cca10efbfd12e47cd136805568"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-311.pyc",
+                      "bytes":  43741,
+                      "sha256":  "67bbb2986e7fea978ab576b167988326f2296a046da9ab3d3a4551415b3781b9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-312.pyc",
+                      "bytes":  36875,
+                      "sha256":  "b465842abaf8831d6ddbbf4aee878912b67e163c5f8f821c2d03b68cec48a447"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/data_pipeline.cpython-313.pyc",
+                      "bytes":  37515,
+                      "sha256":  "7cfb11f0df44f236c3ee2685afc060c7a12a5078b25b765be448d82cbf9fbb35"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-311.pyc",
+                      "bytes":  20575,
+                      "sha256":  "1ceb0bcfcb903524594c64b125fe16b6a692ed49c6c158295ab2e34a4725946f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-312.pyc",
+                      "bytes":  18720,
+                      "sha256":  "5bd5bd27b57a79cd5357f9ae0146a7c346ee04ff6f7cde4dc08ee3f051ba2224"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/compiler.cpython-313.pyc",
+                      "bytes":  19120,
+                      "sha256":  "5105a00b9ae25e3560fa511cc121435411043ee4cbf0eed3bc8bdf68761be704"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/expression.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/expression.cpython-311.pyc",
+                      "bytes":  6905,
+                      "sha256":  "cd896b94461b4aa754fb3c95b2980aab6ce1ecbc070824fbea9e5ff6482fe58e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-312.pyc",
+                      "bytes":  4238,
+                      "sha256":  "448468f3a3f1cd766556df78270627fb8706e02e525da219c1dbbf2b1ea02644"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-313.pyc",
+                      "bytes":  4286,
+                      "sha256":  "8a4424c28dcacee0be45cd0cad474288aee9af466a5da89abe4d63824c439959"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/permissions.cpython-311.pyc",
+                      "bytes":  3427,
+                      "sha256":  "5d25cd02fea1526801cbe7fd7793475deb33c0821547c6039d0a65e68fc66393"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/expression.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/expression.cpython-312.pyc",
+                      "bytes":  5473,
+                      "sha256":  "4cc8b85cc66dde50f6593d1d9cbbaedf5ac87b52840f6766ea97bad2132a3630"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/expression.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/expression.cpython-313.pyc",
+                      "bytes":  5530,
+                      "sha256":  "749dc1b803691f16e9b58c535be278a9f32a9395de21ba68b495eb168617b757"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/output_contract.cpython-311.pyc",
+                      "bytes":  4911,
+                      "sha256":  "dfc89f4fa901d2a48736119c71748bcac63826e1e4a51f12e1e76bf8b23141f6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/signals.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/signals.cpython-313.pyc",
+                      "bytes":  30877,
+                      "sha256":  "9710a5e7f2260b3d31edae8ca3c2f04d204099e1d66876c5120caa9086e7d167"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/core.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/core.md",
+                      "bytes":  1179,
+                      "sha256":  "1a5556ed7c69495324be438f3da186dbb43f85bd55ebe9ba4df73a8249db85b5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/expression_policy.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/expression_policy.yaml",
+                      "bytes":  2654,
+                      "sha256":  "9cb9e7d68f8e0108a0d5adc417eb2d710d5748bc6d88301d8c786d98898923e7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/manifest.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/manifest.yaml",
+                      "bytes":  1473,
+                      "sha256":  "7c33d6d1382c950133a3387144b88f2ef4241a137f9cf19ef51ded4f2c8cd4a0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/voice.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/voice.md",
+                      "bytes":  482,
+                      "sha256":  "ec297c3a313c4584671467b78c87b9ef9a685add305748d8c9ccc9eaddf913f5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/behavior.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/behavior.yaml",
+                      "bytes":  5145,
+                      "sha256":  "d43c9b11cbebdc65b2c9831c60f621a69a5c217c5f43b0f59dbcce1819f9fabb"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/boundaries.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/boundaries.md",
+                      "bytes":  1863,
+                      "sha256":  "0a6865cc8790b8a1fa7b27e2f55625577b371e26e583bb908987fb7e3c04eb81"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/product_overrides.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/product_overrides.yaml",
+                      "bytes":  3332,
+                      "sha256":  "c35e9e170dbfbf81e897884d07bf6ac098a617af1b7bad58132e8d35989a4ce2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/performance_policy.py",
+                      "destination":  "backend/hanser_agent/responder/performance_policy.py",
+                      "bytes":  4046,
+                      "sha256":  "535718e0f0c7597250e4ea7aea65ecfb9c309bde61ed38d69ce20a010ce2107a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/presentation.py",
+                      "destination":  "backend/hanser_agent/responder/presentation.py",
+                      "bytes":  1326,
+                      "sha256":  "c068cc34711fe0a707e187b2089674fa7a243858b7358d5aaf2431d59907892e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/service.py",
+                      "destination":  "backend/hanser_agent/responder/service.py",
+                      "bytes":  12788,
+                      "sha256":  "5a403a115b468d737a21ac031502de7858b392d900e5c0c2b7de2f07b27016cc"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/style_constraints.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/style_constraints.yaml",
+                      "bytes":  2993,
+                      "sha256":  "a4e33a9ca88205e0ccf043fd64304ae770bd04dbdfce027ade0cb3e167c8240e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/voice.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/candidates/hanser-persona-v2-candidate/voice.md",
+                      "bytes":  940,
+                      "sha256":  "f5f63d987efd3a463b4fd0c17fe33eedd073772ac3b71baccedba3de93787e68"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/performance.py",
+                      "destination":  "backend/hanser_agent/responder/performance.py",
+                      "bytes":  6975,
+                      "sha256":  "00ffa3f593e05f00befab6f746724bb366d468ab323545024f079b829f2df6ad"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  683,
+                      "sha256":  "bad878f0988baa38ccbae9403bea1ef5fec23b6014a62e6726932d0950385ca6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  557,
+                      "sha256":  "260a435d63556dc34c4e74f9bc190f1766757165c2ddbf6e8b30f4ca72fa1ec3"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  572,
+                      "sha256":  "437cdc9dd8f31d7d01361fce11e0c5d32d53078ffebf2fbad48f1d85b638adae"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-311.pyc",
+                      "bytes":  10405,
+                      "sha256":  "a760e04f66f9e123cedf103ef0cf6ec8250522e1a33b4c76bfba59e8b2761e5b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-312.pyc",
+                      "bytes":  9104,
+                      "sha256":  "4b9a5f0c221e23fe3c05e6cd7eb02552736489fb1a4f68e3cbbb72673e9e4831"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/persona/__pycache__/style_ranking.cpython-313.pyc",
+                      "bytes":  9300,
+                      "sha256":  "26f0886a1ea75bb57442dc2be6abe84a777995d5af5919971ea642c5394cae36"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/planner.md",
+                      "destination":  "backend/hanser_agent/prompts/planner.md",
+                      "bytes":  3732,
+                      "sha256":  "2113756b6abfbdf12eadf37253b274d396e2eec59d0061d0d15ed85366743e9b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/core.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/core.md",
+                      "bytes":  427,
+                      "sha256":  "85a0b846f50b228167910371ec09d98c0aa803ab19999c179bc1409a301e2ce6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/speech.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/speech.yaml",
+                      "bytes":  668,
+                      "sha256":  "2009e4d6c30fac3bb03d567484fd52d9bba186ea21b7d0da051258bb1a5ef833"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/style_constraints.yaml",
+                      "destination":  "backend/hanser_agent/prompts/persona/style_constraints.yaml",
+                      "bytes":  582,
+                      "sha256":  "153f748335d83f91a3a3cc694577f86b1284aba59f3a69736fa4c536f635fd01"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/prometheus.md",
+                      "destination":  "backend/hanser_agent/prompts/prometheus.md",
+                      "bytes":  400,
+                      "sha256":  "65e399ab9bfd98d67b99142fe0a1981e3ab11fa2e40552cc5a6596c45ded2336"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/behavior.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/behavior.md",
+                      "bytes":  925,
+                      "sha256":  "abbac3a6e659e95ef153bb95e67b6a0337c6773eabfd291e530ab1d789619310"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/prompts/persona/boundaries.md",
+                      "destination":  "backend/hanser_agent/prompts/persona/boundaries.md",
+                      "bytes":  850,
+                      "sha256":  "7c3e2b7dbda1584acd773f92634f4395dbdc2d381313cdef38a271312cb3d43c"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/__init__.py",
+                      "destination":  "backend/hanser_agent/persona/__init__.py",
+                      "bytes":  502,
+                      "sha256":  "8326263ff267b9a677c54c398011583f8132294a69aec91abcfeafd9d80534f1"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/pipeline.py",
+                      "destination":  "backend/hanser_agent/memory/pipeline.py",
+                      "bytes":  4971,
+                      "sha256":  "9fefce1bb3dc0c863d6bd0461eb24ac50669905d4fbed21608da87876d6e0345"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/retriever.py",
+                      "destination":  "backend/hanser_agent/memory/retriever.py",
+                      "bytes":  3031,
+                      "sha256":  "5a0c03c5abbac6d59ef849c277040968090c5e0c0ac149a3be772ded0b362150"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/state_engine.py",
+                      "destination":  "backend/hanser_agent/memory/state_engine.py",
+                      "bytes":  2289,
+                      "sha256":  "885576a25e7647f025b27722a7e79983ef35c45dcf204c8699feb3199029fde2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  229,
+                      "sha256":  "eadc5f433c3890a755b12b1a966a8ddd7586d1474cc6cafe30ce3527323fc496"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  251,
+                      "sha256":  "a7dd6728a0c1b26c5d924dde9e5918baffcba4a752dc9172cb6a797c853f4d71"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/extractor.py",
+                      "destination":  "backend/hanser_agent/memory/extractor.py",
+                      "bytes":  13735,
+                      "sha256":  "3af8ec1003ffcddaf3d8cbc7b59e86680e3ce4e3f2681953285c24e867f121bc"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/store.py",
+                      "destination":  "backend/hanser_agent/memory/store.py",
+                      "bytes":  30625,
+                      "sha256":  "ea274f96b7210975c255e72a7f9ecd8ff3c9fa12d9a159f178fbfde6bafb41d4"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-312.pyc",
+                      "bytes":  17845,
+                      "sha256":  "1cf2c7d8f949f660c6a7b5b4a8c1884f290386dc0ad00e3a9a93ccc8c159ece0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-313.pyc",
+                      "bytes":  18187,
+                      "sha256":  "de50a9bc2beb1864e001ce1f4e096a16702752e787a446f7327f3be2c58729f8"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-311.pyc",
+                      "bytes":  6913,
+                      "sha256":  "6ef47b97171ea4cc26f39ea873374bf617f9edf6cf5b1d9bd7dac9e2dd46ee17"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/summarizer.py",
+                      "destination":  "backend/hanser_agent/memory/summarizer.py",
+                      "bytes":  3590,
+                      "sha256":  "d571ca3fcb6bca6f9c3fae932cf33741770351c79413254ff727b371419e4e9b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__init__.py",
+                      "destination":  "backend/hanser_agent/memory/__init__.py",
+                      "bytes":  388,
+                      "sha256":  "c75254440a9b1aacdc1615002f87ada29473c62dcedaee01be7683ce2ab859b7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/extractor.cpython-311.pyc",
+                      "bytes":  20030,
+                      "sha256":  "5aea730f3d5371dfa79e2e84171e27df24a076d031c541466cd16458d83ab1ac"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/planner.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/planner.cpython-311.pyc",
+                      "bytes":  7227,
+                      "sha256":  "1c1d4018138ea684c48cd7e1471e8a924594b79bddf57560c8f2e008035b0b18"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/planner.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/planner.cpython-312.pyc",
+                      "bytes":  6656,
+                      "sha256":  "6d004379a2c9dcbaead272fdaba23edc901547ee6739d7f1a18d555997a3819d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/planner.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/planner.cpython-313.pyc",
+                      "bytes":  11905,
+                      "sha256":  "4d6c39df94565c368e9d3dfdb08caf670aa9d66079fb298910be4072a2f3dc95"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-311.pyc",
+                      "bytes":  21374,
+                      "sha256":  "45ee96c2dee8e7d235b2e5010227ccea89d1aed7fefc72060c921d18f064592b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-312.pyc",
+                      "bytes":  16722,
+                      "sha256":  "3520b989dabf5037e1c451f46cfe1b8b137cfbf8683d3990674ff128b3ce6e73"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/conversation.cpython-313.pyc",
+                      "bytes":  18516,
+                      "sha256":  "670b47c1e31e91869c4d5923acf4fa69e79db870fbf895ccabdd1f7067e7f153"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-311.pyc",
+                      "bytes":  17780,
+                      "sha256":  "027de8aa511340aa1dd5d913bc87e2dc8abace192d1a3f7af278864637bf3cc6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/service.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/service.cpython-312.pyc",
+                      "bytes":  28150,
+                      "sha256":  "51fa81ae638b437e885011210ea61e5464ca68eba5147acd8e43671448e5e90b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/service.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/service.cpython-313.pyc",
+                      "bytes":  30719,
+                      "sha256":  "507808c1b04d9ca19aee0074578b5de38c7daed572d27cd8c4f5401029f6f772"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  235,
+                      "sha256":  "0b4201753632e338d741a69d24662c94a4b0cf9c23acff1b5477a13d616827d7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-312.pyc",
+                      "bytes":  12646,
+                      "sha256":  "90352284abacde3d292954ddefb68852eb554a0372f7753f6a448b4a012ea0ee"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/request_state.cpython-313.pyc",
+                      "bytes":  15197,
+                      "sha256":  "9ede498a0bd1a45399ed1252b953b82622c5a5b5625ce80c5343f77c7e70e0a2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/service.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/service.cpython-311.pyc",
+                      "bytes":  31443,
+                      "sha256":  "9f8222891783c5f73170aebe8398a753fe5e7dac5d6b459cc162c0939a2a939e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-312.pyc",
+                      "bytes":  5081,
+                      "sha256":  "73f9ea7661f468b0768c0acb7025c25e1049cebc87ad7f8f57f2184d76198f5b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/compiler.py",
+                      "destination":  "backend/hanser_agent/persona/compiler.py",
+                      "bytes":  13596,
+                      "sha256":  "3d82acfb15790a5ac226158d43ee5b7fbd9fc3a5307deca06131d18202f2ab0a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/data_pipeline.py",
+                      "destination":  "backend/hanser_agent/persona/data_pipeline.py",
+                      "bytes":  27215,
+                      "sha256":  "bd2d7eb3da348387730239d92a52f76bd8ce766043c57a8f6bef68cdf513f94b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/expression.py",
+                      "destination":  "backend/hanser_agent/persona/expression.py",
+                      "bytes":  3509,
+                      "sha256":  "af457bf56bf1f31b35b27815f41a5eba644fb86c1bf95a741b90ea2e03ae84fd"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  571,
+                      "sha256":  "f3a42412d32e5b8a5b2f70f6d3d04c8bbfafeebfe30e2bfa685e2ef8169fd3b7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  492,
+                      "sha256":  "f21edfcdff150960493b7c2fed823af492b9977fcc496d4c68a79f547ff13053"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  477,
+                      "sha256":  "5c1ade651dbd4dcc58f0546344398f0421fe270bc68d4dfe6fc1869b7daa7479"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/output_contract.py",
+                      "destination":  "backend/hanser_agent/persona/output_contract.py",
+                      "bytes":  2539,
+                      "sha256":  "74222f0d15b308c505e05d5dda647786e0fa7d8bec0a16395267bfa954e991f5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/settings.py",
+                      "destination":  "backend/hanser_agent/persona/settings.py",
+                      "bytes":  6408,
+                      "sha256":  "fc1f5405d28cabf3539ab109ec6acad2a1d319da4145674546dde691bfcde261"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/signals.py",
+                      "destination":  "backend/hanser_agent/persona/signals.py",
+                      "bytes":  24534,
+                      "sha256":  "aef98d3081cb45e74346b8f4a52f5e3a0208ca6284185961d8b47743b53a0427"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/style_ranking.py",
+                      "destination":  "backend/hanser_agent/persona/style_ranking.py",
+                      "bytes":  6959,
+                      "sha256":  "63f759e0d831aaddca06a2f6013e58179e968c604aa1ab455716611eddb4a628"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/permissions.py",
+                      "destination":  "backend/hanser_agent/persona/permissions.py",
+                      "bytes":  2050,
+                      "sha256":  "e23f0ce044d30168c0c483680382214c2b04bf01a35f48e48ec51fdf80f8e003"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/policy.py",
+                      "destination":  "backend/hanser_agent/persona/policy.py",
+                      "bytes":  22313,
+                      "sha256":  "be98505023c238a54b86d84aff2b8eb29099cbf31c4e2a8075f856fff56a56a8"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/persona/schemas.py",
+                      "destination":  "backend/hanser_agent/persona/schemas.py",
+                      "bytes":  11068,
+                      "sha256":  "2c1c54c2839a0bd7469f7fc41b9fe0fd6a5c8033324b68db31cfcf02643fe63f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-313.pyc",
+                      "bytes":  5502,
+                      "sha256":  "723c8ce6caafa59767fc7968737b34cac7c79c6f1c076fbd1401873003cb32ef"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-311.pyc",
+                      "bytes":  4153,
+                      "sha256":  "108d973cff9314de936dcdcf710d25ffb3a4f5c3df65664d10c290f7ccc91b2f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-312.pyc",
+                      "bytes":  3882,
+                      "sha256":  "4fa3c2d746c0ec9cc8fc11e34b056b111b0504237c54123787a5e35a4beda241"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/pipeline.cpython-313.pyc",
+                      "bytes":  6420,
+                      "sha256":  "6a57ea82f47154191657cb42d072cc0821d608983cb74c047d5c4f05268b8932"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-311.pyc",
+                      "bytes":  6108,
+                      "sha256":  "b8dcb1fad216a4bc4f52b5370350779434dfd0d8ae1c8aed9185a601065c331f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/retriever.cpython-312.pyc",
+                      "bytes":  5346,
+                      "sha256":  "0b9d133f770e195e277a4556d12eee70a732f1062ceedb2ea5f5c38bb3e0e3aa"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/state_engine.cpython-313.pyc",
+                      "bytes":  3915,
+                      "sha256":  "308a73089f56711141499fdc73a0666ed5172fe6d548066085dcd545a41ea230"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-311.pyc",
+                      "bytes":  4894,
+                      "sha256":  "ff53f77ddcedf3624f0d2a432dab058fc9d963fed675cc388175e9d37be97df4"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-312.pyc",
+                      "bytes":  4523,
+                      "sha256":  "110aa0f27737c34d51069f6a8e2ddc41a530d9d570c5208ee9fd8d2bd1706303"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/summarizer.cpython-313.pyc",
+                      "bytes":  4576,
+                      "sha256":  "74716cd24a1b39737c97678f63d30da6a7a6c2c453825b675ba5287bed492fb7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/store.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/store.cpython-311.pyc",
+                      "bytes":  43034,
+                      "sha256":  "57d554b5da8661e0a147ae44f4c9478c3f62acb4502dddd562a9f72e80582a21"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/store.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/store.cpython-312.pyc",
+                      "bytes":  32472,
+                      "sha256":  "317eebc2c9bf145ddf2e92d295be363814354271dfe342d933c847b26a3bdccc"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/memory/__pycache__/store.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/memory/__pycache__/store.cpython-313.pyc",
+                      "bytes":  38134,
+                      "sha256":  "82d428977c44b20aeaf7022b94136f581e7fb4b0db0a16e9a6055b4f1255d575"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/validator.py",
+                      "destination":  "backend/hanser_agent/responder/validator.py",
+                      "bytes":  9150,
+                      "sha256":  "07e1cbc0218b2e60588e94aba4e4f999a8f3789f65ddb596ff7a30b6b526cca9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/models.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/models.cpython-311.pyc",
+                      "bytes":  19763,
+                      "sha256":  "66ee420c8c3851e62ff985c20e8234bb66c6a669226d2c3027c22445eeece9d5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/models.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/models.cpython-312.pyc",
+                      "bytes":  16356,
+                      "sha256":  "d3069bdc51ae9dfcf8942d2a04fac96a7ee583d86044122c1dcf55ee5d947882"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/models.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/models.cpython-313.pyc",
+                      "bytes":  16424,
+                      "sha256":  "7ac5ba48cf831a3bd802b01601d8e3ddce2f36e81d7b02b6b9061fb7a9254443"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/llm.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/llm.cpython-311.pyc",
+                      "bytes":  5188,
+                      "sha256":  "ad6c569c1f53384e5bab314daae25df803f395ebcd8c513f35f1a899c1c9249d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/llm.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/llm.cpython-312.pyc",
+                      "bytes":  4533,
+                      "sha256":  "8191292a1b8825efef10406a4951b94c85ed341a788e39ea1c06905c46b62a44"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/llm.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/llm.cpython-313.pyc",
+                      "bytes":  4666,
+                      "sha256":  "787956323059a2936f8fe197483099c160b145beae3da49baa5af10b78228159"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/model_gateway.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/model_gateway.cpython-311.pyc",
+                      "bytes":  18349,
+                      "sha256":  "a9fce6b81ef1a20a8bcd5886d87bbe3bd1da33d1f40b1b95a39a373946cfc1e7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/render_bridge.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/render_bridge.cpython-311.pyc",
+                      "bytes":  11687,
+                      "sha256":  "e5759d0c782f434ad7aa9a39ac0a015c3c5fdcc87d61e3214d36b344fdf45d4f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/render_bridge.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/render_bridge.cpython-312.pyc",
+                      "bytes":  10820,
+                      "sha256":  "b12b8e5b9c99b8223f3bf27781dfc3db7bbec7add84902d117eb1a3729535298"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/render_bridge.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/render_bridge.cpython-313.pyc",
+                      "bytes":  11471,
+                      "sha256":  "0c61daac4aa2f11b176fdc9d4475d133e9b53abf3d3db1ac9e8aad52313f8663"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/model_gateway.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/model_gateway.cpython-312.pyc",
+                      "bytes":  17805,
+                      "sha256":  "01fdbd2115ddc1768fbfb847d4acaf4ce295a9d6e2e6988540713d42ef92e770"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/model_gateway.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/model_gateway.cpython-313.pyc",
+                      "bytes":  17996,
+                      "sha256":  "d3263394511edbece82b427182a596b8b9df3977ec019aef41ddd2e195553010"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/pipeline.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/pipeline.cpython-313.pyc",
+                      "bytes":  10771,
+                      "sha256":  "dc91dfc104d9443ab27899596b1e9283913a2012d9cabdfb4dc9def7f7f417ec"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/api.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/api.cpython-313.pyc",
+                      "bytes":  22187,
+                      "sha256":  "f829ed8631ede162b73eb2fcbff0881f35ec936bf05728f20eab032176ccd89d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/config.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/config.cpython-311.pyc",
+                      "bytes":  29580,
+                      "sha256":  "215777f481db19dca19024ee5646e95ed227e46507cdf3c3ab9ceafb8dec06af"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/config.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/config.cpython-312.pyc",
+                      "bytes":  24346,
+                      "sha256":  "a8b0cde6bd22a4259fe496a0d0eedb100083476cfcfbed803206019329df2869"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  763,
+                      "sha256":  "de5d14489fa3b4a9061ab1fa4f8ebd24187e8e1e0c7dfe6f930caac124a04a54"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/api.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/api.cpython-311.pyc",
+                      "bytes":  23304,
+                      "sha256":  "1230940c504e77a33a4c3065b262dbe91424de2eb603430edd06afcf282f66f0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/api.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/api.cpython-312.pyc",
+                      "bytes":  20973,
+                      "sha256":  "797b815658d3d3a7471defdb4190000b735dc368bf0835ed104bc8472e472b56"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/config.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/config.cpython-313.pyc",
+                      "bytes":  24875,
+                      "sha256":  "b9344755af72bbaf775a62a6e050eadd50f549670978956f092f774690f928ae"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/failures.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/failures.cpython-311.pyc",
+                      "bytes":  2668,
+                      "sha256":  "e60ffe2d946be727c195bf2e787404e799f2aee8fc8224a4d63f8e15263c3b86"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/failures.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/failures.cpython-312.pyc",
+                      "bytes":  2188,
+                      "sha256":  "1af252ba93d3704e26c02177bc8375ce2fd44d951111c269558ca5ce58645436"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/failures.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/failures.cpython-313.pyc",
+                      "bytes":  2289,
+                      "sha256":  "a2333aa71af99d20b3cd13fda1aa064e5b9f3a99e77746363dfae140777871b8"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/db.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/db.cpython-311.pyc",
+                      "bytes":  31512,
+                      "sha256":  "08dd40d34d3e3e5e4616638d23670654260af600aa52fbb31b0d4077e1d75ea9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/db.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/db.cpython-312.pyc",
+                      "bytes":  27902,
+                      "sha256":  "5ec690d21bb138f1da4d2200f3228fc0aac9154a08a479c62d8bb74072a0dfd9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/db.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/db.cpython-313.pyc",
+                      "bytes":  28844,
+                      "sha256":  "eb5e3a3d5c3a245b991269726df77c0fe4b065eb6d2b8fa6a52810f8859ba982"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/search.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/search.cpython-311.pyc",
+                      "bytes":  8340,
+                      "sha256":  "564d92c6e1c16fd6cdc98b99aa606c5b502628e10af0bfe891f07bb95ecd9562"
+                  },
+                  {
+                      "source":  "chatbot/pnpm-workspace.yaml",
+                      "destination":  "frontend/pnpm-workspace.yaml",
+                      "bytes":  62,
+                      "sha256":  "a53240bdd049329f08e13909e122202462847cf08644fb73155ab2fc7b102b44"
+                  },
+                  {
+                      "source":  "chatbot/postcss.config.mjs",
+                      "destination":  "frontend/postcss.config.mjs",
+                      "bytes":  154,
+                      "sha256":  "7dba083b29a31ffbf9c63e14ae22e93831dcc936c73d78f7a2a5a144066abe5c"
+                  },
+                  {
+                      "source":  "chatbot/proxy.ts",
+                      "destination":  "frontend/proxy.ts",
+                      "bytes":  580,
+                      "sha256":  "ba1cdf483a28a2b1205df7add54276d3d4373f41bc69a568e0bf5150f0c71717"
+                  },
+                  {
+                      "source":  "chatbot/next.config.ts",
+                      "destination":  "frontend/next.config.ts",
+                      "bytes":  1304,
+                      "sha256":  "90a375163fe597f5eacead75ca8151741726d4f5ccf68bdfb7e85a61fd1fe169"
+                  },
+                  {
+                      "source":  "chatbot/package.json",
+                      "destination":  "frontend/package.json",
+                      "bytes":  3494,
+                      "sha256":  "be51d4d78e3f540d91b57bbff1f7613680ab1d2b4b8a45b0861e5d3134750a43"
+                  },
+                  {
+                      "source":  "chatbot/pnpm-lock.yaml",
+                      "destination":  "frontend/pnpm-lock.yaml",
+                      "bytes":  346288,
+                      "sha256":  "5dba684af4b2b0ac202699c802bbd6ee8e0b7af0f33b12612c6d30b24391619d"
+                  },
+                  {
+                      "source":  "chatbot/tsconfig.json",
+                      "destination":  "frontend/tsconfig.json",
+                      "bytes":  702,
+                      "sha256":  "35508920637911832ad3dbf9ae14ff033624dd08c861ed0d1030ea03b140bff3"
+                  },
+                  {
+                      "source":  "backend/run_chat_only.py",
+                      "destination":  "backend/run_chat_only.source.py",
+                      "bytes":  694,
+                      "sha256":  "b9839fa019526c0758da4527c8c986a253a6921f6f0748ce1f0a9e6eaa088b37"
+                  },
+                  {
+                      "source":  "source_data/documents.db",
+                      "destination":  "resources/database/documents.dev.db",
+                      "bytes":  125595648,
+                      "sha256":  "e8fd251dc1f66ffec454adf5f618db9bba6baf70efa3f8b71d993d71afad67a2"
+                  },
+                  {
+                      "source":  "source_data/userdict.txt",
+                      "destination":  "resources/userdict.txt",
+                      "bytes":  234,
+                      "sha256":  "9245120f096befd512eb5650d7d4dff87355366378edc9f1a7043ae16de5cdba"
+                  },
+                  {
+                      "source":  "backend/config.example.yml",
+                      "destination":  "backend/config.source.example.yml",
+                      "bytes":  4348,
+                      "sha256":  "18de1c68f5bf4c62b01698d71d2ba004cbccbd28deacdc90aa7fd2c07c33d3c3"
+                  },
+                  {
+                      "source":  "backend/requirements.txt",
+                      "destination":  "backend/requirements.source.txt",
+                      "bytes":  161,
+                      "sha256":  "f3277de6a109e7014ac74d1f438504259ca444dcfbcb5814cedeaf10b7a9ba13"
+                  },
+                  {
+                      "source":  "backend/requirements-dev.txt",
+                      "destination":  "backend/requirements-dev.source.txt",
+                      "bytes":  73,
+                      "sha256":  "6dcdaab6df579ed9923ce9f083c1d65f4d9f4a87be4843f6f380409fb739899d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/tokenizer.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/tokenizer.cpython-312.pyc",
+                      "bytes":  2308,
+                      "sha256":  "42c4ddd42c9a0d8c2f2b4582dbde950e1e4f43169c7bb286722ef102bf01ae11"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/tokenizer.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/tokenizer.cpython-313.pyc",
+                      "bytes":  2431,
+                      "sha256":  "2a923f786b30a29a0f1204c511fdc85056ac25a187ccc9509dc4f09f16cbce21"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  187,
+                      "sha256":  "44759593ee1cbea00a72650bba32e62661d9b365575fa49a8c511a73017d0a10"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/search.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/search.cpython-312.pyc",
+                      "bytes":  6671,
+                      "sha256":  "c70e0a57acceb9188ac2c344d684db48e7d26c9fc670c273e863683385bef5e8"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/search.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/search.cpython-313.pyc",
+                      "bytes":  6785,
+                      "sha256":  "420a50d6716f614fd297a71db7fcb0c7a5e20ae0ffb1e79133a779e1423e60d3"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/tokenizer.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/tokenizer.cpython-311.pyc",
+                      "bytes":  2770,
+                      "sha256":  "820163b1138b1346c7b1a6b8c0b203417054c1493e5b82b6dff0db6abee1b115"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  191,
+                      "sha256":  "c9d48f7d74c85ef2d1a8f9ed20171b4b25ece01325be100aa497c0daa545209d"
+                  },
+                  {
+                      "source":  "chatbot/components.json",
+                      "destination":  "frontend/components.json",
+                      "bytes":  422,
+                      "sha256":  "3836b49330cf4520af75c8d964f7a5f245714840da40176847640cadb008e9c6"
+                  },
+                  {
+                      "source":  "chatbot/instrumentation-client.ts",
+                      "destination":  "frontend/instrumentation-client.ts",
+                      "bytes":  152,
+                      "sha256":  "ed88ae95166b6a90ee6f3c3cb87bf18588f542a0d5d95b79b7ae5c8cd95210cc"
+                  },
+                  {
+                      "source":  "chatbot/instrumentation.ts",
+                      "destination":  "frontend/instrumentation.ts",
+                      "bytes":  257,
+                      "sha256":  "253748321898870eee264cb983520a55edcf23cf308c9edf91ec720d2ccb8efc"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  213,
+                      "sha256":  "e97a2950fc1da58f656d3daa9fc0dd328e0fb1d4fab60a7d72350a338041c4b1"
+                  },
+                  {
+                      "source":  "chatbot/.env.example",
+                      "destination":  "frontend/.env.example",
+                      "bytes":  422,
+                      "sha256":  "0e9d344bea63b04001810bbc7812d690eafccbbd6845c23631b24713d3d9071d"
+                  },
+                  {
+                      "source":  "chatbot/biome.jsonc",
+                      "destination":  "frontend/biome.jsonc",
+                      "bytes":  1328,
+                      "sha256":  "f044369534f614f8d656baa27a7423fa3dad2bdfe95fde8b0b0f6a55d36a4fb7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  778,
+                      "sha256":  "69328e6ed2af39f4dce94d840a9dcde1041852727c277cc69f9b878f47287414"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  1474,
+                      "sha256":  "45ff7c032692f104bde10ee09a9ba2b023dd264cb1a59e64cf97cb6ffbb08611"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  1257,
+                      "sha256":  "77d7d842c071f4526df5de365cbc02deef54071b9818612332a1be5811d069ba"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  1265,
+                      "sha256":  "2a8917cd810b1d5049bf90ebbf33ecca8b275958a8aeafb8ab37469db2911848"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/validator.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/validator.cpython-311.pyc",
+                      "bytes":  14828,
+                      "sha256":  "6325cb7c3031f0cc20b43af8b8da86269b721b0a8b865b9e127707c78ea7a2a3"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/validator.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/validator.cpython-312.pyc",
+                      "bytes":  12370,
+                      "sha256":  "d09c442f2628c5bd9596761896079d69c3d8820be1f7916f920c73eb53a66cc0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/validator.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/validator.cpython-313.pyc",
+                      "bytes":  12729,
+                      "sha256":  "25fd577dfd13486f896f9a71b2bbce24bb17fa3a61d5e9831c407733bf9491b1"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/bm25.py",
+                      "destination":  "backend/hanser_agent/retrieval/bm25.py",
+                      "bytes":  3759,
+                      "sha256":  "e03b356e3994c19d51d15d50dd40461697761af9f469c11d69793dac8bb6ba5e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/indexer.py",
+                      "destination":  "backend/hanser_agent/retrieval/indexer.py",
+                      "bytes":  9015,
+                      "sha256":  "1d8640ebc95614fc84bcf3ba362151710598582bb225a0c08a05da28ba1a6f64"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/legacy_prometheus.py",
+                      "destination":  "backend/hanser_agent/retrieval/legacy_prometheus.py",
+                      "bytes":  2138,
+                      "sha256":  "384ff1a41eaa8b4f554388ad894732160bc8b3696153ea89d4b4271798a5659a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/reranker.py",
+                      "destination":  "backend/hanser_agent/retrieval/reranker.py",
+                      "bytes":  8669,
+                      "sha256":  "4a539395abbff38b3b0f0028ee3c5f00379818648c336062c37b8af3db8f2cd3"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/chunker.py",
+                      "destination":  "backend/hanser_agent/retrieval/chunker.py",
+                      "bytes":  3265,
+                      "sha256":  "a898b439a0fd98e2691584e0060bde94d2690b98bdf6c978ca1f759972ddc44d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/embedding.py",
+                      "destination":  "backend/hanser_agent/retrieval/embedding.py",
+                      "bytes":  5824,
+                      "sha256":  "500b2bc08ef366aff9440ac8afe604762c5ab95426cd2a54e76111a763f50865"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/hybrid.py",
+                      "destination":  "backend/hanser_agent/retrieval/hybrid.py",
+                      "bytes":  6884,
+                      "sha256":  "e5268319120c5a35931ae02d9e9e86abe59dace4ef278f3c8c7d46ba178e67de"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance.cpython-313.pyc",
+                      "bytes":  10715,
+                      "sha256":  "a1935fa8534dcc78cfd5340042935d8e4c0762e1bac25dbfb973e13f7dd3d10d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-311.pyc",
+                      "bytes":  6603,
+                      "sha256":  "1d7d67f0d2bf06fd4440e5d73ee5f90d090668c12f9cd184af8565df08a003e4"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-312.pyc",
+                      "bytes":  5932,
+                      "sha256":  "5862539c5d6acdd98ab3328a9904a26f6ef6394338a53e33f90accef42547103"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__init__.py",
+                      "destination":  "backend/hanser_agent/responder/__init__.py",
+                      "bytes":  1436,
+                      "sha256":  "feed42fb6786d50dcf58d8fd1a0e92b72b184210279b7e3f9033fe394ebadae4"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance.cpython-311.pyc",
+                      "bytes":  12205,
+                      "sha256":  "d2ff785d555605520acfb2fd5b8d5cbd8706a847760ee3575b7f8da153ad4cd1"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance.cpython-312.pyc",
+                      "bytes":  10377,
+                      "sha256":  "f2e3024fa238889bbe20ab1f15a3095f467f86de453a428959b40cf8465e01bd"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/performance_policy.cpython-313.pyc",
+                      "bytes":  6008,
+                      "sha256":  "7a10b1e189d4956b080d26a300f0fa124e1819bff317a063c4c3fcfe24c184a4"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/service.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/service.cpython-311.pyc",
+                      "bytes":  12164,
+                      "sha256":  "c49fa7d7594fe980d8ec50da1bec5f2c3db1fb62394f989f76dfa644e44d9bd2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/service.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/service.cpython-312.pyc",
+                      "bytes":  11858,
+                      "sha256":  "e855b15cd007f4577b53203c2f5e9c942853030da6e2835d4970cc38d926670d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/service.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/service.cpython-313.pyc",
+                      "bytes":  12104,
+                      "sha256":  "b3fdd897bcb84196e07233860ec3baaca944f63d7c2adc1d4a80cb54303061f6"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-311.pyc",
+                      "bytes":  2229,
+                      "sha256":  "4a1b1333e332879829ef8a69341aa527a212b33f5c750a2304c3abc5887b431f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-312.pyc",
+                      "bytes":  1970,
+                      "sha256":  "e7b641f6e47eca3d0a1def4ed6a0bcc5cadd0bc3b4fd1edc69d321dfaadb3e52"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/responder/__pycache__/presentation.cpython-313.pyc",
+                      "bytes":  2058,
+                      "sha256":  "627b84e387b877d738e8ef885738e37d736c9b91ea9adb71cedfc7ad4f4672ca"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/vector_store.py",
+                      "destination":  "backend/hanser_agent/retrieval/vector_store.py",
+                      "bytes":  15374,
+                      "sha256":  "fedde7a9cc299ebbf74af74a16597e367f211afacf50c3a28c64322361c53064"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-311.pyc",
+                      "bytes":  4028,
+                      "sha256":  "c11db8b1dea162f159478e53caf36cd7cef72916bfe5b055a66bae9f43179397"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-312.pyc",
+                      "bytes":  3224,
+                      "sha256":  "5ac5d700afcb451f4ba04f51d61c64270d3abef0b60610990726f40c1f51df81"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/legacy_prometheus.cpython-313.pyc",
+                      "bytes":  3309,
+                      "sha256":  "dd358b6ae073c33bdd2ac89b1b8b3e715f9615afce7c6fcf65391b5f624c76a2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-311.pyc",
+                      "bytes":  16892,
+                      "sha256":  "4fe98000791c226dc30f906da3a81b4aa62f22fa604ac781eccd793098861615"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-312.pyc",
+                      "bytes":  9362,
+                      "sha256":  "666ecfb88cbb28fc3c8953f57d31e093571a249bb2c2e4e26a6c0736ccbc5d99"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/indexer.cpython-313.pyc",
+                      "bytes":  13994,
+                      "sha256":  "1b326debd847da61659ed101a66dd587e47c449b393cd8fd23c9e78fa44b30db"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-311.pyc",
+                      "bytes":  14377,
+                      "sha256":  "adb29d572e6d925905ffb1c4f4b275e43bbdf37446bb57c52afcbd9a98282647"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-312.pyc",
+                      "bytes":  21982,
+                      "sha256":  "b960beac5ed17a3200deae29e36b4400dcb193262fa450ba0b370bed7653121e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-313.pyc",
+                      "bytes":  22806,
+                      "sha256":  "3f39e98aaff0b194ad1c0e5499451e0439a9d2b3e5a5b09579fdb1f7d38e571b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  947,
+                      "sha256":  "5dde874dd1704a38e886fda6ed421893b41d119084426437934bdfaf78b178c0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-312.pyc",
+                      "bytes":  12490,
+                      "sha256":  "bf9dfa7ff9fd503207889adf8536fe83e4886f838944d1ed2a176b95f88e6511"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/reranker.cpython-313.pyc",
+                      "bytes":  12696,
+                      "sha256":  "e18b7e4d0a18a00ffe76a9692cd22a040bdec3f2f5be012dfd8c0a01f079cab0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/vector_store.cpython-311.pyc",
+                      "bytes":  26922,
+                      "sha256":  "a405760efb979fa74884e6065349f51f44c8653263eb7e6bf8df690bf000f03e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-313.pyc",
+                      "bytes":  5293,
+                      "sha256":  "d3694b31a8e962b2ddc70db553418f9496ec5175fdb893ddb111069f0d986e6a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-311.pyc",
+                      "bytes":  5725,
+                      "sha256":  "84102027eeeb4e1b0c956b415a1486327e52d8f2018ae2d73b4347ce70172d33"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-312.pyc",
+                      "bytes":  4780,
+                      "sha256":  "d60dcbe839b234cef7b6cbcfe257106af0e659cfcd72f2c352454aabc3b66095"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__init__.py",
+                      "destination":  "backend/hanser_agent/retrieval/__init__.py",
+                      "bytes":  756,
+                      "sha256":  "73b15c252d08b222510ace15db71e3e0d201adeeeca014b0741e1b32984ca53d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-311.pyc",
+                      "bytes":  6279,
+                      "sha256":  "9cf0fb79a2b6a6e8e4b30dcd3a601d04a9df39369f5ec07a5862d7e034d1933b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/bm25.cpython-312.pyc",
+                      "bytes":  5202,
+                      "sha256":  "7d44a3882ce4a80357aa5b47310dfdc4bc346947f0e85bc984c770bdca746a49"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/chunker.cpython-313.pyc",
+                      "bytes":  4937,
+                      "sha256":  "e21ea7808bc072b0543e019fdf88f104a6f72aa1f92d8525a78b940944dad7be"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-311.pyc",
+                      "bytes":  11296,
+                      "sha256":  "3ad2e5dc35c30e9b862b2b71e86268888d6de84189e846a0b7196394ea0146d7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-312.pyc",
+                      "bytes":  9412,
+                      "sha256":  "db320b6ef26f6f0868365fa274b07a1769d2d5d6d55fdeb63bd889ba9727020a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/hybrid.cpython-313.pyc",
+                      "bytes":  9523,
+                      "sha256":  "ba992517aa37c7a6910a5fd9a71403846aa26dff9b0d40b6dee4407158198dfa"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-311.pyc",
+                      "bytes":  8329,
+                      "sha256":  "d0acd608462de1b423b8f167cfa6ecb2b880e7f339c156ee7e42d7b368505317"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-312.pyc",
+                      "bytes":  7317,
+                      "sha256":  "d7ab50d807947919d89296e01976151be854f12d26030fe1feea328114fbd721"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/retrieval/__pycache__/embedding.cpython-313.pyc",
+                      "bytes":  9519,
+                      "sha256":  "1525163b740cdfe88d7c4f4a2bee4e07b2bf49cf3002c7c21cfbb0b3688453c1"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/document.tsx",
+                      "destination":  "frontend/components/chat/document.tsx",
+                      "bytes":  4712,
+                      "sha256":  "bc658508de13ab1e3536ef07370f083968f32552963823c6362580dc60fb2bbf"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/greeting.tsx",
+                      "destination":  "frontend/components/chat/greeting.tsx",
+                      "bytes":  558,
+                      "sha256":  "cf395a17b19713db076020192ec958e21d62dd82d1f14ded86cc74bf3411071c"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/icons.tsx",
+                      "destination":  "frontend/components/chat/icons.tsx",
+                      "bytes":  55162,
+                      "sha256":  "343da92643dfc1574978b178bb650134ef40a65981f66f403d36de27ba6d1565"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/diffview.tsx",
+                      "destination":  "frontend/components/chat/diffview.tsx",
+                      "bytes":  3418,
+                      "sha256":  "000bf712e2c1032849255c149f6e67ab0f31654bde1ca8b4acac722b75458732"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/document-preview.tsx",
+                      "destination":  "frontend/components/chat/document-preview.tsx",
+                      "bytes":  9473,
+                      "sha256":  "b18b132a0ae870c64520cd4eea9e48748a8e9642627cbbb5b10b8a94316a6f3c"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/document-skeleton.tsx",
+                      "destination":  "frontend/components/chat/document-skeleton.tsx",
+                      "bytes":  1649,
+                      "sha256":  "c4e7eea9ad43e7f15d4d2deb33255044084fe83b1ecc848c3f850084e079aa12"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/image-editor.tsx",
+                      "destination":  "frontend/components/chat/image-editor.tsx",
+                      "bytes":  1135,
+                      "sha256":  "fe4f18205cae54ed585e413eab89a649d0de71788ba4de68cd2a93ac5f3dec05"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/message.tsx",
+                      "destination":  "frontend/components/chat/message.tsx",
+                      "bytes":  13404,
+                      "sha256":  "3fb3a39eb97711ce558b5db783452eeab17689a9b5fa4f8e193ec713245254b1"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/messages.tsx",
+                      "destination":  "frontend/components/chat/messages.tsx",
+                      "bytes":  4385,
+                      "sha256":  "43bca58a3584ac590ea0123491a2af7425d4216ddb2d30caa2c6d748b2f87169"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/multimodal-input.tsx",
+                      "destination":  "frontend/components/chat/multimodal-input.tsx",
+                      "bytes":  11776,
+                      "sha256":  "c0df3506a669b3172887dfa0345ad6f469f8f86d36cae4fd31a67501a14eeda5"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/message-actions.tsx",
+                      "destination":  "frontend/components/chat/message-actions.tsx",
+                      "bytes":  3266,
+                      "sha256":  "fb8b907d5e36712ac474b969567163e814c0919a1ce222a18428d7ab1cd5aeb4"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/message-editor.tsx",
+                      "destination":  "frontend/components/chat/message-editor.tsx",
+                      "bytes":  818,
+                      "sha256":  "ea568c7af1a4ac8000959de225a38e56067e4613c95937b494198fe5c5e6eee6"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/message-reasoning.tsx",
+                      "destination":  "frontend/components/chat/message-reasoning.tsx",
+                      "bytes":  777,
+                      "sha256":  "efbdf515ea206653060eb9e9878c5754c635576920a5b492f02366342a010117"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/artifact-close-button.tsx",
+                      "destination":  "frontend/components/chat/artifact-close-button.tsx",
+                      "bytes":  1027,
+                      "sha256":  "27f1eb0ae189479a3c46df11720e5651248999877dec39db87d30e5c4b7e0bf6"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/artifact-messages.tsx",
+                      "destination":  "frontend/components/chat/artifact-messages.tsx",
+                      "bytes":  3356,
+                      "sha256":  "c2297b4e6d364750540dfa8214e04e907e1fb3b83522eb56197345216fb58f4b"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/artifact.tsx",
+                      "destination":  "frontend/components/chat/artifact.tsx",
+                      "bytes":  15490,
+                      "sha256":  "368a833f35effaa5b3cf93e16c675dffca470db320c08bca5e23986c9d591677"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/tool.tsx",
+                      "destination":  "frontend/components/ai-elements/tool.tsx",
+                      "bytes":  5152,
+                      "sha256":  "42660015556f7c4627a624bdedb2ce19e113f40e994223658e008b60eead1b5c"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/app-sidebar.tsx",
+                      "destination":  "frontend/components/chat/app-sidebar.tsx",
+                      "bytes":  3531,
+                      "sha256":  "e40a434f1016334b4a3cdb40ab680ff2520b2a06856ff4c108c39f7274a1ceb3"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/artifact-actions.tsx",
+                      "destination":  "frontend/components/chat/artifact-actions.tsx",
+                      "bytes":  4112,
+                      "sha256":  "f42f0221d3714767b8645d3661da7f86e368005d8a10dbfe81b6dc0f6d12dfec"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/auth-form.tsx",
+                      "destination":  "frontend/components/chat/auth-form.tsx",
+                      "bytes":  1545,
+                      "sha256":  "4a271e01f22306ba13136850f6dbb1e7376e11cb662f8c52f9fd8d065b52cd79"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/create-artifact.tsx",
+                      "destination":  "frontend/components/chat/create-artifact.tsx",
+                      "bytes":  3052,
+                      "sha256":  "02a5aa6608828dd85b7eeef8828ec1b390e87984261a3438d0a76c332c13cd17"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/data-stream-handler.tsx",
+                      "destination":  "frontend/components/chat/data-stream-handler.tsx",
+                      "bytes":  2473,
+                      "sha256":  "8f58e334bea1ee08fdf33cf1da92b2474e847b28bf00336bab46dabfd1eb4f8e"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/data-stream-provider.tsx",
+                      "destination":  "frontend/components/chat/data-stream-provider.tsx",
+                      "bytes":  1398,
+                      "sha256":  "67805e56bf889650e1b8a9933a897122ba7ed74cb456cc5d922bd9f83feceb05"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/chat-header.tsx",
+                      "destination":  "frontend/components/chat/chat-header.tsx",
+                      "bytes":  7422,
+                      "sha256":  "aa65feef6c8d75617836d288e409c18a1b1d26dc882bc8743b995f096bb667a6"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/code-editor.tsx",
+                      "destination":  "frontend/components/chat/code-editor.tsx",
+                      "bytes":  4261,
+                      "sha256":  "79fd483546852ebdf69ee2d256166adf12ad61abc5b8d26c4b9d9a7376ac5d07"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/console.tsx",
+                      "destination":  "frontend/components/chat/console.tsx",
+                      "bytes":  6634,
+                      "sha256":  "e3df6d4ed846da51b55b6ffc784d3157848995cec281c6e2997d4a13c8cc2454"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/preview-attachment.tsx",
+                      "destination":  "frontend/components/chat/preview-attachment.tsx",
+                      "bytes":  1685,
+                      "sha256":  "f0b27754f662b4418ac7de8633eb989996335805ce20d700a5df1de01a69b81b"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/visibility-selector.tsx",
+                      "destination":  "frontend/components/chat/visibility-selector.tsx",
+                      "bytes":  3956,
+                      "sha256":  "574f913629330df96a61c413df3b82768fc6226a79c4bf5576fb39da63c0fb41"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/weather.tsx",
+                      "destination":  "frontend/components/chat/weather.tsx",
+                      "bytes":  12227,
+                      "sha256":  "3a1aea45afe8f9008560f37c8a073623b6c3c5bace20a5f1cce45e5b858be209"
+                  },
+                  {
+                      "source":  "chatbot/components/live2d/mmd-stage.test.ts",
+                      "destination":  "frontend/components/live2d/mmd-stage.test.ts",
+                      "bytes":  425,
+                      "sha256":  "20e663ef298598c7005feb1aa62595367900be115c85ecf7619b912b30d88206"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/toast.tsx",
+                      "destination":  "frontend/components/chat/toast.tsx",
+                      "bytes":  2072,
+                      "sha256":  "9fb9b2dd516e8bf2f387f27f18f098936e9c450f6b1a9ef51b534194aaec648f"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/toolbar.tsx",
+                      "destination":  "frontend/components/chat/toolbar.tsx",
+                      "bytes":  14448,
+                      "sha256":  "88dd02340243b795ba11088025aaa032fddf7ce4be67b4ff04b3eb1d1f5cd31f"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/version-footer.tsx",
+                      "destination":  "frontend/components/chat/version-footer.tsx",
+                      "bytes":  5759,
+                      "sha256":  "fb8dae15020f0d83db038a3797e030929bb424d31f369608f6e984245bed425b"
+                  },
+                  {
+                      "source":  "chatbot/components/live2d/mmd-stage.tsx",
+                      "destination":  "frontend/components/live2d/mmd-stage.tsx",
+                      "bytes":  14326,
+                      "sha256":  "2647ef72afc2c245c48437a8dacb4cf378ab50cf8be8a3b8ecddfecb4c9f190a"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/button.tsx",
+                      "destination":  "frontend/components/ui/button.tsx",
+                      "bytes":  2706,
+                      "sha256":  "ce07d3902628c1d1439d3f3bb892176bf4452dbd2584945beb3f60a46991088e"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/collapsible.tsx",
+                      "destination":  "frontend/components/ui/collapsible.tsx",
+                      "bytes":  828,
+                      "sha256":  "c3649a69d53668fcceba2d83c97a3146fc2930a00c30fe281875238384e7bff2"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/command.tsx",
+                      "destination":  "frontend/components/ui/command.tsx",
+                      "bytes":  4878,
+                      "sha256":  "98047701a0473b46414304a167dfea4d13178c41aa01ba153486344c790d130c"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/alert-dialog.tsx",
+                      "destination":  "frontend/components/ui/alert-dialog.tsx",
+                      "bytes":  5752,
+                      "sha256":  "80a1176feeb694ee128e0b2c274ae77a8836ff2ad7072b82cb8faf3dee2a3820"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/badge.tsx",
+                      "destination":  "frontend/components/ui/badge.tsx",
+                      "bytes":  1926,
+                      "sha256":  "0e488cb8943c38de11ba4d2d5b608354a89fb5b94a11fb4c21cbc30bc6aa46ea"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/button-group.tsx",
+                      "destination":  "frontend/components/ui/button-group.tsx",
+                      "bytes":  2427,
+                      "sha256":  "fb0c0f607885ac923d4c92c604b262b46947e246b75d610e43ad31ab429a72c2"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sidebar-history-item.tsx",
+                      "destination":  "frontend/components/chat/sidebar-history-item.tsx",
+                      "bytes":  1271,
+                      "sha256":  "5f82f186e73c7c799a74011038e4951e97e433f90f08d972f8f9ac10ab99cae3"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sidebar-history.tsx",
+                      "destination":  "frontend/components/chat/sidebar-history.tsx",
+                      "bytes":  10546,
+                      "sha256":  "db7dfb6c53690a9853d79ee87fc498f032055ff8dee4873d79a1cbf47284cbab"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sidebar-toggle.tsx",
+                      "destination":  "frontend/components/chat/sidebar-toggle.tsx",
+                      "bytes":  924,
+                      "sha256":  "3d32ab748d62eb601f29939fb06db0526119c1a1e9b3c442af19eaae22bf698e"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/preview.tsx",
+                      "destination":  "frontend/components/chat/preview.tsx",
+                      "bytes":  2762,
+                      "sha256":  "b80892dd9381e2913426afdd8387ac6dfc131a506795aa5952ad0e8dcbc0d99b"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sheet-editor.tsx",
+                      "destination":  "frontend/components/chat/sheet-editor.tsx",
+                      "bytes":  4253,
+                      "sha256":  "b16ec0226c2a383bae0044bf44baf647bcfecc08792e827cfec2b99ac0fa4c84"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/shell.tsx",
+                      "destination":  "frontend/components/chat/shell.tsx",
+                      "bytes":  7385,
+                      "sha256":  "92746a4fdb4306a16b534f46f7711d35ec3c70641db83b7b08b77fa2a1d0dd85"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sidebar-user-nav.tsx",
+                      "destination":  "frontend/components/chat/sidebar-user-nav.tsx",
+                      "bytes":  4701,
+                      "sha256":  "11f8c573c4c9646e2adff6a1887e7af9311842be8dca183361a9b9852c0b0c10"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/suggested-actions.tsx",
+                      "destination":  "frontend/components/chat/suggested-actions.tsx",
+                      "bytes":  2156,
+                      "sha256":  "dde4a23897b38bbb5109526359f4fe85ea93679842ddaad7240797665d3e2877"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/suggestion.tsx",
+                      "destination":  "frontend/components/chat/suggestion.tsx",
+                      "bytes":  2806,
+                      "sha256":  "1d032bb79f33b85aa8039d16efb3c25325b473df0219d5074de3f6a1302334aa"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/text-editor.tsx",
+                      "destination":  "frontend/components/chat/text-editor.tsx",
+                      "bytes":  7390,
+                      "sha256":  "607943461d8d39d8430531fec1825d25944580d89beba098801fb23cb67506ab"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/sign-out-form.tsx",
+                      "destination":  "frontend/components/chat/sign-out-form.tsx",
+                      "bytes":  403,
+                      "sha256":  "2185871e98524213eaf7dde6cfa0b94724c0d9a50e81f84df1bb56f64ff97b45"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/slash-commands.tsx",
+                      "destination":  "frontend/components/chat/slash-commands.tsx",
+                      "bytes":  3812,
+                      "sha256":  "71a62522e00b78491312f351f085cbd11013f1381a97a73b9973a207fe2d7b02"
+                  },
+                  {
+                      "source":  "chatbot/components/chat/submit-button.tsx",
+                      "destination":  "frontend/components/chat/submit-button.tsx",
+                      "bytes":  862,
+                      "sha256":  "8a17f87f1f5a03b99e424be549fd9ddb0085d6c3532e665a5536eb60292cabd2"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/suggestion.tsx",
+                      "destination":  "frontend/components/ai-elements/suggestion.tsx",
+                      "bytes":  1401,
+                      "sha256":  "f9787ed13def9b9988d05cbb35d54090cd04cab8effac8b45bed8e3094152c81"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/chat/route.ts",
+                      "destination":  "frontend/app/(chat)/api/chat/route.ts",
+                      "bytes":  3695,
+                      "sha256":  "66a6213aa1ce40aaff07cbbed047d3cfaceaaaca7381096c257dd3a39a4e1fc9"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/chat/schema.ts",
+                      "destination":  "frontend/app/(chat)/api/chat/schema.ts",
+                      "bytes":  1067,
+                      "sha256":  "6d659cb1a8de2359cb4264b1304f26b6eb63d132fdefe657eba5450854e41e96"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/chat/[id]/stream/route.ts",
+                      "destination":  "frontend/app/(chat)/api/chat/[id]/stream/route.ts",
+                      "bytes":  75,
+                      "sha256":  "64a662e750a23eaf4fe1e97b20046b75bb1fe63ddbec7d60bd4f4fe1ea0732ed"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/opengraph-image.png",
+                      "destination":  "frontend/app/(chat)/opengraph-image.png",
+                      "bytes":  14418,
+                      "sha256":  "480af917fe97e9fd1ab42f4349827afb59afc9786899b31b21fe9ec39ad8f22b"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/page.tsx",
+                      "destination":  "frontend/app/(chat)/page.tsx",
+                      "bytes":  53,
+                      "sha256":  "b82f3e38ebf9325ec1d3ff9cc392fe686bb7255093b2d6d9267fec3603f0f8ed"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/twitter-image.png",
+                      "destination":  "frontend/app/(chat)/twitter-image.png",
+                      "bytes":  52049,
+                      "sha256":  "6a292ea8460e42b0d92ed294cf4f47f3d3d7bb1b75669d68fa3de25aa953b15e"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/document/route.ts",
+                      "destination":  "frontend/app/(chat)/api/document/route.ts",
+                      "bytes":  3836,
+                      "sha256":  "244c04b7898edbbd91b0f9b760502b410e46061df00bbe2aa1e998dc24322ada"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/live2d/model/[...path]/route.ts",
+                      "destination":  "frontend/app/(chat)/api/live2d/model/[...path]/route.ts",
+                      "bytes":  1536,
+                      "sha256":  "a0d4774524c4897ab441465a1863f3b27ff47a664d68c514d08c4fb8716535d8"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/messages/route.ts",
+                      "destination":  "frontend/app/(chat)/api/messages/route.ts",
+                      "bytes":  1320,
+                      "sha256":  "47e4dc882560b0c33d65c64ed967fbddf11fcd15a7871c1285e63047cbfb27f5"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/models/route.ts",
+                      "destination":  "frontend/app/(chat)/api/models/route.ts",
+                      "bytes":  599,
+                      "sha256":  "96baa22cfe3e7e1248cd6b9b9e5fbb72b748fada65193d172167d1613fe594f8"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/files/upload/route.ts",
+                      "destination":  "frontend/app/(chat)/api/files/upload/route.ts",
+                      "bytes":  1837,
+                      "sha256":  "ed05134fdb60de44208ad64fbf33a880fd48cf514e1e318de5f2913ff02740ce"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/health/route.ts",
+                      "destination":  "frontend/app/(chat)/api/health/route.ts",
+                      "bytes":  752,
+                      "sha256":  "72fc2caca331b2d50d13003a0ed7ca5190f51aa3e15fe8b8a323d2bb121a1092"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/history/route.ts",
+                      "destination":  "frontend/app/(chat)/api/history/route.ts",
+                      "bytes":  1505,
+                      "sha256":  "f6c67920c1af7b6582b361a2d03ce0d5ce393d2ffe715403c7dc001b69fa2359"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/actions.ts",
+                      "destination":  "frontend/app/(auth)/actions.ts",
+                      "bytes":  1935,
+                      "sha256":  "db6555d9093189abc86a963b0692a658330ad89bb197d4984ab400ed725cb861"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/auth.config.ts",
+                      "destination":  "frontend/app/(auth)/auth.config.ts",
+                      "bytes":  323,
+                      "sha256":  "c7418cb2799dfd8b180ebd89fbc4a5897e940d31a408eb96bb77c12ca1c1012f"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/auth.ts",
+                      "destination":  "frontend/app/(auth)/auth.ts",
+                      "bytes":  2365,
+                      "sha256":  "9023e8e7f2743c494587dfafc09ba5aa5414f921e54e8af7ab421fb1e8517b4a"
+                  },
+                  {
+                      "source":  "chatbot/app/favicon.ico",
+                      "destination":  "frontend/app/favicon.ico",
+                      "bytes":  15406,
+                      "sha256":  "c3e2ba779257eb8ef3c487d77d175350a1769d26b41823a81834ae6a02cbdcd5"
+                  },
+                  {
+                      "source":  "chatbot/app/globals.css",
+                      "destination":  "frontend/app/globals.css",
+                      "bytes":  10610,
+                      "sha256":  "a5c285a655bb714eef5882c8a5c3d0f77f9540a516ad7f072ee4b6a1447c74e9"
+                  },
+                  {
+                      "source":  "chatbot/app/layout.tsx",
+                      "destination":  "frontend/app/layout.tsx",
+                      "bytes":  2058,
+                      "sha256":  "dc3f4017f488c0d1c48e4966ae42e19dce7695be70a5f3a123d47eb861003200"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/layout.tsx",
+                      "destination":  "frontend/app/(auth)/layout.tsx",
+                      "bytes":  1629,
+                      "sha256":  "8b1a147f323d39af201e8aad9231008b0d34bd39fe3405034a1ec97275473c7b"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/register/page.tsx",
+                      "destination":  "frontend/app/(auth)/register/page.tsx",
+                      "bytes":  2312,
+                      "sha256":  "d8d3c08f8a705a3e8af0e234459176cdd237fc2ad8158df3b426c27e64c93a2c"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/actions.ts",
+                      "destination":  "frontend/app/(chat)/actions.ts",
+                      "bytes":  2180,
+                      "sha256":  "e78a9a4a20b07a2c3e2e473bca2eb508ec5ae1a86e74a4a6e4f7149f073057b9"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/layout.tsx",
+                      "destination":  "frontend/app/(chat)/layout.tsx",
+                      "bytes":  1645,
+                      "sha256":  "39fc13b2d800aa98f55cc95390112e5c31ff731d2c50257ef4a0f4a94e1bd1d8"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/api/auth/guest/route.ts",
+                      "destination":  "frontend/app/(auth)/api/auth/guest/route.ts",
+                      "bytes":  854,
+                      "sha256":  "80614b0bd91c1d96f9738d21204ecc556e97a282f958c7813a86eb1c53323834"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/api/auth/[...nextauth]/route.ts",
+                      "destination":  "frontend/app/(auth)/api/auth/[...nextauth]/route.ts",
+                      "bytes":  48,
+                      "sha256":  "438f65e5f7cfaf8907c3ba13182e534bb8104dc5cbc41ecc056e4a9470605f94"
+                  },
+                  {
+                      "source":  "chatbot/app/(auth)/login/page.tsx",
+                      "destination":  "frontend/app/(auth)/login/page.tsx",
+                      "bytes":  2135,
+                      "sha256":  "5529623c70c7284e117ff7362088f3f6cb7e76aba7be588ba375edd9f26eb697"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/performance/visual-plans/route.ts",
+                      "destination":  "frontend/app/(chat)/api/performance/visual-plans/route.ts",
+                      "bytes":  323,
+                      "sha256":  "955e795508ea9a4787eec76b02013bf34073c0d0a06c43db19229bb990525e66"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/text/client.tsx",
+                      "destination":  "frontend/artifacts/text/client.tsx",
+                      "bytes":  5075,
+                      "sha256":  "c20d8cadd4b8b0b43688f04af0282b5d4214e94f3fb38414b2d28147feffc23b"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/text/server.ts",
+                      "destination":  "frontend/artifacts/text/server.ts",
+                      "bytes":  1682,
+                      "sha256":  "b66277cb735ca6764f66d53b5d6eb08394a21a259f8416a7f6ddc7dd17990b13"
+                  },
+                  {
+                      "source":  "chatbot/components/theme-provider.tsx",
+                      "destination":  "frontend/components/theme-provider.tsx",
+                      "bytes":  308,
+                      "sha256":  "672059951a8fb52a0e01985056f5eed034432073a457b67bc4ac94036fdbdb7d"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/image/client.tsx",
+                      "destination":  "frontend/artifacts/image/client.tsx",
+                      "bytes":  2169,
+                      "sha256":  "5b2da6ae37db78ada5940a411cffcd487c8c2324ec60ecbd7b5f641e8f915d97"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/sheet/client.tsx",
+                      "destination":  "frontend/artifacts/sheet/client.tsx",
+                      "bytes":  3048,
+                      "sha256":  "d4119cb7bac2ef8a9f0a5ea7212f5e10a0dbc57ec6180a44bbd383bab35c135c"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/sheet/server.ts",
+                      "destination":  "frontend/artifacts/sheet/server.ts",
+                      "bytes":  1621,
+                      "sha256":  "67f14edbff58fd1265a2d4208457970fb7092057d0d864267f1cfb06d3fcad42"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/code-block.tsx",
+                      "destination":  "frontend/components/ai-elements/code-block.tsx",
+                      "bytes":  14367,
+                      "sha256":  "7bb9615b9cde9b86383cfd82377f62d08120743590363fede6b59ab3f5f5b6e8"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/prompt-input.tsx",
+                      "destination":  "frontend/components/ai-elements/prompt-input.tsx",
+                      "bytes":  37235,
+                      "sha256":  "195c0784167cc2089120b6f7dc7eaedc01d2a37855dc7a04eb545c31a54c9112"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/reasoning.tsx",
+                      "destination":  "frontend/components/ai-elements/reasoning.tsx",
+                      "bytes":  6931,
+                      "sha256":  "a20dc50326d576422a5c3e6d0423d1528fc77d7a5ec3bc9df2c411cdbbc21d40"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/shimmer.tsx",
+                      "destination":  "frontend/components/ai-elements/shimmer.tsx",
+                      "bytes":  2200,
+                      "sha256":  "a62675d14b811eb587c8ca5f0206b942f5f58ea1ba9d7b0f135bc5b80ee77601"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/conversation.tsx",
+                      "destination":  "frontend/components/ai-elements/conversation.tsx",
+                      "bytes":  4545,
+                      "sha256":  "2de2a2da3943925f85cdaf7b903714bbfb55e646c6d29e3826a1c1f834aa8e57"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/message.tsx",
+                      "destination":  "frontend/components/ai-elements/message.tsx",
+                      "bytes":  8634,
+                      "sha256":  "007106e4ea390d59dd3ab817eb29d6eafcf5dcb5a2e76d332137193fd6c4c802"
+                  },
+                  {
+                      "source":  "chatbot/components/ai-elements/model-selector.tsx",
+                      "destination":  "frontend/components/ai-elements/model-selector.tsx",
+                      "bytes":  5406,
+                      "sha256":  "448f8712acc10062590ba21a2af1660c568b6e13d54b7921f7d0f1a8abc87d41"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/jobs/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/jobs/route.ts",
+                      "bytes":  300,
+                      "sha256":  "3f2591121d8e964b9d4a149a6f7810435ce048fdd893ba80fcf421f6c42cab72"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/jobs/[jobId]/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/jobs/[jobId]/route.ts",
+                      "bytes":  299,
+                      "sha256":  "e75eeb801d3f3139dd8ee4bb1a7780e12010133498fae928439f677181a9481a"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/jobs/[jobId]/cancel/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/jobs/[jobId]/cancel/route.ts",
+                      "bytes":  311,
+                      "sha256":  "e5bcba02d96dda7d24b10c14f0507b44a96f0a59c849ba2641a253a70d02de5e"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/suggestions/route.ts",
+                      "destination":  "frontend/app/(chat)/api/suggestions/route.ts",
+                      "bytes":  968,
+                      "sha256":  "993c287365e028dcdef5cd4474ccf7c41f8c8e0e1378326c9887bbc11e0ee8af"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/_proxy.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/_proxy.ts",
+                      "bytes":  723,
+                      "sha256":  "db85ecb610830f34e66426a979654cd415213826a4b3d7486704823b04ab749d"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/artifacts/[artifactId]/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/artifacts/[artifactId]/route.ts",
+                      "bytes":  898,
+                      "sha256":  "a9518409e279ace353b2d80f56ee42faa25c31590451d5617a5d892f964e3ffd"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/jobs/[jobId]/events/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/jobs/[jobId]/events/route.ts",
+                      "bytes":  935,
+                      "sha256":  "1c359396da917f4d3dc3a5801672d2e9b19fe717a6944e49e071de8ef9a95b5e"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/actions.ts",
+                      "destination":  "frontend/artifacts/actions.ts",
+                      "bytes":  268,
+                      "sha256":  "e1ffe15d0634fed887616a324a9ca0bfd76ac007de9d6cdd67395ae1413764d8"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/code/client.tsx",
+                      "destination":  "frontend/artifacts/code/client.tsx",
+                      "bytes":  8264,
+                      "sha256":  "6b810e2d699a1721378671d935bf440b817991b1185131fb13c48f7d8284d997"
+                  },
+                  {
+                      "source":  "chatbot/artifacts/code/server.ts",
+                      "destination":  "frontend/artifacts/code/server.ts",
+                      "bytes":  1838,
+                      "sha256":  "470b995ca9b57099b06d177a712ae4407b8839a99ee64ba22e941e6941fdb8d5"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/voice/jobs/[jobId]/playback/route.ts",
+                      "destination":  "frontend/app/(chat)/api/voice/jobs/[jobId]/playback/route.ts",
+                      "bytes":  359,
+                      "sha256":  "587ce28e44c55c926746a116e4983f0ef2a3522a8fbc2c2eed028756d6bd41fc"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/api/vote/route.ts",
+                      "destination":  "frontend/app/(chat)/api/vote/route.ts",
+                      "bytes":  129,
+                      "sha256":  "2d11a36a97714717a53c8ad8074a243d1db8822e39c7e3784daf8e2db679ac91"
+                  },
+                  {
+                      "source":  "chatbot/app/(chat)/chat/[id]/page.tsx",
+                      "destination":  "frontend/app/(chat)/chat/[id]/page.tsx",
+                      "bytes":  53,
+                      "sha256":  "b82f3e38ebf9325ec1d3ff9cc392fe686bb7255093b2d6d9267fec3603f0f8ed"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/dialog.tsx",
+                      "destination":  "frontend/components/ui/dialog.tsx",
+                      "bytes":  4291,
+                      "sha256":  "ac21347f83169fca8f54b3a81f7b6598d557a66e129fbb987f968229035058fd"
+                  },
+                  {
+                      "source":  "chatbot/public/media/song-manifest.json",
+                      "destination":  "frontend/public/media/song-manifest.json",
+                      "bytes":  502,
+                      "sha256":  "5f0f16b7cd6df676e0d451eb37fd755dcf49935200691a8f755ece868704c554"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/api.py",
+                      "destination":  "backend/hanser_agent/api.py",
+                      "bytes":  17663,
+                      "sha256":  "c30b857a6137efec4f1b6d86836991aa7077ef6a262f869512b699f277787728"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/config.py",
+                      "destination":  "backend/hanser_agent/config.py",
+                      "bytes":  16807,
+                      "sha256":  "012b6fb403ce07f238376d4c3a8df12833e6896e7b23bc1298f9ce2b5da3adee"
+                  },
+                  {
+                      "source":  "chatbot/public/images/mouth of the seine, monet.jpg",
+                      "destination":  "frontend/public/images/mouth of the seine, monet.jpg",
+                      "bytes":  33497,
+                      "sha256":  "f2c116ae596049e9c839ca0480b297058654ca4e68833879aefab2fc93bcc43a"
+                  },
+                  {
+                      "source":  "chatbot/public/media/9-it-is-like-a-star.mouth.json",
+                      "destination":  "frontend/public/media/9-it-is-like-a-star.mouth.json",
+                      "bytes":  34158,
+                      "sha256":  "440ab99e5f98035b9ea298e35ab65dfa32289d3e8ca41e07510bd56f9cbe32fd"
+                  },
+                  {
+                      "source":  "chatbot/public/media/9-it-is-like-a-star.mp3",
+                      "destination":  "frontend/public/media/9-it-is-like-a-star.mp3",
+                      "bytes":  10082214,
+                      "sha256":  "ea22280b3ec218f57bfef3136246cbeae21da4326a5743bfa44432a1ba952d58"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/db.py",
+                      "destination":  "backend/hanser_agent/db.py",
+                      "bytes":  24902,
+                      "sha256":  "a58bee59748fc2bb4847111c84ffdecfcc28a70bcf2f10edc7ecb25ee1d607f7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/model_gateway.py",
+                      "destination":  "backend/hanser_agent/model_gateway.py",
+                      "bytes":  14390,
+                      "sha256":  "3b63120a34235c9cdc9bcb7190bf7b192f212441aed7c1117e39914efb447a3f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/render_bridge.py",
+                      "destination":  "backend/hanser_agent/render_bridge.py",
+                      "bytes":  7702,
+                      "sha256":  "9854959c4b61da3ed1aa605ce237adb2fe6933e240935712b20708ded6baea5d"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/search.py",
+                      "destination":  "backend/hanser_agent/search.py",
+                      "bytes":  4707,
+                      "sha256":  "04bd4a8780b6a12d1e07e1e4e9b8d39217e6ba1ac07f77d1f5f828ea220a65b0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/failures.py",
+                      "destination":  "backend/hanser_agent/failures.py",
+                      "bytes":  1146,
+                      "sha256":  "657cf74d00b39d61148aa7831660574d32fe908abcec16ebe372621b624f3482"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/llm.py",
+                      "destination":  "backend/hanser_agent/llm.py",
+                      "bytes":  2533,
+                      "sha256":  "95c22a59d6df3641ced54918c7e7c3c29bb4c81e047977e4ced646b88102a0f0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/models.py",
+                      "destination":  "backend/hanser_agent/models.py",
+                      "bytes":  11418,
+                      "sha256":  "a2657d0e331c1469206c1f0a16202df18d8745694cf5335a5313d61b322034e7"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/rig-adapter.ts",
+                      "destination":  "frontend/lib/live2d/rig-adapter.ts",
+                      "bytes":  645,
+                      "sha256":  "01355a53697e6e6d2c531cf4527ed8cc519d55107af6593d830a1aaefe083517"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/scene-events.ts",
+                      "destination":  "frontend/lib/live2d/scene-events.ts",
+                      "bytes":  616,
+                      "sha256":  "af111aa27d64d2aa0fa7ceb2f7089cbfcda25156c90e41aa829f3c6f617a0830"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/timeline-evaluator.ts",
+                      "destination":  "frontend/lib/live2d/timeline-evaluator.ts",
+                      "bytes":  2444,
+                      "sha256":  "c0200a4033a293ddad35d1c210cd38612060b70e1fe0d81fabb0bdb041cff2a3"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/mmd-motion-library.ts",
+                      "destination":  "frontend/lib/live2d/mmd-motion-library.ts",
+                      "bytes":  11045,
+                      "sha256":  "a6beacb88d66e8ee0c9d72ba68a0e047c74e36a5821dd02910e822b22bd83708"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/mmd-rig-adapter.test.ts",
+                      "destination":  "frontend/lib/live2d/mmd-rig-adapter.test.ts",
+                      "bytes":  3954,
+                      "sha256":  "f07ed5039c70a199de41be6e84c9d56b7cbefac82ed3df356ce8024be10016aa"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/mmd-rig-adapter.ts",
+                      "destination":  "frontend/lib/live2d/mmd-rig-adapter.ts",
+                      "bytes":  7662,
+                      "sha256":  "600e67e537f9d5deb7d2d911bbdc9e3b8c98307ce5ec081935d385a140988f18"
+                  },
+                  {
+                      "source":  "chatbot/lib/voice/client.ts",
+                      "destination":  "frontend/lib/voice/client.ts",
+                      "bytes":  3191,
+                      "sha256":  "f15d7bfb1e4f6637f3f52c7f07cd373409b74847d3b21923031069c60a578df6"
+                  },
+                  {
+                      "source":  "chatbot/lib/voice/segment-queue.ts",
+                      "destination":  "frontend/lib/voice/segment-queue.ts",
+                      "bytes":  373,
+                      "sha256":  "01eff41afc0e5834bf5f85f53ebdc58f4c924e7356b29e312a76db71065222ac"
+                  },
+                  {
+                      "source":  "chatbot/public/preview.png",
+                      "destination":  "frontend/public/preview.png",
+                      "bytes":  39834,
+                      "sha256":  "b610584304d15190ac199b7920de8bf591eb6ed9c8aac088282a780537c75ad4"
+                  },
+                  {
+                      "source":  "chatbot/public/images/demo-thumbnail.png",
+                      "destination":  "frontend/public/images/demo-thumbnail.png",
+                      "bytes":  23198,
+                      "sha256":  "7d8ee3bd6f3ace9e2e4a2578b0b5b8b21365cfe12dd6a0374fe5763c86ce6e2a"
+                  },
+                  {
+                      "source":  "chatbot/lib/voice/contracts.ts",
+                      "destination":  "frontend/lib/voice/contracts.ts",
+                      "bytes":  1844,
+                      "sha256":  "348b1869987364d54b52f05783c3f166e925bfa2e78f492b4b6f077245277408"
+                  },
+                  {
+                      "source":  "chatbot/lib/voice/playback-controller.ts",
+                      "destination":  "frontend/lib/voice/playback-controller.ts",
+                      "bytes":  17768,
+                      "sha256":  "8a482e9b59c033cfdf2299338cd40f8a93aa2269a1d404d76190883c69c7d20c"
+                  },
+                  {
+                      "source":  "chatbot/lib/voice/segment-queue.test.ts",
+                      "destination":  "frontend/lib/voice/segment-queue.test.ts",
+                      "bytes":  930,
+                      "sha256":  "4fa0ef8d5e4b20964d9834ca656e81b7c12362f867bf01be6bbbd74bc6d449b2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/tokenizer.py",
+                      "destination":  "backend/hanser_agent/tokenizer.py",
+                      "bytes":  1291,
+                      "sha256":  "56fc200b80190645e5fabcc827664dc2f02fe0a716403965bf575aefed7a41f5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-313.pyc",
+                      "bytes":  18142,
+                      "sha256":  "c4b4e8056ed3f645d75846a8ecbfaf2e998ff9e0e155e0173dfb41b114154ff0"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-311.pyc",
+                      "bytes":  9944,
+                      "sha256":  "41e95437e754e50b7382a30aa695741718f1c0af28839104d6b8231a4ed50847"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-312.pyc",
+                      "bytes":  9151,
+                      "sha256":  "5bcae008eee904a4ffb65a4dc279db31c64b345f2db22c04f96f5b3eaaed23fb"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-313.pyc",
+                      "bytes":  1701,
+                      "sha256":  "4356011c3f3193d8fd623a065b712353380c5be3379564be6f17cff49ed9029f"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-311.pyc",
+                      "bytes":  20357,
+                      "sha256":  "caaca2b8554213f7ed390e9f17ed7bf8bcbabe5e981b88eec57c4c2fdea773ca"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/style_search.cpython-312.pyc",
+                      "bytes":  17679,
+                      "sha256":  "65180f05c6eedff18bbd4a2f10a81a3574af8057b3dd8f9e3cffb75f8be18488"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/wiki_search.cpython-313.pyc",
+                      "bytes":  9256,
+                      "sha256":  "2052cb3916fe2c2d4ccb6b8d5fa19d5d94ae5d7fae6d1e9bd3fffe5bdc80f897"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-311.pyc",
+                      "bytes":  36837,
+                      "sha256":  "5f6902842aeea9e7698118ec0ab326dab92ea003f77c1a5a4a266a53e50964ff"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-312.pyc",
+                      "bytes":  32605,
+                      "sha256":  "d7ebcee6762de82c866c64e92e4f7550273e563359512ef62e96237f87b41518"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/__pycache__/context_builder.cpython-313.pyc",
+                      "bytes":  33451,
+                      "sha256":  "1823e973cc8d1e17c3bd857798a01eb583ec5fe348cd46a9e334244e109175f7"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-311.pyc",
+                      "bytes":  521,
+                      "sha256":  "ab4c522f2e03da438782ac44fc4671330ac952fb8567cdc1e266650cba467d6e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-312.pyc",
+                      "bytes":  442,
+                      "sha256":  "90f608038ceb7f619d7d73238776724c9eba2a231329307c6452ba1e1f1437ed"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-313.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/__init__.cpython-313.pyc",
+                      "bytes":  442,
+                      "sha256":  "cbd88d31b55085aa1a9cb3bd09ba495be19f26e0ed3863501f9ec79365623205"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/planner.py",
+                      "destination":  "backend/hanser_agent/agent/planner.py",
+                      "bytes":  9037,
+                      "sha256":  "d7bdca93838dfbf719f169a126a9830b52e1b9ae68ee25d26c22cc2f2c504890"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/request_state.py",
+                      "destination":  "backend/hanser_agent/agent/request_state.py",
+                      "bytes":  12601,
+                      "sha256":  "cc5661fd8adaf36e2bcdf62792d95179de3a6d265ddb0ce3e91fb2ddd4b0d728"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/service.py",
+                      "destination":  "backend/hanser_agent/agent/service.py",
+                      "bytes":  29532,
+                      "sha256":  "66e3f5a5dfe301d39919b256594bac733e03353ed2716a481f647a144808d69b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/__init__.py",
+                      "destination":  "backend/hanser_agent/__init__.py",
+                      "bytes":  39,
+                      "sha256":  "a2fb094df5662c2cf8771ec773ac1dc716b7db12287cc9f0a2b0262796c8fec5"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/context_builder.py",
+                      "destination":  "backend/hanser_agent/agent/context_builder.py",
+                      "bytes":  27668,
+                      "sha256":  "e2fe6ba394c0d855e1a6a450b7d4af860384c95449dc120154e2f2dbaa03549e"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/conversation.py",
+                      "destination":  "backend/hanser_agent/agent/conversation.py",
+                      "bytes":  14617,
+                      "sha256":  "768c993377979dd8281babe875e3fff10df4562d7937d78c2895da1206340d8b"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/__init__.py",
+                      "destination":  "backend/hanser_agent/agent/__init__.py",
+                      "bytes":  70,
+                      "sha256":  "6eb7ad5b91bbea03b364cb6c0a9c969668492fba259e0e1d85aa135e3eb6667a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__init__.py",
+                      "destination":  "backend/hanser_agent/agent/tools/__init__.py",
+                      "bytes":  342,
+                      "sha256":  "a207d4ff2580d9bfcb0dceb9255a46441138a193ba1ae53b588fcfa42084f75a"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-311.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-311.pyc",
+                      "bytes":  1786,
+                      "sha256":  "1fb5273886f40d416fd335bed065f1934d46e5798cfc9ce983438a5994ebb1f2"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-312.pyc",
+                      "destination":  "backend/hanser_agent/agent/tools/__pycache__/memory_search.cpython-312.pyc",
+                      "bytes":  1537,
+                      "sha256":  "b49fb297e808276dd3c6384ea462a7908044ecefefe3bebb83fef8a5682379db"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/memory_search.py",
+                      "destination":  "backend/hanser_agent/agent/tools/memory_search.py",
+                      "bytes":  856,
+                      "sha256":  "80b4eed7c4aec543ffd41d7759c00fbc9f08913188c84eea5fdfdcc1a0e359e9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/style_search.py",
+                      "destination":  "backend/hanser_agent/agent/tools/style_search.py",
+                      "bytes":  14089,
+                      "sha256":  "8c075e0dd6e793b80e426fcff6e411ec862470e7c8118f50dd99fbcdf5878ff9"
+                  },
+                  {
+                      "source":  "backend/hanser_agent/agent/tools/wiki_search.py",
+                      "destination":  "backend/hanser_agent/agent/tools/wiki_search.py",
+                      "bytes":  6935,
+                      "sha256":  "58b7110b0b18f38e428d08113e5700e35dcb7c9de9d12e6e21a1916b7da1ef19"
+                  },
+                  {
+                      "source":  "chatbot/lib/live2d/mmd-motion-library.test.ts",
+                      "destination":  "frontend/lib/live2d/mmd-motion-library.test.ts",
+                      "bytes":  6928,
+                      "sha256":  "4b28a311c13f7b4743920b25e061bd5b6e9b72777aebf89ad5026b6ac6b5d0d3"
+                  },
+                  {
+                      "source":  "chatbot/components/voice/voice-provider.tsx",
+                      "destination":  "frontend/components/voice/voice-provider.tsx",
+                      "bytes":  4351,
+                      "sha256":  "724261a7bafbd98d860eadf5ad8f5a971f5a86124ed848a1306d246ff25a06e5"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-active-chat.tsx",
+                      "destination":  "frontend/hooks/use-active-chat.tsx",
+                      "bytes":  11712,
+                      "sha256":  "1627d34a20bcd95dc32df9a8e1b4ca56c83632af3c68d562c21a59fe487a0d38"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-artifact.ts",
+                      "destination":  "frontend/hooks/use-artifact.ts",
+                      "bytes":  2180,
+                      "sha256":  "a99bb66bebbb33c1e282203cc7c74101f966366925841c277f6ce901dd1fa708"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/textarea.tsx",
+                      "destination":  "frontend/components/ui/textarea.tsx",
+                      "bytes":  811,
+                      "sha256":  "a814efd7403ffbf1775d4ab23f6d39e89b83ba85e2b98bd6588c18b88b16e786"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/tooltip.tsx",
+                      "destination":  "frontend/components/ui/tooltip.tsx",
+                      "bytes":  2246,
+                      "sha256":  "ebc35cb428549f7d2c28e696b878f404621688ebc5f4cb55ec879a46c761ec70"
+                  },
+                  {
+                      "source":  "chatbot/components/voice/voice-controls.tsx",
+                      "destination":  "frontend/components/voice/voice-controls.tsx",
+                      "bytes":  1542,
+                      "sha256":  "0591c251fd5e94b02c3d452f2f6aa4215653b2aaeb75299d4a851ad54da83107"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-auto-resume.ts",
+                      "destination":  "frontend/hooks/use-auto-resume.ts",
+                      "bytes":  1266,
+                      "sha256":  "1a538f0778bc564f00cfaaf74578ba7641b45d0db0013107e61f26360a64b813"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-scroll-to-bottom.tsx",
+                      "destination":  "frontend/hooks/use-scroll-to-bottom.tsx",
+                      "bytes":  3194,
+                      "sha256":  "8983101ddd75885bcb570fb10f0ca11570ac7c2e75790aa82d03171ffac61f2f"
+                  },
+                  {
+                      "source":  "chatbot/lib/constants.ts",
+                      "destination":  "frontend/lib/constants.ts",
+                      "bytes":  674,
+                      "sha256":  "3fb196bdf8f6971b5f3d59d1db68b2070984ee6c32a4de86b287040a1af72f6b"
+                  },
+                  {
+                      "source":  "chatbot/lib/errors.ts",
+                      "destination":  "frontend/lib/errors.ts",
+                      "bytes":  4286,
+                      "sha256":  "e2efffe63928928777dcbfb8abd01d6a51427ed4dcdb850f2ea0a324a6f46852"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-chat-visibility.ts",
+                      "destination":  "frontend/hooks/use-chat-visibility.ts",
+                      "bytes":  1535,
+                      "sha256":  "002323204dd91ccfeac426d48fcc3d953f0b3fd9e6fb634e81dc61458dee9e4f"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-messages.tsx",
+                      "destination":  "frontend/hooks/use-messages.tsx",
+                      "bytes":  831,
+                      "sha256":  "390b93dcf73f183c58da57dbf4b9f98c7ff0c5e7004ba0ffc3ffed64fe706efc"
+                  },
+                  {
+                      "source":  "chatbot/hooks/use-mobile.ts",
+                      "destination":  "frontend/hooks/use-mobile.ts",
+                      "bytes":  584,
+                      "sha256":  "d2377fbad5ad2bdf7fa896a68c36ac8bf4aa74a974b2061f77b41ae58d623001"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/input.tsx",
+                      "destination":  "frontend/components/ui/input.tsx",
+                      "bytes":  927,
+                      "sha256":  "c3d0edd79f038a86a3911be747a6a9d12804f51bfdcfcdf4c8fd13acaf3477d8"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/label.tsx",
+                      "destination":  "frontend/components/ui/label.tsx",
+                      "bytes":  630,
+                      "sha256":  "43e7cadacf1e0d71c1668dc388271656d2db8c4d45f2144d52d594f9aca31ca5"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/popover.tsx",
+                      "destination":  "frontend/components/ui/popover.tsx",
+                      "bytes":  1528,
+                      "sha256":  "b30eb4e138ea0dbb9969192a08618706ff6648767abea91dde8e7d137d64b504"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/dropdown-menu.tsx",
+                      "destination":  "frontend/components/ui/dropdown-menu.tsx",
+                      "bytes":  8940,
+                      "sha256":  "17e13af41889e99a50baaea4ea2bd7b4c5ca6f9a9e3c02c873555623d3b42ae1"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/hover-card.tsx",
+                      "destination":  "frontend/components/ui/hover-card.tsx",
+                      "bytes":  1563,
+                      "sha256":  "562be2c297e1dd2c94938485b27ca82d8f28f840bf544a39cc2604f0df4f1bf2"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/input-group.tsx",
+                      "destination":  "frontend/components/ui/input-group.tsx",
+                      "bytes":  5257,
+                      "sha256":  "59ecff27a52580aaaaff5e285e4168b8df2d018e6e7e41f290bc5240146f683b"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/scroll-area.tsx",
+                      "destination":  "frontend/components/ui/scroll-area.tsx",
+                      "bytes":  1747,
+                      "sha256":  "5a97886b1c332acd2c5507883719071089814519b3141f87cd2a00439f84dc7f"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/sidebar.tsx",
+                      "destination":  "frontend/components/ui/sidebar.tsx",
+                      "bytes":  21500,
+                      "sha256":  "9393a3bb9d42a2d64a84a843602cfbe2a4d8aba97a98510a206c111a05083ec4"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/skeleton.tsx",
+                      "destination":  "frontend/components/ui/skeleton.tsx",
+                      "bytes":  288,
+                      "sha256":  "58456af89a43f3c7f26035a369ecb07957f7500e7bb03277f9c4dc2ac997d8e5"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/spinner.tsx",
+                      "destination":  "frontend/components/ui/spinner.tsx",
+                      "bytes":  312,
+                      "sha256":  "8181706b6073e787dbb69bb45ad9b553fd018d192b18dbe35bdd1b7dd86ca11a"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/select.tsx",
+                      "destination":  "frontend/components/ui/select.tsx",
+                      "bytes":  6818,
+                      "sha256":  "5c08069ec39443eb6619af51fa14ebce7422ca6af5a5e1a1d8f3f9d9b9f85594"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/separator.tsx",
+                      "destination":  "frontend/components/ui/separator.tsx",
+                      "bytes":  672,
+                      "sha256":  "250721adc018e8e02291a6b83a0f5de1fe50062e5e1570657172aaad19f55195"
+                  },
+                  {
+                      "source":  "chatbot/components/ui/sheet.tsx",
+                      "destination":  "frontend/components/ui/sheet.tsx",
+                      "bytes":  4784,
+                      "sha256":  "8ce7daa8c9ed27e513fcbd9aa1734ae73f665f2756e9d514e123abf57b612c0b"
+                  },
+                  {
+                      "source":  "chatbot/lib/hanser-client.ts",
+                      "destination":  "frontend/lib/hanser-client.ts",
+                      "bytes":  2206,
+                      "sha256":  "5d9699260745945bf20bbcb12be867639ce6430fbe9323929b3149f650ecf28a"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/queries.ts",
+                      "destination":  "frontend/lib/db/queries.ts",
+                      "bytes":  13857,
+                      "sha256":  "298f534e2ce531f66745eb3712a14baa3e3fcd9f88b5037d49aff5011580a08e"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/schema.ts",
+                      "destination":  "frontend/lib/db/schema.ts",
+                      "bytes":  3895,
+                      "sha256":  "898b3640575c915f3810a5817762462fe895424bc5c7fa921b23ae7b5171610f"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/utils.ts",
+                      "destination":  "frontend/lib/db/utils.ts",
+                      "bytes":  414,
+                      "sha256":  "bcf478500f754c15da2e02c7b42f4606f5b21eb9635ab29780c97ddd2e7a7e35"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/tools/update-document.ts",
+                      "destination":  "frontend/lib/ai/tools/update-document.ts",
+                      "bytes":  2242,
+                      "sha256":  "df5dd8265a99e454d12d41c603569b6860cc3917ce5a4ac10007a5160252df42"
+                  },
+                  {
+                      "source":  "chatbot/lib/artifacts/server.ts",
+                      "destination":  "frontend/lib/artifacts/server.ts",
+                      "bytes":  2888,
+                      "sha256":  "f24f806b95dab706f724786ee675d3e8a55251bf189bf4253f217b0f1211bac2"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/migrate.ts",
+                      "destination":  "frontend/lib/db/migrate.ts",
+                      "bytes":  869,
+                      "sha256":  "027def62b102532d309eee07aa0861a56615660a2f2abe00619fff973a0bad2d"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/migrations/0000_initial.sql",
+                      "destination":  "frontend/lib/db/migrations/0000_initial.sql",
+                      "bytes":  2214,
+                      "sha256":  "344fa3572caf18979645aa99da6637db6b0db9161d710ea371bada2a36be27ba"
+                  },
+                  {
+                      "source":  "chatbot/lib/editor/functions.tsx",
+                      "destination":  "frontend/lib/editor/functions.tsx",
+                      "bytes":  1528,
+                      "sha256":  "de66ec77eeac879418134b7deaf148df92302c4b6a1991476ef6da1b91f63cc1"
+                  },
+                  {
+                      "source":  "chatbot/lib/editor/react-renderer.tsx",
+                      "destination":  "frontend/lib/editor/react-renderer.tsx",
+                      "bytes":  267,
+                      "sha256":  "351a3d4f8f7ba72a58e8880aa14badd92117e92d0cbe48966a19f6f83c925112"
+                  },
+                  {
+                      "source":  "chatbot/lib/editor/suggestions.tsx",
+                      "destination":  "frontend/lib/editor/suggestions.tsx",
+                      "bytes":  2351,
+                      "sha256":  "b6d4c009cfa50a8406ede244c4fd16715368954c8d9db5c4580c8ef1a9778074"
+                  },
+                  {
+                      "source":  "chatbot/lib/db/migrations/meta/_journal.json",
+                      "destination":  "frontend/lib/db/migrations/meta/_journal.json",
+                      "bytes":  215,
+                      "sha256":  "7ef80d1cda55788c1abea936c2c58e78be6b3af337368fe5b7f61cd78301aee8"
+                  },
+                  {
+                      "source":  "chatbot/lib/editor/config.ts",
+                      "destination":  "frontend/lib/editor/config.ts",
+                      "bytes":  1494,
+                      "sha256":  "290d60dd4f8f686fbd391611f336e546ed9369f65e14ccc57a191cbd761f5a5e"
+                  },
+                  {
+                      "source":  "chatbot/lib/editor/diff.js",
+                      "destination":  "frontend/lib/editor/diff.js",
+                      "bytes":  13591,
+                      "sha256":  "94310ba22a52d14ff9395ee7ee32df25c3f2bb51230829dc9a72c311e9572b59"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/entitlements.ts",
+                      "destination":  "frontend/lib/ai/entitlements.ts",
+                      "bytes":  287,
+                      "sha256":  "81cf37dd9a6500c8057a78a7aef01e2ee4c71467f1ffc1deed5533026c179a84"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/models.mock.ts",
+                      "destination":  "frontend/lib/ai/models.mock.ts",
+                      "bytes":  3790,
+                      "sha256":  "b815a2952155a6f09576b0112400a19ec2122816a7c9256a18a42529355f4189"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/models.test.ts",
+                      "destination":  "frontend/lib/ai/models.test.ts",
+                      "bytes":  2040,
+                      "sha256":  "77091d9a7869fb2332d28e34165b30f447bee5105dd32ad006091e4b8c31a802"
+                  },
+                  {
+                      "source":  "chatbot/lib/ratelimit.ts",
+                      "destination":  "frontend/lib/ratelimit.ts",
+                      "bytes":  1127,
+                      "sha256":  "6b545bf0f9c367441686cd814aeb370a61c0be95c6592565e57ba8ef006879e2"
+                  },
+                  {
+                      "source":  "chatbot/lib/types.ts",
+                      "destination":  "frontend/lib/types.ts",
+                      "bytes":  2114,
+                      "sha256":  "ca8309e41809d6eba5889ee7e537429b038864e724af0dcbcdc3fdeedf71f343"
+                  },
+                  {
+                      "source":  "chatbot/lib/utils.ts",
+                      "destination":  "frontend/lib/utils.ts",
+                      "bytes":  2419,
+                      "sha256":  "6e9afe0a4069bae5952039bfdcd48ebd6423395045bddbd7bd015397c09029c8"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/models.ts",
+                      "destination":  "frontend/lib/ai/models.ts",
+                      "bytes":  1659,
+                      "sha256":  "d2d4b77c67145384ded93f4cb3afe4f422eb473f3c729edcef964b7208c93640"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/tools/edit-document.ts",
+                      "destination":  "frontend/lib/ai/tools/edit-document.ts",
+                      "bytes":  3006,
+                      "sha256":  "7879dba4f534437538975bd3108c9c3a8b788aa2698d9b354cde570dcf8a7a4c"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/tools/get-weather.ts",
+                      "destination":  "frontend/lib/ai/tools/get-weather.ts",
+                      "bytes":  2203,
+                      "sha256":  "f737ff30702341fa45eadff52b81693ad9c3259db470614af021d92272e99fa7"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/tools/request-suggestions.ts",
+                      "destination":  "frontend/lib/ai/tools/request-suggestions.ts",
+                      "bytes":  3866,
+                      "sha256":  "168350a846569602781256c8175cf85a64526b0bb9c21ebcef71e5f4490a94f5"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/prompts.ts",
+                      "destination":  "frontend/lib/ai/prompts.ts",
+                      "bytes":  5007,
+                      "sha256":  "95df45304efac734eeffb3da68a97a8d83be079cf6ab5c0a6901632949ce178e"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/providers.ts",
+                      "destination":  "frontend/lib/ai/providers.ts",
+                      "bytes":  872,
+                      "sha256":  "94155f5df40c29482fd683b4b7bea3e77cd82ec60aec84add92adbf0a3e916ea"
+                  },
+                  {
+                      "source":  "chatbot/lib/ai/tools/create-document.ts",
+                      "destination":  "frontend/lib/ai/tools/create-document.ts",
+                      "bytes":  2394,
+                      "sha256":  "a4c2e5713160045233cc9d6476913fd60c4f5d97657b6eeca59914dcfe53180d"
+                  }
+              ]
+}
