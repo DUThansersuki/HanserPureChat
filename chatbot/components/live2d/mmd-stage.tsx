@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useVoice } from "@/components/voice/voice-provider";
 import type { MmdRigAdapter } from "@/lib/live2d/mmd-rig-adapter";
 import {
@@ -11,6 +11,10 @@ import { evaluateAudioFrame } from "@/lib/live2d/timeline-evaluator";
 import songMouthTimeline from "@/public/media/9-it-is-like-a-star.mouth.json";
 
 export type StageState = "error" | "loading" | "ready";
+
+export function live2dModelUrl(basePath: string, assetName: string) {
+  return `${basePath}/api/live2d/model/${assetName}`;
+}
 
 function sampleSongMouth(elapsedSeconds: number) {
   const frame = elapsedSeconds * songMouthTimeline.framesPerSecond;
@@ -46,10 +50,19 @@ export function MmdStage({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const adapterRef = useRef<MmdRigAdapter | null>(null);
   const songAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [stageEnabled, setStageEnabled] = useState(false);
 
   interruptRef.current = interrupt;
   samplePerformanceRef.current = samplePerformance;
   voiceStateRef.current = voiceState;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const syncStage = () => setStageEnabled(mediaQuery.matches);
+    syncStage();
+    mediaQuery.addEventListener("change", syncStage);
+    return () => mediaQuery.removeEventListener("change", syncStage);
+  }, []);
 
   useEffect(() => {
     const audio = new Audio(
@@ -91,6 +104,9 @@ export function MmdStage({
   }, [volume]);
 
   useEffect(() => {
+    if (!stageEnabled) {
+      return;
+    }
     const canvas = canvasRef.current;
     if (!canvas) {
       return;
@@ -102,6 +118,7 @@ export function MmdStage({
     let mesh: import("three").SkinnedMesh | undefined;
 
     async function start() {
+      onStateChange("loading");
       const THREE = await import("three");
       const [{ MMDLoader }, { MmdRigAdapter: Adapter }] = await Promise.all([
         import("three/addons/loaders/MMDLoader.js"),
@@ -126,7 +143,10 @@ export function MmdStage({
       mesh = await new Promise<import("three").SkinnedMesh>(
         (resolve, reject) => {
           loader.load(
-            "/api/live2d/model/hanser_ver2.0.pmx",
+            live2dModelUrl(
+              process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+              "hanser_ver2.0.pmx"
+            ),
             resolve,
             undefined,
             reject
@@ -315,13 +335,35 @@ export function MmdStage({
         const materials = Array.isArray(mesh.material)
           ? mesh.material
           : [mesh.material];
+        const textures = new Set<import("three").Texture>();
         for (const material of materials) {
+          const texturedMaterial = material as import("three").Material & {
+            envMap?: import("three").Texture;
+            gradientMap?: import("three").Texture;
+            map?: import("three").Texture;
+          };
+          for (const texture of [
+            texturedMaterial.map,
+            texturedMaterial.gradientMap,
+            texturedMaterial.envMap,
+          ]) {
+            if (texture) {
+              textures.add(texture);
+            }
+          }
           material.dispose();
+        }
+        for (const texture of textures) {
+          texture.dispose();
         }
       }
       renderer?.dispose();
     };
-  }, [onStateChange]);
+  }, [onStateChange, stageEnabled]);
+
+  if (!stageEnabled) {
+    return null;
+  }
 
   return (
     <aside

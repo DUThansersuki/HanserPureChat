@@ -14,6 +14,10 @@ import type {
   VoiceJob,
   VoiceJobEvent,
 } from "./contracts";
+import { enqueueUniqueSegment } from "./segment-queue";
+
+const MAX_CACHED_AUDIO_BUFFERS = 24;
+const MAX_REPLAYABLE_REPLIES = 20;
 
 type Listener = (
   state: PlaybackState,
@@ -44,7 +48,13 @@ export class PlaybackController {
   private readonly collectedSegments = new Map<string, SegmentPackage>();
   private readonly replayableReplies = new Map<string, SegmentPackage[]>();
   private readonly audioBuffers = new Map<string, AudioBuffer>();
+  private readonly seenSegmentIds = new Set<string>();
   private volume = 1;
+  private disposed = false;
+
+  isDisposed() {
+    return this.disposed;
+  }
 
   subscribe(listener: Listener) {
     this.listeners.add(listener);
@@ -105,6 +115,7 @@ export class PlaybackController {
     const runEpoch = this.epoch;
     this.aborter = new AbortController();
     this.queue = [];
+    this.seenSegmentIds.clear();
     this.terminal = false;
     this.replyId = replyId;
     this.collectedSegments.clear();
@@ -117,7 +128,9 @@ export class PlaybackController {
       }
       this.jobId = job.job_id;
       this.rememberSegments(job.ready_segments);
-      this.queue.push(...job.ready_segments.sort((a, b) => a.index - b.index));
+      for (const segment of job.ready_segments) {
+        enqueueUniqueSegment(this.queue, this.seenSegmentIds, segment);
+      }
       this.applySnapshotStatus(job.status);
       this.context ??= new AudioContext({ sampleRate: 48_000 });
       this.pump(runEpoch).catch(() => {
@@ -146,13 +159,8 @@ export class PlaybackController {
         sequence = Math.max(sequence, snapshot.last_sequence);
         for (const segment of snapshot.ready_segments) {
           this.rememberSegment(segment);
-          if (
-            !this.queue.some((item) => item.segment_id === segment.segment_id)
-          ) {
-            this.queue.push(segment);
-          }
+          enqueueUniqueSegment(this.queue, this.seenSegmentIds, segment);
         }
-        this.queue.sort((a, b) => a.index - b.index);
         this.applySnapshotStatus(snapshot.status);
         this.wake?.();
         this.wake = undefined;
@@ -174,7 +182,11 @@ export class PlaybackController {
     this.epoch += 1;
     const runEpoch = this.epoch;
     this.aborter = new AbortController();
-    this.queue = [...segments];
+    this.queue = [];
+    this.seenSegmentIds.clear();
+    for (const segment of segments) {
+      enqueueUniqueSegment(this.queue, this.seenSegmentIds, segment);
+    }
     this.terminal = true;
     this.replyId = replyId;
     this.jobId = undefined;
@@ -252,20 +264,36 @@ export class PlaybackController {
     }
   }
 
+  dispose() {
+    this.disposed = true;
+    this.epoch += 1;
+    this.aborter?.abort();
+    this.aborter = undefined;
+    this.fadeAndStop();
+    this.sourceWaiter?.("paused");
+    this.sourceWaiter = undefined;
+    this.resumeWaiter?.();
+    this.resumeWaiter = undefined;
+    this.wake?.();
+    this.wake = undefined;
+    this.queue = [];
+    this.seenSegmentIds.clear();
+    this.collectedSegments.clear();
+    this.replayableReplies.clear();
+    this.audioBuffers.clear();
+    this.listeners.clear();
+    const { context } = this;
+    this.context = undefined;
+    context?.close().catch(() => undefined);
+  }
+
   private receiveEvent(event: VoiceJobEvent, runEpoch: number) {
     if (runEpoch !== this.epoch) {
       return;
     }
     if (event.type === "segment.ready" && event.segment) {
       this.rememberSegment(event.segment);
-      if (
-        !this.queue.some(
-          (item) => item.segment_id === event.segment?.segment_id
-        )
-      ) {
-        this.queue.push(event.segment);
-        this.queue.sort((a, b) => a.index - b.index);
-      }
+      enqueueUniqueSegment(this.queue, this.seenSegmentIds, event.segment);
       this.wake?.();
       this.wake = undefined;
       return;
@@ -329,14 +357,14 @@ export class PlaybackController {
       if (!segment || !this.context || !this.aborter) {
         return;
       }
-      let buffer = this.audioBuffers.get(segment.audio.artifact_id);
+      let buffer = this.takeCachedAudioBuffer(segment.audio.artifact_id);
       if (!buffer) {
         buffer = await loadAudioArtifact(
           segment.audio.artifact_id,
           this.context,
           this.aborter.signal
         );
-        this.audioBuffers.set(segment.audio.artifact_id, buffer);
+        this.cacheAudioBuffer(segment.audio.artifact_id, buffer);
       }
       if (runEpoch !== this.epoch) {
         return;
@@ -415,6 +443,10 @@ export class PlaybackController {
         source.start(0, this.audioOffsetSamples / segment.audio.sample_rate);
       });
       this.sourceWaiter = undefined;
+      if (this.source === source) {
+        this.source = undefined;
+        this.gain = undefined;
+      }
       if (result === "ended") {
         this.audioOffsetSamples = segment.audio.sample_count;
       }
@@ -456,7 +488,6 @@ export class PlaybackController {
       consumed += chunk;
       if (this.currentPosition) {
         this.currentPosition.sampleOffset = consumed;
-        this.emit();
       }
     }
     if (runEpoch === this.epoch) {
@@ -504,6 +535,9 @@ export class PlaybackController {
   }
 
   private setState(state: PlaybackState) {
+    if (this.state === state) {
+      return;
+    }
     this.state = state;
     this.emit();
   }
@@ -530,10 +564,38 @@ export class PlaybackController {
     if (!(this.replyId && this.collectedSegments.size > 0)) {
       return;
     }
+    this.replayableReplies.delete(this.replyId);
     this.replayableReplies.set(
       this.replyId,
       [...this.collectedSegments.values()].sort((a, b) => a.index - b.index)
     );
+    while (this.replayableReplies.size > MAX_REPLAYABLE_REPLIES) {
+      const oldestReplyId = this.replayableReplies.keys().next().value;
+      if (oldestReplyId === undefined) {
+        break;
+      }
+      this.replayableReplies.delete(oldestReplyId);
+    }
     this.emit();
+  }
+
+  private takeCachedAudioBuffer(artifactId: string) {
+    const buffer = this.audioBuffers.get(artifactId);
+    if (buffer) {
+      this.audioBuffers.delete(artifactId);
+      this.audioBuffers.set(artifactId, buffer);
+    }
+    return buffer;
+  }
+
+  private cacheAudioBuffer(artifactId: string, buffer: AudioBuffer) {
+    this.audioBuffers.set(artifactId, buffer);
+    while (this.audioBuffers.size > MAX_CACHED_AUDIO_BUFFERS) {
+      const oldestArtifactId = this.audioBuffers.keys().next().value;
+      if (oldestArtifactId === undefined) {
+        break;
+      }
+      this.audioBuffers.delete(oldestArtifactId);
+    }
   }
 }

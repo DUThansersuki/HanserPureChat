@@ -219,7 +219,7 @@ export function sampleMmdPose(
     morphs.まばたき *= 1 - smootherStep(envelope / 0.08);
     morphs.にこり = relaxedSmile + (0.62 - relaxedSmile) * envelope;
     morphs.にやり = relaxedMouthSmile + (0.34 - relaxedMouthSmile) * envelope;
-  } else {
+  } else if (motion === "singing") {
     const singingEnvelope = smootherStep(elapsedMs / 2200);
     const singingSway = Math.sin(idleTime * 0.48);
     const singingBreath = Math.sin(idleTime * 1.12);

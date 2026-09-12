@@ -52,7 +52,7 @@ if ($voiceProfile -match "(?i)gpt.?sovits|9880|api_v2") {
     throw "Legacy GPT Voice setting remains in the active Voice profile."
 }
 
-$manifestEntries = Get-Content -LiteralPath (Join-Path $projectRoot "assets\voices\hanser\manifest.jsonl") |
+$manifestEntries = Get-Content -Encoding UTF8 -LiteralPath (Join-Path $projectRoot "assets\voices\hanser\manifest.jsonl") |
     Where-Object { $_.Trim() } |
     ForEach-Object { $_ | ConvertFrom-Json }
 foreach ($entry in $manifestEntries) {
@@ -105,7 +105,7 @@ foreach ($pattern in @(
     "engine_adapter:\s*voxcpm2_text_1",
     "voice_profile:\s*hanser-voxcpm2-hybrid-clip180-20260911-1",
     "voice_backend:\s*voxcpm2_hybrid_vae_cpu_1",
-    "rig_profile:\s*hanser-rig-candidate-1"
+    "rig_profile:\s*hanser-rig-candidate-2"
 )) {
     if ($release -notmatch $pattern) {
         throw "Release composition is missing revision: $pattern"
@@ -125,7 +125,8 @@ if ($playback -notmatch 'samplePerformance\(\)' -or $playback -notmatch 'sampleO
 if ($mmdStage -notmatch 'samplePerformance' -or $mmdStage -notmatch 'MmdRigAdapter') {
     throw "MMD/L2D stage is not connected to Voice playback state."
 }
-if ($chatHook -notmatch 'dynamic_live2d:\s*true' -or $chatHook -notmatch 'speech:\s*voiceRef\.current\.enabled') {
+if ($chatHook -notmatch 'dynamic_live2d:\s*process\.env\.NEXT_PUBLIC_HANSER_CHAT_ONLY\s*!==\s*"1"' -or
+    $chatHook -notmatch 'speech:\s*process\.env\.NEXT_PUBLIC_HANSER_CHAT_ONLY\s*===\s*"1"\s*\?\s*false\s*:\s*voiceRef\.current\.enabled') {
     throw "Chat does not request the active Voice + L2D composition."
 }
 

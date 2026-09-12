@@ -42,6 +42,11 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   >(new Set());
 
   useEffect(() => {
+    let activeController = controller.current;
+    if (!activeController || activeController.isDisposed()) {
+      activeController = new PlaybackController();
+      controller.current = activeController;
+    }
     setEnabledState(
       window.localStorage.getItem("hanser-speech-enabled") === "true"
     );
@@ -52,19 +57,25 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
       ? Math.max(0, Math.min(1, storedVolume))
       : 1;
     setVolumeState(initialVolume);
-    controller.current?.setVolume(initialVolume);
-    return controller.current?.subscribe((nextState, _position, replyIds) => {
-      setState(nextState);
-      setReplayableReplyIds((current) => {
-        if (
-          current.size === replyIds.length &&
-          replyIds.every((replyId) => current.has(replyId))
-        ) {
-          return current;
-        }
-        return new Set(replyIds);
-      });
-    });
+    activeController.setVolume(initialVolume);
+    const unsubscribe = activeController.subscribe(
+      (nextState, _position, replyIds) => {
+        setState(nextState);
+        setReplayableReplyIds((current) => {
+          if (
+            current.size === replyIds.length &&
+            replyIds.every((replyId) => current.has(replyId))
+          ) {
+            return current;
+          }
+          return new Set(replyIds);
+        });
+      }
+    );
+    return () => {
+      unsubscribe();
+      activeController.dispose();
+    };
   }, []);
 
   const setEnabled = useCallback((next: boolean) => {

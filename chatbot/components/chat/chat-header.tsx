@@ -103,7 +103,7 @@ function PureChatHeader(_props: {
         {healthLabel}
       </span>
       {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
+        <span className="hidden items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60 lg:inline-flex">
           <span
             className={cn(
               "size-1.5 rounded-full",
