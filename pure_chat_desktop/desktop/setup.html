@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hanser Pure Chat 设置</title>
+    <style>
+      :root { color-scheme: light; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; color: #643719; background: #fff7ed; }
+      main { padding: 38px 42px; }
+      h1 { margin: 0 0 8px; color: #d16a20; font-size: 25px; font-weight: 650; }
+      p { margin: 0 0 26px; color: #91613e; font-size: 14px; line-height: 1.6; }
+      label { display: block; margin: 0 0 18px; font-size: 13px; font-weight: 600; }
+      input { display: block; width: 100%; margin-top: 7px; border: 1px solid #e7b181; border-radius: 8px; padding: 10px 12px; color: #643719; background: #fffdf9; font: inherit; outline: none; }
+      input:focus { border-color: #d16a20; box-shadow: 0 0 0 3px rgb(209 106 32 / 12%); }
+      small { display: block; margin-top: 6px; color: #a57a5b; font-size: 12px; font-weight: 400; }
+      .actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 26px; }
+      #message { min-height: 20px; color: #bb3e35; font-size: 12px; }
+      button { border: 0; border-radius: 8px; padding: 10px 18px; color: white; background: #d16a20; font: inherit; font-weight: 650; cursor: pointer; }
+      button:disabled { cursor: wait; opacity: .55; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>连接回答模型</h1>
+      <p>纯 Chat 桌面版会在本机运行聊天与记忆服务，回答模型仍通过你配置的 OpenAI-compatible HTTPS 接口调用。API Key 使用 Windows 安全存储加密。</p>
+      <form id="settings-form">
+        <label>
+          Base URL
+          <input id="base-url" type="url" autocomplete="url" required />
+        </label>
+        <label>
+          模型名
+          <input id="model" type="text" autocomplete="off" required />
+        </label>
+        <label>
+          API Key
+          <input id="api-key" type="password" autocomplete="off" />
+          <small id="key-hint">首次配置时必须填写。</small>
+        </label>
+        <div class="actions">
+          <span id="message" role="status"></span>
+          <button id="save" type="submit">保存并启动</button>
+        </div>
+      </form>
+    </main>
+    <script>
+      const form = document.getElementById("settings-form");
+      const baseUrl = document.getElementById("base-url");
+      const model = document.getElementById("model");
+      const apiKey = document.getElementById("api-key");
+      const keyHint = document.getElementById("key-hint");
+      const message = document.getElementById("message");
+      const save = document.getElementById("save");
+
+      window.hanserDesktop.getSetupState().then((state) => {
+        baseUrl.value = state.baseUrl;
+        model.value = state.model;
+        if (state.hasApiKey) {
+          keyHint.textContent = "API Key 已保存；留空表示保持不变。";
+        } else {
+          apiKey.required = true;
+        }
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        save.disabled = true;
+        message.textContent = "正在保存……";
+        const result = await window.hanserDesktop.saveSettings({
+          apiKey: apiKey.value,
+          baseUrl: baseUrl.value,
+          model: model.value,
+        });
+        if (!result.ok) {
+          message.textContent = result.message;
+          save.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

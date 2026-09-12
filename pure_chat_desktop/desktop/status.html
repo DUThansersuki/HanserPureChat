@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hanser Pure Chat</title>
+    <style>
+      :root { color-scheme: light; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+      * { box-sizing: border-box; }
+      body { display: grid; min-height: 100vh; margin: 0; place-items: center; color: #643719; background: #fff7ed; }
+      main { width: min(620px, calc(100vw - 64px)); text-align: center; }
+      .mark { margin-bottom: 20px; color: #d16a20; font-size: 34px; }
+      h1 { margin: 0 0 12px; color: #d16a20; font-size: 26px; }
+      p { margin: 0 auto 28px; max-width: 540px; color: #8b5d3a; font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
+      .actions { display: flex; justify-content: center; gap: 10px; }
+      button { border: 1px solid #e2a56e; border-radius: 8px; padding: 9px 15px; color: #874a20; background: #fffdf9; font: inherit; cursor: pointer; }
+      button.primary { border-color: #d16a20; color: white; background: #d16a20; }
+      button[hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark">✦</div>
+      <h1 id="title">Hanser Pure Chat</h1>
+      <p id="message">正在启动……</p>
+      <div class="actions">
+        <button id="logs" type="button">打开日志目录</button>
+        <button id="retry" class="primary" type="button">重试</button>
+        <button id="quit" type="button">退出</button>
+      </div>
+    </main>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const canRetry = params.get("canRetry") === "1";
+      document.getElementById("message").textContent = params.get("message") || "正在启动……";
+      document.getElementById("retry").hidden = !canRetry;
+      document.getElementById("logs").hidden = !canRetry;
+      document.getElementById("quit").hidden = !canRetry;
+      document.getElementById("retry").addEventListener("click", () => window.hanserDesktop.retryStartup());
+      document.getElementById("logs").addEventListener("click", () => window.hanserDesktop.openLogs());
+      document.getElementById("quit").addEventListener("click", () => window.hanserDesktop.quit());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+{
+  "name": "hanser-pure-chat-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hanser pure text chat desktop application",
+  "main": "build/desktop/main.js",
+  "scripts": {
+    "postinstall": "install-electron",
+    "check": "tsc -p tsconfig.desktop.json --noEmit",
+    "build:desktop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_desktop.ps1",
+    "build:frontend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_frontend.ps1",
+    "build:backend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_backend.ps1",
+    "build:installer": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_installer.ps1",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.2",
+    "electron": "44.3.0",
+    "electron-builder": "26.15.3",
+    "typescript": "5.8.2"
+  },
+  "build": {
+    "appId": "com.hanser.purechat",
+    "productName": "Hanser Pure Chat",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/desktop/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "release/runtime/frontend",
+        "to": "frontend"
+      },
+      {
+        "from": "release/runtime/backend/hanser_backend",
+        "to": "backend/hanser_backend"
+      },
+      {
+        "from": "resources/database/documents.seed.db",
+        "to": "database/documents.seed.db"
+      },
+      {
+        "from": "resources/userdict.txt",
+        "to": "userdict.txt"
+      },
+      {
+        "from": "backend/config.desktop.example.yml",
+        "to": "defaults/config.desktop.example.yml"
+      },
+      {
+        "from": "resources/models",
+        "to": "models",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "HanserPureChatSetup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Hanser Pure Chat"
+    }
+  },
+  "packageManager": "pnpm@11.19.0"
+}

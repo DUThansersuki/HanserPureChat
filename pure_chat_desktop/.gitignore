@@ -6,7 +6,9 @@ backend/config.desktop.yml
 resources/database/*.db
 resources/database/*.db-*
 resources/models/
+!resources/models/
+resources/models/*
+!resources/models/.gitkeep
 dist/
 release/unpacked/
 *.log
-
