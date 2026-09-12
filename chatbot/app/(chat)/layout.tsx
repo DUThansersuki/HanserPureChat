@@ -11,7 +11,7 @@ import { ActiveChatProvider } from "@/hooks/use-active-chat";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <DataStreamProvider>
-      <Suspense fallback={<div className="flex h-dvh bg-sidebar" />}>
+      <Suspense fallback={<div className="flex h-dvh bg-background" />}>
         <SidebarShell>{children}</SidebarShell>
       </Suspense>
     </DataStreamProvider>

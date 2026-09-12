@@ -306,7 +306,7 @@ function PureMultimodalInput({
         onSubmit={handlePromptSubmit}
       >
         <PromptInputTextarea
-          className="min-h-[72px] max-h-[116px] px-4 pt-3.5 pb-1.5 text-[13px] leading-relaxed placeholder:text-muted-foreground/45"
+          className="min-h-[72px] max-h-[116px] px-4 pt-3.5 pb-1.5 text-[15px] leading-relaxed placeholder:text-muted-foreground/45 md:text-[15px]"
           data-testid="multimodal-input"
           disabled={isLoading}
           maxLength={12_000}
@@ -324,7 +324,7 @@ function PureMultimodalInput({
         />
         <PromptInputFooter className="px-3 pb-3">
           <PromptInputTools>
-            <span className="hidden px-1 text-[10px] text-muted-foreground/55 sm:inline">
+            <span className="hidden px-1 text-[12px] text-muted-foreground/55 sm:inline">
               Enter 发送 · Shift+Enter 换行
             </span>
           </PromptInputTools>

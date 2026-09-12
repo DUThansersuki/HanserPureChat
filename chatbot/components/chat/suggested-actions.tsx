@@ -38,14 +38,14 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
       {suggestedActions.map((suggestedAction) => (
         <div key={suggestedAction}>
           <Suggestion
-            className="h-9 w-full justify-start gap-3 rounded-none border-0 border-transparent border-l bg-transparent px-3 text-left text-[13px] text-muted-foreground transition-colors duration-150 hover:border-[var(--hanser-rust)]/45 hover:bg-transparent hover:text-foreground"
+            className="h-10 w-full justify-start gap-3 rounded-none border-0 border-transparent border-l bg-transparent px-3 text-left text-[15px] text-muted-foreground transition-colors duration-150 hover:border-[var(--hanser-rust)]/45 hover:bg-transparent hover:text-foreground"
             onClick={handleSuggestionClick}
             suggestion={suggestedAction}
             variant="ghost"
           >
             <span
               aria-hidden="true"
-              className="text-[10px] text-[var(--hanser-gold)]/70"
+              className="text-[12px] text-[var(--hanser-gold)]/70"
             >
               ✦
             </span>

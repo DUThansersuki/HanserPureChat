@@ -18,7 +18,7 @@ const PureChatItem = ({
     <SidebarMenuItem>
       <SidebarMenuButton
         asChild
-        className="h-8 rounded-none border-transparent border-l-2 text-[13px] text-sidebar-foreground/50 transition-colors duration-150 hover:bg-transparent hover:text-sidebar-foreground data-active:bg-transparent data-active:font-normal data-active:text-sidebar-foreground/50 data-[active=true]:border-[var(--hanser-rust)] data-[active=true]:font-medium data-[active=true]:text-sidebar-foreground"
+        className="h-9 rounded-none border-transparent border-l-2 text-[14px] text-sidebar-foreground/60 transition-colors duration-150 hover:bg-transparent hover:text-sidebar-foreground data-active:bg-transparent data-active:font-normal data-active:text-sidebar-foreground/60 data-[active=true]:border-[var(--hanser-rust)] data-[active=true]:font-medium data-[active=true]:text-sidebar-foreground"
         isActive={isActive}
       >
         <Link href={`/chat/${chat.id}`} onClick={closeMobile}>

@@ -72,7 +72,7 @@ export function AppSidebar({ user }: { user: LocalUser | undefined }) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="h-8 rounded-md border border-transparent text-[13px] text-sidebar-foreground/70 transition-colors duration-150 hover:border-sidebar-border/60 hover:bg-transparent hover:text-sidebar-foreground"
+                  className="h-9 rounded-md border border-transparent text-[14px] text-sidebar-foreground/70 transition-colors duration-150 hover:border-sidebar-border/60 hover:bg-transparent hover:text-sidebar-foreground"
                   onClick={handleNewChat}
                   tooltip="新对话"
                 >

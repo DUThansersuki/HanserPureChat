@@ -1,6 +1,6 @@
 "use client";
 import type { UseChatHelpers } from "@ai-sdk/react";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
@@ -20,10 +20,54 @@ import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
 import { Weather } from "./weather";
 
+const WAITING_MESSAGES = [
+  "小天使正在推开车门...",
+  "主播正在刮胡子...",
+  "憨憨正在练习舞剑...",
+  "烤箱正在烧烤...",
+  "正在把头伸出洗衣机...",
+  "正在驾驶玛莎拉蒂...",
+  "正在吃车厘子...",
+  "黑道千金正在收手脚...",
+  "正在过14岁生日...",
+] as const;
+
+const WAITING_MESSAGE_DURATION_MS = 2550;
+
+function pickNextWaitingMessageIndex(previousIndex: number | null) {
+  if (previousIndex === null) {
+    return Math.floor(Math.random() * WAITING_MESSAGES.length);
+  }
+
+  const nextIndex = Math.floor(Math.random() * (WAITING_MESSAGES.length - 1));
+  return nextIndex >= previousIndex ? nextIndex + 1 : nextIndex;
+}
+
 function WaitingText() {
+  const [messageIndex, setMessageIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setMessageIndex(pickNextWaitingMessageIndex(null));
+    const intervalId = window.setInterval(() => {
+      setMessageIndex((previousIndex) =>
+        pickNextWaitingMessageIndex(previousIndex)
+      );
+    }, WAITING_MESSAGE_DURATION_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, []);
+
+  const message = WAITING_MESSAGES[messageIndex ?? 0];
+
   return (
-    <div className="flex min-h-[calc(13px*1.65)] min-w-0 items-center text-[13px] text-muted-foreground leading-[1.65]">
-      让我想想……
+    <div
+      aria-label="小憨同学正在思考"
+      className="flex min-h-[calc(15px*1.65)] min-w-0 items-center text-[15px] leading-[1.65]"
+      role="status"
+    >
+      <span className="thinking-shimmer" key={message}>
+        {message}
+      </span>
     </div>
   );
 }
@@ -168,7 +212,7 @@ const PurePreviewMessage = ({
     if (type === "text") {
       return (
         <MessageContent
-          className={cn("text-[13px] leading-[1.65]", {
+          className={cn("text-[15px] leading-[1.65]", {
             "w-fit max-w-[min(78%,56ch)] overflow-hidden break-words rounded-lg bg-[var(--message-user)] px-4 py-2.5 text-secondary-foreground":
               message.role === "user",
           })}

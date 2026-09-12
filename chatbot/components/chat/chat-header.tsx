@@ -98,10 +98,11 @@ function PureChatHeader(_props: {
       >
         <PanelLeftIcon className="size-4" />
       </Button>
-      <span className="text-[13px] font-medium text-sidebar-foreground tracking-[0.04em]">
-        HANSER <span className="text-sidebar-foreground/35">/</span> 夜航通讯
+      <span className="min-w-0 truncate text-[15px] font-medium text-sidebar-foreground tracking-[0.04em]">
+        小憨同学 <span className="text-sidebar-foreground/55">/</span>{" "}
+        一个可以和烤箱聊天的平台
       </span>
-      <span className="ml-auto inline-flex items-center gap-1.5 text-[11px] text-sidebar-foreground/55">
+      <span className="ml-auto inline-flex items-center gap-1.5 text-[12px] text-sidebar-foreground/70">
         <span
           className={cn(
             "size-1.5 rounded-full",
