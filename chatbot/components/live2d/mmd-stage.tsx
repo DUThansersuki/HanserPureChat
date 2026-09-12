@@ -51,6 +51,7 @@ export function MmdStage({
   const adapterRef = useRef<MmdRigAdapter | null>(null);
   const songAudioRef = useRef<HTMLAudioElement | null>(null);
   const [stageEnabled, setStageEnabled] = useState(false);
+  const [isSinging, setIsSinging] = useState(false);
 
   interruptRef.current = interrupt;
   samplePerformanceRef.current = samplePerformance;
@@ -70,6 +71,11 @@ export function MmdStage({
     );
     audio.preload = "auto";
     songAudioRef.current = audio;
+    const handlePlay = () => setIsSinging(true);
+    const handleStop = () => setIsSinging(false);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handleStop);
+    audio.addEventListener("ended", handleStop);
 
     const handleScene = (event: Event) => {
       const { detail } = event as CustomEvent<HanserSceneEventDetail>;
@@ -92,6 +98,9 @@ export function MmdStage({
     window.addEventListener(HANSER_SCENE_EVENT, handleScene);
     return () => {
       window.removeEventListener(HANSER_SCENE_EVENT, handleScene);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handleStop);
+      audio.removeEventListener("ended", handleStop);
       audio.pause();
       songAudioRef.current = null;
     };
@@ -173,6 +182,9 @@ export function MmdStage({
       const materials = Array.isArray(mesh.material)
         ? mesh.material
         : [mesh.material];
+      const wristDecorationMaterials = materials.filter(
+        (material) => material.name === "右腕装饰" || material.name === "手环"
+      );
       const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
       for (const material of materials) {
         const toonMaterial = material as import("three").Material & {
@@ -272,11 +284,16 @@ export function MmdStage({
           return;
         }
         const songAudio = songAudioRef.current;
-        const isSinging = Boolean(
+        const songIsPlaying = Boolean(
           songAudio && !songAudio.paused && !songAudio.ended
         );
-        const sample = isSinging ? undefined : samplePerformanceRef.current();
-        if (isSinging && songAudio) {
+        for (const wristDecorationMaterial of wristDecorationMaterials) {
+          wristDecorationMaterial.visible = !songIsPlaying;
+        }
+        const sample = songIsPlaying
+          ? undefined
+          : samplePerformanceRef.current();
+        if (songIsPlaying && songAudio) {
           adapter.setSceneFrame({
             expressionPreset: "neutral",
             expressionWeight: 0,
@@ -365,12 +382,42 @@ export function MmdStage({
     return null;
   }
 
+  const isSpeaking = ["PLAYING", "BUFFERING"].includes(voiceState);
+
   return (
     <aside
       aria-label="Hanser Live2D 模型"
-      className="pointer-events-none fixed top-14 right-0 bottom-0 z-20 hidden w-[clamp(376px,calc(30vw+16px),476px)] bg-background lg:block"
+      className={`pointer-events-none fixed top-14 right-0 bottom-0 z-20 hidden w-[clamp(376px,calc(30vw+16px),476px)] bg-background lg:block ${
+        isSinging ? "mmd-stage-singing" : isSpeaking ? "mmd-stage-speaking" : ""
+      }`}
       data-testid="mmd-stage"
     >
+      <div
+        aria-hidden="true"
+        className="absolute right-[12%] bottom-[4%] h-6 w-[66%] rounded-[50%] bg-black/[0.07] blur-md dark:bg-black/20"
+      />
+      <span
+        aria-hidden="true"
+        className="mmd-ambience-star absolute top-[18%] left-[18%] text-[9px]"
+      >
+        ✦
+      </span>
+      <span
+        aria-hidden="true"
+        className="mmd-ambience-star absolute top-[31%] right-[12%] text-[6px] [animation-delay:1.1s]"
+      >
+        •
+      </span>
+      <span
+        aria-hidden="true"
+        className="mmd-ambience-star absolute top-[43%] left-[9%] text-[7px] [animation-delay:2.2s]"
+      >
+        ✦
+      </span>
+      <div
+        aria-hidden="true"
+        className="absolute top-[27%] left-[7%] h-px w-20 rotate-[-12deg] border-t border-dashed border-[color:var(--hanser-gold)] opacity-[0.08]"
+      />
       <canvas
         className="absolute right-4 bottom-0 h-[min(680px,calc(100dvh-4rem))] w-[clamp(360px,30vw,460px)] [filter:saturate(1.1)_contrast(1.025)_brightness(1.04)]"
         ref={canvasRef}

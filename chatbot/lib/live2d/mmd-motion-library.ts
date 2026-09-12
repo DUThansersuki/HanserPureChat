@@ -233,14 +233,14 @@ export function sampleMmdPose(
 
     const singingBones: Record<string, BoneRotation> = {
       右ひじ: [0.793, -0.003, 2.356],
-      右手捩: [-0.386, 0, 0],
-      右手首: [-0.224, 0.084, 0.969],
+      右手捩: [-0.42, 0, 0],
+      右手首: [-0.2, 0.1, 1.1],
       右肩: [0.004, -0.031, -0.083],
       右腕: [-0.628, -0.539, 0.468],
       右腕捩: [0.076, 0, 0],
       左ひじ: [0.666, 0.002, -2.301],
-      左手捩: [0.24, 0, 0],
-      左手首: [-0.202, -0.043, -1.022],
+      左手捩: [0.3, 0, 0],
+      左手首: [-0.18, -0.07, -1.14],
       左肩: [0.005, 0.032, 0.085],
       左腕: [-0.6, 0.514, -0.48],
       左腕捩: [-0.145, 0, 0],
@@ -253,41 +253,44 @@ export function sampleMmdPose(
         relaxed[2] + (target[2] - relaxed[2]) * singingEnvelope,
       ];
     }
-    const fingerCurls = {
-      中指: [0.4, 0.72, 0.36],
-      人指: [0.35, 0.65, 0.32],
-      小指: [0.52, 0.88, 0.44],
-      薬指: [0.46, 0.8, 0.4],
-    } as const;
+    const fingerCurls = [
+      ["人指", [0.36, 0.64, 0.24]],
+      ["中指", [0.46, 0.74, 0.29]],
+      ["薬指", [0.6, 0.86, 0.35]],
+      ["小指", [0.74, 0.98, 0.42]],
+    ] as const;
     for (const side of ["右", "左"] as const) {
       const mirror = side === "右" ? -1 : 1;
-      for (const [index, finger] of Object.keys(fingerCurls).entries()) {
-        const [mcp, pip, dip] = fingerCurls[finger as keyof typeof fingerCurls];
-        const weave = (index % 2 === 0 ? 0.1 : -0.08) * mirror;
+      for (const [index, [finger, [mcp, pip, dip]]] of fingerCurls.entries()) {
+        // Fan the four fingers in anatomical order so the opposite hand can
+        // occupy the gaps. A smaller alternating twist supplies the depth
+        // order without turning the fingertips into a radial knot.
+        const weave = (-0.15 + index * 0.1) * mirror;
+        const layer = (index % 2 === 0 ? 0.09 : -0.075) * mirror;
         bones[`${side}${finger}１`] = [
-          0,
+          layer * singingEnvelope,
           weave * singingEnvelope,
           mirror * mcp * singingEnvelope,
         ];
         bones[`${side}${finger}２`] = [
-          0,
-          -weave * 0.45 * singingEnvelope,
+          -layer * 0.45 * singingEnvelope,
+          -weave * 0.3 * singingEnvelope,
           mirror * pip * singingEnvelope,
         ];
         bones[`${side}${finger}３`] = [0, 0, mirror * dip * singingEnvelope];
       }
-      const thumbDepth = side === "右" ? 0.08 : -0.04;
+      const thumbDepth = side === "右" ? 0.13 : -0.05;
       bones[`${side}親指０`] = [
         0,
         thumbDepth * singingEnvelope,
-        mirror * 0.6 * singingEnvelope,
+        mirror * (side === "右" ? 1.08 : 1.3) * singingEnvelope,
       ];
       bones[`${side}親指１`] = [
         0,
-        mirror * 0.35 * singingEnvelope,
-        mirror * 0.18 * singingEnvelope,
+        mirror * (side === "右" ? 0.32 : 0.24) * singingEnvelope,
+        mirror * (side === "右" ? 0.16 : 0.12) * singingEnvelope,
       ];
-      bones[`${side}親指２`] = [0, 0, mirror * 0.18 * singingEnvelope];
+      bones[`${side}親指２`] = [0, 0, mirror * 0.12 * singingEnvelope];
     }
     morphs.まばたき = singingEnvelope;
     morphs.にこり = relaxedSmile + (0.28 - relaxedSmile) * singingEnvelope;

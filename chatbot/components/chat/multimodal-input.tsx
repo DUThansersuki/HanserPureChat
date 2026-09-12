@@ -302,11 +302,11 @@ function PureMultimodalInput({
       </div>
 
       <PromptInput
-        className="[&>div]:rounded-2xl [&>div]:border [&>div]:border-border/30 [&>div]:bg-card/70 [&>div]:shadow-[var(--shadow-composer)] [&>div]:transition-shadow [&>div]:duration-300 [&>div]:focus-within:shadow-[var(--shadow-composer-focus)]"
+        className="[&>div]:rounded-[10px] [&>div]:border [&>div]:border-border/55 [&>div]:bg-card [&>div]:shadow-none [&>div]:transition-[border-color,box-shadow] [&>div]:duration-200 [&>div]:focus-within:border-[var(--hanser-rust)]/65 [&>div]:focus-within:shadow-[var(--shadow-composer-focus)]"
         onSubmit={handlePromptSubmit}
       >
         <PromptInputTextarea
-          className="min-h-24 text-[13px] leading-relaxed px-4 pt-3.5 pb-1.5 placeholder:text-muted-foreground/35"
+          className="min-h-[72px] max-h-[116px] px-4 pt-3.5 pb-1.5 text-[13px] leading-relaxed placeholder:text-muted-foreground/45"
           data-testid="multimodal-input"
           disabled={isLoading}
           maxLength={12_000}
@@ -317,15 +317,15 @@ function PureMultimodalInput({
               ? "正在加载对话…"
               : editingMessage
                 ? "编辑消息…"
-                : "说点什么吧…"
+                : "写点什么……"
           }
           ref={textareaRef}
           value={input}
         />
         <PromptInputFooter className="px-3 pb-3">
           <PromptInputTools>
-            <span className="px-2 text-[12px] text-muted-foreground">
-              Hanser Agent
+            <span className="hidden px-1 text-[10px] text-muted-foreground/55 sm:inline">
+              Enter 发送 · Shift+Enter 换行
             </span>
           </PromptInputTools>
 
@@ -334,9 +334,9 @@ function PureMultimodalInput({
           ) : (
             <PromptInputSubmit
               className={cn(
-                "h-7 w-7 rounded-xl transition-all duration-200",
+                "h-8 w-8 rounded-lg transition-colors duration-150",
                 input.trim()
-                  ? "bg-foreground text-background hover:opacity-85 active:scale-95"
+                  ? "bg-[var(--hanser-rust)] text-white hover:bg-[var(--hanser-rust)]/90"
                   : "bg-muted text-muted-foreground/25 cursor-not-allowed"
               )}
               data-testid="send-button"
@@ -400,7 +400,7 @@ function PureStopButton({
 
   return (
     <Button
-      className="h-7 w-7 rounded-xl bg-foreground p-1 text-background transition-all duration-200 hover:opacity-85 active:scale-95 disabled:bg-muted disabled:text-muted-foreground/25 disabled:cursor-not-allowed"
+      className="h-8 w-8 rounded-lg bg-[var(--hanser-rust)] p-1 text-white transition-colors duration-150 hover:bg-[var(--hanser-rust)]/90 disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground/25"
       data-testid="stop-button"
       onClick={handleClick}
     >

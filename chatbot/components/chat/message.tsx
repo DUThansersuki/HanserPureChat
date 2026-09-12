@@ -5,7 +5,6 @@ import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
 import { MessageContent, MessageResponse } from "../ai-elements/message";
-import { Shimmer } from "../ai-elements/shimmer";
 import {
   Tool,
   ToolContent,
@@ -16,25 +15,15 @@ import {
 import { useDataStream } from "./data-stream-provider";
 import { DocumentToolResult } from "./document";
 import { DocumentPreview } from "./document-preview";
-import { SparklesIcon } from "./icons";
 import { MessageActions } from "./message-actions";
 import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
 import { Weather } from "./weather";
 
 function WaitingText() {
-  const { waitingStatus } = useDataStream();
-  const waitingText = waitingStatus?.message ?? "正在等待回复…";
-
   return (
-    <div className="flex min-h-[calc(13px*1.65)] min-w-0 items-center text-[13px] leading-[1.65]">
-      <Shimmer
-        as="span"
-        className="font-medium whitespace-normal break-words"
-        duration={1}
-      >
-        {waitingText}
-      </Shimmer>
+    <div className="flex min-h-[calc(13px*1.65)] min-w-0 items-center text-[13px] text-muted-foreground leading-[1.65]">
+      让我想想……
     </div>
   );
 }
@@ -180,7 +169,7 @@ const PurePreviewMessage = ({
       return (
         <MessageContent
           className={cn("text-[13px] leading-[1.65]", {
-            "w-fit max-w-[min(80%,56ch)] overflow-hidden break-words rounded-2xl rounded-br-lg border border-border/30 bg-gradient-to-br from-secondary to-muted px-3.5 py-2 shadow-[var(--shadow-card)]":
+            "w-fit max-w-[min(78%,56ch)] overflow-hidden break-words rounded-lg bg-[var(--message-user)] px-4 py-2.5 text-secondary-foreground":
               message.role === "user",
           })}
           data-testid="message-content"
@@ -383,8 +372,7 @@ const PurePreviewMessage = ({
   return (
     <div
       className={cn(
-        "group/message w-full",
-        !isAssistant && "animate-[fade-up_0.25s_cubic-bezier(0.22,1,0.36,1)]"
+        "group/message w-full animate-[message-in_0.2s_cubic-bezier(0.4,0,0.2,1)]"
       )}
       data-role={message.role}
       data-testid={`message-${message.role}`}
@@ -395,14 +383,17 @@ const PurePreviewMessage = ({
         )}
       >
         {isAssistant && (
-          <div className="flex h-[calc(13px*1.65)] shrink-0 items-center">
-            <div className="flex size-7 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground ring-1 ring-border/50">
-              <SparklesIcon size={13} />
-            </div>
-          </div>
+          <span
+            aria-hidden="true"
+            className="mt-[0.18rem] w-2 shrink-0 text-[10px] text-[var(--hanser-gold)]"
+          >
+            ✦
+          </span>
         )}
         {isAssistant ? (
-          <div className="flex min-w-0 flex-1 flex-col gap-2">{content}</div>
+          <div className="flex min-w-0 flex-1 flex-col gap-3 border-l border-[color:var(--hanser-rust)]/35 pl-4">
+            {content}
+          </div>
         ) : (
           content
         )}
@@ -415,18 +406,20 @@ export const PreviewMessage = PurePreviewMessage;
 
 export const ThinkingMessage = () => (
   <div
-    className="group/message w-full"
+    className="group/message w-full animate-[message-in_0.2s_cubic-bezier(0.4,0,0.2,1)]"
     data-role="assistant"
     data-testid="message-assistant-loading"
   >
     <div className="flex items-start gap-3">
-      <div className="flex h-[calc(13px*1.65)] shrink-0 items-center">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-muted/60 text-muted-foreground ring-1 ring-border/50">
-          <SparklesIcon size={13} />
-        </div>
+      <span
+        aria-hidden="true"
+        className="mt-[0.18rem] w-2 shrink-0 text-[10px] text-[var(--hanser-gold)]"
+      >
+        ✦
+      </span>
+      <div className="border-l border-[color:var(--hanser-rust)]/35 pl-4">
+        <WaitingText />
       </div>
-
-      <WaitingText />
     </div>
   </div>
 );

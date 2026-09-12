@@ -1,22 +1,21 @@
-import { motion } from "framer-motion";
-
 export const Greeting = () => (
-  <div className="flex flex-col items-center px-4" key="overview">
-    <motion.div
-      animate={{ opacity: 1, y: 0 }}
-      className="text-center font-semibold text-2xl tracking-tight text-foreground md:text-3xl"
-      initial={{ opacity: 0, y: 10 }}
-      transition={{ delay: 0.35, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    >
-      要来聊一会儿吗？
-    </motion.div>
-    <motion.div
-      animate={{ opacity: 1, y: 0 }}
-      className="mt-3 text-center text-muted-foreground/80 text-sm"
-      initial={{ opacity: 0, y: 10 }}
-      transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    >
-      这里连接的是本地 Hanser Agent，会保留连续对话与记忆。
-    </motion.div>
+  <div
+    className="flex w-full animate-[fade-in_0.2s_ease_both] flex-col items-start"
+    key="overview"
+  >
+    <div className="mb-4 flex items-center gap-2 text-[10px] text-muted-foreground tracking-[0.18em]">
+      <span aria-hidden="true" className="text-[var(--hanser-gold)]">
+        ✦
+      </span>
+      <span>HANSER</span>
+    </div>
+    <div className="font-medium text-[28px] text-foreground leading-[1.4] tracking-[-0.02em] md:text-[30px]">
+      回来啦。
+      <br />
+      今天怎么样？
+    </div>
+    <div className="mt-3 text-[14px] text-muted-foreground leading-7">
+      随便说点什么也可以。
+    </div>
   </div>
 );

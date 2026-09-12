@@ -136,8 +136,37 @@ test("singing pose closes both eyes and brings both hands to the chest", () => {
   assert.ok(
     Math.abs(pose.bones.左小指１[2]) > Math.abs(pose.bones.左人指１[2])
   );
-  assert.ok(Math.abs(pose.bones.右親指０[2]) > 0.5);
-  assert.ok(Math.abs(pose.bones.左親指０[2]) > 0.5);
+  assert.ok(Math.abs(pose.bones.右親指０[2]) >= 0.5);
+  assert.ok(Math.abs(pose.bones.左親指０[2]) >= 0.5);
+  assert.ok(
+    Math.abs(pose.bones.左親指０[2]) > Math.abs(pose.bones.右親指０[2])
+  );
+});
+
+test("singing fingers fan into gaps and alternate their depth layer", () => {
+  const pose = sampleMmdPose("singing", 2600);
+
+  for (const side of ["右", "左"] as const) {
+    const fan = ["人指", "中指", "薬指", "小指"].map(
+      (finger) => pose.bones[`${side}${finger}１`][1]
+    );
+    const depthLayer = ["人指", "中指", "薬指", "小指"].map(
+      (finger) => pose.bones[`${side}${finger}１`][0]
+    );
+    assert.ok(fan[0] * fan[3] < 0);
+    for (let index = 1; index < fan.length; index += 1) {
+      assert.ok(
+        side === "右"
+          ? fan[index - 1] > fan[index]
+          : fan[index - 1] < fan[index]
+      );
+      assert.ok(depthLayer[index - 1] * depthLayer[index] < 0);
+    }
+
+    for (const finger of ["人指", "中指", "薬指", "小指"] as const) {
+      assert.ok(Math.abs(pose.bones[`${side}${finger}２`][2]) <= 1);
+    }
+  }
 });
 
 test("finite actions complete while idle remains active", () => {

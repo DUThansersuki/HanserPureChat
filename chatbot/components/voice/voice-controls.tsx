@@ -20,7 +20,7 @@ export function VoiceControls() {
   }, [enabled, setEnabled]);
 
   return (
-    <div className="ml-auto flex items-center gap-1">
+    <div className="flex items-center gap-1">
       {enabled && ["PLAYING", "BUFFERING", "PAUSED"].includes(state) && (
         <Button
           aria-label={paused ? "继续语音" : "暂停语音"}
@@ -49,9 +49,6 @@ export function VoiceControls() {
           <VolumeXIcon className="size-4" />
         )}
       </Button>
-      <span className="hidden text-[10px] text-sidebar-foreground/50 sm:inline">
-        {enabled ? state.toLowerCase() : "文字"}
-      </span>
     </div>
   );
 }

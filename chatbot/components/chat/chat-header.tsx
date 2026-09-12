@@ -27,7 +27,12 @@ function PureChatHeader(_props: {
   live2dState: StageState;
 }) {
   const { state, toggleSidebar, isMobile } = useSidebar();
-  const { setVolume, volume } = useVoice();
+  const {
+    enabled: voiceEnabled,
+    setVolume,
+    state: voiceState,
+    volume,
+  } = useVoice();
   const { adultInnuendoOptIn, setAdultInnuendoOptIn } = useActiveChat();
   const { data: health, error: healthError } = useSWR<{
     chat_ready?: boolean;
@@ -62,6 +67,16 @@ function PureChatHeader(_props: {
       : _props.live2dState === "error"
         ? "L2D 加载失败"
         : "L2D 加载中";
+  const live2dRequired = process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY !== "1";
+  const presenceReady =
+    isHealthy && (!live2dRequired || _props.live2dState === "ready");
+  const presenceFailed =
+    Boolean(healthError) || (live2dRequired && _props.live2dState === "error");
+  const presenceLabel = presenceFailed
+    ? "暂时离线"
+    : presenceReady
+      ? "在这里"
+      : "连接中";
   const handleVolumeChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setVolume(Number(event.currentTarget.value));
@@ -70,7 +85,7 @@ function PureChatHeader(_props: {
   );
 
   return (
-    <header className="sticky top-0 flex h-14 items-center gap-2 bg-sidebar px-3">
+    <header className="sticky top-0 flex h-14 items-center gap-2 border-sidebar-border/50 border-b bg-sidebar px-3">
       <Button
         aria-label="打开侧栏"
         className={cn(
@@ -83,39 +98,24 @@ function PureChatHeader(_props: {
       >
         <PanelLeftIcon className="size-4" />
       </Button>
-      <span className="text-sm font-medium text-sidebar-foreground">
-        Hanser Agent
+      <span className="text-[13px] font-medium text-sidebar-foreground tracking-[0.04em]">
+        HANSER <span className="text-sidebar-foreground/35">/</span> 夜航通讯
       </span>
-      {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
-        <VoiceControls />
-      )}
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
+      <span className="ml-auto inline-flex items-center gap-1.5 text-[11px] text-sidebar-foreground/55">
         <span
           className={cn(
             "size-1.5 rounded-full",
-            isHealthy
+            presenceReady
               ? "bg-emerald-500"
-              : healthError
+              : presenceFailed
                 ? "bg-red-500"
-                : "animate-pulse bg-amber-500"
+                : "status-breathe bg-[var(--hanser-gold)]"
           )}
         />
-        {healthLabel}
+        {presenceLabel}
       </span>
       {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
-        <span className="hidden items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60 lg:inline-flex">
-          <span
-            className={cn(
-              "size-1.5 rounded-full",
-              _props.live2dState === "ready"
-                ? "bg-emerald-500"
-                : _props.live2dState === "error"
-                  ? "bg-red-500"
-                  : "animate-pulse bg-amber-500"
-            )}
-          />
-          {live2dLabel}
-        </span>
+        <VoiceControls />
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -130,6 +130,30 @@ function PureChatHeader(_props: {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-72">
           <DropdownMenuLabel>聊天设置</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuLabel className="font-normal text-[11px] text-muted-foreground">
+            运行状态
+          </DropdownMenuLabel>
+          <div className="space-y-1 px-2 pb-2 text-[11px]">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-muted-foreground">Chat</span>
+              <span>{healthLabel}</span>
+            </div>
+            {live2dRequired ? (
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-muted-foreground">Live2D</span>
+                <span>{live2dLabel}</span>
+              </div>
+            ) : null}
+            {live2dRequired ? (
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-muted-foreground">Voice</span>
+                <span>
+                  {voiceEnabled ? voiceState.toLowerCase() : "文字模式"}
+                </span>
+              </div>
+            ) : null}
+          </div>
           <DropdownMenuSeparator />
           {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
             <>

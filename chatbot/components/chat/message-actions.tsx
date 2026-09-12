@@ -62,8 +62,8 @@ export function PureMessageActions({
     <Actions
       className={
         message.role === "user"
-          ? "-mr-0.5 justify-end opacity-100 transition-opacity duration-150 sm:opacity-0 sm:group-hover/message:opacity-100"
-          : "-ml-0.5 opacity-100 transition-opacity duration-150 sm:opacity-0 sm:group-hover/message:opacity-100"
+          ? "-mr-0.5 justify-end opacity-0 transition-opacity duration-150 group-hover/message:opacity-100 group-focus-within/message:opacity-100 [&_button]:rounded-sm [&_button]:bg-transparent"
+          : "-ml-0.5 opacity-0 transition-opacity duration-150 group-hover/message:opacity-100 group-focus-within/message:opacity-100 [&_button]:rounded-sm [&_button]:bg-transparent"
       }
     >
       {message.role === "user" && onEdit ? (

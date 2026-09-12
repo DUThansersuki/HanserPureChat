@@ -1,7 +1,6 @@
 "use client";
 
 import type { UseChatHelpers } from "@ai-sdk/react";
-import { motion } from "framer-motion";
 import { memo, useCallback } from "react";
 import { suggestions } from "@/lib/constants";
 import type { ChatMessage } from "@/lib/types";
@@ -33,35 +32,26 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
 
   return (
     <div
-      className="flex w-full gap-2.5 overflow-x-auto pb-1 sm:grid sm:grid-cols-2 sm:overflow-visible"
+      className="flex w-full flex-col gap-0.5"
       data-testid="suggested-actions"
-      style={{
-        msOverflowStyle: "none",
-        scrollbarWidth: "none",
-        WebkitOverflowScrolling: "touch",
-      }}
     >
-      {suggestedActions.map((suggestedAction, index) => (
-        <motion.div
-          animate={{ opacity: 1, y: 0 }}
-          className="min-w-[200px] shrink-0 sm:min-w-0 sm:shrink"
-          exit={{ opacity: 0, y: 16 }}
-          initial={{ opacity: 0, y: 16 }}
-          key={suggestedAction}
-          transition={{
-            delay: 0.06 * index,
-            duration: 0.4,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
+      {suggestedActions.map((suggestedAction) => (
+        <div key={suggestedAction}>
           <Suggestion
-            className="h-auto w-full whitespace-nowrap rounded-xl border border-border/50 bg-card/30 px-4 py-3 text-left text-[12px] leading-relaxed text-muted-foreground transition-all duration-200 sm:whitespace-normal sm:p-4 sm:text-[13px] hover:-translate-y-0.5 hover:bg-card/60 hover:text-foreground hover:shadow-[var(--shadow-card)]"
+            className="h-9 w-full justify-start gap-3 rounded-none border-0 border-transparent border-l bg-transparent px-3 text-left text-[13px] text-muted-foreground transition-colors duration-150 hover:border-[var(--hanser-rust)]/45 hover:bg-transparent hover:text-foreground"
             onClick={handleSuggestionClick}
             suggestion={suggestedAction}
+            variant="ghost"
           >
-            {suggestedAction}
+            <span
+              aria-hidden="true"
+              className="text-[10px] text-[var(--hanser-gold)]/70"
+            >
+              ✦
+            </span>
+            <span>{suggestedAction}</span>
           </Suggestion>
-        </motion.div>
+        </div>
       ))}
     </div>
   );

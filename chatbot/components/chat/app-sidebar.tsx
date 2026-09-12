@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  MessageSquareIcon,
-  PanelLeftIcon,
-  PenSquareIcon,
-} from "lucide-react";
+import { MessageSquareIcon, PanelLeftIcon, PenSquareIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
@@ -21,8 +17,8 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { SidebarHistory } from "./sidebar-history";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { SidebarHistory } from "./sidebar-history";
 
 type LocalUser = { id: string };
 
@@ -76,7 +72,7 @@ export function AppSidebar({ user }: { user: LocalUser | undefined }) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton
-                  className="h-8 rounded-lg border border-sidebar-border text-[13px] text-sidebar-foreground/70 transition-colors duration-150 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  className="h-8 rounded-md border border-transparent text-[13px] text-sidebar-foreground/70 transition-colors duration-150 hover:border-sidebar-border/60 hover:bg-transparent hover:text-sidebar-foreground"
                   onClick={handleNewChat}
                   tooltip="新对话"
                 >
