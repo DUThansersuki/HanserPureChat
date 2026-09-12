@@ -496,7 +496,3 @@ textarea:focus-visible {
     background: transparent;
   }
 }
-
-[data-testid="artifact"] {
-  isolation: isolate;
-}

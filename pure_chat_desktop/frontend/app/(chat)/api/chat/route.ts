@@ -10,14 +10,14 @@ import {
   readHanserError,
 } from "@/lib/hanser-client";
 import type { ChatMessage } from "@/lib/types";
-import { type PostRequestBody, postRequestBodySchema } from "./schema";
+import { postRequestBodySchema } from "./schema";
 
 export const maxDuration = 600;
 
-function messageText(message: NonNullable<PostRequestBody["message"]>) {
-  return message.parts
-    .filter((part) => part.type === "text")
-    .map((part) => part.text)
+function textFromParts(parts: Array<Record<string, unknown>>) {
+  return parts
+    .filter((part) => part.type === "text" && typeof part.text === "string")
+    .map((part) => String(part.text))
     .join("")
     .trim();
 }
@@ -25,18 +25,22 @@ function messageText(message: NonNullable<PostRequestBody["message"]>) {
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const parsed = postRequestBodySchema.safeParse(body);
-  if (!parsed.success || !parsed.data.message) {
+  if (!parsed.success) {
     return Response.json(
-      { cause: "当前本地接入只接受新的文本消息。", code: "bad_request:api" },
+      { cause: "当前桌面版只接受文字消息。", code: "bad_request:api" },
       { status: 400 }
     );
   }
 
-  const { id, message, outputPreferences, personaSettings } = parsed.data;
-  const text = messageText(message);
-  if (!text) {
+  const sourceMessage =
+    parsed.data.message ??
+    [...(parsed.data.messages ?? [])]
+      .reverse()
+      .find((message) => message.role === "user");
+  const text = sourceMessage ? textFromParts(sourceMessage.parts) : "";
+  if (!sourceMessage || !text) {
     return Response.json(
-      { cause: "Hanser Agent 当前只支持文本输入。", code: "bad_request:api" },
+      { cause: "没有可重试的文字消息。", code: "bad_request:api" },
       { status: 400 }
     );
   }
@@ -56,20 +60,13 @@ export async function POST(request: Request) {
 
       const response = await hanserFetch("/v1/chat", {
         body: JSON.stringify({
-          conversation_id: id,
+          conversation_id: parsed.data.id,
           message: text,
-          output_preferences: {
-            dynamic_live2d: outputPreferences?.dynamic_live2d ?? false,
-            offline_performance:
-              outputPreferences?.offline_performance ?? false,
-            speech: outputPreferences?.speech ?? false,
-            text: true,
-          },
           persona_settings: {
             adult_innuendo_opt_in:
-              personaSettings?.adult_innuendo_opt_in ?? false,
+              parsed.data.personaSettings?.adult_innuendo_opt_in ?? false,
           },
-          request_id: message.id,
+          request_id: sourceMessage.id,
           user_id: hanserUserId,
         }),
         headers: { "Content-Type": "application/json" },
@@ -93,7 +90,6 @@ export async function POST(request: Request) {
           replyId: result.reply_id,
           requestId: result.request_id,
           sourceCount: result.sources?.length ?? 0,
-          speech: result.speech,
           status: result.status ?? "ok",
           traceId: result.trace_id,
         },
@@ -109,14 +105,4 @@ export async function POST(request: Request) {
   });
 
   return createUIMessageStreamResponse({ stream });
-}
-
-export function DELETE() {
-  return Response.json(
-    {
-      cause: "本地版暂不开放删除会话，以免破坏已建立的记忆来源。",
-      code: "bad_request:api",
-    },
-    { status: 405 }
-  );
 }

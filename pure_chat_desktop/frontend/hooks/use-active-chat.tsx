@@ -16,17 +16,10 @@ import {
   useRef,
   useState,
 } from "react";
+import { toast } from "sonner";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
-import { useDataStream } from "@/components/chat/data-stream-provider";
 import { getChatHistoryPaginationKey } from "@/components/chat/sidebar-history";
-import { toast } from "@/components/chat/toast";
-import type { VisibilityType } from "@/components/chat/visibility-selector";
-import { useVoice } from "@/components/voice/voice-provider";
-import { useAutoResume } from "@/hooks/use-auto-resume";
-import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
-import type { Vote } from "@/lib/db/schema";
-import { ChatbotError } from "@/lib/errors";
 import type { ChatMessage } from "@/lib/types";
 import { fetcher, fetchWithErrorHandlers, generateUUID } from "@/lib/utils";
 
@@ -40,19 +33,11 @@ type ActiveChatContextValue = {
   status: UseChatHelpers<ChatMessage>["status"];
   stop: UseChatHelpers<ChatMessage>["stop"];
   regenerate: UseChatHelpers<ChatMessage>["regenerate"];
-  addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
   input: string;
   setInput: Dispatch<SetStateAction<string>>;
-  visibilityType: VisibilityType;
-  isReadonly: boolean;
   isLoading: boolean;
   loadError: Error | undefined;
   reloadChat: () => void;
-  votes: Vote[] | undefined;
-  currentModelId: string;
-  setCurrentModelId: (id: string) => void;
-  showCreditCardAlert: boolean;
-  setShowCreditCardAlert: Dispatch<SetStateAction<boolean>>;
 };
 
 const ActiveChatContext = createContext<ActiveChatContextValue | null>(null);
@@ -61,37 +46,23 @@ function extractChatId(pathname: string): string | null {
   const match = pathname.match(/\/chat\/([^/]+)/);
   return match ? match[1] : null;
 }
-
 export function ActiveChatProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const { setDataStream, setWaitingStatus } = useDataStream();
-  const voice = useVoice();
-  const voiceRef = useRef(voice);
-  voiceRef.current = voice;
   const { mutate } = useSWRConfig();
-
   const chatIdFromUrl = extractChatId(pathname);
   const isNewChat = !chatIdFromUrl;
   const newChatIdRef = useRef(generateUUID());
-  const prevPathnameRef = useRef(pathname);
+  const previousPath = useRef(pathname);
 
-  if (isNewChat && prevPathnameRef.current !== pathname) {
+  if (isNewChat && previousPath.current !== pathname) {
     newChatIdRef.current = generateUUID();
   }
-  prevPathnameRef.current = pathname;
-
+  previousPath.current = pathname;
   const chatId = chatIdFromUrl ?? newChatIdRef.current;
-
-  const [currentModelId, setCurrentModelId] = useState(DEFAULT_CHAT_MODEL);
-  const currentModelIdRef = useRef(currentModelId);
-  useEffect(() => {
-    currentModelIdRef.current = currentModelId;
-  }, [currentModelId]);
 
   const [input, setInput] = useState("");
   const [adultInnuendoOptIn, setAdultInnuendoOptInState] = useState(false);
   const adultInnuendoOptInRef = useRef(false);
-  const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
 
   useEffect(() => {
     const enabled =
@@ -101,12 +72,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setAdultInnuendoOptIn = useCallback((enabled: boolean) => {
-    setAdultInnuendoOptInState(enabled);
     adultInnuendoOptInRef.current = enabled;
-    window.localStorage.setItem(
-      "hanser-adult-innuendo-opt-in",
-      String(enabled)
-    );
+    setAdultInnuendoOptInState(enabled);
+    window.localStorage.setItem("hanser-adult-innuendo-opt-in", String(enabled));
   }, []);
 
   const {
@@ -115,9 +83,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
     isLoading,
     mutate: reloadChatData,
   } = useSWR(
-    isNewChat
-      ? null
-      : `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/messages?chatId=${chatId}`,
+    isNewChat ? null : `/api/messages?chatId=${encodeURIComponent(chatId)}`,
     fetcher,
     { revalidateOnFocus: false }
   );
@@ -125,10 +91,6 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
   const initialMessages: ChatMessage[] = isNewChat
     ? []
     : (chatData?.messages ?? []);
-  const visibility: VisibilityType = isNewChat
-    ? "private"
-    : (chatData?.visibility ?? "private");
-
   const {
     messages,
     setMessages,
@@ -136,247 +98,98 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
     status,
     stop,
     regenerate,
-    resumeStream,
-    addToolApprovalResponse,
   } = useChat<ChatMessage>({
     generateId: generateUUID,
     id: chatId,
     messages: initialMessages,
-    onData: (dataPart) => {
-      if (dataPart.type === "data-waiting-status") {
-        setWaitingStatus(dataPart.data);
-        return;
+    onData: (part) => {
+      if (
+        part.type === "data-hanser-meta" &&
+        part.data.postTurnStatus === "pending_retry"
+      ) {
+        toast.error("回复已保存，但本轮记忆更新暂未完成。");
       }
-      if (dataPart.type === "data-hanser-meta") {
-        voiceRef.current.acceptReply(dataPart.data);
-        if (dataPart.data.postTurnStatus === "pending_retry") {
-          toast({
-            description:
-              "回复已保存，但本轮记忆更新暂未完成，后端会保留可重试记录。",
-            type: "error",
-          });
-        }
-      }
-      setDataStream((ds) => (ds ? [...ds, dataPart] : []));
     },
     onError: (error) => {
-      if (error.message?.includes("AI Gateway requires a valid credit card")) {
-        setShowCreditCardAlert(true);
-      } else if (error instanceof ChatbotError) {
-        toast({ description: error.message, type: "error" });
-      } else {
-        toast({
-          description: error.message || "回复失败，请稍后重试。",
-          type: "error",
-        });
-      }
+      toast.error(error.message || "回复失败，请稍后重试。");
     },
     onFinish: () => {
       mutate(unstable_serialize(getChatHistoryPaginationKey));
     },
-    sendAutomaticallyWhen: ({ messages: currentMessages }) => {
-      const lastMessage = currentMessages.at(-1);
-      return (
-        lastMessage?.parts?.some(
-          (part) =>
-            "state" in part &&
-            part.state === "approval-responded" &&
-            "approval" in part &&
-            (part.approval as { approved?: boolean })?.approved === true
-        ) ?? false
-      );
-    },
     transport: new DefaultChatTransport({
-      api: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/chat`,
+      api: "/api/chat",
       fetch: fetchWithErrorHandlers,
       prepareSendMessagesRequest(request) {
         const lastMessage = request.messages.at(-1);
-        const isToolApprovalContinuation =
-          lastMessage?.role !== "user" ||
-          request.messages.some((msg) =>
-            msg.parts?.some((part) => {
-              const { state } = part as { state?: string };
-              return (
-                state === "approval-responded" || state === "output-denied"
-              );
-            })
-          );
-
         return {
           body: {
             id: request.id,
-            ...(isToolApprovalContinuation
-              ? { messages: request.messages }
-              : { message: lastMessage }),
-            outputPreferences: {
-              dynamic_live2d: process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY !== "1",
-              offline_performance: false,
-              speech:
-                process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1"
-                  ? false
-                  : voiceRef.current.enabled,
-            },
+            ...(lastMessage?.role === "user"
+              ? { message: lastMessage }
+              : { messages: request.messages }),
             personaSettings: {
               adult_innuendo_opt_in: adultInnuendoOptInRef.current,
             },
-            selectedChatModel: currentModelIdRef.current,
-            selectedVisibilityType: visibility,
-            ...request.body,
           },
         };
       },
     }),
   });
 
-  useEffect(() => {
-    if (status === "submitted") {
-      voiceRef.current.interrupt().catch(() => undefined);
-    }
-    if (status === "ready" || status === "error") {
-      setWaitingStatus(undefined);
-      return;
-    }
-    if (status !== "submitted" && status !== "streaming") {
-      return;
-    }
-    const stillWaiting = window.setTimeout(() => {
-      setWaitingStatus({
-        message: "还在处理这条消息…",
-        modelId: "hanser/agent",
-        modelName: "Hanser Agent",
-        phase: "still-waiting",
-      });
-    }, 12_000);
-    const longWaiting = window.setTimeout(() => {
-      setWaitingStatus({
-        message: "这次需要久一点，回复完成前可以随时停止。",
-        modelId: "hanser/agent",
-        modelName: "Hanser Agent",
-        phase: "thinking",
-      });
-    }, 35_000);
-    return () => {
-      window.clearTimeout(stillWaiting);
-      window.clearTimeout(longWaiting);
-    };
-  }, [status, setWaitingStatus]);
-
   const loadedChatIds = useRef(new Set<string>());
-
-  if (isNewChat && !loadedChatIds.current.has(newChatIdRef.current)) {
-    loadedChatIds.current.add(newChatIdRef.current);
-  }
-
   useEffect(() => {
-    if (loadedChatIds.current.has(chatId)) {
-      return;
-    }
-    if (chatData?.messages) {
+    if (!loadedChatIds.current.has(chatId) && chatData?.messages) {
       loadedChatIds.current.add(chatId);
       setMessages(chatData.messages);
     }
-  }, [chatId, chatData?.messages, setMessages]);
+  }, [chatData?.messages, chatId, setMessages]);
 
-  const prevChatIdRef = useRef(chatId);
+  const previousChatId = useRef(chatId);
   useEffect(() => {
-    if (prevChatIdRef.current !== chatId) {
-      prevChatIdRef.current = chatId;
+    if (previousChatId.current !== chatId) {
+      previousChatId.current = chatId;
       if (isNewChat) {
         setMessages([]);
       }
     }
   }, [chatId, isNewChat, setMessages]);
 
-  useEffect(() => {
-    if (chatData && !isNewChat) {
-      const cookieModel = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("chat-model="))
-        ?.split("=")[1];
-      if (cookieModel) {
-        setCurrentModelId(decodeURIComponent(cookieModel));
-      }
-    }
-  }, [chatData, isNewChat]);
-
-  const hasAppendedQueryRef = useRef(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("query");
-    if (query && !hasAppendedQueryRef.current) {
-      hasAppendedQueryRef.current = true;
-      window.history.replaceState(
-        {},
-        "",
-        `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/chat/${chatId}`
-      );
-      sendMessage({
-        parts: [{ text: query, type: "text" }],
-        role: "user" as const,
-      });
-    }
-  }, [sendMessage, chatId]);
-
-  useAutoResume({
-    autoResume: false,
-    initialMessages,
-    resumeStream,
-    setMessages,
-  });
-
-  const isReadonly = isNewChat ? false : (chatData?.isReadonly ?? false);
-
-  const votes = useMemo<Vote[]>(() => [], []);
   const reloadChat = useCallback(() => {
     reloadChatData().catch(() => undefined);
   }, [reloadChatData]);
 
   const value = useMemo<ActiveChatContextValue>(
     () => ({
-      addToolApprovalResponse,
       adultInnuendoOptIn,
       chatId,
-      currentModelId,
       input,
       isLoading: !isNewChat && isLoading,
-      isReadonly,
       loadError: chatError instanceof Error ? chatError : undefined,
       messages,
       regenerate,
       reloadChat,
       sendMessage,
       setAdultInnuendoOptIn,
-      setCurrentModelId,
       setInput,
       setMessages,
-      setShowCreditCardAlert,
-      showCreditCardAlert,
       status,
       stop,
-      visibilityType: visibility,
-      votes,
     }),
     [
+      adultInnuendoOptIn,
+      chatError,
       chatId,
+      input,
+      isLoading,
+      isNewChat,
       messages,
-      setMessages,
+      regenerate,
+      reloadChat,
       sendMessage,
+      setAdultInnuendoOptIn,
+      setMessages,
       status,
       stop,
-      regenerate,
-      addToolApprovalResponse,
-      input,
-      visibility,
-      isReadonly,
-      isNewChat,
-      isLoading,
-      votes,
-      currentModelId,
-      showCreditCardAlert,
-      adultInnuendoOptIn,
-      setAdultInnuendoOptIn,
-      chatError,
-      reloadChat,
     ]
   );
 
@@ -388,9 +201,9 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
 }
 
 export function useActiveChat() {
-  const context = useContext(ActiveChatContext);
-  if (!context) {
+  const value = useContext(ActiveChatContext);
+  if (!value) {
     throw new Error("useActiveChat must be used within ActiveChatProvider");
   }
-  return context;
+  return value;
 }

@@ -1,4 +1,4 @@
-const DEFAULT_HANSER_API_BASE_URL = "http://127.0.0.1:8765";
+const DEFAULT_HANSER_API_BASE_URL = "http://127.0.0.1:18765";
 
 export const hanserUserId = process.env.HANSER_USER_ID ?? "local-user";
 
@@ -9,9 +9,15 @@ export function hanserApiUrl(path: string): URL {
 }
 
 export function hanserFetch(path: string, init?: RequestInit) {
+  const headers = new Headers(init?.headers);
+  const desktopToken = process.env.HANSER_DESKTOP_TOKEN;
+  if (desktopToken) {
+    headers.set("X-Hanser-Desktop-Token", desktopToken);
+  }
   return fetch(hanserApiUrl(path), {
     ...init,
     cache: "no-store",
+    headers,
   });
 }
 
@@ -29,10 +35,9 @@ export async function readHanserError(response: Response): Promise<string> {
 }
 
 export async function hanserProxyError(response: Response) {
-  const cause = await readHanserError(response);
   return Response.json(
     {
-      cause,
+      cause: await readHanserError(response),
       code: response.status >= 500 ? "offline:chat" : "bad_request:api",
     },
     { status: response.status }
@@ -41,10 +46,7 @@ export async function hanserProxyError(response: Response) {
 
 export function hanserUnavailableError() {
   return Response.json(
-    {
-      cause: "无法连接 Hanser 后端，请确认服务已经启动。",
-      code: "offline:chat",
-    },
+    { cause: "无法连接 Hanser 后端。", code: "offline:chat" },
     { status: 503 }
   );
 }
@@ -52,11 +54,6 @@ export function hanserUnavailableError() {
 export type HanserChatResponse = {
   text: string;
   reply_id?: string;
-  speech?: {
-    schema_version: "1.1";
-    status: "eligible" | "unavailable" | "no_speakable_content";
-    reason?: string;
-  };
   request_id?: string;
   trace_id?: string;
   status?: "ok" | "degraded";
@@ -65,7 +62,6 @@ export type HanserChatResponse = {
   post_turn_retry_id?: string;
   sources?: unknown[];
 };
-
 export type HanserConversation = {
   id: string;
   user_id: string;

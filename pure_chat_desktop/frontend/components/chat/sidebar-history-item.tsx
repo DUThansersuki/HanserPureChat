@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { memo, useCallback } from "react";
-import type { Chat } from "@/lib/db/schema";
+import type { ChatOverview } from "@/lib/types";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 
 const PureChatItem = ({
@@ -8,7 +8,7 @@ const PureChatItem = ({
   isActive,
   setOpenMobile,
 }: {
-  chat: Chat;
+  chat: ChatOverview;
   isActive: boolean;
   setOpenMobile: (open: boolean) => void;
 }) => {

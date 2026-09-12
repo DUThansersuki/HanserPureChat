@@ -1,0 +1,121 @@
+server:
+  host: 127.0.0.1
+  port: 18765
+
+performance:
+  structured_performance_enabled: false
+  speech_runtime_enabled: false
+  dynamic_live2d_enabled: false
+  offline_export_enabled: false
+  render_profile_revision: "pure-chat-desktop-1"
+  voice_runtime_base_url: ""
+  internal_token: ""
+  request_timeout_seconds: 10
+
+data:
+  db_path: "../resources/database/documents.dev.db"
+  data_dir: "../resources/data"
+  userdict_path: "../resources/userdict.txt"
+
+models:
+  planner:
+    provider: "openai_compatible"
+    temperature: 0.1
+    top_p: 0.9
+    max_tokens: 256
+    context_window: 4096
+    keep_alive: "5m"
+    think: false
+    external_fallback: false
+
+  responder:
+    context_window: 32768
+
+  reranker:
+    provider: "local"
+    model: "Qwen/Qwen3-Reranker-0.6B"
+    device: "auto"
+    dtype: "auto"
+    max_length: 768
+    batch_size: 8
+    candidate_pool_size: 20
+    top_k: 5
+    local_files_only: false
+    instruction: "Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question"
+
+  embedding:
+    provider: "local"
+    model: "Qwen/Qwen3-Embedding-0.6B"
+    device: "cpu"
+    dtype: "float32"
+    max_length: 1024
+    batch_size: 8
+    dimension: 1024
+    local_files_only: false
+    instruction: "Given a Chinese Hanser Wiki question, retrieve passages that contain evidence needed to answer the question"
+
+retrieval:
+  mode: "hybrid"
+  bm25_top_k: 40
+  dense_top_k: 40
+  fusion_k: 60
+  candidate_pool_size: 24
+  top_k: 6
+  chunk_target_chars: 800
+  chunk_max_chars: 1000
+  chunk_overlap_chars: 120
+
+style:
+  enabled: true
+  reviewed_only: true
+  output_dir: "data/persona"
+  top_k: 3
+  candidate_pool_size: 16
+  min_quality: 0.68
+
+persona:
+  active_package: "persona-v2-production"
+  candidate_package: "hanser-persona-v2-candidate"
+  candidate_style_generation: "persona-v2-style-profanity15-1c71903569618d5d"
+  detector_version: "persona_lexical_v3"
+  schema_version: 2
+
+memory:
+  recent_messages: 12
+  summary_trigger_messages: 20
+  summary_interval_messages: 12
+  summary_max_chars: 800
+  retrieval_top_k: 5
+  candidate_pool_size: 20
+  min_importance: 0.6
+  min_confidence: 0.75
+
+context:
+  input_token_budget: 24576
+  output_reserve_tokens: 8192
+  estimator: "utf8_bytes_div_3"
+  message_overhead_tokens: 4
+
+llm:
+  base_url: "https://api.deepseek.com"
+  api_key: ""
+  model: "deepseek-flash"
+
+  bunny:
+    model: "deepseek-flash"
+    max_tokens: 512
+    temperature: 0.1
+    top_p: 0.9
+
+  prometheus:
+    model: "deepseek-flash"
+    max_tokens: 1024
+    temperature: 0.1
+    top_p: 0.9
+
+  hanser:
+    model: "deepseek-flash"
+    max_tokens: 8192
+    temperature: 0.3
+    top_p: 0.9
+
