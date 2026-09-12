@@ -1,4 +1,10 @@
-export const MMD_MOTION_NAMES = ["idle", "greet", "curious", "peace"] as const;
+export const MMD_MOTION_NAMES = [
+  "idle",
+  "greet",
+  "curious",
+  "peace",
+  "singing",
+] as const;
 
 export type MmdMotionName = (typeof MMD_MOTION_NAMES)[number];
 
@@ -14,6 +20,7 @@ export const MMD_MOTION_LABELS: Record<MmdMotionName, string> = {
   greet: "挥手问候",
   idle: "待机呼吸",
   peace: "比耶 Wink",
+  singing: "闭眼歌唱",
 };
 
 export const MMD_MOTION_DURATION_MS: Record<MmdMotionName, number> = {
@@ -21,6 +28,7 @@ export const MMD_MOTION_DURATION_MS: Record<MmdMotionName, number> = {
   greet: 3600,
   idle: Number.POSITIVE_INFINITY,
   peace: 3800,
+  singing: Number.POSITIVE_INFINITY,
 };
 
 export const MMD_IDLE_ACTION_SEQUENCE = ["greet", "curious", "peace"] as const;
@@ -166,7 +174,7 @@ export function sampleMmdPose(
     ];
     morphs.困る = 0.28 * envelope;
     morphs.にこり = relaxedSmile + (0.12 - relaxedSmile) * envelope;
-  } else {
+  } else if (motion === "peace") {
     const relaxedArm = bones.右腕;
     const relaxedElbow = bones.右ひじ;
     const relaxedTwist = bones.右手捩;
@@ -211,6 +219,80 @@ export function sampleMmdPose(
     morphs.まばたき *= 1 - smootherStep(envelope / 0.08);
     morphs.にこり = relaxedSmile + (0.62 - relaxedSmile) * envelope;
     morphs.にやり = relaxedMouthSmile + (0.34 - relaxedMouthSmile) * envelope;
+  } else {
+    const singingEnvelope = smootherStep(elapsedMs / 2200);
+    const singingSway = Math.sin(idleTime * 0.48);
+    const singingBreath = Math.sin(idleTime * 1.12);
+    bones.上半身 = [
+      0.015 + 0.012 * singingBreath,
+      0.018 * singingSway,
+      0.022 * singingSway,
+    ];
+    bones.上半身2 = [0.01 + 0.008 * singingBreath, 0.012 * singingSway, 0];
+    bones.頭 = [0.035 + 0.008 * singingBreath, 0, -0.018 * singingSway];
+
+    const singingBones: Record<string, BoneRotation> = {
+      右ひじ: [0.793, -0.003, 2.356],
+      右手捩: [-0.386, 0, 0],
+      右手首: [-0.224, 0.084, 0.969],
+      右肩: [0.004, -0.031, -0.083],
+      右腕: [-0.628, -0.539, 0.468],
+      右腕捩: [0.076, 0, 0],
+      左ひじ: [0.666, 0.002, -2.301],
+      左手捩: [0.24, 0, 0],
+      左手首: [-0.202, -0.043, -1.022],
+      左肩: [0.005, 0.032, 0.085],
+      左腕: [-0.6, 0.514, -0.48],
+      左腕捩: [-0.145, 0, 0],
+    };
+    for (const [name, target] of Object.entries(singingBones)) {
+      const relaxed = bones[name] ?? [0, 0, 0];
+      bones[name] = [
+        relaxed[0] + (target[0] - relaxed[0]) * singingEnvelope,
+        relaxed[1] + (target[1] - relaxed[1]) * singingEnvelope,
+        relaxed[2] + (target[2] - relaxed[2]) * singingEnvelope,
+      ];
+    }
+    const fingerCurls = {
+      中指: [0.4, 0.72, 0.36],
+      人指: [0.35, 0.65, 0.32],
+      小指: [0.52, 0.88, 0.44],
+      薬指: [0.46, 0.8, 0.4],
+    } as const;
+    for (const side of ["右", "左"] as const) {
+      const mirror = side === "右" ? -1 : 1;
+      for (const [index, finger] of Object.keys(fingerCurls).entries()) {
+        const [mcp, pip, dip] = fingerCurls[finger as keyof typeof fingerCurls];
+        const weave = (index % 2 === 0 ? 0.1 : -0.08) * mirror;
+        bones[`${side}${finger}１`] = [
+          0,
+          weave * singingEnvelope,
+          mirror * mcp * singingEnvelope,
+        ];
+        bones[`${side}${finger}２`] = [
+          0,
+          -weave * 0.45 * singingEnvelope,
+          mirror * pip * singingEnvelope,
+        ];
+        bones[`${side}${finger}３`] = [0, 0, mirror * dip * singingEnvelope];
+      }
+      const thumbDepth = side === "右" ? 0.08 : -0.04;
+      bones[`${side}親指０`] = [
+        0,
+        thumbDepth * singingEnvelope,
+        mirror * 0.6 * singingEnvelope,
+      ];
+      bones[`${side}親指１`] = [
+        0,
+        mirror * 0.35 * singingEnvelope,
+        mirror * 0.18 * singingEnvelope,
+      ];
+      bones[`${side}親指２`] = [0, 0, mirror * 0.18 * singingEnvelope];
+    }
+    morphs.まばたき = singingEnvelope;
+    morphs.にこり = relaxedSmile + (0.28 - relaxedSmile) * singingEnvelope;
+    morphs.にやり =
+      relaxedMouthSmile + (0.12 - relaxedMouthSmile) * singingEnvelope;
   }
 
   return { bones, morphs };

@@ -44,6 +44,7 @@ export class PlaybackController {
   private readonly collectedSegments = new Map<string, SegmentPackage>();
   private readonly replayableReplies = new Map<string, SegmentPackage[]>();
   private readonly audioBuffers = new Map<string, AudioBuffer>();
+  private volume = 1;
 
   subscribe(listener: Listener) {
     this.listeners.add(listener);
@@ -87,6 +88,15 @@ export class PlaybackController {
 
   canReplay(replyId: string) {
     return this.replayableReplies.has(replyId);
+  }
+
+  setVolume(volume: number) {
+    this.volume = Math.max(0, Math.min(1, volume));
+    if (this.context && this.gain) {
+      const now = this.context.currentTime;
+      this.gain.gain.cancelScheduledValues(now);
+      this.gain.gain.setTargetAtTime(this.volume, now, 0.015);
+    }
   }
 
   async start(replyId: string) {
@@ -384,7 +394,7 @@ export class PlaybackController {
       source.connect(gain).connect(this.context.destination);
       const now = this.context.currentTime;
       gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(1, now + 0.012);
+      gain.gain.linearRampToValueAtTime(this.volume, now + 0.012);
       this.source = source;
       this.gain = gain;
       this.audioStartedAt = now;

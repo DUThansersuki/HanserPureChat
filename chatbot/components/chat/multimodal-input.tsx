@@ -18,6 +18,7 @@ import {
 } from "react";
 import { toast } from "sonner";
 import { useWindowSize } from "usehooks-ts";
+import { stopHanserScene, triggerHanserScene } from "@/lib/live2d/scene-events";
 import type { Attachment, ChatMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import {
@@ -133,6 +134,12 @@ function PureMultimodalInput({
           break;
         case "theme":
           setTheme(resolvedTheme === "dark" ? "light" : "dark");
+          break;
+        case "sing":
+          triggerHanserScene("sing-it-is-like-a-star");
+          break;
+        case "stop":
+          stopHanserScene("sing-it-is-like-a-star");
           break;
         default:
           break;

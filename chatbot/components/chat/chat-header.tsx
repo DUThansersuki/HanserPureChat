@@ -1,8 +1,9 @@
 "use client";
 
 import { PanelLeftIcon, SlidersHorizontalIcon } from "lucide-react";
-import { memo } from "react";
+import { type ChangeEvent, memo, useCallback } from "react";
 import useSWR from "swr";
+import type { StageState } from "@/components/live2d/mmd-stage";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSidebar } from "@/components/ui/sidebar";
 import { VoiceControls } from "@/components/voice/voice-controls";
+import { useVoice } from "@/components/voice/voice-provider";
 import { useActiveChat } from "@/hooks/use-active-chat";
 import { cn } from "@/lib/utils";
 import type { VisibilityType } from "./visibility-selector";
@@ -22,8 +24,10 @@ function PureChatHeader(_props: {
   chatId: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
+  live2dState: StageState;
 }) {
   const { state, toggleSidebar, isMobile } = useSidebar();
+  const { setVolume, volume } = useVoice();
   const { adultInnuendoOptIn, setAdultInnuendoOptIn } = useActiveChat();
   const { data: health, error: healthError } = useSWR<{
     chat_ready?: boolean;
@@ -52,6 +56,18 @@ function PureChatHeader(_props: {
       : health
         ? "Chat 已就绪"
         : "连接中";
+  const live2dLabel =
+    _props.live2dState === "ready"
+      ? "L2D 已就绪"
+      : _props.live2dState === "error"
+        ? "L2D 加载失败"
+        : "L2D 加载中";
+  const handleVolumeChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setVolume(Number(event.currentTarget.value));
+    },
+    [setVolume]
+  );
 
   return (
     <header className="sticky top-0 flex h-14 items-center gap-2 bg-sidebar px-3">
@@ -70,7 +86,9 @@ function PureChatHeader(_props: {
       <span className="text-sm font-medium text-sidebar-foreground">
         Hanser Agent
       </span>
-      <VoiceControls />
+      {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
+        <VoiceControls />
+      )}
       <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
         <span
           className={cn(
@@ -84,6 +102,21 @@ function PureChatHeader(_props: {
         />
         {healthLabel}
       </span>
+      {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-sidebar-border px-2 py-1 text-[11px] text-sidebar-foreground/60">
+          <span
+            className={cn(
+              "size-1.5 rounded-full",
+              _props.live2dState === "ready"
+                ? "bg-emerald-500"
+                : _props.live2dState === "error"
+                  ? "bg-red-500"
+                  : "animate-pulse bg-amber-500"
+            )}
+          />
+          {live2dLabel}
+        </span>
+      )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -98,6 +131,32 @@ function PureChatHeader(_props: {
         <DropdownMenuContent align="end" className="w-72">
           <DropdownMenuLabel>聊天设置</DropdownMenuLabel>
           <DropdownMenuSeparator />
+          {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
+            <>
+              <div className="space-y-2 px-2 py-2">
+                <div className="flex items-center justify-between text-[12px]">
+                  <span>全局音量</span>
+                  <span className="tabular-nums text-muted-foreground">
+                    {Math.round(volume * 100)}%
+                  </span>
+                </div>
+                <input
+                  aria-label="全局音量"
+                  className="h-1.5 w-full cursor-pointer accent-foreground"
+                  max="1"
+                  min="0"
+                  onChange={handleVolumeChange}
+                  step="0.01"
+                  type="range"
+                  value={volume}
+                />
+                <p className="text-[11px] text-muted-foreground">
+                  同时控制文字语音和歌唱场景
+                </p>
+              </div>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuCheckboxItem
             checked={adultInnuendoOptIn}
             onCheckedChange={setAdultInnuendoOptIn}

@@ -1,6 +1,11 @@
 "use client";
 
-import { PaletteIcon, PenSquareIcon } from "lucide-react";
+import {
+  Music2Icon,
+  PaletteIcon,
+  PenSquareIcon,
+  SquareIcon,
+} from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
@@ -8,24 +13,42 @@ export type SlashCommand = {
   name: string;
   description: string;
   icon: ReactNode;
-  action: "new" | "theme";
+  action: "new" | "sing" | "stop" | "theme";
   shortcut?: string;
 };
 
-export const slashCommands: SlashCommand[] = [
-  {
-    action: "new",
-    description: "开始新对话",
-    icon: <PenSquareIcon className="size-3.5" />,
-    name: "new",
-  },
-  {
-    action: "theme",
-    description: "切换深色/浅色主题",
-    icon: <PaletteIcon className="size-3.5" />,
-    name: "theme",
-  },
-];
+export const slashCommands: SlashCommand[] = (
+  [
+    {
+      action: "sing",
+      description: "播放《它像一颗》歌唱场景",
+      icon: <Music2Icon className="size-3.5" />,
+      name: "sing",
+    },
+    {
+      action: "new",
+      description: "开始新对话",
+      icon: <PenSquareIcon className="size-3.5" />,
+      name: "new",
+    },
+    {
+      action: "stop",
+      description: "停止当前歌唱场景",
+      icon: <SquareIcon className="size-3.5" />,
+      name: "stop",
+    },
+    {
+      action: "theme",
+      description: "切换深色/浅色主题",
+      icon: <PaletteIcon className="size-3.5" />,
+      name: "theme",
+    },
+  ] satisfies SlashCommand[]
+).filter(
+  (command) =>
+    process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY !== "1" ||
+    (command.action !== "sing" && command.action !== "stop")
+);
 
 type SlashCommandMenuProps = {
   query: string;

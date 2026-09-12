@@ -56,6 +56,7 @@ export class MmdRigAdapter implements RigAdapter {
   private nextIdleActionAt: number | undefined;
   private lastUpdatedAt = 0;
   private speechActivity = 0;
+  private sceneFrame: Live2DFrame | undefined;
   private frame: Live2DFrame = {
     expressionPreset: "neutral",
     expressionWeight: 0,
@@ -103,6 +104,20 @@ export class MmdRigAdapter implements RigAdapter {
     return this.activeMotion;
   }
 
+  setSceneFrame(frame: Live2DFrame | undefined) {
+    const previousScene = this.sceneFrame;
+    this.sceneFrame = frame;
+    if (
+      frame &&
+      MMD_MOTION_NAMES.includes(frame.motion as MmdMotionName) &&
+      frame.motion !== this.activeMotion
+    ) {
+      this.play(frame.motion as MmdMotionName);
+    } else if (!frame && previousScene) {
+      this.play(this.requestedMotion);
+    }
+  }
+
   reset(epoch: number) {
     if (!this.owner.claim(epoch)) {
       return;
@@ -119,11 +134,12 @@ export class MmdRigAdapter implements RigAdapter {
   }
 
   update(now = performance.now()) {
+    const frame = this.sceneFrame ?? this.frame;
     const deltaMs = this.lastUpdatedAt
       ? Math.min(50, now - this.lastUpdatedAt)
       : 16;
     this.lastUpdatedAt = now;
-    const speechTarget = Math.min(1, this.frame.mouthOpen * 1.25);
+    const speechTarget = Math.min(1, frame.mouthOpen * 1.25);
     const follow = speechTarget > this.speechActivity ? 0.24 : 0.12;
     this.speechActivity +=
       (speechTarget - this.speechActivity) * follow * (deltaMs / 16);
@@ -178,7 +194,7 @@ export class MmdRigAdapter implements RigAdapter {
     // spoken cadence while keeping semantic gestures under explicit control.
     this.addBoneRotation("頭", [
       -0.01 * this.speechActivity +
-        0.006 * (this.frame.mouthOpen - this.speechActivity),
+        0.006 * (frame.mouthOpen - this.speechActivity),
       0,
       0,
     ]);
@@ -188,10 +204,10 @@ export class MmdRigAdapter implements RigAdapter {
     for (const [name, value] of Object.entries(pose.morphs)) {
       this.setMorph(name, value);
     }
-    this.setMorph("あ", this.frame.mouthOpen * 0.82);
-    const expressionMorph = EXPRESSION_MORPHS[this.frame.expressionPreset];
+    this.setMorph("あ", frame.mouthOpen * 0.82);
+    const expressionMorph = EXPRESSION_MORPHS[frame.expressionPreset];
     if (expressionMorph) {
-      this.setMorph(expressionMorph, this.frame.expressionWeight);
+      this.setMorph(expressionMorph, frame.expressionWeight);
     }
   }
 

@@ -22,6 +22,7 @@ backend/config.yml
 # JavaScript dependencies and generated output
 **/node_modules/
 **/.next/
+**/.next-*/
 **/.turbo/
 **/coverage/
 **/test-results/
@@ -49,6 +50,7 @@ models/
 *.wav
 *.wave
 *.mp3
+!chatbot/public/media/9-it-is-like-a-star.mp3
 *.flac
 *.ogg
 *.m4a

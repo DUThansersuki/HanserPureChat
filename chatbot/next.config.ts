@@ -5,6 +5,7 @@ const basePath = process.env.IS_DEMO === "1" ? "/demo" : "";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
+  distDir: process.env.HANSER_NEXT_DIST_DIR ?? ".next",
   ...(basePath
     ? {
         assetPrefix: "/demo-assets",
@@ -23,6 +24,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
+    NEXT_PUBLIC_HANSER_CHAT_ONLY:
+      process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY ?? "0",
   },
   experimental: {
     appNewScrollHandler: true,

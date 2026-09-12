@@ -16,8 +16,10 @@ import { PlaybackController } from "@/lib/voice/playback-controller";
 
 type VoiceContextValue = {
   enabled: boolean;
+  volume: number;
   state: PlaybackState;
   setEnabled: (enabled: boolean) => void;
+  setVolume: (volume: number) => void;
   pause: () => void;
   resume: () => Promise<void>;
   replay: (replyId: string) => Promise<void>;
@@ -33,6 +35,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   const controller = useRef<PlaybackController | null>(null);
   controller.current ??= new PlaybackController();
   const [enabled, setEnabledState] = useState(false);
+  const [volume, setVolumeState] = useState(1);
   const [state, setState] = useState<PlaybackState>("IDLE");
   const [replayableReplyIds, setReplayableReplyIds] = useState<
     ReadonlySet<string>
@@ -42,6 +45,14 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     setEnabledState(
       window.localStorage.getItem("hanser-speech-enabled") === "true"
     );
+    const storedVolume = Number(
+      window.localStorage.getItem("hanser-master-volume") ?? "1"
+    );
+    const initialVolume = Number.isFinite(storedVolume)
+      ? Math.max(0, Math.min(1, storedVolume))
+      : 1;
+    setVolumeState(initialVolume);
+    controller.current?.setVolume(initialVolume);
     return controller.current?.subscribe((nextState, _position, replyIds) => {
       setState(nextState);
       setReplayableReplyIds((current) => {
@@ -64,6 +75,13 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     } else {
       controller.current?.interrupt().catch(() => undefined);
     }
+  }, []);
+
+  const setVolume = useCallback((next: number) => {
+    const normalized = Math.max(0, Math.min(1, next));
+    setVolumeState(normalized);
+    controller.current?.setVolume(normalized);
+    window.localStorage.setItem("hanser-master-volume", String(normalized));
   }, []);
 
   const acceptReply = useCallback(
@@ -91,9 +109,19 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
       resume: () => controller.current?.resume() ?? Promise.resolve(),
       samplePerformance: () => controller.current?.samplePerformance(),
       setEnabled,
+      setVolume,
       state,
+      volume,
     }),
-    [acceptReply, enabled, replayableReplyIds, setEnabled, state]
+    [
+      acceptReply,
+      enabled,
+      replayableReplyIds,
+      setEnabled,
+      setVolume,
+      state,
+      volume,
+    ]
   );
 
   return (

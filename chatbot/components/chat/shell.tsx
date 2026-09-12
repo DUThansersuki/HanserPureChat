@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { StageState } from "@/components/live2d/mmd-stage";
 import { MmdStage } from "@/components/live2d/mmd-stage";
 import {
   AlertDialog,
@@ -54,6 +55,7 @@ export function ChatShell() {
     null
   );
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [live2dState, setLive2dState] = useState<StageState>("loading");
   const isArtifactVisible = useArtifactSelector((state) => state.isVisible);
   const { setArtifact } = useArtifact();
 
@@ -112,10 +114,18 @@ export function ChatShell() {
           <ChatHeader
             chatId={chatId}
             isReadonly={isReadonly}
+            live2dState={live2dState}
             selectedVisibilityType={visibilityType}
           />
 
-          <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-background md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40">
+          <div
+            className={cn(
+              "relative flex min-h-0 flex-1 flex-col overflow-hidden bg-background transition-[margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:rounded-tl-[12px] md:border-t md:border-l md:border-border/40",
+              process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1"
+                ? null
+                : "lg:mr-[clamp(376px,calc(30vw+16px),476px)]"
+            )}
+          >
             {loadError ? (
               <div className="flex items-center justify-center gap-2 border-b border-red-500/20 bg-red-500/5 px-3 py-2 text-[12px] text-red-600 dark:text-red-400">
                 <span>这段对话暂时没加载出来。</span>
@@ -143,7 +153,7 @@ export function ChatShell() {
               votes={votes}
             />
 
-            <div className="sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl gap-2 border-t-0 bg-background px-2 pb-3 md:px-4 md:pb-4">
+            <div className="sticky bottom-0 z-1 mx-auto flex w-full max-w-3xl gap-2 border-t-0 bg-background px-2 pb-3 md:px-4 md:pb-4">
               {!isReadonly && (
                 <MultimodalInput
                   attachments={attachments}
@@ -190,7 +200,9 @@ export function ChatShell() {
       </div>
 
       <DataStreamHandler />
-      <MmdStage />
+      {process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1" ? null : (
+        <MmdStage onStateChange={setLive2dState} />
+      )}
 
       <AlertDialog
         onOpenChange={setShowCreditCardAlert}

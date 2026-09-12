@@ -209,9 +209,12 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
               ? { messages: request.messages }
               : { message: lastMessage }),
             outputPreferences: {
-              dynamic_live2d: true,
+              dynamic_live2d: process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY !== "1",
               offline_performance: false,
-              speech: voiceRef.current.enabled,
+              speech:
+                process.env.NEXT_PUBLIC_HANSER_CHAT_ONLY === "1"
+                  ? false
+                  : voiceRef.current.enabled,
             },
             personaSettings: {
               adult_innuendo_opt_in: adultInnuendoOptInRef.current,
