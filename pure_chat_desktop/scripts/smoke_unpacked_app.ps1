@@ -1,5 +1,6 @@
 param(
     [string]$AppPath = "",
+    [string]$DataRoot = "",
     [int]$TimeoutSeconds = 240
 )
 
@@ -13,7 +14,11 @@ if (-not (Test-Path -LiteralPath $AppPath -PathType Leaf)) {
     throw "Unpacked application is missing: $AppPath"
 }
 
-$smokeRoot = Join-Path $desktopRoot ("release\runtime\unpacked-smoke-{0}" -f (Get-Date -Format "yyyyMMdd-HHmmss"))
+$smokeRoot = if ($DataRoot) {
+    [IO.Path]::GetFullPath($DataRoot)
+} else {
+    Join-Path $desktopRoot ("release\runtime\unpacked-smoke-{0}" -f (Get-Date -Format "yyyyMMdd-HHmmss"))
+}
 $frontendLog = Join-Path $smokeRoot "logs\frontend.log"
 $backendLog = Join-Path $smokeRoot "logs\backend.log"
 $previousDataRoot = $env:HANSER_DESKTOP_DATA_ROOT

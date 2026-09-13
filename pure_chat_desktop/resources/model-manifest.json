@@ -1,0 +1,23 @@
+{
+    "schema_version":  1,
+    "models":  [
+                   {
+                       "name":  "Qwen3 Embedding 0.6B",
+                       "folder":  "models--Qwen--Qwen3-Embedding-0.6B",
+                       "version":  "beta.1",
+                       "archive":  "Qwen3-Embedding-0.6B.zip",
+                       "url":  "https://github.com/DUThansersuki/HanserPureChat/releases/download/pure-chat-v0.1.0-beta.1/Qwen3-Embedding-0.6B.zip",
+                       "bytes":  1207657053,
+                       "sha256":  "5f0aa69dc2c1b5c18168539968afd2f90d365b69b6039aa70a14e47b823dbd8c"
+                   },
+                   {
+                       "name":  "Qwen3 Reranker 0.6B",
+                       "folder":  "models--Qwen--Qwen3-Reranker-0.6B",
+                       "version":  "beta.1",
+                       "archive":  "Qwen3-Reranker-0.6B.zip",
+                       "url":  "https://github.com/DUThansersuki/HanserPureChat/releases/download/pure-chat-v0.1.0-beta.1/Qwen3-Reranker-0.6B.zip",
+                       "bytes":  1207659093,
+                       "sha256":  "c8f5cf59c504a88e727382e00c47782686baee2471e4bafd42336d07391a5120"
+                   }
+               ]
+}

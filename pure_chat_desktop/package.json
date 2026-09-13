@@ -10,12 +10,14 @@
     "build:desktop": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_desktop.ps1",
     "build:frontend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_frontend.ps1",
     "build:backend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_backend.ps1",
+    "build:models": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_model_packages.ps1",
     "build:installer": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_installer.ps1",
     "smoke:app": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/smoke_unpacked_app.ps1",
     "verify:package": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_package.ps1",
     "start": "electron ."
   },
   "dependencies": {
+    "extract-zip": "^2.0.1",
     "yaml": "^2.8.1"
   },
   "devDependencies": {
@@ -57,11 +59,8 @@
         "to": "defaults/config.desktop.example.yml"
       },
       {
-        "from": "resources/models",
-        "to": "models",
-        "filter": [
-          "**/*"
-        ]
+        "from": "resources/model-manifest.json",
+        "to": "defaults/model-manifest.json"
       }
     ],
     "win": {
@@ -73,7 +72,7 @@
           ]
         }
       ],
-      "artifactName": "HanserPureChatSetup-${version}-${arch}.${ext}"
+      "artifactName": "HanserPureChatLiteSetup-${version}-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,

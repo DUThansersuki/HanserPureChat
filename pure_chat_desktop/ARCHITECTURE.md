@@ -14,7 +14,7 @@ Hanser Pure Chat Desktop 采用独立副本，不在现有 `backend/`、`chatbot
 - Electron：提供 Windows 主窗口、单实例、进程编排、日志入口和安装包。
 - Next.js standalone：保留现有 Chat UI、AI SDK 消息协议以及服务端到 Hanser Backend 的代理层。
 - Python backend sidecar：从现有后端复制，只保留文字聊天所需能力，并由桌面主进程启动和关闭。
-- electron-builder + NSIS：生成安装程序 `HanserPureChatSetup-<version>-x64.exe`。
+- electron-builder + NSIS：生成安装程序 `HanserPureChatLiteSetup-<version>-x64.exe`。
 - PyInstaller `onedir`：冻结 Python sidecar。首版不采用 `onefile`，避免 PyTorch/Transformers 每次启动解压、启动变慢和排错困难。
 
 最终用户会得到一个正常的 Windows 应用入口 `Hanser Pure Chat.exe`。安装目录内部允许存在 Next.js、Python、模型和数据库种子等资源；“做成 EXE”不等于把所有大型运行资源强塞进一个 PE 文件。
@@ -140,12 +140,13 @@ H:\HanserAgent\
 2. 解析安装资源目录和 `%LOCALAPPDATA%\HanserPureChat`。
 3. 首次启动时把数据库种子原子复制到用户数据目录。
 4. 读取应用设置，用 Windows DPAPI/Electron `safeStorage` 解密模型 API Key。
-5. 生成仅本次运行有效的随机内部令牌，选择两个空闲 loopback 端口。
-6. 启动 Python Chat Backend，传入配置路径、数据库路径、模型缓存路径、端口和内部令牌。
-7. 轮询后端 `/health`；要求 `ok=true` 且 `chat_ready=true`。
-8. 启动 Next standalone，传入后端 URL、固定本地用户 ID、内部令牌和前端端口。
-9. 轮询 Next `/ping` 后创建 BrowserWindow。
-10. 任一步失败都进入本地错误页，显示安全错误摘要和“打开日志目录/重试/退出”。
+5. 若本地检索模型不存在，按固定发布清单下载两个模型包，支持 `.part` 续传，并校验长度和 SHA-256 后原子安装。
+6. 生成仅本次运行有效的随机内部令牌，选择两个空闲 loopback 端口。
+7. 启动 Python Chat Backend，传入配置路径、数据库路径、模型缓存路径、端口和内部令牌。
+8. 轮询后端 `/health`；要求 `ok=true` 且 `chat_ready=true`。
+9. 启动 Next standalone，传入后端 URL、固定本地用户 ID、内部令牌和前端端口。
+10. 轮询 Next `/ping` 后创建 BrowserWindow。
+11. 任一步失败都进入本地错误页，显示安全错误摘要和“打开日志目录/重试/退出”。
 
 ### 4.3 关闭顺序
 
@@ -338,7 +339,7 @@ X-Hanser-Desktop-Token: <ephemeral random token>
    ├─ database\documents.seed.db
    ├─ persona\
    ├─ userdict.txt
-   └─ models\
+   └─ defaults\model-manifest.json
 ```
 
 首版默认使用 per-user NSIS 安装时，实际安装根可位于 `%LOCALAPPDATA%\Programs\Hanser Pure Chat`；代码不得依赖固定盘符或当前工作目录。
@@ -351,6 +352,8 @@ X-Hanser-Desktop-Token: <ephemeral random token>
 ├─ config\settings.json
 ├─ config\secrets.bin
 ├─ cache\
+├─ downloads\models\
+├─ models\hub\
 ├─ logs\main.log
 ├─ logs\frontend.log
 ├─ logs\backend.log
@@ -426,7 +429,7 @@ Style 不能充当事实来源；显式关闭和人物边界继续是硬约束�
 - Download-on-first-run：首次启动下载并验证版本，安装包较小但首次使用依赖网络。
 - Lite：显式切换到经评估的 BM25-only 配置；不得静默降级并宣称与 Full 等价。
 
-首版架构默认选择 Full；Lite 只能在聚焦检索回归通过后作为另一个明确产品变体。
+当前发布选择 Download-on-first-run：Lite 安装包内固定模型包的 Release URL、字节数与 SHA-256，首次启动下载到独立用户目录，校验成功后仍以 `local_files_only=true` 运行。原 Full 安装包仅作为本地离线备选，不是本次 GitHub 主发布物。
 
 ### 10.3 资源预算门禁
 
@@ -484,7 +487,11 @@ output: "standalone"
 
 ```text
 dist/
-├─ HanserPureChatSetup-<version>-x64.exe
+├─ HanserPureChatLiteSetup-<version>-x64.exe
+├─ model-packages/
+│  ├─ Qwen3-Embedding-0.6B.zip
+│  ├─ Qwen3-Reranker-0.6B.zip
+│  └─ model-manifest.json
 ├─ latest-build-manifest.json
 └─ unpacked/                   # 本地验证用，不作为最终交付
 ```
@@ -659,7 +666,7 @@ Persona package、Style generation、数据库 seed/index generation、detector/
 - 后端只暴露纯 Chat 所需健康检查、会话、消息和流式聊天接口；聚焦测试通过。
 - 前端发布路由冻结为 `/`、`/chat/[id]`、`/api/chat`、`/api/health`、`/api/history`、`/api/messages`。
 - Electron 负责随机端口、进程生命周期、独立用户数据、DPAPI 密钥和设置界面。
-- PyInstaller onedir 后端、Next standalone 运行目录和 Qwen Embedding/Reranker 本地模型已进入候选包。
+- PyInstaller onedir 后端和 Next standalone 已进入 Lite 候选包；Qwen Embedding/Reranker 改为固定 Release 模型包，首次启动下载、校验并缓存。
 - 数据库种子保留检索与已审核 Style，运行时表为空；首次启动复制到独立用户目录。
 - 打包后端健康检查达到 `chat_ready=true`；`win-unpacked` 启动验证通过，前后端 Ready 且退出后无残留进程。
 - 发布核验会拒绝缺少关键资源、出现复杂功能路由或携带不可搬迁 Next 依赖链接的候选，并在阶段边界生成 SHA-256 manifest。
@@ -668,8 +675,8 @@ Persona package、Style generation、数据库 seed/index generation、detector/
 
 - 数据库种子：121,999,360 bytes。
 - PyInstaller 后端主程序：67,699,225 bytes；完整后端运行目录约 0.57 GiB。
-- 两套检索模型合计约 2.25 GiB。
-- NSIS 候选约 1.93 GiB，接近 2 GiB，增加发布资源前必须重新评估体积边界。
+- 两套检索模型源目录合计约 2.25 GiB；两个无压缩 ZIP 各约 1.125 GiB，均低于 GitHub 单文件 2 GiB 限制。
+- Lite NSIS 候选为 397,278,746 bytes（约 379 MiB），不含模型；首次下载、校验、安装和缓存复用已通过本地 HTTP 模拟验证。
 
 仍需发布前确认：
 

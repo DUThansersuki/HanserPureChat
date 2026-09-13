@@ -9,7 +9,7 @@
 - Persona v2 production、Wiki/Style 检索、长期记忆和 PostTurn 幂等链路。
 - 首次运行配置 OpenAI-compatible Base URL、模型名和 API Key。
 - API Key 通过 Electron `safeStorage` 使用 Windows DPAPI 加密保存。
-- Python、Node、Next.js 和 Qwen Embedding/Reranker 均由安装目录携带。
+- Python、Node 和 Next.js 由安装目录携带；Qwen Embedding/Reranker 首次运行时从固定 GitHub Release 下载并校验。
 - 回答模型仍通过网络调用；本应用不是离线大语言模型。
 
 详细边界与设计决策见 [ARCHITECTURE.md](ARCHITECTURE.md)。
@@ -20,7 +20,7 @@
 desktop/     Electron 主进程、preload、设置页和错误页
 frontend/    精简后的 Next.js Chat UI 与 4 个业务 API
 backend/     纯 Chat FastAPI 入口及 Hanser 业务副本
-resources/   数据库种子、分词词典和发布时模型资源
+resources/   数据库种子、分词词典、模型清单和模型包构建输入
 scripts/     种子导出、前后端构建、验证与安装包构建
 release/     生成的中间运行目录（不提交 Git）
 dist/        NSIS 安装包与 unpacked 候选（不提交 Git）
@@ -65,28 +65,40 @@ pnpm smoke:app
 
 ## 构建安装包
 
-本机 Hugging Face cache 中需存在：
+制作 Release 前，本机 Hugging Face cache 中需存在：
 
 - `Qwen/Qwen3-Embedding-0.6B`
 - `Qwen/Qwen3-Reranker-0.6B`
 
-完整构建：
+先生成两个模型发布包及带真实大小、SHA-256 和下载地址的清单：
+
+```powershell
+.\scripts\prepare_models.ps1
+.\scripts\build_model_packages.ps1
+```
+
+再构建 Lite 安装包：
 
 ```powershell
 pnpm build:installer -- -SourceDatabase H:\HanserAgent\source_data\documents.db
 ```
 
-若种子、模型和后端依赖已准备好，可使用脚本的跳过参数缩短重复构建。输出位于 `dist/`：
+若种子和后端依赖已准备好，可使用脚本的跳过参数缩短重复构建。输出位于 `dist/`：
 
 ```text
-HanserPureChatSetup-0.1.0-x64.exe
+HanserPureChatLiteSetup-0.1.0-x64.exe
+model-packages/Qwen3-Embedding-0.6B.zip
+model-packages/Qwen3-Reranker-0.6B.zip
+model-packages/model-manifest.json
 win-unpacked/Hanser Pure Chat.exe
 latest-build-manifest.json
 ```
 
 `pnpm verify:package` 检查成品必需资源和纯 Chat 路由边界，并在发布阶段生成安装包大小、SHA-256、Git 提交与运行时摘要。
 
-安装采用 per-user NSIS，不要求管理员权限。模型资源约 2.25 GiB，后端运行时约 0.57 GiB，因此安装包和安装后目录都较大；候选发布必须记录实测体积与启动时间。
+安装采用 per-user NSIS，不要求管理员权限。Lite 安装包不携带模型；首次运行下载约 2.25 GiB 到 `%LOCALAPPDATA%\HanserPureChat\models`，支持断点续传、SHA-256 校验和后续离线复用。Release 必须同时上传 Lite 安装包、两个模型 ZIP 及构建清单，且 tag 必须与模型清单中的 URL 一致。
+
+两个模型的官方模型页均标注 Apache-2.0：`Qwen/Qwen3-Embedding-0.6B` 与 `Qwen/Qwen3-Reranker-0.6B`。对外发布时需在 Release 说明中保留模型名称、官方来源和许可证标识。
 
 ## 运行目录与日志
 
@@ -96,12 +108,14 @@ latest-build-manifest.json
 ├─ config\settings.json
 ├─ config\secrets.bin
 ├─ cache\
+├─ downloads\models\          # 下载中的 .part 文件，失败后用于续传
+├─ models\hub\                # 校验并安装后的本地检索模型
 ├─ logs\backend.log
 ├─ logs\frontend.log
 └─ runtime\config.desktop.yml
 ```
 
-桌面菜单“应用 → 模型设置…”可更新 endpoint、模型和密钥；“打开日志目录”只在启动失败页提供。日志不写 API Key 或内部令牌。
+桌面设置可更新 endpoint、模型和密钥；“打开日志目录”只在启动失败页提供。日志不写 API Key 或内部令牌。
 
 ## Git 检查点
 

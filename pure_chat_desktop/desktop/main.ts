@@ -9,6 +9,7 @@ import {
 } from "electron";
 import path from "node:path";
 import { SidecarManager } from "./process-manager";
+import { ensureModels, type ModelProgress } from "./model-manager";
 import {
   configureUserDataRoot,
   prepareWritablePaths,
@@ -99,6 +100,10 @@ async function showStatus(message: string, canRetry: boolean) {
   });
 }
 
+function showModelProgress(progress: ModelProgress) {
+  mainWindow?.webContents.send("models:progress", progress);
+}
+
 async function promptForSettings(): Promise<ModelSettings | null> {
   if (setupWindow && !setupWindow.isDestroyed()) {
     setupWindow.focus();
@@ -144,6 +149,9 @@ async function bootRuntime() {
       settings = configured;
       apiKey = settingsStore.readApiKey();
     }
+    await showStatus("正在准备本地检索模型，首次运行需要下载约 2.25 GiB…", false);
+    await ensureModels(desktopPaths, showModelProgress);
+    await showStatus("正在启动本地聊天服务，首次加载检索模型可能需要一些时间……", false);
     const services = await sidecars.start(settings, apiKey);
     activeRendererOrigin = new URL(services.frontendUrl).origin;
     await ensureMainWindow().loadURL(services.frontendUrl);

@@ -9,7 +9,7 @@ if (-not $UnpackedRoot) {
     $UnpackedRoot = Join-Path $desktopRoot "dist\win-unpacked"
 }
 if (-not $Installer) {
-    $Installer = Join-Path $desktopRoot "dist\HanserPureChatSetup-0.1.0-x64.exe"
+    $Installer = Join-Path $desktopRoot "dist\HanserPureChatLiteSetup-0.1.0-x64.exe"
 }
 $UnpackedRoot = [IO.Path]::GetFullPath($UnpackedRoot)
 $Installer = [IO.Path]::GetFullPath($Installer)
@@ -23,14 +23,17 @@ $requiredFiles = @(
     "resources\backend\hanser_backend\hanser_backend.exe",
     "resources\database\documents.seed.db",
     "resources\defaults\config.desktop.example.yml",
-    "resources\models\hub\models--Qwen--Qwen3-Embedding-0.6B",
-    "resources\models\hub\models--Qwen--Qwen3-Reranker-0.6B"
+    "resources\defaults\model-manifest.json"
 )
 foreach ($relativePath in $requiredFiles) {
     $candidate = Join-Path $UnpackedRoot $relativePath
     if (-not (Test-Path -LiteralPath $candidate)) {
         throw "Packaged artifact is missing: $relativePath"
     }
+}
+$packagedModels = Join-Path $UnpackedRoot "resources\models"
+if (Test-Path -LiteralPath $packagedModels) {
+    throw "Lite package unexpectedly contains bundled models: $packagedModels"
 }
 if (-not (Test-Path -LiteralPath $Installer -PathType Leaf)) {
     throw "Installer is missing: $Installer"
@@ -68,6 +71,7 @@ $manifest = [ordered]@{
     product = "Hanser Pure Chat"
     version = "0.1.0"
     architecture = "x64"
+    distribution = "lite"
     installer = [ordered]@{
         file = $installerInfo.Name
         bytes = $installerInfo.Length

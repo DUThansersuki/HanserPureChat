@@ -1,14 +1,20 @@
 param(
     [string]$SourceDatabase = "",
-    [switch]$SkipBackendInstall,
-    [switch]$SkipModelCopy
+    [switch]$SkipBackendInstall
 )
 
 $ErrorActionPreference = "Stop"
 $desktopRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 
-if (-not $SkipModelCopy) {
-    & (Join-Path $PSScriptRoot "prepare_models.ps1")
+$modelManifest = Join-Path $desktopRoot "resources\model-manifest.json"
+if (-not (Test-Path -LiteralPath $modelManifest -PathType Leaf)) {
+    throw "Model release manifest is missing. Run scripts\build_model_packages.ps1 first."
+}
+$modelRelease = Get-Content -LiteralPath $modelManifest -Raw | ConvertFrom-Json
+foreach ($model in $modelRelease.models) {
+    if ([int64]$model.bytes -le 0 -or $model.sha256 -match '^0{64}$') {
+        throw "Model release manifest has placeholder metadata. Run scripts\build_model_packages.ps1 first."
+    }
 }
 
 $seedDatabase = Join-Path $desktopRoot "resources\database\documents.seed.db"

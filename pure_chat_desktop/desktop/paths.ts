@@ -9,7 +9,10 @@ export type DesktopPaths = {
   backendExecutable: string;
   backendEntrypoint: string;
   configTemplate: string;
+  modelManifest: string;
   modelRoot: string;
+  userModelRoot: string;
+  modelDownloadRoot: string;
   seedDatabase: string;
   userdict: string;
   userRoot: string;
@@ -46,6 +49,8 @@ export function resolveDesktopPaths(): DesktopPaths {
   const dataRoot = path.join(userRoot, "data");
   const configRoot = path.join(userRoot, "config");
   const runtimeRoot = path.join(userRoot, "runtime");
+  const bundledModelRoot = path.join(resourcesRoot, "models");
+  const userModelRoot = path.join(userRoot, "models");
   return {
     projectRoot,
     resourcesRoot,
@@ -66,7 +71,14 @@ export function resolveDesktopPaths(): DesktopPaths {
     configTemplate: app.isPackaged
       ? path.join(resourcesRoot, "defaults", "config.desktop.example.yml")
       : path.join(projectRoot, "backend", "config.desktop.example.yml"),
-    modelRoot: path.join(resourcesRoot, "models"),
+    modelManifest: process.env.HANSER_MODEL_MANIFEST
+      ? path.resolve(process.env.HANSER_MODEL_MANIFEST)
+      : path.join(resourcesRoot, "defaults", "model-manifest.json"),
+    modelRoot: existsSync(path.join(bundledModelRoot, "hub"))
+      ? bundledModelRoot
+      : userModelRoot,
+    userModelRoot,
+    modelDownloadRoot: path.join(userRoot, "downloads", "models"),
     seedDatabase: path.join(resourcesRoot, "database", "documents.seed.db"),
     userdict: path.join(resourcesRoot, "userdict.txt"),
     userRoot,
@@ -88,6 +100,8 @@ export function prepareWritablePaths(paths: DesktopPaths) {
     paths.dataRoot,
     paths.configRoot,
     paths.cacheRoot,
+    paths.userModelRoot,
+    paths.modelDownloadRoot,
     paths.logsRoot,
     paths.runtimeRoot,
   ]) {
