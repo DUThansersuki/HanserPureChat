@@ -11,6 +11,8 @@
     "build:frontend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_frontend.ps1",
     "build:backend": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_backend.ps1",
     "build:installer": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_installer.ps1",
+    "smoke:app": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/smoke_unpacked_app.ps1",
+    "verify:package": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_package.ps1",
     "start": "electron ."
   },
   "dependencies": {

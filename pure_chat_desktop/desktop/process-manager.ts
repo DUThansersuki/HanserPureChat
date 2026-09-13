@@ -1,6 +1,12 @@
 import type { ChildProcess } from "node:child_process";
 import { spawn } from "node:child_process";
-import { createWriteStream, existsSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  createWriteStream,
+  existsSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
 import { createServer } from "node:net";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
@@ -55,30 +61,34 @@ export class SidecarManager {
     const frontendPort = await freeLoopbackPort();
     const desktopToken = randomBytes(32).toString("base64url");
     this.writeRuntimeConfig(settings);
+    try {
+      const backend = this.spawnBackend(backendPort, desktopToken, apiKey);
+      this.track("backend", backend, generation);
+      await this.waitForHealth(
+        `http://127.0.0.1:${backendPort}/health`,
+        desktopToken,
+        backend,
+        180_000
+      );
 
-    const backend = this.spawnBackend(backendPort, desktopToken, apiKey);
-    this.track("backend", backend, generation);
-    await this.waitForHealth(
-      `http://127.0.0.1:${backendPort}/health`,
-      desktopToken,
-      backend,
-      180_000
-    );
+      const frontend = this.spawnFrontend(frontendPort, backendPort, desktopToken);
+      this.track("frontend", frontend, generation);
+      await this.waitForHealth(
+        `http://127.0.0.1:${frontendPort}/api/health`,
+        "",
+        frontend,
+        45_000
+      );
 
-    const frontend = this.spawnFrontend(frontendPort, backendPort, desktopToken);
-    this.track("frontend", frontend, generation);
-    await this.waitForHealth(
-      `http://127.0.0.1:${frontendPort}/api/health`,
-      "",
-      frontend,
-      45_000
-    );
-
-    return {
-      frontendUrl: `http://127.0.0.1:${frontendPort}`,
-      backendPort,
-      frontendPort,
-    };
+      return {
+        frontendUrl: `http://127.0.0.1:${frontendPort}`,
+        backendPort,
+        frontendPort,
+      };
+    } catch (error) {
+      await this.stop();
+      throw error;
+    }
   }
 
   async stop() {
@@ -174,10 +184,21 @@ export class SidecarManager {
         HANSER_DESKTOP_TOKEN: desktopToken,
         HANSER_USER_ID: "local-user",
         HOSTNAME: "127.0.0.1",
+        NODE_PATH: this.frontendModuleSearchPath(),
         NODE_ENV: "production",
         PORT: String(port),
       }
     );
+  }
+
+  private frontendModuleSearchPath() {
+    const moduleRoot = path.join(this.paths.frontendRoot, "vendor", "node_modules");
+    const pnpmRoot = path.join(moduleRoot, ".pnpm");
+    const packageModuleRoots = readdirSync(pnpmRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => path.join(pnpmRoot, entry.name, "node_modules"))
+      .filter((directory) => existsSync(directory));
+    return [moduleRoot, ...packageModuleRoots].join(path.delimiter);
   }
 
   private spawnLogged(

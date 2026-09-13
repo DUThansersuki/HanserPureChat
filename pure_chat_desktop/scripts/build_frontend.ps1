@@ -1,3 +1,7 @@
+param(
+    [switch]$SkipCompile
+)
+
 $ErrorActionPreference = "Stop"
 
 $desktopRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
@@ -8,14 +12,16 @@ if (-not $runtimeRoot.StartsWith($allowedPrefix, [StringComparison]::OrdinalIgno
     throw "Refusing to replace frontend output outside release/runtime: $runtimeRoot"
 }
 
-Push-Location $frontendRoot
-try {
-    & pnpm install --frozen-lockfile
-    if ($LASTEXITCODE -ne 0) { throw "pnpm install failed" }
-    & pnpm build
-    if ($LASTEXITCODE -ne 0) { throw "Next.js build failed" }
-} finally {
-    Pop-Location
+if (-not $SkipCompile) {
+    Push-Location $frontendRoot
+    try {
+        & pnpm install --frozen-lockfile
+        if ($LASTEXITCODE -ne 0) { throw "pnpm install failed" }
+        & pnpm build
+        if ($LASTEXITCODE -ne 0) { throw "Next.js build failed" }
+    } finally {
+        Pop-Location
+    }
 }
 
 $standaloneRoot = Join-Path $frontendRoot ".next\standalone"
@@ -24,10 +30,16 @@ if (-not (Test-Path -LiteralPath (Join-Path $standaloneRoot "server.js"))) {
     throw "Next standalone server.js was not generated"
 }
 if (Test-Path -LiteralPath $runtimeRoot) {
-    Remove-Item -LiteralPath $runtimeRoot -Recurse -Force
+    & node -e "require('node:fs').rmSync(process.argv[1], { recursive: true, force: true })" $runtimeRoot
+    if ($LASTEXITCODE -ne 0) { throw "Failed to replace frontend runtime directory" }
 }
 New-Item -ItemType Directory -Path $runtimeRoot -Force | Out-Null
-Get-ChildItem -LiteralPath $standaloneRoot -Force | Copy-Item -Destination $runtimeRoot -Recurse -Force
+$standaloneNodeModules = Join-Path $standaloneRoot "node_modules"
+$runtimeNodeModules = Join-Path $runtimeRoot "vendor\node_modules"
+& robocopy $standaloneRoot $runtimeRoot /E /XD $standaloneNodeModules /R:2 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+if ($LASTEXITCODE -ge 8) { throw "Failed to copy Next standalone files (robocopy code $LASTEXITCODE)" }
+& robocopy $standaloneNodeModules $runtimeNodeModules /E /R:2 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+if ($LASTEXITCODE -ge 8) { throw "Failed to copy Next standalone dependencies (robocopy code $LASTEXITCODE)" }
 $runtimeNextRoot = Join-Path $runtimeRoot ".next"
 New-Item -ItemType Directory -Path $runtimeNextRoot -Force | Out-Null
 Copy-Item -LiteralPath $staticRoot -Destination $runtimeNextRoot -Recurse -Force

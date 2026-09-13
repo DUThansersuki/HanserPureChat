@@ -1,9 +1,9 @@
 # Hanser Pure Chat Desktop 架构与实施方案
 
-文档状态：架构基线（待实施）  
+文档状态：架构基线与实施记录（P0–P4 已实施，P5 本机验收已通过）
 目标平台：Windows 10/11 x64  
 目标形态：可安装的独立桌面应用  
-当前阶段：只新增本文，不复制或修改现有运行代码，不构建、不调用模型  
+当前阶段：纯 Chat 副本、桌面壳与打包链已构建；最终安装候选与干净 Windows 验收进行中
 
 ## 1. 结论
 
@@ -651,14 +651,29 @@ Persona package、Style generation、数据库 seed/index generation、detector/
 
 在第 3 步之前不做安装器，在第 4 步之前不宣称已经完成真正裁剪，在第 8 步之前不宣称 EXE 可独立部署。
 
-## 19. 当前阶段输出
+## 19. 当前实施状态（2026-09-13）
 
-本阶段只完成架构设计：
+已完成：
 
-- 没有修改现有功能代码。
-- 没有复制或改写现有 SQLite。
-- 没有启动服务或调用任何模型。
-- 没有生成 EXE、候选包或 release manifest。
-- 性能、包体积和真实启动指标均为 `NOT_MEASURED`。
+- 在独立 worktree 和 `codex/pure-chat-desktop` 分支实施，完整版工作目录及其未提交内容未被清理或改写。
+- 后端只暴露纯 Chat 所需健康检查、会话、消息和流式聊天接口；聚焦测试通过。
+- 前端发布路由冻结为 `/`、`/chat/[id]`、`/api/chat`、`/api/health`、`/api/history`、`/api/messages`。
+- Electron 负责随机端口、进程生命周期、独立用户数据、DPAPI 密钥和设置界面。
+- PyInstaller onedir 后端、Next standalone 运行目录和 Qwen Embedding/Reranker 本地模型已进入候选包。
+- 数据库种子保留检索与已审核 Style，运行时表为空；首次启动复制到独立用户目录。
+- 打包后端健康检查达到 `chat_ready=true`；`win-unpacked` 启动验证通过，前后端 Ready 且退出后无残留进程。
+- 发布核验会拒绝缺少关键资源、出现复杂功能路由或携带不可搬迁 Next 依赖链接的候选，并在阶段边界生成 SHA-256 manifest。
 
-下一阶段从 P0“副本冻结”开始。
+本机实测：
+
+- 数据库种子：121,999,360 bytes。
+- PyInstaller 后端主程序：67,699,225 bytes；完整后端运行目录约 0.57 GiB。
+- 两套检索模型合计约 2.25 GiB。
+- NSIS 候选约 1.93 GiB，接近 2 GiB，增加发布资源前必须重新评估体积边界。
+
+仍需发布前确认：
+
+- 在没有源码、系统 Python/Node 的干净 Windows 10/11 x64 环境执行安装、启动、升级和卸载验收。
+- 使用用户提供的真实 provider 凭据完成一轮聊天、历史恢复、记忆写入和重启读取验收。
+- 确认 Qwen 模型及 Python/Node 依赖的再分发许可，补齐第三方许可证清单。
+- 正式对外分发前配置应用图标和代码签名证书；当前本机构建是未签名候选。

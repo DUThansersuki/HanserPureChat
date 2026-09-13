@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   reactCompiler: true,
+  turbopack: {
+    root: process.cwd(),
+  },
 };
 
 export default nextConfig;
