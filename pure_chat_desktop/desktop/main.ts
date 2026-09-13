@@ -175,39 +175,21 @@ function registerIpc() {
     }
   );
   ipcMain.handle("desktop:open-logs", () => shell.openPath(desktopPaths.logsRoot));
+  ipcMain.handle("desktop:open-settings", async () => {
+    const changed = await promptForSettings();
+    if (changed) {
+      await bootRuntime();
+    }
+  });
+  ipcMain.handle("desktop:reload", () => mainWindow?.webContents.reload());
+  ipcMain.handle("desktop:toggle-fullscreen", () => {
+    if (mainWindow) {
+      mainWindow.setFullScreen(!mainWindow.isFullScreen());
+    }
+  });
   ipcMain.handle("desktop:retry", () => bootRuntime());
   ipcMain.handle("desktop:quit", () => app.quit());
   ipcMain.handle("desktop:version", () => app.getVersion());
-}
-
-function installMenu() {
-  Menu.setApplicationMenu(
-    Menu.buildFromTemplate([
-      {
-        label: "应用",
-        submenu: [
-          {
-            label: "模型设置…",
-            click: async () => {
-              const changed = await promptForSettings();
-              if (changed) {
-                await bootRuntime();
-              }
-            },
-          },
-          { type: "separator" },
-          { role: "quit", label: "退出" },
-        ],
-      },
-      {
-        label: "查看",
-        submenu: [
-          { role: "reload", label: "重新加载" },
-          { role: "togglefullscreen", label: "切换全屏" },
-        ],
-      },
-    ])
-  );
 }
 
 if (hasLock) {
@@ -221,6 +203,7 @@ if (hasLock) {
   });
 
   void app.whenReady().then(async () => {
+    Menu.setApplicationMenu(null);
     if (!safeStorage.isEncryptionAvailable()) {
       throw new Error("Windows 安全存储不可用，无法启动应用。");
     }
@@ -231,7 +214,6 @@ if (hasLock) {
       void showStatus(message, true);
     });
     registerIpc();
-    installMenu();
     session.defaultSession.setPermissionRequestHandler((_, __, callback) => callback(false));
     await bootRuntime();
   });

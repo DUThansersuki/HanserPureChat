@@ -70,7 +70,12 @@ export function ChatHeader() {
       </span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button aria-label="聊天设置" size="icon-sm" variant="ghost">
+          <Button
+            aria-label="聊天设置"
+            className="text-white hover:bg-white/15 hover:text-white aria-expanded:bg-white/15 aria-expanded:text-white"
+            size="icon-sm"
+            variant="ghost"
+          >
             <SlidersHorizontalIcon className="size-4" />
           </Button>
         </DropdownMenuTrigger>

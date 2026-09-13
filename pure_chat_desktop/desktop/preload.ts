@@ -8,6 +8,9 @@ const desktopApi = {
       { ok: true } | { ok: false; message: string }
     >,
   openLogs: () => ipcRenderer.invoke("desktop:open-logs"),
+  openSettings: () => ipcRenderer.invoke("desktop:open-settings"),
+  reload: () => ipcRenderer.invoke("desktop:reload"),
+  toggleFullscreen: () => ipcRenderer.invoke("desktop:toggle-fullscreen"),
   retryStartup: () => ipcRenderer.invoke("desktop:retry"),
   quit: () => ipcRenderer.invoke("desktop:quit"),
   version: () => ipcRenderer.invoke("desktop:version") as Promise<string>,
