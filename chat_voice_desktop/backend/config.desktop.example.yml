@@ -1,0 +1,96 @@
+server:
+  host: 127.0.0.1
+  port: 18765
+
+performance:
+  structured_performance_enabled: true
+  speech_runtime_enabled: true
+  dynamic_live2d_enabled: false
+  offline_export_enabled: false
+  render_profile_revision: "hanser-chat-voice-neutral-v1"
+  voice_runtime_base_url: "http://127.0.0.1:18770"
+  internal_token: ""
+  request_timeout_seconds: 10
+
+data:
+  db_path: "../resources/database/documents.dev.db"
+  data_dir: "../resources/data"
+  userdict_path: "../resources/userdict.txt"
+
+models:
+  planner:
+    provider: "openai_compatible"
+    temperature: 0.1
+    top_p: 0.9
+    max_tokens: 384
+    context_window: 4096
+    input_token_budget: 3072
+    think: false
+
+  responder:
+    context_window: 32768
+
+retrieval:
+  mode: "bm25"
+  bm25_top_k: 40
+  dense_top_k: 40
+  fusion_k: 60
+  candidate_pool_size: 16
+  top_k: 6
+  chunk_target_chars: 800
+  chunk_max_chars: 1000
+  chunk_overlap_chars: 120
+
+style:
+  enabled: true
+  reviewed_only: true
+  output_dir: "data/persona"
+  top_k: 3
+  candidate_pool_size: 48
+  min_quality: 0.68
+
+persona:
+  active_package: "persona-v2-production"
+  candidate_package: "hanser-persona-v2-candidate"
+  candidate_style_generation: "persona-v2-style-profanity15-1c71903569618d5d"
+  detector_version: "persona_lexical_v4"
+  schema_version: 2
+
+memory:
+  recent_messages: 12
+  summary_trigger_messages: 20
+  summary_interval_messages: 12
+  summary_max_chars: 800
+  retrieval_top_k: 5
+  candidate_pool_size: 20
+  min_importance: 0.6
+  min_confidence: 0.75
+
+context:
+  input_token_budget: 28672
+  output_reserve_tokens: 2048
+  estimator: "utf8_bytes_div_3"
+  message_overhead_tokens: 4
+
+llm:
+  base_url: "http://127.0.0.1:11434/v1"
+  api_key: ""
+  model: "qwen3.5:4b"
+
+  bunny:
+    model: "qwen3.5:4b"
+    max_tokens: 512
+    temperature: 0.1
+    top_p: 0.9
+
+  prometheus:
+    model: "qwen3.5:4b"
+    max_tokens: 1024
+    temperature: 0.1
+    top_p: 0.9
+
+  hanser:
+    model: "qwen3.5:4b"
+    max_tokens: 1024
+    temperature: 0.3
+    top_p: 0.9

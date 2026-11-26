@@ -1,0 +1,22 @@
+package_id: hanser-persona-v2-candidate-20260914-evidence-voice1
+schema_version: 2
+applicable_period: unspecified
+applicable_scenes: [default_text_chat]
+evidence_version: persona-evidence-v2-candidate-20260908
+examples_version: persona-style-v2-candidate-20260908
+default_profile: balanced_candidate
+compatible_compiler_versions: [persona_compiler_v2]
+build_status: candidate
+parent_package_id: hanser-persona-v2-candidate-20260914-dialogue-quality2
+style_generation: persona-v2-style-profanity15-1c71903569618d5d
+detector_version: persona_lexical_v4
+signal_schema_version: 2
+style_schema_version: 2
+files:
+  - {path: core.md, sha256: 1278306b03656c088a3dc886882178761ea4ed9bb7da51b08e424a38e104a785, role: stable_core}
+  - {path: voice.md, sha256: 8b67324ea9f4c7d70c4d2b71ae98b10773815c2c7c617cee6cdacbad6653112c, role: voice_rules}
+  - {path: boundaries.md, sha256: 5ce5466d186be2092d1fd3b6dc5608bf501679277d1708ee92473ec8d0262c37, role: hard_boundaries}
+  - {path: behavior.yaml, sha256: d43c9b11cbebdc65b2c9831c60f621a69a5c217c5f43b0f59dbcce1819f9fabb, role: soft_behavior_priors}
+  - {path: expression_policy.yaml, sha256: ad06352d24abeea72d55133dd65faea389070ad3908574e44b174e46b7cd28ed, role: local_candidate_settings}
+  - {path: product_overrides.yaml, sha256: 40a1201629dbba00a75f6109ad307c433f8c477d326128005dfcb3aedcc728cf, role: normative_overrides}
+  - {path: style_constraints.yaml, sha256: 007ca49d982f86fbce77ec8e2a55d1506a9f68e53bd728622e859e814e2bb2e4, role: display_contract}

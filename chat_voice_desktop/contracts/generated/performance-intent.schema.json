@@ -1,0 +1,48 @@
+{
+  "$defs": {
+    "Delivery": {
+      "enum": [
+        "neutral",
+        "gentle",
+        "concerned",
+        "serious",
+        "soft_surprised",
+        "excited",
+        "amused",
+        "teasing",
+        "deadpan",
+        "annoyed_soft",
+        "annoyed_playful",
+        "embarrassed",
+        "hesitant"
+      ],
+      "title": "Delivery",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The one optional delivery decision emitted with the response text.",
+  "properties": {
+    "delivery": {
+      "$ref": "#/$defs/Delivery"
+    },
+    "intensity": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Intensity",
+      "type": "number"
+    },
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "delivery",
+    "intensity"
+  ],
+  "title": "PerformanceIntent",
+  "type": "object"
+}

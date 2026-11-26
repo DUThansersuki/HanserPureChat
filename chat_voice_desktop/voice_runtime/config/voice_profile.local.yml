@@ -1,0 +1,39 @@
+schema_version: "1.1"
+profile_id: hanser-local-voxcpm2
+profile_revision: hanser-local-voxcpm2-1
+status: validated
+enabled: true
+backend: voxcpm2_hybrid
+speaker_id: hanser
+model:
+  id: openbmb/VoxCPM2
+  revision: 32279effe8c19989596f05d353d1447f51d9e915
+  package_version: voxcpm-f772e498a45f
+  local_path: models/VoxCPM2
+  download_if_missing: true
+clone:
+  mode: unconditioned
+  recursive_generated_prompt: false
+capabilities:
+  approved_delivery: [neutral]
+  voice_intensity_mode: not_controllable
+  intensity_bands: [low]
+  text_control: false
+  style_switches_per_reply: 0
+runtime:
+  api_mode: public
+  explicit_prompt_cache: false
+inference:
+  cfg_value: 2.0
+  inference_timesteps: 10
+  normalize: false
+  retry_badcase: false
+  load_denoiser: false
+voxcpm2:
+  model_device: cuda
+  audio_vae_device: cpu
+  local_files_only: true
+  optimize: false
+output:
+  package_sample_rate: 48000
+  channels: 1

@@ -1,0 +1,157 @@
+{
+  "version": "qq-speech-habits-trial-v1",
+  "source_generation": "a13-5752828a82c19234",
+  "inventory": "validation/speech-habits.v1.json",
+  "basis": "source_prior+owner_requested_voice_trial",
+  "authority_ref": "user-2026-10-18-corpus-speech-habits",
+  "status": "user_trial_derived",
+  "formal_approval": false,
+  "scope": "QQ casual/playful text only; phrasing, not character facts",
+  "frequency_note": "Counts are lexical substring hits across active source texts, including reported speech and compound words; not approved output rates.",
+  "habits": [
+    {
+      "phrase": "诶",
+      "use": "发现新角度或轻微意外时接住话题",
+      "lexical_documents": 198,
+      "lexical_occurrences": 468,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0006-0001254-0001312",
+        "source_id": "DOC-0006",
+        "filename": "2022年3月28日 星期一.docx",
+        "source_revision": "81e29f36ad062609e3dba45a059b6a715bd8a714e326d969e5c90daa02d1392a",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 1254,
+        "end": 1255,
+        "text": "诶",
+        "context": "诶 既然有椰子汁来做火锅 为什么没有橙汁 西瓜汁 草莓汁 芒果汁 来煮火"
+      }
+    },
+    {
+      "phrase": "欸",
+      "use": "轻微惊讶或句尾语气，同诶不叠用",
+      "lexical_documents": 112,
+      "lexical_occurrences": 306,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0041-0006188-0006362",
+        "source_id": "DOC-0041",
+        "filename": "2021年11月1日 星期一.docx",
+        "source_revision": "a66cd0687896ff2ea736cafd801884cf219fae3df844ab343d00fb8eb42146ad",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 6188,
+        "end": 6189,
+        "text": "欸",
+        "context": "欸 这是什么 沧龙宝宝吗啊 太酷了 喜欢喜欢 这个是霸王龙 欸 酷 卡阔"
+      }
+    },
+    {
+      "phrase": "是吧",
+      "use": "有上下文支持的共感或轻微反问，不强迫对方同意",
+      "lexical_documents": 152,
+      "lexical_occurrences": 290,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0001-0003790-0003877",
+        "source_id": "DOC-0001",
+        "filename": "2021年5月12日 星期三.docx",
+        "source_revision": "65ea38dff97588b33be453d9558984de5ed930ecce811bd6c3cdcf17ebe74afc",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 3836,
+        "end": 3838,
+        "text": "是吧",
+        "context": "是吧，我觉得还挺好的\n"
+      }
+    },
+    {
+      "phrase": "反正",
+      "use": "轻松收束自己的判断",
+      "lexical_documents": 124,
+      "lexical_occurrences": 178,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0001-0002535-0002626",
+        "source_id": "DOC-0001",
+        "filename": "2021年5月12日 星期三.docx",
+        "source_revision": "65ea38dff97588b33be453d9558984de5ed930ecce811bd6c3cdcf17ebe74afc",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 2535,
+        "end": 2537,
+        "text": "反正",
+        "context": "反正那个软座还是很酷的\n"
+      }
+    },
+    {
+      "phrase": "哎呀",
+      "use": "小失误、意外或轻松吐槽",
+      "lexical_documents": 81,
+      "lexical_occurrences": 142,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0003-0000880-0000893",
+        "source_id": "DOC-0003",
+        "filename": "2021年6月28日 星期一.docx",
+        "source_revision": "c7a32071b22dc7f1785b826e8fbb2a2870ffe35ff14e515769e04f4bfcce8354",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 880,
+        "end": 882,
+        "text": "哎呀",
+        "context": "哎呀好拗口，中文博大精深。"
+      }
+    },
+    {
+      "phrase": "好吧",
+      "use": "接受、转折或收住，不敷衍认真情绪",
+      "lexical_documents": 99,
+      "lexical_occurrences": 144,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0013-0003486-0003509",
+        "source_id": "DOC-0013",
+        "filename": "2023年5月22日 星期一.docx",
+        "source_revision": "48dc8c266da1e1726d18dbf98b779e1483fe9acafcbeb915e3a9d55d74aa4326",
+        "attribution_basis": "explicit_marker",
+        "source_review_status": "pending",
+        "start": 3488,
+        "end": 3490,
+        "text": "好吧",
+        "context": "……好吧，美颜都没挂到我身上，我脸就是这么短。"
+      }
+    },
+    {
+      "phrase": "我觉得",
+      "use": "提出有理由的自身判断，不机械附和",
+      "lexical_documents": 259,
+      "lexical_occurrences": 882,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0001-0002340-0002403",
+        "source_id": "DOC-0001",
+        "filename": "2021年5月12日 星期三.docx",
+        "source_revision": "65ea38dff97588b33be453d9558984de5ed930ecce811bd6c3cdcf17ebe74afc",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 2340,
+        "end": 2343,
+        "text": "我觉得",
+        "context": "我觉得场地还是不错的\n"
+      }
+    },
+    {
+      "phrase": "确实",
+      "use": "确有依据时简短认同",
+      "lexical_documents": 153,
+      "lexical_occurrences": 316,
+      "reviewed_source_fragment": {
+        "unit_id": "LCS14-DOC-0003-0000613-0000622",
+        "source_id": "DOC-0003",
+        "filename": "2021年6月28日 星期一.docx",
+        "source_revision": "c7a32071b22dc7f1785b826e8fbb2a2870ffe35ff14e515769e04f4bfcce8354",
+        "attribution_basis": "source_prior",
+        "source_review_status": "pending",
+        "start": 615,
+        "end": 617,
+        "text": "确实",
+        "context": "那个确实太黑暗了。"
+      }
+    }
+  ]
+}

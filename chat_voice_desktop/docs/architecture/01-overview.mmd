@@ -1,0 +1,48 @@
+flowchart TB
+  accTitle: Hanser Chat + Voice — 运行架构
+  accDescr: Electron 编排 Next、Chat Python 和按需启动的 Voice Python；Chat 通过外部模型生成并持久化回复，Voice 只消费已提交快照。
+
+  subgraph desktop["桌面应用 · chat_voice_desktop"]
+    direction TB
+    main["Electron Main<br/>窗口 · 设置 · 密钥加密 · 子进程生命周期"]
+    ui["Electron Renderer / React<br/>聊天 · 历史 · 记忆管理 · 回复来源 · WebAudio 播放"]
+    next["Next.js standalone · 独立 Node 进程<br/>同源 API 代理 · AI SDK 消息适配"]
+    subgraph chat["Chat Python sidecar · FastAPI · 轻量环境"]
+      agent["ChatAgentService<br/>Planner → Persona / 检索 → Context → Responder"]
+      bridge["RenderBridge<br/>reply_id + owner → 已提交快照 → 语音资格检查"]
+    end
+    subgraph voice["Voice Python sidecar · 用户开启语音后启动 · 独立 ML 环境"]
+      jobs["VoiceJobManager<br/>队列 · 分段 · 取消 · 事件 · 持久化"]
+      tts["本地 VoxCPM2<br/>CUDA 主模型 + CPU AudioVAE"]
+    end
+  end
+  llm["外部 OpenAI-compatible 模型<br/>用户配置 Base URL / Model / API Key"]
+  db[("应用独立 SQLite<br/>Wiki / Style · 会话 / Memory<br/>请求状态 / ReplySnapshot")]
+  disk[("独立 voice-data<br/>音频缓存 · 任务目录 / 事件 · 时间线")]
+  assets["审核语音素材 + manifest<br/>本版 assets/voices/hanser<br/>默认参考 clip_000464"]
+
+  main -. "创建窗口" .-> ui
+  main -. "启动 / 停止" .-> next
+  main -. "启动 / 停止" .-> agent
+  main -. "按需启动 / 停止" .-> jobs
+  ui <-->|"/api/chat · /api/voice · 历史 / 记忆"| next
+  next <-->|"loopback HTTP + Desktop Token"| agent
+  next <-->|"经 Chat API 的语音路由"| bridge
+  agent <-->|"Planner / Responder 经 ModelGateway · HTTPS"| llm
+  agent <-->|"检索 / 状态读取 · 回复事务提交"| db
+  db -->|"读取 semantic_text + allowed_performance"| bridge
+  bridge <-->|"loopback HTTP / SSE · internal token + owner"| jobs
+  jobs -->|"缓存未命中时合成"| tts
+  assets --> tts
+  jobs <--> disk
+
+  classDef shell fill:#eef2ff,stroke:#6366f1,color:#1e1b4b
+  classDef core fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+  classDef speech fill:#f3e8ff,stroke:#9333ea,color:#581c87
+  classDef data fill:#ecfdf5,stroke:#059669,color:#064e3b
+  classDef remote fill:#fff7ed,stroke:#ea580c,color:#7c2d12
+  class main,ui,next shell
+  class agent,bridge core
+  class jobs,tts speech
+  class db,disk,assets data
+  class llm remote

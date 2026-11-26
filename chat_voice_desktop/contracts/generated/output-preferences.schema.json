@@ -1,0 +1,28 @@
+{
+  "additionalProperties": false,
+  "description": "Consumer choices frozen at the chat request boundary.",
+  "properties": {
+    "dynamic_live2d": {
+      "default": false,
+      "title": "Dynamic Live2D",
+      "type": "boolean"
+    },
+    "offline_performance": {
+      "default": false,
+      "title": "Offline Performance",
+      "type": "boolean"
+    },
+    "speech": {
+      "default": false,
+      "title": "Speech",
+      "type": "boolean"
+    },
+    "text": {
+      "default": true,
+      "title": "Text",
+      "type": "boolean"
+    }
+  },
+  "title": "OutputPreferences",
+  "type": "object"
+}

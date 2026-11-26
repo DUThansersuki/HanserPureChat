@@ -1,0 +1,845 @@
+from __future__ import annotations
+
+import json
+from contextlib import contextmanager
+from datetime import datetime, timezone
+from pathlib import Path
+from uuid import uuid4
+
+from .. import db
+from ..models import (
+    ConversationSummary,
+    MemoryCandidate,
+    MemoryItem,
+    MemoryPatch,
+    RelationshipState,
+    SceneState,
+)
+
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+class MemoryStore:
+    """SQLite source of truth for long-term memory and conversational state."""
+
+    def __init__(self, db_path: str | Path):
+        self.db_path = Path(db_path)
+        self._transaction_connection = None
+
+    @contextmanager
+    def transaction(self):
+        """One synchronous semantic commit; indexing happens after this scope."""
+        with db.connect(self.db_path) as conn:
+            conn.execute("BEGIN IMMEDIATE")
+            self._transaction_connection = conn
+            try:
+                yield
+            finally:
+                self._transaction_connection = None
+
+    @contextmanager
+    def _connection(self):
+        if self._transaction_connection is not None:
+            yield self._transaction_connection
+        else:
+            with db.connect(self.db_path) as conn:
+                yield conn
+
+    @staticmethod
+    def _newer_source(conn, memory, source_message_id: str) -> bool:
+        source = conn.execute(
+            "SELECT rowid,created_at FROM messages WHERE id=?", (source_message_id,)
+        ).fetchone()
+        if memory["source_kind"] == "human_edit" or memory["status"] == "deleted":
+            return str(memory["created_at"]) >= str(source["created_at"])
+        return conn.execute(
+            "SELECT 1 FROM messages m JOIN json_each(?) s ON s.value=m.id "
+            "WHERE m.created_at > ? OR (m.created_at = ? AND m.rowid > ?) LIMIT 1",
+            (memory["source_message_ids_json"], source["created_at"],
+             source["created_at"], source["rowid"]),
+        ).fetchone() is not None
+
+    def has_newer_post_turn(self, user_message_id: str, *, conversation_only: bool = False) -> bool:
+        with self._connection() as conn:
+            return conn.execute(
+                "SELECT 1 FROM post_turn_commits p "
+                "JOIN messages m ON m.id=p.user_message_id "
+                "JOIN conversations c ON c.id=m.conversation_id "
+                "JOIN messages source ON source.id=? "
+                "JOIN conversations owner ON owner.id=source.conversation_id "
+                "WHERE c.user_id=owner.user_id "
+                "AND (?=0 OR m.conversation_id=source.conversation_id) "
+                "AND (m.created_at > source.created_at "
+                "OR (m.created_at=source.created_at AND m.rowid>source.rowid)) LIMIT 1",
+                (user_message_id, int(conversation_only)),
+            ).fetchone() is not None
+
+    def upsert_candidate(
+        self,
+        candidate: MemoryCandidate,
+    ) -> tuple[MemoryItem, bool]:
+        with self._connection() as conn:
+            self._validate_candidate_sources(conn, candidate)
+            existing = conn.execute(
+                """
+                SELECT * FROM memories
+                WHERE user_id = ? AND type = ? AND memory_key = ?
+                  AND memory_scope = ?
+                  AND (? = 'global' OR conversation_id = ?)
+                  AND status IN ('active', 'closed', 'deleted')
+                ORDER BY created_at DESC
+                LIMIT 1
+                """,
+                (
+                    candidate.user_id,
+                    candidate.type,
+                    candidate.memory_key,
+                    candidate.memory_scope,
+                    candidate.memory_scope,
+                    candidate.conversation_id,
+                ),
+            ).fetchone()
+            if existing and self._newer_source(conn, existing, candidate.source_message_ids[-1]):
+                return self._memory_from_row(existing), False
+            if existing and existing["status"] == "active" and str(existing["content"]) == candidate.content:
+                sources = list(dict.fromkeys([
+                    *json.loads(existing["source_message_ids_json"]), *candidate.source_message_ids
+                ]))
+                conn.execute("UPDATE memories SET source_message_ids_json=? WHERE id=?",
+                             (json.dumps(sources), existing["id"]))
+                return self._memory_from_row(conn.execute(
+                    "SELECT * FROM memories WHERE id=?", (existing["id"],)
+                ).fetchone()), False
+            if existing:
+                conn.execute(
+                    "UPDATE memories SET status = 'superseded' WHERE id = ?",
+                    (str(existing["id"]),),
+                )
+
+            memory_id = str(uuid4())
+            created_at = utc_now()
+            conn.execute(
+                """
+                INSERT INTO memories
+                    (id, user_id, conversation_id, type, memory_key, content,
+                     importance, confidence, status, created_at,
+                     last_accessed_at, source_message_ids_json, embedding_ref,
+                     assertion_type, polarity, validity, subject, predicate,
+                     object_value, revision_of_id, source_kind, memory_scope,
+                     address_kind, context_tags_json, address_priority)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', ?, NULL, ?, NULL,
+                        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    memory_id,
+                    candidate.user_id,
+                    candidate.conversation_id,
+                    candidate.type,
+                    candidate.memory_key,
+                    candidate.content,
+                    candidate.importance,
+                    candidate.confidence,
+                    created_at.isoformat(),
+                    json.dumps(candidate.source_message_ids),
+                    candidate.assertion_type,
+                    candidate.polarity,
+                    candidate.validity,
+                    candidate.subject,
+                    candidate.predicate,
+                    candidate.object_value,
+                    str(existing["id"]) if existing else None,
+                    candidate.source_kind,
+                    candidate.memory_scope,
+                    candidate.address_kind,
+                    json.dumps(candidate.context_tags, ensure_ascii=False),
+                    candidate.address_priority,
+                ),
+            )
+        return MemoryItem(
+            id=memory_id,
+            user_id=candidate.user_id,
+            conversation_id=candidate.conversation_id,
+            type=candidate.type,
+            memory_key=candidate.memory_key,
+            content=candidate.content,
+            importance=candidate.importance,
+            confidence=candidate.confidence,
+            source_message_ids=candidate.source_message_ids,
+            assertion_type=candidate.assertion_type,
+            polarity=candidate.polarity,
+            validity=candidate.validity,
+            subject=candidate.subject,
+            predicate=candidate.predicate,
+            object_value=candidate.object_value,
+            revision_of_id=str(existing["id"]) if existing else None,
+            source_kind=candidate.source_kind,
+            memory_scope=candidate.memory_scope,
+            address_kind=candidate.address_kind,
+            context_tags=candidate.context_tags,
+            address_priority=candidate.address_priority,
+            created_at=created_at,
+        ), True
+
+    def set_retrieval_ref(self, memory_id: str, ref: str) -> None:
+        with self._connection() as conn:
+            conn.execute(
+                "UPDATE memories SET embedding_ref = ? WHERE id = ?",
+                (ref, memory_id),
+            )
+
+    def needs_retrieval_ref(self, memory_id: str) -> bool:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT embedding_ref FROM memories WHERE id=?", (memory_id,)
+            ).fetchone()
+        return row is not None and row["embedding_ref"] is None
+
+    def memories_by_source_message(self, source_message_id: str) -> list[MemoryItem]:
+        with self._connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT DISTINCT m.* FROM memories m
+                JOIN json_each(m.source_message_ids_json) source
+                  ON source.value = ?
+                WHERE m.status='active'
+                """,
+                (source_message_id,),
+            ).fetchall()
+        return [self._memory_from_row(row) for row in rows]
+
+    def is_post_turn_committed(self, user_message_id: str) -> bool:
+        with self._connection() as conn:
+            return conn.execute(
+                "SELECT 1 FROM post_turn_commits WHERE user_message_id=?",
+                (user_message_id,),
+            ).fetchone() is not None
+
+    def mark_post_turn_committed(
+        self, *, user_message_id: str, conversation_id: str
+    ) -> None:
+        with self._connection() as conn:
+            conn.execute(
+                "INSERT OR IGNORE INTO post_turn_commits "
+                "(user_message_id,conversation_id,committed_at) "
+                "VALUES (?,?,?)",
+                (user_message_id, conversation_id, utc_now().isoformat()),
+            )
+
+    def filter_permission_events(self, *, user_id: str, events: list[object]) -> list[object]:
+        if not events:
+            return []
+        with self._connection() as conn:
+            rows = conn.execute("""SELECT memory_key,source_kind,status,created_at FROM memories
+                WHERE user_id=? AND memory_scope='global' AND memory_key LIKE 'preference:expression:%'
+                AND status IN ('active','deleted') ORDER BY created_at DESC""", (user_id,)).fetchall()
+        latest = {}
+        for row in rows:
+            latest.setdefault(row["memory_key"], row)
+        accepted = []
+        for item in events:
+            target = ''.join((item.target or "*").split()).casefold()
+            revision = latest.get(f"preference:expression:{item.feature}:{target}")
+            if item.scope == "user" and revision and (
+                revision["source_kind"] == "human_edit" or revision["status"] == "deleted"
+            ) and datetime.fromisoformat(revision["created_at"]) >= item.created_at:
+                continue
+            accepted.append(item)
+        return accepted
+
+    def save_permission_events(
+        self,
+        *,
+        user_id: str,
+        conversation_id: str,
+        events: list[object],
+    ) -> None:
+        durable = [
+            item for item in self.filter_permission_events(user_id=user_id, events=events)
+            if getattr(item, "scope", None) in {"current_topic", "conversation", "user"}
+        ]
+        if not durable:
+            return
+        with self._connection() as conn:
+            conn.executemany(
+                """
+                INSERT OR IGNORE INTO persona_permission_events
+                    (source_message_id,event_index,user_id,conversation_id,scope,
+                     event_json,created_at)
+                VALUES (?,?,?,?,?,?,?)
+                """,
+                [
+                    (
+                        item.source_message_id,
+                        index,
+                        user_id,
+                        conversation_id,
+                        item.scope,
+                        item.model_dump_json(),
+                        item.created_at.isoformat(),
+                    )
+                    for index, item in enumerate(durable)
+                ],
+            )
+
+    def list_permission_events(self, *, user_id: str, conversation_id: str):
+        from ..persona.schemas import ExplicitPreferenceEvent
+
+        with self._connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT event_json FROM persona_permission_events
+                WHERE user_id=? AND (scope='user' OR conversation_id=?)
+                ORDER BY created_at, source_message_id, event_index
+                """,
+                (user_id, conversation_id),
+            ).fetchall()
+        return [
+            ExplicitPreferenceEvent.model_validate_json(str(row["event_json"]))
+            for row in rows
+        ]
+
+    def list_memories(
+        self,
+        *,
+        user_id: str,
+        status: str = "active",
+        conversation_id: str | None = None,
+    ) -> list[MemoryItem]:
+        sql = "SELECT * FROM memories WHERE user_id = ? AND status = ?"
+        params: list[object] = [user_id, status]
+        if conversation_id is not None:
+            sql += " AND conversation_id = ?"
+            params.append(conversation_id)
+        sql += " ORDER BY created_at DESC"
+        with self._connection() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        return [self._memory_from_row(row) for row in rows]
+
+    def active_memories_by_ids(
+        self,
+        *,
+        user_id: str,
+        memory_ids: list[str],
+    ) -> list[MemoryItem]:
+        if not memory_ids:
+            return []
+        placeholders = ",".join("?" for _ in memory_ids)
+        with self._connection() as conn:
+            rows = conn.execute(
+                f"""
+                SELECT * FROM memories
+                WHERE user_id = ? AND status = 'active'
+                  AND validity IN ('asserted', 'verified')
+                  AND id IN ({placeholders})
+                """,
+                [user_id, *memory_ids],
+            ).fetchall()
+        by_id = {
+            str(row["id"]): self._memory_from_row(row)
+            for row in rows
+        }
+        return [by_id[value] for value in memory_ids if value in by_id]
+
+    def eligible_memory_ids(
+        self, *, user_id: str, conversation_id: str | None = None
+    ) -> list[str]:
+        scope_clause = ""
+        params: list[object] = [user_id]
+        if conversation_id is not None:
+            scope_clause = (
+                "AND (memory_scope='global' OR "
+                "(memory_scope='conversation' AND conversation_id=?))"
+            )
+            params.append(conversation_id)
+        with self._connection() as conn:
+            rows = conn.execute(
+                f"""
+                SELECT id FROM memories
+                WHERE user_id = ? AND status = 'active'
+                  AND validity IN ('asserted', 'verified')
+                  {scope_clause}
+                ORDER BY created_at DESC
+                """,
+                params,
+            ).fetchall()
+        return [str(row["id"]) for row in rows]
+
+    def has_active_memories(self, user_id: str) -> bool:
+        with self._connection() as conn:
+            return bool(
+                conn.execute(
+                    """
+                    SELECT 1 FROM memories
+                    WHERE user_id = ? AND status = 'active'
+                    LIMIT 1
+                    """,
+                    (user_id,),
+                ).fetchone()
+            )
+
+    def list_address_options(
+        self,
+        *,
+        user_id: str,
+        limit: int = 6,
+    ) -> list[MemoryItem]:
+        with self._connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT * FROM memories
+                WHERE user_id = ? AND status = 'active'
+                  AND validity IN ('asserted', 'verified')
+                  AND predicate = 'preferred_address'
+                  AND address_kind IS NOT NULL
+                  AND memory_scope = 'global'
+                ORDER BY address_priority DESC, created_at DESC
+                LIMIT ?
+                """,
+                (user_id, limit),
+            ).fetchall()
+        return [self._memory_from_row(row) for row in rows]
+
+    def get_answer_length_preference(self, *, user_id: str, conversation_id: str) -> MemoryItem | None:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM memories WHERE user_id=? AND status='active' "
+                "AND predicate='answer_length' AND validity IN ('asserted','verified') "
+                "AND (memory_scope='global' OR (memory_scope='conversation' AND conversation_id=?)) "
+                "ORDER BY (memory_scope='conversation') DESC, created_at DESC LIMIT 1",
+                (user_id, conversation_id),
+            ).fetchone()
+        return self._memory_from_row(row) if row else None
+
+    def update_memory(
+        self,
+        memory_id: str,
+        patch: MemoryPatch,
+    ) -> MemoryItem:
+        updates = patch.model_dump(exclude_none=True)
+        with self._connection() as conn:
+            original = conn.execute(
+                "SELECT * FROM memories WHERE id = ?",
+                (memory_id,),
+            ).fetchone()
+            if original is None:
+                raise KeyError(memory_id)
+            conn.execute(
+                "UPDATE memories SET status = 'superseded' WHERE id = ?",
+                (memory_id,),
+            )
+            new_id = str(uuid4())
+            created_at = utc_now().isoformat()
+            content_changed = "content" in updates
+            conn.execute(
+                """
+                INSERT INTO memories
+                    (id, user_id, conversation_id, type, memory_key, content,
+                     importance, confidence, status, created_at,
+                     last_accessed_at, source_message_ids_json, embedding_ref,
+                     assertion_type, polarity, validity, subject, predicate,
+                     object_value, revision_of_id, source_kind, memory_scope,
+                     address_kind, context_tags_json, address_priority)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', ?, NULL, '[]', NULL,
+                        'correction', ?, 'asserted', ?, ?, ?, ?, 'human_edit',
+                        ?, ?, ?, ?)
+                """,
+                (
+                    new_id,
+                    original["user_id"],
+                    original["conversation_id"],
+                    original["type"],
+                    original["memory_key"],
+                    updates.get("content", original["content"]),
+                    updates.get("importance", original["importance"]),
+                    updates.get("confidence", original["confidence"]),
+                    created_at,
+                    "neutral" if content_changed else original["polarity"],
+                    None if content_changed else original["subject"],
+                    None if content_changed else original["predicate"],
+                    None if content_changed else original["object_value"],
+                    memory_id,
+                    original["memory_scope"],
+                    None if content_changed else original["address_kind"],
+                    "[]" if content_changed else original["context_tags_json"],
+                    0 if content_changed else original["address_priority"],
+                ),
+            )
+            row = conn.execute(
+                "SELECT * FROM memories WHERE id = ?",
+                (new_id,),
+            ).fetchone()
+        return self._memory_from_row(row)
+
+    def close_unresolved(
+        self,
+        *,
+        user_id: str,
+        conversation_id: str,
+        memory_key: str,
+        source_message_id: str,
+        content: str,
+    ) -> list[MemoryItem]:
+        with self._connection() as conn:
+            source = conn.execute(
+                "SELECT role, conversation_id FROM messages WHERE id = ?",
+                (source_message_id,),
+            ).fetchone()
+            if source is None or str(source["role"]) != "user":
+                raise ValueError("memory source must reference an existing user message")
+            if str(source["conversation_id"]) != conversation_id:
+                raise ValueError("memory source belongs to another conversation")
+            rows = conn.execute(
+                """
+                SELECT * FROM memories
+                WHERE user_id = ? AND type = 'unresolved_thread'
+                  AND memory_key = ? AND status = 'active'
+                """,
+                (user_id, memory_key),
+            ).fetchall()
+            closed: list[MemoryItem] = []
+            for original in rows:
+                if self._newer_source(conn, original, source_message_id):
+                    continue
+                conn.execute(
+                    "UPDATE memories SET status = 'superseded' WHERE id = ?",
+                    (original["id"],),
+                )
+                closed_id = str(uuid4())
+                conn.execute(
+                    """
+                    INSERT INTO memories
+                        (id, user_id, conversation_id, type, memory_key, content,
+                         importance, confidence, status, created_at,
+                         last_accessed_at, source_message_ids_json, embedding_ref,
+                         assertion_type, polarity, validity, subject, predicate,
+                         object_value, revision_of_id, source_kind)
+                    VALUES (?, ?, ?, 'unresolved_thread', ?, ?, ?, ?, 'closed', ?,
+                            NULL, ?, NULL, 'correction', 'negative', 'asserted',
+                            'user', 'has_upcoming_event', ?, ?, 'user_message')
+                    """,
+                    (
+                        closed_id, user_id, conversation_id, memory_key, content,
+                        original["importance"], original["confidence"],
+                        utc_now().isoformat(), json.dumps([source_message_id]),
+                        original["object_value"], original["id"],
+                    ),
+                )
+                closed.append(self._memory_from_row(conn.execute(
+                    "SELECT * FROM memories WHERE id = ?", (closed_id,)
+                ).fetchone()))
+        return closed
+
+    def retire_address(
+        self,
+        *,
+        user_id: str,
+        conversation_id: str,
+        object_value: str,
+        source_message_id: str,
+        content: str,
+    ) -> list[MemoryItem]:
+        with self._connection() as conn:
+            source = conn.execute(
+                "SELECT role, conversation_id FROM messages WHERE id = ?",
+                (source_message_id,),
+            ).fetchone()
+            if source is None or str(source["role"]) != "user":
+                raise ValueError("memory source must reference an existing user message")
+            if str(source["conversation_id"]) != conversation_id:
+                raise ValueError("memory source belongs to another conversation")
+            rows = conn.execute(
+                """
+                SELECT * FROM memories
+                WHERE user_id = ? AND predicate = 'preferred_address'
+                  AND object_value = ? AND status = 'active'
+                """,
+                (user_id, object_value),
+            ).fetchall()
+            retired: list[MemoryItem] = []
+            for original in rows:
+                if self._newer_source(conn, original, source_message_id):
+                    continue
+                conn.execute(
+                    "UPDATE memories SET status = 'superseded' WHERE id = ?",
+                    (original["id"],),
+                )
+                retired_id = str(uuid4())
+                conn.execute(
+                    """
+                    INSERT INTO memories
+                        (id, user_id, conversation_id, type, memory_key, content,
+                         importance, confidence, status, created_at,
+                         last_accessed_at, source_message_ids_json, embedding_ref,
+                         assertion_type, polarity, validity, subject, predicate,
+                         object_value, revision_of_id, source_kind, memory_scope,
+                         address_kind, context_tags_json, address_priority)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'closed', ?, NULL, ?, NULL,
+                            'correction', 'negative', 'asserted', 'user',
+                            'preferred_address', ?, ?, 'user_message', ?, ?, ?, ?)
+                    """,
+                    (
+                        retired_id, user_id, conversation_id, original["type"],
+                        original["memory_key"], content, original["importance"],
+                        original["confidence"], utc_now().isoformat(),
+                        json.dumps([source_message_id]), object_value, original["id"],
+                        original["memory_scope"], original["address_kind"],
+                        original["context_tags_json"], original["address_priority"],
+                    ),
+                )
+                retired.append(self._memory_from_row(conn.execute(
+                    "SELECT * FROM memories WHERE id = ?", (retired_id,)
+                ).fetchone()))
+        return retired
+
+    def delete_memory(self, memory_id: str) -> None:
+        with self._connection() as conn:
+            cursor = conn.execute(
+                """
+                WITH RECURSIVE lineage(id) AS (
+                    SELECT id FROM memories WHERE id = ?
+                    UNION ALL
+                    SELECT memories.id FROM memories
+                    JOIN lineage ON memories.revision_of_id = lineage.id
+                )
+                UPDATE memories SET status = 'deleted', created_at = ?
+                WHERE id IN (SELECT id FROM lineage) AND status = 'active'
+                """,
+                (memory_id, utc_now().isoformat()),
+            )
+            exists = conn.execute(
+                "SELECT 1 FROM memories WHERE id = ?", (memory_id,)
+            ).fetchone()
+        if exists is None:
+            raise KeyError(memory_id)
+
+    def mark_accessed(self, memory_ids: list[str]) -> None:
+        if not memory_ids:
+            return
+        placeholders = ",".join("?" for _ in memory_ids)
+        with self._connection() as conn:
+            conn.execute(
+                f"""
+                UPDATE memories SET last_accessed_at = ?
+                WHERE id IN ({placeholders})
+                """,
+                [utc_now().isoformat(), *memory_ids],
+            )
+
+    def get_summary(self, conversation_id: str) -> ConversationSummary | None:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM conversation_summaries WHERE conversation_id = ?",
+                (conversation_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        return ConversationSummary(
+            conversation_id=str(row["conversation_id"]),
+            content=str(row["content"]),
+            through_message_index=int(row["through_message_index"]),
+            updated_at=datetime.fromisoformat(str(row["updated_at"])),
+        )
+
+    def save_summary(self, summary: ConversationSummary) -> None:
+        with self._connection() as conn:
+            conn.execute(
+                """
+                INSERT INTO conversation_summaries
+                    (conversation_id, content, through_message_index, updated_at)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(conversation_id) DO UPDATE SET
+                    content = excluded.content,
+                    through_message_index = excluded.through_message_index,
+                    updated_at = excluded.updated_at
+                """,
+                (
+                    summary.conversation_id,
+                    summary.content,
+                    summary.through_message_index,
+                    summary.updated_at.isoformat(),
+                ),
+            )
+
+    def memory_annotations_by_source(self, conversation_id: str) -> dict[str, set[str]]:
+        annotations: dict[str, set[str]] = {}
+        with self._connection() as conn:
+            rows = conn.execute(
+                """
+                SELECT status, source_message_ids_json FROM memories
+                WHERE conversation_id = ?
+                """,
+                (conversation_id,),
+            ).fetchall()
+        labels = {
+            "active": "current_assertion",
+            "superseded": "superseded_assertion",
+            "deleted": "deleted_from_long_term_memory",
+            "closed": "closed_event",
+        }
+        for row in rows:
+            label = labels.get(str(row["status"]), str(row["status"]))
+            for source_id in json.loads(str(row["source_message_ids_json"])):
+                annotations.setdefault(str(source_id), set()).add(label)
+        return annotations
+
+    def get_relationship(self, user_id: str) -> RelationshipState:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM relationship_states WHERE user_id = ?",
+                (user_id,),
+            ).fetchone()
+        return (
+            RelationshipState()
+            if row is None
+            else RelationshipState(
+                familiarity=float(row["familiarity"]),
+                warmth=float(row["warmth"]),
+                trust=float(row["trust"]),
+                teasing_permission=float(row["teasing_permission"]),
+                shared_context_density=float(row["shared_context_density"]),
+                recent_tension=float(row["recent_tension"]),
+            )
+        )
+
+    def save_relationship(
+        self,
+        user_id: str,
+        state: RelationshipState,
+    ) -> None:
+        values = state.model_dump()
+        with self._connection() as conn:
+            conn.execute(
+                """
+                INSERT INTO relationship_states
+                    (user_id, familiarity, warmth, trust, teasing_permission,
+                     shared_context_density, recent_tension, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(user_id) DO UPDATE SET
+                    familiarity = excluded.familiarity,
+                    warmth = excluded.warmth,
+                    trust = excluded.trust,
+                    teasing_permission = excluded.teasing_permission,
+                    shared_context_density = excluded.shared_context_density,
+                    recent_tension = excluded.recent_tension,
+                    updated_at = excluded.updated_at
+                """,
+                (
+                    user_id,
+                    values["familiarity"],
+                    values["warmth"],
+                    values["trust"],
+                    values["teasing_permission"],
+                    values["shared_context_density"],
+                    values["recent_tension"],
+                    utc_now().isoformat(),
+                ),
+            )
+
+    def get_scene(self, conversation_id: str) -> SceneState:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM scene_states WHERE conversation_id = ?",
+                (conversation_id,),
+            ).fetchone()
+        return (
+            SceneState()
+            if row is None
+            else SceneState(
+                current_topic=row["current_topic"],
+                mood=str(row["mood"]),
+                energy=float(row["energy"]),
+                response_tempo=str(row["response_tempo"]),
+                emotional_context=row["emotional_context"],
+                unresolved_threads=json.loads(str(row["unresolved_json"])),
+            )
+        )
+
+    def save_scene(self, conversation_id: str, state: SceneState) -> None:
+        with self._connection() as conn:
+            conn.execute(
+                """
+                INSERT INTO scene_states
+                    (conversation_id, current_topic, mood, energy,
+                     response_tempo, emotional_context, unresolved_json,
+                     updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(conversation_id) DO UPDATE SET
+                    current_topic = excluded.current_topic,
+                    mood = excluded.mood,
+                    energy = excluded.energy,
+                    response_tempo = excluded.response_tempo,
+                    emotional_context = excluded.emotional_context,
+                    unresolved_json = excluded.unresolved_json,
+                    updated_at = excluded.updated_at
+                """,
+                (
+                    conversation_id,
+                    state.current_topic,
+                    state.mood,
+                    state.energy,
+                    state.response_tempo,
+                    state.emotional_context,
+                    json.dumps(state.unresolved_threads, ensure_ascii=False),
+                    utc_now().isoformat(),
+                ),
+            )
+
+    @staticmethod
+    def _memory_from_row(row) -> MemoryItem:
+        return MemoryItem(
+            id=str(row["id"]),
+            user_id=str(row["user_id"]),
+            conversation_id=(
+                str(row["conversation_id"])
+                if row["conversation_id"] is not None
+                else None
+            ),
+            type=str(row["type"]),
+            memory_key=str(row["memory_key"]),
+            content=str(row["content"]),
+            importance=float(row["importance"]),
+            confidence=float(row["confidence"]),
+            status=str(row["status"]),
+            created_at=datetime.fromisoformat(str(row["created_at"])),
+            last_accessed_at=(
+                datetime.fromisoformat(str(row["last_accessed_at"]))
+                if row["last_accessed_at"] is not None
+                else None
+            ),
+            source_message_ids=json.loads(str(row["source_message_ids_json"])),
+            assertion_type=str(row["assertion_type"]),
+            polarity=str(row["polarity"]),
+            validity=str(row["validity"]),
+            subject=row["subject"],
+            predicate=row["predicate"],
+            object_value=row["object_value"],
+            revision_of_id=row["revision_of_id"],
+            source_kind=str(row["source_kind"]),
+            memory_scope=str(row["memory_scope"]),
+            address_kind=(
+                str(row["address_kind"])
+                if row["address_kind"] is not None
+                else None
+            ),
+            context_tags=json.loads(str(row["context_tags_json"])),
+            address_priority=float(row["address_priority"]),
+        )
+
+    @staticmethod
+    def _validate_candidate_sources(conn, candidate: MemoryCandidate) -> None:
+        placeholders = ",".join("?" for _ in candidate.source_message_ids)
+        rows = conn.execute(
+            f"SELECT id, role, conversation_id FROM messages WHERE id IN ({placeholders})",
+            candidate.source_message_ids,
+        ).fetchall()
+        by_id = {str(row["id"]): row for row in rows}
+        for source_id in candidate.source_message_ids:
+            row = by_id.get(source_id)
+            if row is None:
+                raise ValueError(f"memory source message does not exist: {source_id}")
+            if str(row["role"]) != "user":
+                raise ValueError(f"memory source is not a user message: {source_id}")
+            if candidate.conversation_id and str(row["conversation_id"]) != candidate.conversation_id:
+                raise ValueError(f"memory source belongs to another conversation: {source_id}")

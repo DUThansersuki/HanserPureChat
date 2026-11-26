@@ -1,0 +1,65 @@
+gateway:
+  host: 127.0.0.1
+  port: 8781
+  # prepare 自动生成独立凭据；稍后把此令牌填入 NapCat 反向 WS。
+  onebot_access_token: ""
+  admin_token: ""
+  # 留空表示接受已鉴权连接的 QQ 账号；可配置为 ['123456789']。
+  bot_ids: []
+  private_enabled: true
+  # 留空允许该账号的私聊；有值则仅回应指定用户。
+  private_users: []
+  # 留空时不回应任何群；配置群号后仅回应 @ 自己/引用自己。
+  groups: []
+  debounce_seconds: 3.0
+  max_wait_seconds: 6.0
+  max_batch_messages: 12
+  max_message_chars: 8000
+  backend_timeout_seconds: 420
+  backend_attempts: 3
+  speech_habits_enabled: false # 本机全量 user_trial 可开启；正式模式不使用候选口癖
+  expression_polish_enabled: false # 表达润色与粗口软提示试用；每条适用回复至多增加一次主模型调用
+  voice_reply:
+    enabled: false # 完成 voice-prepare 后开启；本机当前开启
+    probability: 0.2 # 每轮抽一次；命中后语音替代文字，重试不重抽
+    timeout_seconds: 180 # 合成失败/超时，在发送前退回原文字
+    min_pause_ms: 450 # 分段合成后拼成一条语音，片段间至少保留这么长的静音
+  proactive:
+    enabled: false
+    idle_seconds: 14400
+    jitter_seconds: 1800
+    daily_limit: 1
+    start_hour: 9
+    end_hour: 22.5
+    poll_seconds: 60
+    expiry_seconds: 600
+    context_hours: 72
+  segmented_reply:
+    strict_short_bubbles: true
+    enabled: true
+    split_short_clauses: true
+    min_reply_chars: 40
+    min_segment_chars: 12
+    target_chars: 36
+    max_chars: 60
+    max_segments: 4
+    min_interval_seconds: 0.6
+    max_interval_seconds: 1.5
+    seconds_per_char: 0.025
+backend:
+  host: 127.0.0.1
+  port: 8782
+  token: ""
+  package_path: .runtime/backend
+  config_path: hanser.yml
+storage_path: .runtime/gateway.sqlite3
+responder_gateway:
+  enabled: false # 可选的本机 New API 路由
+  endpoint: http://127.0.0.1:3000/v1
+  model: auto-code
+  api_key_file: C:/AI-Gateway/new-api/local-agent.token
+voice_runtime:
+  port: 18771
+  token: "" # voice-prepare 自动生成；不放进命令行
+  python_path: ../chat_voice_desktop/voice_runtime/.venv/Scripts/python.exe
+  package_path: .runtime/voice

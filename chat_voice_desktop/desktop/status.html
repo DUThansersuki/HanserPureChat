@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hanser Chat Voice</title>
+    <style>
+      :root { color-scheme: light; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+      * { box-sizing: border-box; }
+      body { display: grid; min-height: 100vh; margin: 0; place-items: center; color: #2f2b27; background: #faf8f5; }
+      main { width: min(620px, calc(100vw - 64px)); text-align: center; }
+      .mark { margin-bottom: 16px; color: #f59a3d; font-size: 30px; }
+      h1 { margin: 0 0 12px; font-size: 26px; }
+      p { margin: 0 auto 28px; max-width: 540px; color: #70675f; font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
+      .actions { display: flex; justify-content: center; gap: 10px; }
+      button { border: 1px solid #c7b9a9; border-radius: 8px; padding: 9px 15px; color: #2f2b27; background: #fff; font: inherit; cursor: pointer; }
+      button:hover { background: #f2eee8; }
+      button:focus-visible { outline: 2px solid #a94d1d; outline-offset: 2px; }
+      button.primary { border-color: #b65320; color: white; background: #b65320; }
+      button.primary:hover { background: #a94d1d; }
+      button[hidden] { display: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark">✦</div>
+      <h1 id="title">小憨同学</h1>
+      <p id="message">正在启动……</p>
+      <div class="actions">
+        <button id="logs" type="button">打开日志目录</button>
+        <button id="retry" class="primary" type="button">重试</button>
+        <button id="quit" type="button">退出</button>
+      </div>
+    </main>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const canRetry = params.get("canRetry") === "1";
+      document.getElementById("message").textContent = params.get("message") || "正在启动……";
+      document.getElementById("retry").hidden = !canRetry;
+      document.getElementById("logs").hidden = !canRetry;
+      document.getElementById("quit").hidden = !canRetry;
+      document.getElementById("retry").addEventListener("click", () => window.hanserDesktop.retryStartup());
+      document.getElementById("logs").addEventListener("click", () => window.hanserDesktop.openLogs());
+      document.getElementById("quit").addEventListener("click", () => window.hanserDesktop.quit());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+-r chat_voice_desktop/backend/requirements-runtime.txt
+-r qq_gateway/requirements.txt

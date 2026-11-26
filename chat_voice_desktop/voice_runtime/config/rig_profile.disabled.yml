@@ -1,0 +1,10 @@
+schema_version: "1.1"
+profile_id: hanser-chat-voice-no-rig
+revision: hanser-chat-voice-no-rig-1
+status: validated
+enabled: false
+model_path: null
+attack_ms: 160
+hold_ms: 900
+release_ms: 240
+presets: {}

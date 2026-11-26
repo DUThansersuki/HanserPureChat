@@ -1,0 +1,90 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "attack_ms": {
+      "minimum": 0,
+      "title": "Attack Ms",
+      "type": "integer"
+    },
+    "audio_present": {
+      "const": false,
+      "default": false,
+      "title": "Audio Present",
+      "type": "boolean"
+    },
+    "clock": {
+      "const": "presentation",
+      "default": "presentation",
+      "title": "Clock",
+      "type": "string"
+    },
+    "degraded_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Degraded Reasons",
+      "type": "array"
+    },
+    "epoch": {
+      "minimum": 0,
+      "title": "Epoch",
+      "type": "integer"
+    },
+    "hold_ms": {
+      "minimum": 0,
+      "title": "Hold Ms",
+      "type": "integer"
+    },
+    "motion": {
+      "default": "none",
+      "title": "Motion",
+      "type": "string"
+    },
+    "plan_id": {
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "preset": {
+      "title": "Preset",
+      "type": "string"
+    },
+    "release_ms": {
+      "minimum": 0,
+      "title": "Release Ms",
+      "type": "integer"
+    },
+    "reply_id": {
+      "title": "Reply Id",
+      "type": "string"
+    },
+    "rig_revision": {
+      "title": "Rig Revision",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "weight": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Weight",
+      "type": "number"
+    }
+  },
+  "required": [
+    "plan_id",
+    "reply_id",
+    "epoch",
+    "preset",
+    "weight",
+    "attack_ms",
+    "hold_ms",
+    "release_ms",
+    "rig_revision"
+  ],
+  "title": "VisualTurnPlan",
+  "type": "object"
+}

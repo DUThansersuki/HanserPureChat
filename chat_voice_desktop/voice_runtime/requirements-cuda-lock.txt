@@ -1,0 +1,15 @@
+# P4 machine-validated CUDA pair. Install from the cu130 PyTorch index first.
+torch==2.11.0+cu130
+torchaudio==2.11.0+cu130
+
+# VoxCPM package revision and directly exercised runtime dependencies.
+voxcpm @ git+https://github.com/OpenBMB/VoxCPM.git@f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69
+transformers==5.16.1
+tokenizers==0.23.2
+safetensors==0.8.0
+torchcodec==0.16.0
+einops==0.8.2
+addict==2.4.0
+argbind==0.3.9
+wetext==0.1.7
+librosa==0.11.0

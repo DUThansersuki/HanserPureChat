@@ -1,0 +1,52 @@
+sequenceDiagram
+  accTitle: Hanser Chat + Voice — 已提交回复的语音链路
+  accDescr: 从文字回复事务提交后，UI 按 reply_id 创建任务，RenderBridge 读取可信快照，Voice 分段合成，WebAudio 播放并回执。
+  participant UI as Renderer / WebAudio
+  participant Next as Next 同源代理
+  participant Chat as Chat API / RenderBridge
+  participant DB as Chat SQLite
+  participant Voice as VoiceJobManager
+  participant TTS as VoxCPM2 / 审核参考素材
+  participant Store as voice-data
+
+  Note over Chat,DB: 聊天链路先提交文字与 ReplySnapshot
+  Chat->>DB: append_turn：semantic_text / display_text / allowed_performance
+  Chat-->>Next: text + reply_id + speech.status
+  Next-->>UI: 显示完整文字
+  Note over UI,Voice: Voice 按需启动；runtime.voice_ready 表示可合成
+  UI->>Next: 创建语音任务：reply_id / rendition_id
+  Next->>Chat: /v1/voice/jobs + Desktop Token
+  Chat->>DB: 按 reply_id + owner 读取已提交快照
+  DB-->>Chat: ReplySnapshot
+  Note over Chat: 检查 allow_tts / speech；投影去除 persona_trace
+  Chat->>Voice: /internal/v1/jobs：快照 + owner + internal token
+  Voice-->>Chat: job_id / 任务状态（幂等复用）
+  Chat-->>Next: 语音任务
+  Next-->>UI: job_id
+  UI->>Next: 订阅事件 / 获取音频
+  Next->>Chat: /v1/voice/jobs/{id}/events
+  Chat->>Voice: 代理 SSE / 音频请求
+  Note over Voice: semantic_text → SpeechPlan 分段<br/>VoiceCapability → VoicePlan → engine_text
+  loop 每段（播放回执释放生产背压）
+    Voice->>Store: 查询 owner 范围内音频缓存
+    alt 缓存未命中
+      Voice->>TTS: engine_text + VoicePlan + 参考音频 / 文本
+      TTS-->>Voice: PCM（CUDA 主模型 + CPU AudioVAE）
+      Voice->>Store: 发布 48 kHz 单声道音频
+    else 缓存命中
+      Store-->>Voice: 复用音频
+    end
+    Voice->>Store: 保存 SegmentPackage / 任务快照 / 事件 / 时间线
+    Voice-->>Chat: segment.ready
+    Chat-->>Next: 事件 + 受控音频入口
+    Next-->>UI: 片段可播放
+    UI->>UI: WebAudio 时钟调度片段与间隔
+    UI->>Next: playback 回执
+    Next->>Chat: 代理回执
+    Chat->>Voice: record_playback → 释放背压
+  end
+  Voice-->>Chat: 任务终态
+  Chat-->>Next: 任务完成 / 失败 / 取消
+  Next-->>UI: 更新任务状态
+  Note over UI: 任务终态 + 播放队列耗尽 = 播放完成
+  Note over Chat,TTS: 语音消费 semantic_text，不再次调用回答模型

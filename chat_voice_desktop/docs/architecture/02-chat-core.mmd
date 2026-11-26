@@ -1,0 +1,51 @@
+flowchart TB
+  accTitle: Hanser Chat + Voice — 聊天核心
+  accDescr: 请求冻结与幂等、Planner、Persona、按需并行检索、ContextBuilder、唯一 Responder、回复提交和 PostTurn。
+
+  request["POST /v1/chat<br/>message · request_id · 冻结 speech / Persona 设置"]
+  claim{"RequestStateStore<br/>请求幂等 / 同会话串行"}
+  cached["已完成请求<br/>返回缓存响应"]
+  history["读取历史 / 摘要<br/>关系 / 场景 / 表达观察与权限"]
+  planner["DialoguePlanner<br/>路由与回复模式 · 快路径 / 缓存 / 外部模型"]
+  policy["Persona v2<br/>TurnSignals → 权限 / 表达频率 → 行为指导"]
+  subgraph retrieval["按 Planner 决策启用 · 并行检索"]
+    direction LR
+    wiki["WikiSearchTool<br/>SQLite BM25 · 事实证据"]
+    styles["StyleSearchTool<br/>词法召回 · reviewed-only<br/>generation / 来源 / 适用性筛选"]
+    memory["MemorySearchTool<br/>词法召回 · 用户 / 会话范围"]
+  end
+  package["PersonaCompiler<br/>选定 Persona 包 / Style generation"]
+  context["ContextBuilder<br/>Persona + 历史 / 状态 + 证据 / Style / Memory<br/>上下文预算与来源保留"]
+  responder["HanserResponder · 唯一回答生成器<br/>正文校验 · semantic_text / display_text"]
+  performance["PerformancePolicyResolver<br/>表现意图 → allowed_performance / allow_tts"]
+  persist["ConversationStore.append_turn<br/>事务保存消息 / ReplySnapshot / PostTurn payload"]
+  post["PostTurnPipeline<br/>候选记忆 → WriteGate → Memory<br/>窗口摘录摘要 · 关系 / 场景状态"]
+  response["返回完整文字 + reply_id + speech ticket<br/>PostTurn 失败记录 pending_retry"]
+  recover["启动时后台恢复<br/>待补偿的 PostTurn"]
+  db[("独立 SQLite<br/>内容 / 会话 / Memory / 请求 / 快照")]
+  llm["ModelGateway → 外部 LLM<br/>Planner 与 Responder 共享模型调用边界"]
+
+  request --> claim
+  claim -->|"已完成"| cached
+  claim -->|"新请求"| history
+  history --> planner --> policy
+  policy --> wiki & styles & memory
+  wiki & styles & memory --> context
+  package --> context
+  policy --> context
+  context --> responder --> performance --> persist --> post --> response
+  persist --> db
+  post --> db
+  db -. "历史 / 状态 / 检索来源" .-> history
+  recover -. "重放已保存 payload" .-> post
+  planner -. "需要模型时" .-> llm
+  responder -. "生成回答" .-> llm
+
+  classDef core fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+  classDef persona fill:#f3e8ff,stroke:#9333ea,color:#581c87
+  classDef data fill:#ecfdf5,stroke:#059669,color:#064e3b
+  classDef remote fill:#fff7ed,stroke:#ea580c,color:#7c2d12
+  class request,claim,cached,history,planner,context,responder,response core
+  class policy,package,performance persona
+  class wiki,styles,memory,persist,post,recover,db data
+  class llm remote

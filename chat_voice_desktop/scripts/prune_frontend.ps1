@@ -1,0 +1,102 @@
+$ErrorActionPreference = "Stop"
+
+$frontendRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\frontend"))
+$frontendPrefix = $frontendRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+
+$targets = @(
+    "artifacts",
+    "app\(auth)",
+    "app\(chat)\actions.ts",
+    "app\(chat)\opengraph-image.png",
+    "app\(chat)\twitter-image.png",
+    "app\(chat)\api\chat\[id]",
+    "app\(chat)\api\document",
+    "app\(chat)\api\files",
+    "app\(chat)\api\live2d",
+    "app\(chat)\api\models",
+    "app\(chat)\api\performance",
+    "app\(chat)\api\suggestions",
+    "app\(chat)\api\voice",
+    "app\(chat)\api\vote",
+    "components\live2d",
+    "components\voice",
+    "lib\live2d",
+    "lib\voice",
+    "lib\artifacts",
+    "lib\db",
+    "lib\editor",
+    "lib\ai",
+    "lib\ratelimit.ts",
+    "public",
+    "hooks\use-artifact.ts",
+    "hooks\use-auto-resume.ts",
+    "hooks\use-chat-visibility.ts",
+    "instrumentation-client.ts",
+    "instrumentation.ts",
+    "components\chat\artifact-actions.tsx",
+    "components\chat\artifact-close-button.tsx",
+    "components\chat\artifact-messages.tsx",
+    "components\chat\artifact.tsx",
+    "components\chat\auth-form.tsx",
+    "components\chat\code-editor.tsx",
+    "components\chat\console.tsx",
+    "components\chat\create-artifact.tsx",
+    "components\chat\data-stream-handler.tsx",
+    "components\chat\data-stream-provider.tsx",
+    "components\chat\diffview.tsx",
+    "components\chat\document-preview.tsx",
+    "components\chat\document-skeleton.tsx",
+    "components\chat\document.tsx",
+    "components\chat\image-editor.tsx",
+    "components\chat\message-editor.tsx",
+    "components\chat\message-reasoning.tsx",
+    "components\chat\multimodal-input.tsx",
+    "components\chat\preview-attachment.tsx",
+    "components\chat\preview.tsx",
+    "components\chat\sheet-editor.tsx",
+    "components\chat\sidebar-toggle.tsx",
+    "components\chat\sidebar-user-nav.tsx",
+    "components\chat\sign-out-form.tsx",
+    "components\chat\slash-commands.tsx",
+    "components\chat\submit-button.tsx",
+    "components\chat\suggestion.tsx",
+    "components\chat\text-editor.tsx",
+    "components\chat\toast.tsx",
+    "components\chat\toolbar.tsx",
+    "components\chat\version-footer.tsx",
+    "components\chat\visibility-selector.tsx",
+    "components\chat\weather.tsx",
+    "components\ai-elements\conversation.tsx",
+    "components\ai-elements\code-block.tsx",
+    "components\ai-elements\model-selector.tsx",
+    "components\ai-elements\prompt-input.tsx",
+    "components\ai-elements\reasoning.tsx",
+    "components\ai-elements\shimmer.tsx",
+    "components\ai-elements\suggestion.tsx",
+    "components\ai-elements\tool.tsx",
+    "components\ui\alert-dialog.tsx",
+    "components\ui\badge.tsx",
+    "components\ui\button-group.tsx",
+    "components\ui\collapsible.tsx",
+    "components\ui\command.tsx",
+    "components\ui\dialog.tsx",
+    "components\ui\hover-card.tsx",
+    "components\ui\input-group.tsx",
+    "components\ui\label.tsx",
+    "components\ui\popover.tsx",
+    "components\ui\scroll-area.tsx",
+    "components\ui\select.tsx",
+    "components\ui\spinner.tsx",
+    "components\ui\textarea.tsx"
+)
+
+foreach ($relativeTarget in $targets) {
+    $target = [IO.Path]::GetFullPath((Join-Path $frontendRoot $relativeTarget))
+    if (-not $target.StartsWith($frontendPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to prune path outside pure frontend: $target"
+    }
+    if (Test-Path -LiteralPath $target) {
+        Remove-Item -LiteralPath $target -Recurse -Force
+        Write-Output "Removed $relativeTarget"
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "directory": "hanser-persona-v2-candidate-20260914-evidence-voice1",
+  "package_id": "hanser-persona-v2-candidate-20260914-evidence-voice1",
+  "style_generation": "persona-v2-style-profanity15-1c71903569618d5d",
+  "snapshot_date": "2026-10-01",
+  "reason": "isolate previously selected production payload from mutable candidate; no new content promotion"
+}
