@@ -2,8 +2,7 @@
 torch==2.11.0+cu130
 torchaudio==2.11.0+cu130
 
-# VoxCPM package revision and directly exercised runtime dependencies.
-voxcpm @ git+https://github.com/OpenBMB/VoxCPM.git@f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69
+# Dependencies used by the local inference runtime.
 transformers==5.16.1
 tokenizers==0.23.2
 safetensors==0.8.0

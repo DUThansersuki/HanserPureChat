@@ -34,4 +34,6 @@ if ($VoiceOnly -or $Voice) {
     if ($LASTEXITCODE -ne 0) { throw 'Cannot install CUDA PyTorch.' }
     & $voicePython -m pip install -r (Join-Path $desktopRoot 'voice_runtime\requirements-base.txt') -r (Join-Path $desktopRoot 'voice_runtime\requirements-cuda-lock.txt')
     if ($LASTEXITCODE -ne 0) { throw 'Cannot install voice dependencies.' }
+    & $voicePython -m pip install --no-deps -r (Join-Path $desktopRoot 'voice_runtime\requirements-voxcpm.txt')
+    if ($LASTEXITCODE -ne 0) { throw 'Cannot install the pinned VoxCPM2 inference package.' }
 }

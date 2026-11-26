@@ -1,0 +1,3 @@
+# Install with --no-deps after requirements-base.txt and requirements-cuda-lock.txt.
+# The upstream package also declares dependencies for training, denoising and its web UI.
+voxcpm @ git+https://github.com/OpenBMB/VoxCPM.git@f772e498a45fbb5fb8e13fbf9b9c48be9fe33e69

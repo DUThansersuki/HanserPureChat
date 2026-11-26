@@ -46,6 +46,6 @@ QQ 语音共用桌面版的语音运行环境和模型缓存。按桌面版命�
 
 ## 依赖、数据与参考音色
 
-- 根目录的 `requirements.txt` 汇总文字后端与 QQ 依赖。安装脚本分别安装桌面后端依赖、QQ 锁定依赖及语音 CUDA 依赖。语音清单位于 `chat_voice_desktop/voice_runtime/requirements-base.txt` 和 `requirements-cuda-lock.txt`。
+- 根目录的 `requirements.txt` 汇总文字后端与 QQ 依赖。安装脚本分别安装桌面后端依赖、QQ 锁定依赖及语音 CUDA 依赖。语音清单位于 `chat_voice_desktop/voice_runtime/requirements-base.txt` 、`requirements-cuda-lock.txt` 和 `requirements-voxcpm.txt`。
 - 首次设置生成空数据库，包含与 Persona 匹配的初始 Style 索引元数据。RAG 和语料发布功能保留。Wiki、Style 和 QQ 全量试用语料由使用者按自己的授权数据准备，QQ 可运行 `python -m hanser_qq --help` 查看发布子命令。本地已有种子可放在 `chat_voice_desktop/resources/database/documents.seed.db`，安装脚本会保留它。
 - 默认使用 VoxCPM2 的无需参考音频模式。若有可授权使用的参考音频，可复制 `voice_runtime/config/voice_profile.chat_voice.yml` 到同目录下的本地配置，保持参考音频、逐字转录及来源清单在项目内。将 `HANSER_VOICE_PROFILE` 指向该配置再启动桌面版，或在 QQ 执行 `voice-prepare` 前设置同一环境变量。参考音色配置中可从默认 `voice_profile.local.yml` 复制模型下载设置。公开分支提供代码和模型配置，原始录音、聊天记录、语料库及本机凭据保存在使用者自己的目录。
