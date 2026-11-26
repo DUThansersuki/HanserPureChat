@@ -6,7 +6,12 @@ Windows 上运行的桌面对话应用和 QQ 网关。两套入口共用当前�
 
 安装并打开 [Ollama for Windows](https://ollama.com/download/windows)。准备 Git、64 位 Python 3.13、Node.js 24 和 pnpm 11.19.0。要开启语音，还需要 Python 3.12、支持 CUDA 13.0 的 NVIDIA 显卡及驱动。首次安装与下载需要联网。建议为模型和依赖预留至少 15 GB 磁盘空间。
 
-在仓库根目录打开 PowerShell：
+克隆发布分支后，在仓库根目录打开 PowerShell：
+
+```powershell
+git clone --branch codex/chat-voice --single-branch https://github.com/DUThansersuki/HanserPureChat.git
+cd HanserPureChat
+```
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\chat_voice_desktop\setup.ps1 -Voice
@@ -37,7 +42,7 @@ cd .\qq_gateway
 
 接入 QQ 时，从 [NapCat 官方仓库](https://github.com/NapNeko/NapCatQQ) 安装 NapCat 并登录 QQ。添加 OneBot v11 反向 WebSocket `ws://127.0.0.1:8781/onebot/v11/ws`，Access Token 填 `qq_gateway/config.yml` 中的 `gateway.onebot_access_token`。网关在本机随机生成这个内部令牌。可用 `gateway.private_users` 和 `gateway.groups` 指定允许回复的用户与群。
 
-QQ 语音共用桌面版的语音运行环境和模型缓存。按桌面版命令安装 `-VoiceOnly` 后，在 `qq_gateway` 中执行 `.\.venv\Scripts\python.exe -m hanser_qq voice-prepare`，把 `config.yml` 的 `gateway.voice_reply.enabled` 改为 `true` 并重启。模型缺失时自动下载。默认约 20% 的回复使用语音，模型加载中或合成失败时发送原文字。也可以用 `/voice` 切换回复模式。
+QQ 语音共用桌面版的语音运行环境和模型缓存。按桌面版命令安装 `-VoiceOnly` 后，先按 Ctrl+C 停止正在运行的网关，再在 `qq_gateway` 中执行 `.\.venv\Scripts\python.exe -m hanser_qq voice-prepare`，把 `config.yml` 的 `gateway.voice_reply.enabled` 改为 `true` 并重启。模型缺失时自动下载。默认约 20% 的回复使用语音，模型加载中或合成失败时发送原文字。也可以用 `/voice` 切换回复模式。
 
 ## 依赖、数据与参考音色
 
